@@ -100,7 +100,7 @@ FC.newTramo=(c,tipo,e,s)=>({id:uid(c,'T'),e:e||'',s:s||'',tipo:tipo||'efectivo',
 FC.T={
  personas:c=>({id:uid(c,'P'),trato:'',nombre:'',apellidos:'',papel:'',edad:'',tel:'',email:'',docTipo:'',docNum:'',trabajo:'',m:{},frec:'',dias:'',vio:'',testigo:''}),
  empleadores:c=>({id:uid(c,'E'),titular:'',otros:[],dom:FC.newDir(),desde:'',hasta:''}),
- lugares:c=>({id:uid(c,'L'),dir:FC.newDir(),desde:'',hasta:'',emp:''}),
+ lugares:c=>({id:uid(c,'L'),dir:FC.newDir(),desde:'',hasta:'',quienes:[]}),
  autorizacion:c=>({id:uid(c,'A'),tipo:'',desde:'',hasta:'',permiso:''}),
  altas:c=>({id:uid(c,'S'),alta:'',baja:'',emp:'',fuente:'',pagoMes:'',pagoMesForma:''}),
  cuidados:c=>({id:uid(c,'K'),persona:'',autonomia:'',grado:'',diag:[],diagOtro:'',ayudas:'',medicacion:'',noche:'',centro:'',sanitarios:'',colegio:'',extra:'',rutina:'',cu:[],obs:''}),
@@ -482,7 +482,7 @@ FC.demo=hoy=>{hoy=hoy||today();const st=FC.newC();const c=st.c;const d=(dd)=>SF.
  pe({trato:'da',nombre:'Ana',apellidos:'Torres (ficticia)',papel:'nieta de Carmen',edad:'30',m:{visita:true},frec:'mensual',dias:'algún sábado por la mañana',vio:'si',testigo:'ns'});
  pe({trato:'d',nombre:'José (ficticio)',papel:'portero del edificio',m:{visita:true},frec:'diaria',vio:'si',testigo:'si'});
  const e=FC.T.empleadores(c);e.titular=carmen.id;e.otros=[luis.id];Object.assign(e.dom,{via:'Calle',calle:'Residencial Ficticia',num:'5',piso:'4',puerta:'A',cp:'28016',prov:'28',codm:'28079'});c.empleadores.push(e);
- const l=FC.T.lugares(c);Object.assign(l.dir,e.dom);l.desde=d(-420);l.emp=e.id;c.lugares.push(l);
+ const l=FC.T.lugares(c);Object.assign(l.dir,e.dom);l.desde=d(-420);l.quienes=[carmen.id];c.lugares.push(l);
  Object.assign(c.rel,{inicio:d(-420),contrato:'verbal',alta:'no',autGlobal:'nunca'});
  c.tareas=['limpiar_casa','limpiar_banos','limpiar_cocina','lavar','planchar','cocinar','compras','mayores','dependientes','citas'];
  const k=FC.T.cuidados(c);Object.assign(k,{persona:carmen.id,autonomia:'severa',grado:'II',diag:['alzheimer','movilidad','incontinencia'],ayudas:'andador y cama articulada',medicacion:'pastillas a las 9, 14 y 21 h',noche:'varias',centro:'acudía a un centro de día los lunes y miércoles de 10 a 13 h',rutina:'se levantaba a las 8, comía a las 13:30, siesta hasta las 16 y se acostaba a las 21:30',cu:['aseo','vestir','comida','medicacion','movilidad','medico','noche']});c.cuidados.push(k);
