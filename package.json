@@ -1,0 +1,11 @@
+{
+  "name": "super-ficha-laboral",
+  "private": true,
+  "scripts": {
+    "build": "python3 herramientas/construir.py",
+    "test": "node pruebas/prueba_navegador_simulado.js"
+  },
+  "devDependencies": {
+    "jsdom": "^24.1.0"
+  }
+}
