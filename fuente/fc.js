@@ -102,7 +102,7 @@ FC.T={
  empleadores:c=>({id:uid(c,'E'),titular:'',otros:[],dom:FC.newDir(),desde:'',hasta:''}),
  lugares:c=>({id:uid(c,'L'),dir:FC.newDir(),desde:'',hasta:'',quienes:[]}),
  autorizacion:c=>({id:uid(c,'A'),tipo:'',desde:'',hasta:'',permiso:''}),
- altas:c=>({id:uid(c,'S'),alta:'',baja:'',emp:'',fuente:'',pagoMes:'',pagoMesForma:''}),
+ altas:c=>({id:uid(c,'S'),alta:'',baja:'',emps:[],fuente:'',pagoMes:'',pagoMesForma:''}),
  cuidados:c=>({id:uid(c,'K'),persona:'',autonomia:'',grado:'',diag:[],diagOtro:'',ayudas:'',medicacion:'',noche:'',centro:'',sanitarios:'',colegio:'',extra:'',rutina:'',cu:[],obs:''}),
  periodos:c=>({id:uid(c,'J'),desde:'',hasta:'',modalidad:'',lugar:'',semanas:[FC.newSemana(c,'A')]}),
  meses:c=>({id:uid(c,'M'),mes:'',salario:'',extra:'',segundo:'',segConcepto:'',segOrigen:'',forma:'',fechaPago:'',nocobro:false,especie:'',obs:''}),
@@ -118,7 +118,7 @@ FC.newC=()=>{const st=SF.newFicha('C');st.v=2;st.c={seq:0,ns:{},nota:{},
  rel:{inicio:'',aprox:false,fin:'',contrato:'',alta:'',autGlobal:''},autorizacion:[],altas:[],
  tareas:[],tareasOtras:'',mascotas:'',cuidados:[],relDia:'',
  periodos:[],
- sal:{fijo:'',importe:'',forma:[],dia:'',porHoras:'',precioHora:'',pagas:'',pagasTxt:'',entrega:[],entregaDonde:'',entregaPresentes:'',formaFinal:''},meses:[],incidencias:[],
+ sal:{fijo:'',importe:'',forma:[],dia:'',porHoras:'',precioHora:'',pagas:'',pagasTxt:'',entrega:[],entregaDonde:'',entregaPresentes:'',entregaPresentesP:[],formaFinal:'',ultimoMes:'',ultimoMesImporte:''},meses:[],incidencias:[],
  vac:{tuvo:'',autoriza:[]},vacaciones:[],
  fin:{tipo:'',fechaCom:'',fechaFin:'',medio:'',dicho:'',motivo:'',docEntregado:'',pidieronFirmar:'',firmo:'',copia:'',pago:'',pagoImporte:'',pagoConcepto:'',dia:'',fallQuien:'',fallFecha:'',fallRel:'',renMedio:'',renMotivo:'',burofax:'',burFecha:'',burDest:'',burRes:''},
  cronologia:[],pru:{llaves:'',acceso:'',audios:'',telefono:'',conversaciones:'',convCon:[]},pruebas:[],obs:'',
@@ -199,6 +199,7 @@ FC.calcT1=st=>{const c=st.c;const J=FC.calcJ(c);const ini=c.rel.inicio,fin=FC.en
   if(c.sal.fijo==='si'){const imp=numS(c.sal.importe);row.perc=imp!=null?imp*cov/row.dim:null;}
   else if(c.sal.fijo==='no'){const mm=c.meses.find(x=>x.mes===key);if(!mm)row.perc=null;else if(mm.nocobro)row.perc=0;else row.perc=(numS(mm.salario)||0)+(numS(mm.extra)||0)+((mm.segOrigen==='mismo'&&c.abg.incluirSegundo!==false)?(numS(mm.segundo)||0):0);}
   c.incidencias.forEach(i=>{if(i.tipo==='pagado'&&(i.fecha||'').slice(0,7)===key&&row.perc!=null)row.perc+=numS(i.importe)||0;});
+  if(d1>=pd(fin)&&c.sal.ultimoMes==='no')row.perc=0;else if(d1>=pd(fin)&&c.sal.ultimoMes==='si'&&numS(c.sal.ultimoMesImporte)!=null)row.perc=numS(c.sal.ultimoMesImporte);
   if(row.perc==null){out.sinDatos++;if(!row.estado)row.estado='sindatos';}
   if(row.deb!=null&&row.perc!=null)row.dif=row.deb-row.perc;
   out.rows.push(row);if(d1>=pd(fin))break;m++;if(m>12){m=1;y++;}}
@@ -524,6 +525,7 @@ FC.runTests=()=>{const H='2026-10-26';const prev=FC._hoy;FC._hoy=H;const out=[];
  T('Territorio','Mieres en Asturias: un único municipio (no el de Girona)',()=>{const r=FC.munSearch('33','Mieres');return {ok:r.length>=1&&r[0].codm==='33037'&&!r.some(x=>x.codm==='17105'),det:r.map(x=>x.name+' '+x.codm).join(', ')};});
  T('Territorio','Nombre homónimo en dos provincias: hay que elegir provincia',()=>{const a=FC.munAll('Arroyomolinos');return {ok:a.length===2,det:a.map(x=>x.name+' ('+FC.provName(x.cpro)+')').join(', ')};});
  T('Territorio','Nombres bilingües: «Alcoi» encuentra Alcoy/Alcoi',()=>{const r=FC.munSearch('03','Alcoi');return {ok:r.length&&/Alcoy/.test(r[0].name),det:r[0]&&r[0].name};});
+ T('Tabla 1','Último mes trabajado: «no le pagaron» pone 0 y «sí» pone lo que dice',()=>{const s=FC.demo(H),k=s.c;const last=()=>{const r=FC.calcT1(s).rows;return r[r.length-1].perc;};const base=last();k.sal.ultimoMes='no';const a=last();k.sal.ultimoMes='si';k.sal.ultimoMesImporte='250';const b=last();k.sal.ultimoMesImporte='';const d=last();return {ok:a===0&&b===250&&d===base&&base!==0,det:[base,a,b,d].join(' / ')};});
  T('Documentos','DNI y NIE con letra correcta: válidos',()=>({ok:FC.docCheck('DNI','12345678Z')===''&&FC.docCheck('DNI','12.345.678-z')===''&&FC.docCheck('NIE','X1234567L')===''&&FC.docCheck('nie','Y0000000Z')===''&&FC.docCheck('Pasaporte','ABC')===''}));
  T('Documentos','DNI o NIE con letra o formato incorrecto: aviso',()=>({ok:/no corresponde/.test(FC.docCheck('DNI','12345678A'))&&/8 números/.test(FC.docCheck('DNI','1234567Z'))&&/no corresponde/.test(FC.docCheck('NIE','X1234567T'))&&/X, Y o Z/.test(FC.docCheck('NIE','A1234567L'))}));
  T('Territorio','Sede social del municipio según el CSV',()=>{const m=FC.mun('28176');return {ok:m&&m.social==='MOSTOLES',det:m&&(m.name+' → '+m.social)};});
