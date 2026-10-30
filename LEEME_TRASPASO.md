@@ -48,7 +48,7 @@ Es un **prototipo con datos ficticios**:
 
 **Pruebas automáticas:**
 
-- Hay 105 y deben pasar todas.
+- Hay 107 y deben pasar todas.
 - Para ejecutarlas, abrir la consola del navegador y escribir `SF.runTests()`, o ejecutar `node pruebas/prueba_navegador_simulado.js`, que necesita `npm i jsdom`.
 
 ## 3. Pasos de la ficha (orden actual)
@@ -60,7 +60,7 @@ Es un **prototipo con datos ficticios**:
 1. **Cliente:**
    - D.ª o D.
    - Nombre y apellidos por separado.
-   - Documento. Si es NIE o pasaporte, «¿qué país se lo dio?»; por defecto, el NIE lo emite España y el pasaporte su país.
+   - Documento. Si es DNI o NIE, se comprueban el formato y la letra de control (también en las personas de la casa). Si es NIE o pasaporte, «¿qué país se lo dio?»; por defecto, el NIE lo emite España y el pasaporte su país.
    - País de nacionalidad. El gentilicio sale **siempre en femenino** («de nacionalidad peruana»).
    - Nacimiento con día, mes y año (1920 al año actual).
    - Teléfono: solo números, con prefijo y bandera, +34 por defecto.
