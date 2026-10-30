@@ -71,6 +71,10 @@ FC.dirComprobada=d=>!!(d&&d.gmaps&&d.gmaps===FC.dirSig(d));
 FC.dirVacia=d=>!d||!['calle','num','cp','prov','codm','munq'].some(k=>d[k]);
 FC.fmtDir=(d,ph)=>{const m=x=>ph?P(x):'['+x+']';if(FC.dirVacia(d))return m('dirección completa');const mu=FC.mun(d.codm);const via=d.via&&d.via!=='Otro'?d.via+' ':'';const parts=[d.calle?via+d.calle:m('nombre de la vía'),d.num?(/^s\/?n$/i.test(d.num)?'s/n':'nº '+d.num):m('número')];const pi=[d.bloque?'portal '+d.bloque:'',d.esc?'esc. '+d.esc:'',d.piso?(/^\d+$/.test(d.piso)?d.piso+'º':d.piso):'',d.puerta||''].filter(Boolean).join(' ');if(pi)parts.push(pi);parts.push(`${/^\d{5}$/.test(d.cp||'')?d.cp:m('código postal')} ${mu?mu.name:m('municipio')}`);return parts.join(', ')+', '+(d.prov?FC.provName(d.prov):m('provincia'));};
 FC.dirFalta=d=>{if(FC.dirVacia(d))return ['dirección'];const f=[];if(!d.calle)f.push('vía');if(!d.num)f.push('número');if(!/^\d{5}$/.test(d.cp||''))f.push('código postal');if(!d.prov)f.push('provincia');if(!d.codm)f.push('municipio elegido de la lista');return f;};
+FC.dirsUsadas=(c,salvo)=>{const L=[],vis=new Set([FC.dirSig(getP(c,salvo))]);const add=(p,l)=>{const d=getP(c,p);if(!d||FC.dirFalta(d).length)return;const k=FC.dirSig(d);if(vis.has(k))return;vis.add(k);L.push({p,l,d});};
+ add('cli.dom','Domicilio de la clienta');if(c.cli.empadronada==='si')add('cli.padronDir','Padrón de la clienta');if(c.cli.postalIgual==='no')add('cli.postal','Dirección postal de la clienta');
+ c.empleadores.forEach((e,i)=>{add(`empleadores.${i}.dom`,'Domicilio de '+(FC.full(FC.per(c,e.titular))||'empleador '+(i+1)));(e.otros||[]).forEach(id=>{const k=c.personas.findIndex(q=>q.id===id);if(k>=0)add(`personas.${k}.dom`,'Domicilio de '+(FC.full(c.personas[k])||'otra persona empleadora'));});});
+ c.lugares.forEach((l,i)=>add(`lugares.${i}.dir`,'Lugar de trabajo '+(i+1)));return L.filter(x=>x.p!==salvo);};
 FC.dirCPmal=d=>d&&/^\d{5}$/.test(d.cp||'')&&d.prov&&d.cp.slice(0,2)!==d.prov;
 
 /* ---------------- plantillas de registros ---------------- */
@@ -150,7 +154,7 @@ FC.modTxt=m=>FC.MODT[m]||P('modalidad');
 FC.esInterna=c=>c.periodos.some(p=>p.modalidad==='interna'||p.modalidad==='mixta');
 FC.califEf=c=>c.abg.calif||(c.fin.tipo==='despido'?'improcedente':'');
 FC.acumEf=(c,T1,T2)=>c.abg.acum?c.abg.acum==='si':((T1&&T1.total||0)+(T2&&T2.total||0)+(T1&&T1.debidas||0)>0.005);
-FC.domDe=(c,pidp)=>{const e=c.empleadores.find(x=>x.titular===pidp)||c.empleadores.find(x=>(x.otros||[]).includes(pidp));return e?e.dom:null;};
+FC.domDe=(c,pidp)=>{const q=FC.per(c,pidp);if(q&&q.dom&&!FC.dirVacia(q.dom))return q.dom;const e=c.empleadores.find(x=>x.titular===pidp)||c.empleadores.find(x=>(x.otros||[]).includes(pidp));return e?e.dom:null;};
 
 /* ---------------- jornada ---------------- */
 const tmin=s=>{if(!s||!/^\d{1,2}:\d{2}$/.test(s))return null;const[h,m]=s.split(':').map(Number);if(h>24||m>59)return null;return h*60+m;};
@@ -231,7 +235,7 @@ FC.evaluate=(st,hoy)=>{hoy=hoy||today();const c=st.c;const A=[],CX=[],INC=[],NSL
  FC.REQ.forEach(r=>{if(r.cond&&!r.cond(c))return;if(solo&&r.s>0&&!['cli.nombre','cli.tel','cli.email'].includes(r.p))return;if(c.ns[r.p]){NSL.push({p:r.p,l:r.l,s:r.s});return;}if(!has(getP(c,r.p)))INC.push({p:r.p,l:r.l,s:r.s});});
  if(!solo){
   const dirs=[['cli.dom','Dirección donde vive',1]];if(c.cli.empadronada==='si')dirs.push(['cli.padronDir','Dirección de empadronamiento',1]);if(c.cli.postalIgual==='no')dirs.push(['cli.postal','Dirección postal',1]);
-  c.lugares.forEach((l,i)=>dirs.push([`lugares.${i}.dir`,'Lugar de trabajo '+(i+1),2]));c.empleadores.forEach((e,i)=>dirs.push([`empleadores.${i}.dom`,'Domicilio del empleador '+(i+1),2]));
+  c.lugares.forEach((l,i)=>dirs.push([`lugares.${i}.dir`,'Lugar de trabajo '+(i+1),2]));c.empleadores.forEach((e,i)=>dirs.push([`empleadores.${i}.dom`,'Domicilio del empleador '+(i+1),2]));c.empleadores.forEach(e=>(e.otros||[]).forEach(id=>{const k=c.personas.findIndex(q=>q.id===id);if(k>=0&&!FC.dirVacia(c.personas[k].dom))dirs.push([`personas.${k}.dom`,'Domicilio de '+(FC.full(c.personas[k])||'otra persona empleadora'),2]);}));
   dirs.forEach(([p,l,s])=>{if(c.ns[p]){NSL.push({p,l,s});return;}const f=FC.dirFalta(getP(c,p));if(f.length)INC.push({p,l:`${l}: falta ${f.join(', ')}`,s});else if(!FC.dirComprobada(getP(c,p)))INC.push({p,l:`${l}: comprobar en Google Maps`,s});if(FC.dirCPmal(getP(c,p)))cx('cp_'+p,'Código postal de otra provincia',`«${l}»: el código postal ${getP(c,p).cp} no es de ${FC.provName(getP(c,p).prov)}.`,s);});
   
   if(!c.empleadores.some(e=>e.titular))INC.push({p:'empleadores',l:'Empleador',s:2});c.empleadores.forEach((e,i)=>{const q=FC.per(c,e.titular);if(q&&!(q.nombre||'').trim())INC.push({p:`empleadores.${i}`,l:`Empleador ${i+1}: nombre`,s:2});if(q&&!(q.apellidos||'').trim())INC.push({p:`empleadores.${i}`,l:`Empleador ${i+1}: apellidos`,s:2});});
