@@ -189,14 +189,16 @@ FC.calcJ=c=>{const map={},per=[],ov=[];const relEnd=FC.endRel(c);
 
 /* ---------------- TABLA 1, TABLA 2, autorización ---------------- */
 const dim=(y,m)=>new Date(Date.UTC(y,m,0)).getUTCDate();
+/* parte del mes: mes completo = 1; mes incompleto = días ÷ 30 (siempre entre 30, sea cual sea el mes) */
+FC.frMes=(dias,dim)=>dias>=dim?1:Math.min(dias,30)/30;
 FC.calcT1=st=>{const c=st.c;const J=FC.calcJ(c);const ini=c.rel.inicio,fin=FC.endRel(c);const out={rows:[],blocked:{},sinJornada:0,sinDatos:0,total:0,totalNeto:0,years:{},J};
  if(pd(ini)==null||pd(fin)==null||pd(fin)<pd(ini))return out;const lim=pd(FC.ventana(c).w0);out.ventana=FC.ventana(c);const finR=!!(c.fin.fechaFin||c.rel.fin);
  let y=+ini.slice(0,4),m=+ini.slice(5,7);
  for(let guard=0;guard<600;guard++){const key=`${y}-${String(m).padStart(2,'0')}`;const d0=Date.UTC(y,m-1,1),d1=Date.UTC(y,m-1,dim(y,m));const a=Math.max(d0,pd(ini)),b=Math.min(d1,pd(fin));if(a>pd(fin))break;
   const cov=Math.round((b-a)/DAY)+1;let ef=0,pres=0,jd=0;for(let t=a;t<=b;t+=DAY){const x=J.map[iso(t)];if(x){ef+=x.ef;pres+=x.pres;jd++;}}
   const wk=cov/7,efw=ef/wk,presw=pres/wk,smi=FC.smiP(st,y);const row={key,y,m,cov,a:iso(a),b:iso(b),dim:dim(y,m),efw,presw,jd,smi,deb:null,perc:null,dif:null,presc:d1<lim,estado:''};
-  if(smi==null){row.estado='smi';out.blocked[y]=true;}else if(jd<cov){row.estado='jornada';out.sinJornada++;}else row.deb=smi*FC.horasPag(efw,presw)/40*cov/row.dim;
-  if(c.sal.fijo==='si'){const imp=numS(c.sal.importe);row.perc=imp!=null?imp*cov/row.dim:null;}
+  if(smi==null){row.estado='smi';out.blocked[y]=true;}else if(jd<cov){row.estado='jornada';out.sinJornada++;}else row.deb=smi*FC.horasPag(efw,presw)/40*FC.frMes(cov,row.dim);
+  if(c.sal.fijo==='si'){const imp=numS(c.sal.importe);row.perc=imp!=null?imp*FC.frMes(cov,row.dim):null;}
   else if(c.sal.fijo==='no'){const mm=c.meses.find(x=>x.mes===key);if(!mm)row.perc=null;else if(mm.nocobro)row.perc=0;else row.perc=(numS(mm.salario)||0)+(numS(mm.extra)||0)+((mm.segOrigen==='mismo'&&c.abg.incluirSegundo!==false)?(numS(mm.segundo)||0):0);}
   c.incidencias.forEach(i=>{if(i.tipo==='pagado'&&(i.fecha||'').slice(0,7)===key&&row.perc!=null)row.perc+=numS(i.importe)||0;});
   if(finR&&d1>=pd(fin)&&c.sal.ultimoMes==='no')row.perc=0;else if(finR&&d1>=pd(fin)&&c.sal.ultimoMes==='si'&&numS(c.sal.ultimoMesImporte)!=null)row.perc=numS(c.sal.ultimoMesImporte);
@@ -206,7 +208,7 @@ FC.calcT1=st=>{const c=st.c;const J=FC.calcJ(c);const ini=c.rel.inicio,fin=FC.en
  /* meses de interés: van en su propia tabla y no en la tabla 1 general */
  out.esp=[];const cuenta=R=>!R.every(r=>r.presc)||!!c.abg.incluirPrescritos;
  (c.rel.alta==='si'?c.altas:[]).forEach((al,ai)=>{const bru=numS(al.pagoBruto),net=numS(al.pagoNeto),a0=pd(al.pagoDesde),b0=pd(al.pagoHasta);if((bru==null&&net==null)||a0==null||b0==null||b0<a0)return;
-  const R=out.rows.filter(r=>!r.esp&&pd(r.b)>=a0&&pd(r.a)<=b0);if(!R.length)return;let deb=0,okd=true;R.forEach(r=>{r.esp='alta';const ov=Math.round((Math.min(pd(r.b),b0)-Math.max(pd(r.a),a0))/DAY)+1;if(r.deb==null)okd=false;else deb+=r.deb*ov/r.cov;});
+  const R=out.rows.filter(r=>!r.esp&&pd(r.b)>=a0&&pd(r.a)<=b0);if(!R.length)return;let deb=0,okd=true;R.forEach(r=>{r.esp='alta';const ov=Math.round((Math.min(pd(r.b),b0)-Math.max(pd(r.a),a0))/DAY)+1;if(r.deb==null)okd=false;else deb+=r.deb/FC.frMes(r.cov,r.dim)*FC.frMes(ov,r.dim);});
   const perc=bru!=null?bru:net;out.esp.push({tipo:'alta',i:ai,a:iso(Math.max(a0,pd(R[0].a))),b:iso(Math.min(b0,pd(R[R.length-1].b))),deb:okd?deb:null,perc,bruto:bru,neto:net,dif:okd?deb-perc:null,parcial:pd(R[0].a)<a0||pd(R[R.length-1].b)>b0,rows:R,cuenta:cuenta(R)});});
  const UL=out.rows[out.rows.length-1];if(finR&&UL&&!UL.esp&&(c.sal.ultimoMes==='si'||c.sal.ultimoMes==='no')){UL.esp='ultimo';out.esp.unshift({tipo:'ultimo',a:UL.a,b:UL.b,deb:UL.deb,perc:UL.perc,dif:UL.dif,rows:[UL],cuenta:cuenta([UL])});}
  out.totalEsp=out.esp.reduce((s,e)=>s+(e.cuenta&&e.dif>0?e.dif:0),0);
@@ -559,6 +561,7 @@ FC.runTests=()=>{const H='2026-10-26';const prev=FC._hoy;FC._hoy=H;const out=[];
  T('Correcciones','Fichas anteriores: «¿Le pagaron algo al finalizar?» pasa al desglose del último mes',()=>{const s=FC.demo(H),k=s.c;k.sal.ultimoMes='';k.sal.ultimoMesImporte='';Object.assign(k.fin,{pago:'si',pagoImporte:'120',pagoConcepto:'finiquito'});const antes=FC.calcT1(s).pagoFinal;FC.normFin(k);const T1=FC.calcT1(s);return {ok:antes===120&&T1.pagoFinal===120&&k.sal.ultimoMes==='si'&&k.sal.finOtros==='120'&&k.sal.finOtrosTxt==='finiquito'&&k.fin.pago==='',det:[antes,T1.pagoFinal].join(' / ')};});
  T('Word','Rellenar desde Word: solo lo vacío, direcciones con municipio del mapa y lista de lo que falta',()=>{if(!FC.aplicarImport)return {ok:false,det:'sin importador'};const s=FC.newC(),k=s.c;k.cli.nombre='Ya escrito';const R=FC.aplicarImport(k,{cliente:{nombre:'Otro',apellidos:'Prueba',documento:'NIE',telefono:'+51 987654321',domicilio:{calle:'Mayor',numero:'1',cp:'28013',municipio:'Madrid'},email:null},empleadores:[{nombre:'Ana',apellidos:'Test',domicilio:null}],jornada:{modalidad:'externa',turnos:[{dias:[0,1,2,3,4],entrada:'9:00',salida:'14:30'}]},relacion:{inicio:'2025-13-40'}});
   return {ok:k.cli.nombre==='Ya escrito'&&k.cli.apellidos==='Prueba'&&k.cli.doc==='NIE'&&k.cli.telPref==='PE'&&k.cli.tel==='987654321'&&k.cli.dom.codm==='28079'&&k.empleadores.length===1&&k.periodos[0].semanas[0].turnos[0].s==='14:30'&&!k.rel.inicio&&R.falta.includes('Cliente: correo electrónico')&&R.falta.includes('Empleador 1: domicilio')&&R.falta.includes('Relación: fecha de inicio'),det:JSON.stringify(R.falta.slice(0,5))};});
+ T('Tabla 1','Mes incompleto: siempre entre 30 días (18 días de agosto = 18/30 del mes)',()=>({ok:FC.frMes(18,31)===18/30&&FC.frMes(31,31)===1&&FC.frMes(15,28)===0.5&&FC.frMes(28,28)===1&&Math.round(2136.75*FC.frMes(18,31)*100)/100===1282.05}));
  T('Documentos','DNI y NIE con letra correcta: válidos',()=>({ok:FC.docCheck('DNI','12345678Z')===''&&FC.docCheck('DNI','12.345.678-z')===''&&FC.docCheck('NIE','X1234567L')===''&&FC.docCheck('nie','Y0000000Z')===''&&FC.docCheck('Pasaporte','ABC')===''}));
  T('Documentos','DNI o NIE con letra o formato incorrecto: aviso',()=>({ok:/no corresponde/.test(FC.docCheck('DNI','12345678A'))&&/8 números/.test(FC.docCheck('DNI','1234567Z'))&&/no corresponde/.test(FC.docCheck('NIE','X1234567T'))&&/X, Y o Z/.test(FC.docCheck('NIE','A1234567L'))}));
  T('Territorio','Sede social del municipio según el CSV',()=>{const m=FC.mun('28176');return {ok:m&&m.social==='MOSTOLES',det:m&&(m.name+' → '+m.social)};});

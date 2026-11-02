@@ -49,7 +49,7 @@ Es un **prototipo con datos ficticios**:
 
 **Pruebas automáticas:**
 
-- Hay 114 y deben pasar todas.
+- Hay 115 y deben pasar todas.
 - Para ejecutarlas, abrir la consola del navegador y escribir `SF.runTests()`, o ejecutar `node pruebas/prueba_navegador_simulado.js`, que necesita `npm i jsdom`.
 
 ## 3. Pasos de la ficha (orden actual)
@@ -139,7 +139,7 @@ En cada pregunta hay «No lo sabe», «Añadir explicación libre» y marca de o
 
 - **Tabla 1 · diferencias salariales:**
   - Mes a mes, con lo que debía percibir y lo que percibió.
-  - Un mes incompleto va en proporción y con sus días («Septiembre 2026 (15 días)»).
+  - Un mes incompleto va en proporción y con sus días («Septiembre 2026 (15 días)»), **siempre dividiendo entre 30** (18 días de agosto = salario × 18 / 30), también en lo percibido con salario fijo y en el mes del alta.
   - Un mes sin datos **no** cuenta como impagado; solo cuenta si se marca «No cobró».
 - **Año de reclamación:**
   - Empieza el mismo mes del año anterior a hoy, o en el inicio de la relación si es más reciente.
