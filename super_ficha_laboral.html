@@ -2692,9 +2692,9 @@ FC.fichaXml=M=>{const B=[];let qa=[];const W=9000;FC._firma=null;
   else if(x.t==='h2')B.push(P(R(x.text,{b:1,sz:23}),'<w:keepNext/><w:spacing w:before="200" w:after="80"/>'));
   else if(x.t==='h3')B.push(P(R(x.text,{b:1,i:1,sz:22}),'<w:keepNext/><w:spacing w:before="140" w:after="60"/>'));
   else if(x.t==='p')B.push(P(R(x.text,{c:x.warn?'C00000':null}),'<w:spacing w:after="80"/>'));
-  else if(x.t==='firma'){FC._firma=x;const G='C8C8C8',NB='<w:tblBorders>'+['top','left','bottom','right','insideH','insideV'].map(k=>`<w:${k} w:val="nil"/>`).join('')+'</w:tblBorders>';
-   const tc=(t,w,sh)=>`<w:tc><w:tcPr><w:tcW w:w="${w}" w:type="dxa"/>${sh?`<w:shd w:val="clear" w:color="auto" w:fill="${G}"/>`:''}</w:tcPr>${P(R(t||' ',{sz:24}),'<w:spacing w:before="60" w:after="60"/>')}</w:tc>`;
-   B.push(P(R('FIRMA DEL CLIENTE: X '+'-'.repeat(46)+'X',{b:1,sz:24}),`<w:keepNext/><w:shd w:val="clear" w:color="auto" w:fill="${G}"/><w:spacing w:before="720" w:after="1200"/><w:ind w:right="1100"/>`));
+  else if(x.t==='firma'){FC._firma=x;const NB='<w:tblBorders>'+['top','left','bottom','right','insideH','insideV'].map(k=>`<w:${k} w:val="nil"/>`).join('')+'</w:tblBorders>';
+   const tc=(t,w)=>`<w:tc><w:tcPr><w:tcW w:w="${w}" w:type="dxa"/></w:tcPr>${P(R(t||' ',{sz:24}),'<w:spacing w:before="60" w:after="60"/>')}</w:tc>`;
+   B.push(P(R('FIRMA DEL CLIENTE: X '+'-'.repeat(46)+'X',{b:1,sz:24}),`<w:keepNext/><w:spacing w:before="720" w:after="1200"/><w:ind w:right="1100"/>`));
    B.push(`<w:tbl><w:tblPr><w:tblW w:w="9000" w:type="dxa"/>${NB}<w:tblLayout w:type="fixed"/></w:tblPr><w:tblGrid>${[1300,3300,1750,2650].map(w=>`<w:gridCol w:w="${w}"/>`).join('')}</w:tblGrid><w:tr><w:trPr><w:cantSplit/></w:trPr>${tc('hecha por',1300,1)}${tc(x.hecha,3300)}${tc('Referido por:',1750,1)}${tc(x.referido,2650)}</w:tr></w:tbl>`);}
   else if(x.t==='tab'){const n=x.head.length,ws=Array(n).fill(Math.floor(W/n));B.push(TBL([`<w:tr><w:trPr><w:tblHeader/></w:trPr>${x.head.map((h,i)=>TC(h,ws[i],{b:1,sh:'D9D9D9',sz:18})).join('')}</w:tr>`].concat(x.rows.map(r=>`<w:tr>${r.map((v,i)=>TC(v,ws[i],{sz:18})).join('')}</w:tr>`)),ws));}});
  flush();
