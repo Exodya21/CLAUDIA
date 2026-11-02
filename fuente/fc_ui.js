@@ -60,7 +60,7 @@ FC.dirH=(path,label,o)=>{o=o||{};const c=C();const d=getP(c,path)||{};const ns=!
  return Q(path,label,inner,o);};
 
 /* ---------------- pasos ---------------- */
-function s0(){const c=C(),f=c.filtro;let b=op('filtro.abogado','¿Otro abogado está llevando actualmente su caso?',[['no','No'],['si','Sí'],['cambiar','Sí, pero quiero cambiar de abogado']],{req:1});
+function s0(){const c=C(),f=c.filtro;let b=(FC.impCard?FC.impCard():'')+op('filtro.abogado','¿Otro abogado está llevando actualmente su caso?',[['no','No'],['si','Sí'],['cambiar','Sí, pero quiero cambiar de abogado']],{req:1});
  if(f.abogado==='si')b+=op('filtro.estudiar','¿Quiere que el despacho estudie la posibilidad de llevar su caso?',SI,{req:1,help:'Si dice que no, solo se guardan sus datos de contacto y la ficha termina.'});
  if(FC.soloContacto(c))b+=`<div class="x-sec x-stack"><h2>Datos de contacto</h2>${txt('cli.nombre','Nombre',{req:1,nota:false})+txt('cli.apellidos','Apellidos',{req:1,nota:false})}${FC.telH('cli.tel','Teléfono con WhatsApp',{req:1,nota:false})}${FC.emailH('cli.email','Correo electrónico',{req:1,ns:1,nota:false})}${txt('obs','Nota',{area:1,nota:false})}<p class="x-lead">La ficha termina aquí. Guárdela desde la cabecera.</p></div>`;
  if(f.abogado==='cambiar'||f.estudiar==='si'){b+=op('filtro.actuado','¿Ya se presentó una papeleta de conciliación o una demanda?',[['ninguna','Ninguna'],['papeleta','Papeleta'],['demanda','Demanda'],['ambas','Las dos']],{req:1,ns:1});

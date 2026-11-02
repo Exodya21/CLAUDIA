@@ -34,6 +34,7 @@ Es un **prototipo con datos ficticios**:
 | `fuente/fc.js` | **Motor de la ficha C**: modelo de datos, cálculos, evaluación, plazos, papeleta y pruebas automáticas. |
 | `fuente/fc_docx.js` | Generación de Word (papeleta y ficha) sin librerías externas. |
 | `fuente/fc_ui.js` | Pantallas y botones de la ficha C. |
+| `fuente/fc_import.js` | «Rellenar desde una ficha en Word»: lee el .docx, Claude lo interpreta (capacidad `sample` de la página publicada) y rellena solo las preguntas vacías; lista lo que falta. |
 | `herramientas/construir.py` | Une `fuente/` en `super_ficha_laboral.html`. |
 | `herramientas/csv_a_territorio.py` | Regenera `territorio.js` desde el CSV del mapa. |
 | `herramientas/pdf_a_organismos.py` | Regenera `orgt.js` desde la tabla de organismos (PDF). |
@@ -48,7 +49,7 @@ Es un **prototipo con datos ficticios**:
 
 **Pruebas automáticas:**
 
-- Hay 113 y deben pasar todas.
+- Hay 114 y deben pasar todas.
 - Para ejecutarlas, abrir la consola del navegador y escribir `SF.runTests()`, o ejecutar `node pruebas/prueba_navegador_simulado.js`, que necesita `npm i jsdom`.
 
 ## 3. Pasos de la ficha (orden actual)
