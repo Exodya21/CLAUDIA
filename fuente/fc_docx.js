@@ -39,7 +39,7 @@ FC.docXml=G=>{const B=[];
  G.head.forEach(h=>{if(h.k==='enc')B.push(par(runs(h.text,{b:1,hl:h.st==='pend'}),CENTER));else if(h.k==='dice')B.push(par(runs(h.text,{b:1}),NOIND));else B.push(para(h));
   if(h.k==='enc')B.push(par('',CENTER));});
  B.push(par(runs('H E C H O S',{b:1}),CENTER));
- G.hechos.forEach(h=>{B.push(par(runs(`${h.n}.- ${h.titulo}`,{b:1}),NOIND));h.paras.forEach(x=>{if(x.tabla==='T1')B.push(t1(G));else if(x.tabla==='T2')B.push(t2(G));else if(x.tabla==='TOT')B.push(tot(G));else B.push(para(x));});});
+ G.hechos.forEach(h=>{B.push(par(runs(`${h.n}.- ${h.titulo}`,{b:1}),NOIND));h.paras.forEach(x=>{if(x.t)B.push(ftab(x.t));else if(x.tabla==='T1')B.push(t1(G));else if(x.tabla==='T2')B.push(t2(G));else if(x.tabla==='TOT')B.push(tot(G));else B.push(para(x));});});
  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><w:body>${B.join('')}<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1418" w:right="1418" w:bottom="1418" w:left="1701" w:header="709" w:footer="709" w:gutter="0"/></w:sectPr></w:body></w:document>`;};
 const STYLES=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -74,7 +74,7 @@ FC.papHtml=G=>{const st='font-family:Arial;font-size:12pt;line-height:150%;text-
  const c=G.c;const T1=G.T1.rows.filter(r=>!r.presc||c.abg.incluirPrescritos).map(r=>[FC.mesTxt(r.y,r.m),r.deb!=null?eurN(r.deb)+' €':'⟦sin calcular⟧',r.perc!=null?eurN(r.perc)+' €':'⟦sin datos⟧',r.dif!=null?eurN(r.dif)+' €':'—']).concat([['TOTAL','','',eurN(G.T1.total)+' €']]);
  const T2=G.T2.rows.filter(r=>!r.anterior||c.abg.incluirPrescritos).map(r=>[String(r.y),r.base!=null?eurN(r.base)+' €':'⟦SMI sin verificar⟧',n1(r.dev),String(r.disfr),r.imp!=null?eurN(r.imp)+' €':'—']).concat([['TOTAL','','','',eurN(G.T2.total)+' €']]);
  const B=[];G.head.forEach(h=>{if(h.k==='enc')B.push(`<p style="${c0}">${R(h.text)}</p>`);else if(h.k==='dice')B.push(`<p style="${ni};font-weight:bold">${R(h.text)}</p>`);else B.push(P(h));});
- B.push(`<p style="${c0}">H E C H O S</p>`);G.hechos.forEach(h=>{B.push(`<p style="${ni};font-weight:bold">${X(h.n+'.- '+h.titulo)}</p>`);h.paras.forEach(x=>B.push(x.tabla==='TOT'?FC.totHtml(G,true):x.tabla==='T1'?FC.tabHtml(FC.tabla1(G),true):x.tabla==='T2'?FC.tabHtml(FC.tabla2(G),true):P(x)));});
+ B.push(`<p style="${c0}">H E C H O S</p>`);G.hechos.forEach(h=>{B.push(`<p style="${ni};font-weight:bold">${X(h.n+'.- '+h.titulo)}</p>`);h.paras.forEach(x=>B.push(x.t?FC.tabHtml(x.t,true):x.tabla==='TOT'?FC.totHtml(G,true):x.tabla==='T1'?FC.tabHtml(FC.tabla1(G),true):x.tabla==='T2'?FC.tabHtml(FC.tabla2(G),true):P(x)));});
  return B.join('');};
 })();
 (function(){

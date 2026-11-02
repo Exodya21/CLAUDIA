@@ -48,7 +48,7 @@ Es un **prototipo con datos ficticios**:
 
 **Pruebas automáticas:**
 
-- Hay 108 y deben pasar todas.
+- Hay 112 y deben pasar todas.
 - Para ejecutarlas, abrir la consola del navegador y escribir `SF.runTests()`, o ejecutar `node pruebas/prueba_navegador_simulado.js`, que necesita `npm i jsdom`.
 
 ## 3. Pasos de la ficha (orden actual)
@@ -147,8 +147,13 @@ En cada pregunta hay «No lo sabe», «Añadir explicación libre» y marca de o
   - Función `FC.ventana`.
 - **Tabla 2 · vacaciones:**
   - 30 días al año en proporción a lo trabajado, menos los disfrutados.
-  - Base = SMI con prorrata × horas que se pagan / 40.
+  - Base = SMI con prorrata × horas semanales / 40, con un **máximo de 40 horas** (el abogado puede cambiar las horas base).
   - **Suma todos los años.**
+- **Meses de interés (cada uno con su propia tabla y su párrafo en la papeleta, y su tabla en la revisión):**
+  - **Último mes trabajado:** se pregunta en Salarios, concepto por concepto (salario de los días trabajados, vacaciones pendientes, pagas extra, indemnización y otros). Solo el salario de los días entra como «percibido» del mes; vacaciones, pagas extra y otros se descuentan como «abonado al finalizar»; la indemnización no se descuenta. «No le pagaron» = 0 €.
+  - **Mes del alta** (si antes trabajaba sin alta): bruto, neto y fechas que cubría el pago. Percibido = bruto (o neto si no hay bruto); debía percibir = el del periodo. Si el periodo no cubre meses completos, sale una contradicción para revisarlo.
+  - Sus diferencias se suman en los totales en líneas propias.
+- **Tabla 1 de la papeleta:** no incluye los meses cobrados correctamente (diferencia 0 o negativa); van en el párrafo «En los devengos correspondientes de salario base más el complemento a salario base del año … de … la demandante percibió lo correspondiente al convenio aplicable.», agrupados por año.
 - **Totales:**
   - Diferencias + vacaciones (+ otras deudas − lo abonado al finalizar) = total principal.
   - Mora del 10 %.

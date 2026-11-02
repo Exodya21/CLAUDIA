@@ -190,7 +190,7 @@ FC.calcJ=c=>{const map={},per=[],ov=[];const relEnd=FC.endRel(c);
 /* ---------------- TABLA 1, TABLA 2, autorización ---------------- */
 const dim=(y,m)=>new Date(Date.UTC(y,m,0)).getUTCDate();
 FC.calcT1=st=>{const c=st.c;const J=FC.calcJ(c);const ini=c.rel.inicio,fin=FC.endRel(c);const out={rows:[],blocked:{},sinJornada:0,sinDatos:0,total:0,totalNeto:0,years:{},J};
- if(pd(ini)==null||pd(fin)==null||pd(fin)<pd(ini))return out;const lim=pd(FC.ventana(c).w0);out.ventana=FC.ventana(c);
+ if(pd(ini)==null||pd(fin)==null||pd(fin)<pd(ini))return out;const lim=pd(FC.ventana(c).w0);out.ventana=FC.ventana(c);const finR=!!(c.fin.fechaFin||c.rel.fin);
  let y=+ini.slice(0,4),m=+ini.slice(5,7);
  for(let guard=0;guard<600;guard++){const key=`${y}-${String(m).padStart(2,'0')}`;const d0=Date.UTC(y,m-1,1),d1=Date.UTC(y,m-1,dim(y,m));const a=Math.max(d0,pd(ini)),b=Math.min(d1,pd(fin));if(a>pd(fin))break;
   const cov=Math.round((b-a)/DAY)+1;let ef=0,pres=0,jd=0;for(let t=a;t<=b;t+=DAY){const x=J.map[iso(t)];if(x){ef+=x.ef;pres+=x.pres;jd++;}}
@@ -199,19 +199,26 @@ FC.calcT1=st=>{const c=st.c;const J=FC.calcJ(c);const ini=c.rel.inicio,fin=FC.en
   if(c.sal.fijo==='si'){const imp=numS(c.sal.importe);row.perc=imp!=null?imp*cov/row.dim:null;}
   else if(c.sal.fijo==='no'){const mm=c.meses.find(x=>x.mes===key);if(!mm)row.perc=null;else if(mm.nocobro)row.perc=0;else row.perc=(numS(mm.salario)||0)+(numS(mm.extra)||0)+((mm.segOrigen==='mismo'&&c.abg.incluirSegundo!==false)?(numS(mm.segundo)||0):0);}
   c.incidencias.forEach(i=>{if(i.tipo==='pagado'&&(i.fecha||'').slice(0,7)===key&&row.perc!=null)row.perc+=numS(i.importe)||0;});
-  if(d1>=pd(fin)&&c.sal.ultimoMes==='no')row.perc=0;else if(d1>=pd(fin)&&c.sal.ultimoMes==='si'&&numS(c.sal.ultimoMesImporte)!=null)row.perc=numS(c.sal.ultimoMesImporte);
+  if(finR&&d1>=pd(fin)&&c.sal.ultimoMes==='no')row.perc=0;else if(finR&&d1>=pd(fin)&&c.sal.ultimoMes==='si'&&numS(c.sal.ultimoMesImporte)!=null)row.perc=numS(c.sal.ultimoMesImporte);
   if(row.perc==null){out.sinDatos++;if(!row.estado)row.estado='sindatos';}
   if(row.deb!=null&&row.perc!=null)row.dif=row.deb-row.perc;
   out.rows.push(row);if(d1>=pd(fin))break;m++;if(m>12){m=1;y++;}}
- out.rows.forEach(r=>{if(r.dif==null||(r.presc&&!c.abg.incluirPrescritos))return;out.total+=Math.max(0,r.dif);out.years[r.y]=(out.years[r.y]||0)+r.dif;});
+ /* meses de interés: van en su propia tabla y no en la tabla 1 general */
+ out.esp=[];const cuenta=R=>!R.every(r=>r.presc)||!!c.abg.incluirPrescritos;
+ (c.rel.alta==='si'?c.altas:[]).forEach((al,ai)=>{const bru=numS(al.pagoBruto),net=numS(al.pagoNeto),a0=pd(al.pagoDesde),b0=pd(al.pagoHasta);if((bru==null&&net==null)||a0==null||b0==null||b0<a0)return;
+  const R=out.rows.filter(r=>!r.esp&&pd(r.b)>=a0&&pd(r.a)<=b0);if(!R.length)return;let deb=0,okd=true;R.forEach(r=>{r.esp='alta';const ov=Math.round((Math.min(pd(r.b),b0)-Math.max(pd(r.a),a0))/DAY)+1;if(r.deb==null)okd=false;else deb+=r.deb*ov/r.cov;});
+  const perc=bru!=null?bru:net;out.esp.push({tipo:'alta',i:ai,a:iso(Math.max(a0,pd(R[0].a))),b:iso(Math.min(b0,pd(R[R.length-1].b))),deb:okd?deb:null,perc,bruto:bru,neto:net,dif:okd?deb-perc:null,parcial:pd(R[0].a)<a0||pd(R[R.length-1].b)>b0,rows:R,cuenta:cuenta(R)});});
+ const UL=out.rows[out.rows.length-1];if(finR&&UL&&!UL.esp&&(c.sal.ultimoMes==='si'||c.sal.ultimoMes==='no')){UL.esp='ultimo';out.esp.unshift({tipo:'ultimo',a:UL.a,b:UL.b,deb:UL.deb,perc:UL.perc,dif:UL.dif,rows:[UL],cuenta:cuenta([UL])});}
+ out.totalEsp=out.esp.reduce((s,e)=>s+(e.cuenta&&e.dif>0?e.dif:0),0);
+ out.rows.forEach(r=>{if(r.esp||r.dif==null||(r.presc&&!c.abg.incluirPrescritos))return;out.total+=Math.max(0,r.dif);out.years[r.y]=(out.years[r.y]||0)+r.dif;});
  out.totalNeto=Object.values(out.years).reduce((s,v)=>s+Math.max(0,v),0);
  out.debidas=c.incidencias.filter(i=>i.tipo==='debido').reduce((s,i)=>s+(numS(i.importe)||0),0);
- out.pagoFinal=c.fin.pago==='si'?(numS(c.fin.pagoImporte)||0):0;
+ out.pagoFinal=finR&&c.sal.ultimoMes==='si'?(numS(c.sal.finVac)||0)+(numS(c.sal.finPagas)||0)+(numS(c.sal.finOtros)||0):c.fin.pago==='si'?(numS(c.fin.pagoImporte)||0):0;
  return out;};
 FC.calcT2=st=>{const c=st.c;const J=FC.calcJ(c);const ini=c.rel.inicio,fin=FC.endRel(c);const rows=[];if(pd(ini)==null||pd(fin)==null||pd(fin)<pd(ini))return {rows,total:0};const y0=+ini.slice(0,4),y1=+fin.slice(0,4);
  for(let y=y0;y<=y1;y++){const a=Math.max(Date.UTC(y,0,1),pd(ini)),b=Math.min(Date.UTC(y,11,31),pd(fin));const cov=Math.round((b-a)/DAY)+1;const diy=(y%4===0&&(y%100!==0||y%400===0))?366:365;
   let ef=0,pres=0,jd=0;for(let t=a;t<=b;t+=DAY){const x=J.map[iso(t)];if(x){ef+=x.ef;pres+=x.pres;jd++;}}
-  const hbAuto=jd?FC.horasPag(ef/(jd/7),pres/(jd/7)):null;const hbM=numS(c.abg.horasBaseVac);const hb=hbM!=null?hbM:hbAuto;
+  const hbAuto=jd?Math.min(40,FC.horasPag(ef/(jd/7),pres/(jd/7))):null;const hbM=numS(c.abg.horasBaseVac);const hb=hbM!=null?hbM:hbAuto;
   const smi=FC.smiP(st,y);const base=smi!=null&&hb!=null?smi*hb/40:null;const dev=30*cov/diy;
   let disfr=0,disfrNoPag=0,pagNoDisfr=0;(c.vac.tuvo==='si'?c.vacaciones:[]).forEach(v=>{const va=pd(v.desde),vb=pd(v.hasta);if(va==null||vb==null||vb<va)return;const oa=Math.max(va,a),ob=Math.min(vb,b);const days=ob>=oa?Math.round((ob-oa)/DAY)+1:0;if(v.disfruto==='si'){disfr+=days;if(v.pagadas==='no')disfrNoPag+=days;}if(v.disfruto==='no'&&v.pagadas==='si'&&new Date(va).getUTCFullYear()===y)pagNoDisfr+=numS(v.importe)||0;});
   const pend=Math.max(0,dev-disfr);const imp=base!=null?pend*base/30+disfrNoPag*base/30-pagNoDisfr:null;
@@ -243,6 +250,7 @@ FC.evaluate=(st,hoy)=>{hoy=hoy||today();const c=st.c;const A=[],CX=[],INC=[],NSL
   c.lugares.forEach((l,i)=>dirs.push([`lugares.${i}.dir`,'Lugar de trabajo '+(i+1),2]));c.empleadores.forEach((e,i)=>dirs.push([`empleadores.${i}.dom`,'Domicilio del empleador '+(i+1),2]));c.empleadores.forEach(e=>(e.otros||[]).forEach(id=>{const k=c.personas.findIndex(q=>q.id===id);if(k>=0&&!FC.dirVacia(c.personas[k].dom))dirs.push([`personas.${k}.dom`,'Domicilio de '+(FC.full(c.personas[k])||'otra persona empleadora'),2]);}));
   dirs.forEach(([p,l,s])=>{if(c.ns[p]){NSL.push({p,l,s});return;}const f=FC.dirFalta(getP(c,p));if(f.length)INC.push({p,l:`${l}: falta ${f.join(', ')}`,s});else if(!FC.dirComprobada(getP(c,p)))INC.push({p,l:`${l}: comprobar en Google Maps`,s});if(FC.dirCPmal(getP(c,p)))cx('cp_'+p,'Código postal de otra provincia',`«${l}»: el código postal ${getP(c,p).cp} no es de ${FC.provName(getP(c,p).prov)}.`,s);});
   
+  if(c.rel.alta==='si')c.altas.forEach((a,i)=>{if((numS(a.pagoBruto)!=null||numS(a.pagoNeto)!=null)&&(pd(a.pagoDesde)==null||pd(a.pagoHasta)==null))INC.push({p:`altas.${i}.pagoDesde`,l:'Fechas que cubría el pago del mes del alta',s:5});});
   {const m=FC.docCheck(c.cli.doc,c.cli.docnum);if(m)cx('doc_cli','Documento de la clienta no válido',m,1);}c.personas.forEach(q=>{const m=FC.docCheck(q.docTipo,q.docNum);if(m)cx('doc_'+q.id,'Documento no válido',`${FC.full(q)||'Una persona'}: ${m}`,2);});
   if(!c.empleadores.some(e=>e.titular))INC.push({p:'empleadores',l:'Empleador',s:2});c.empleadores.forEach((e,i)=>{const q=FC.per(c,e.titular);if(q&&!(q.nombre||'').trim())INC.push({p:`empleadores.${i}`,l:`Empleador ${i+1}: nombre`,s:2});if(q&&!(q.apellidos||'').trim())INC.push({p:`empleadores.${i}`,l:`Empleador ${i+1}: apellidos`,s:2});});
   if(!c.lugares.length)INC.push({p:'lugares',l:'Lugar de trabajo',s:2});
@@ -272,7 +280,7 @@ FC.evaluate=(st,hoy)=>{hoy=hoy||today();const c=st.c;const A=[],CX=[],INC=[],NSL
  if(F.firmo==='si')al('alta','firmo','Firmó un documento al salir',`${F.copia==='si'?'Tiene copia: subirla en Pruebas.':'No consta que tenga copia.'} Revisar los términos antes de presentar la papeleta.`);
  if(F.tipo==='fallecimiento')al('media','fallecimiento','Extinción por fallecimiento','Regla a validar por el abogado: un mes de salario si falleció el empleador (art. 49.1.g ET). No hay texto aprobado para este caso.');
  const J=FC.calcJ(c);J.overlaps.forEach(o=>{al('alta','solape','Dos periodos de jornada se solapan',`Periodos ${o.a+1} y ${o.b+1}: ${o.n} días entre ${fmt(o.desde)} y ${fmt(o.hasta)}. Esos días solo se cuentan una vez hasta que lo corrija.`);cx('solape_'+o.a+'_'+o.b,'Periodos de jornada solapados',`Periodos ${o.a+1} y ${o.b+1} (${fmt(o.desde)} a ${fmt(o.hasta)}).`,4);});
- const T1=FC.calcT1(st);const by=Object.keys(T1.blocked);if(by.length)al('media','smi','Salario mínimo sin verificar',`No hay importe comprobado para ${by.join(', ')}. Esos meses no se calculan hasta que el abogado lo confirme.`);
+ const T1=FC.calcT1(st);(T1.esp||[]).forEach(e=>{if(e.parcial)cx('alta_parcial_'+e.i,'Periodo del pago del mes del alta',`El pago del ${fmt(e.a)} al ${fmt(e.b)} no cubre meses completos: los días de esos meses fuera de ese periodo no se reclaman. Revise las fechas.`,5);});const by=Object.keys(T1.blocked);if(by.length)al('media','smi','Salario mínimo sin verificar',`No hay importe comprobado para ${by.join(', ')}. Esos meses no se calculan hasta que el abogado lo confirme.`);
  if(T1.rows.some(r=>r.presc&&r.dif>0))al('alta','presc','Hay meses con más de un año','Las cantidades de más de un año pueden haber prescrito (art. 59.2 ET). Por defecto no se incluyen; lo decide el abogado.');
  const cuSemana=[];c.periodos.forEach((p,pi)=>p.semanas.forEach(s=>{const W=FC.semana(s);if(W.ef>40)cuSemana.push(`periodo ${pi+1}, semana ${s.nombre}: ${n1(W.ef)} h efectivas`);if(W.pres>20)cuSemana.push(`periodo ${pi+1}, semana ${s.nombre}: ${n1(W.pres)} h de presencia`);}));
  if(cuSemana.length)al('media','jornada','Jornada por encima de los límites del art. 9 RD 1620/2011',cuSemana.join('; ')+'.');
@@ -407,9 +415,15 @@ FC.pap=(st,hoy)=>{hoy=hoy||today();const c=st.c,E=FC.evaluate(st,hoy),T1=E.T1,T2
  /* OCTAVO */
  const cantidad=acum||['renuncia','continua','otro','fallecimiento'].includes(F.tipo);
  if(cantidad){const P8=[p(`Que en la fecha ${despide?'del despido':'de la presente'} ${empArt} le ${vb('adeudaban','adeudaba')} a ${tr} las siguientes cantidades:`,despide?'ok':'nuevo')];
+  if(FC.parrPagados({T1,c}))P8.push(p(FC.parrPagados({T1,c}),'ok'));
   P8.push({tabla:'T1',st:'ok'});
   P8.push(p('El importe presente en el “debía percibir” de conformidad con lo suscrito en el Real Decreto 1620/2011 señalado en el Hecho Primero del presente escrito, es el respectivo a la suma de los conceptos que se detallan a continuación:'));
   P8.push({lista:['Salario base a razón de (40) horas.','Horas de presencia (20).','Se incluye el prorrateo de las pagas extra'],st:'ok'});
+  (T1.esp||[]).filter(e=>e.cuenta).forEach(e=>{const S=c.sal,eu=x=>eurN(x)+' €';
+   if(e.tipo==='ultimo'){const r=e.rows[0];const ex=[[S.finVac,'por vacaciones pendientes'],[S.finPagas,'por pagas extra'],[S.finIndem,'de indemnización'],[S.finOtros,'por '+((S.finOtrosTxt||'').trim()||'otros conceptos')]].filter(([v])=>numS(v)).map(([v,l])=>`${eu(numS(v))} ${l}`);
+    P8.push(p(`Que en el último mes trabajado, ${MESC[r.m-1].toLowerCase()} del ${r.y}${r.cov<r.dim?` (${r.cov} días)`:''}, ${tr} ${S.ultimoMes==='no'?'no percibió cantidad alguna en concepto de salario':`percibió ${e.perc!=null?eu(e.perc):P('importe')} en concepto de salario de los días trabajados`}${ex.length?`, y al finalizar la relación laboral se le abonaron ${listY(ex)}`:''}. La diferencia salarial de ese mes se detalla en la tabla siguiente:`,'nuevo'));}
+   else P8.push(p(`Que en el periodo del ${dmy(e.a)} al ${dmy(e.b)}, correspondiente al mes en que se dio de alta a ${tr} en la Seguridad Social, ${g('esta','este')} percibió ${[e.bruto!=null?eu(e.bruto)+' brutos':'',e.neto!=null?eu(e.neto)+' netos':''].filter(Boolean).join(' (')+(e.bruto!=null&&e.neto!=null?')':'')}. La diferencia salarial de ese periodo se detalla en la tabla siguiente:`,'nuevo'));
+   P8.push({tabla:'X',t:FC.tablaEsp(c,e),st:'ok'});});
   const hbs=[...new Set(T2.rows.map(r=>r.hb!=null?n1(r.hb):null).filter(Boolean))];
   P8.push(p(`A efectos del cálculo de la remuneración de las vacaciones devengadas y no disfrutadas durante todo el periodo reclamado, la base retributiva aplicable se fija en cada anualidad conforme a la suma del salario base mensual (a razón de ${hbs.length===1?hbs[0]:P('horas')} horas) más la prorrata de pagas extraordinarias, según los importes vigentes en cada ejercicio y que se detallan a continuación:`,'ok',true));
   P8.push({tabla:'T2',st:'ok'});
@@ -431,7 +445,7 @@ FC.cuidTxt=(c,k,tr,TR,g)=>{const pr=FC.per(c,k.persona);if(!pr)return '';const o
  if(FC.NOCHE[k.noche])out.push(`Además, ${FC.NOCHE[k.noche]}.`);if(k.centro)out.push(k.centro.trim().replace(/\.?$/,'.').replace(/^./,x=>x.toUpperCase()));
  return out.join(' ');};
 FC.papText=G=>{const L=[];const strip=s=>s;G.head.forEach(h=>{L.push((h.st==='nuevo'?'⟦Variante nueva: pendiente de aprobación⟧ ':'')+h.text,'');});L.push('H E C H O S','');
- G.hechos.forEach(h=>{L.push(`${h.n}.- ${h.titulo}`);h.paras.forEach(x=>{if(x.tabla==='T1'){L.push(FC.t1Text(G));}else if(x.tabla==='T2'){L.push(FC.t2Text(G));}else if(x.tabla==='TOT'){L.push(FC.totText(G));}else if(x.lista){x.lista.forEach(i=>L.push('  • '+i));}else L.push((x.st==='nuevo'?'⟦Variante nueva: pendiente de aprobación⟧ ':'')+strip(x.text));});L.push('');});return L.join('\n');};
+ G.hechos.forEach(h=>{L.push(`${h.n}.- ${h.titulo}`);h.paras.forEach(x=>{if(x.t){L.push(tabText(x.t));}else if(x.tabla==='T1'){L.push(FC.t1Text(G));}else if(x.tabla==='T2'){L.push(FC.t2Text(G));}else if(x.tabla==='TOT'){L.push(FC.totText(G));}else if(x.lista){x.lista.forEach(i=>L.push('  • '+i));}else L.push((x.st==='nuevo'?'⟦Variante nueva: pendiente de aprobación⟧ ':'')+strip(x.text));});L.push('');});return L.join('\n');};
 /* importe en letra (español, mayúsculas) */
 FC.letras=x=>{const U=['','UNO','DOS','TRES','CUATRO','CINCO','SEIS','SIETE','OCHO','NUEVE','DIEZ','ONCE','DOCE','TRECE','CATORCE','QUINCE','DIECISÉIS','DIECISIETE','DIECIOCHO','DIECINUEVE','VEINTE','VEINTIUNO','VEINTIDÓS','VEINTITRÉS','VEINTICUATRO','VEINTICINCO','VEINTISÉIS','VEINTISIETE','VEINTIOCHO','VEINTINUEVE'];
  const D=['','','','TREINTA','CUARENTA','CINCUENTA','SESENTA','SETENTA','OCHENTA','NOVENTA'];const C=['','CIENTO','DOSCIENTOS','TRESCIENTOS','CUATROCIENTOS','QUINIENTOS','SEISCIENTOS','SETECIENTOS','OCHOCIENTOS','NOVECIENTOS'];
@@ -440,21 +454,28 @@ FC.letras=x=>{const U=['','UNO','DOS','TRES','CUATRO','CINCO','SEIS','SIETE','OC
  const w=n=>{if(n===0)return 'CERO';let out=[];const mill=Math.floor(n/1e6),miles=Math.floor((n%1e6)/1000),r=n%1000;if(mill)out.push(mill===1?'UN MILLÓN':apoc(w(mill))+' MILLONES');if(miles)out.push(miles===1?'MIL':apoc(d999(miles))+' MIL');if(r)out.push(d999(r));return out.join(' ');};
  const cts=Math.round(x*100);const e=Math.floor(cts/100),c=cts%100;const eu=apoc(w(e))+(e===1?' EURO':' EUROS');return c?`${eu} Y ${apoc(d99(c))} ${c===1?'CÉNTIMO':'CÉNTIMOS'}`:eu;};
 /* tabla de totales: diferencias + vacaciones (+ otras − abonado) = principal; mora del 10 %; total pendiente */
-FC.totales=G=>{const r2=x=>Math.round(x*100)/100;const dif=r2(G.T1.total),vac=r2(G.T2.total),otras=r2(G.T1.debidas||0),abon=r2(G.T1.pagoFinal||0);const principal=r2(dif+vac+otras-abon);const mora=r2(principal*0.10);const total=r2(principal+mora);
- const L=[['(+) 1. Subtotal por diferencias salariales',dif],['(+) 2. Subtotal por vacaciones acumuladas',vac]];if(otras)L.push([`(+) ${L.length+1}. Otras cantidades adeudadas`,otras]);if(abon)L.push(['(−) Cantidad abonada al finalizar la relación',abon]);
+FC.totales=G=>{const r2=x=>Math.round(x*100)/100;const dif=r2(G.T1.total),vac=r2(G.T2.total),otras=r2(G.T1.debidas||0),abon=r2(G.T1.pagoFinal||0);const esp=(G.T1.esp||[]).reduce((s,e)=>s+(e.cuenta&&e.dif>0.005?r2(e.dif):0),0);const principal=r2(dif+vac+esp+otras-abon);const mora=r2(principal*0.10);const total=r2(principal+mora);
+ const L=[['(+) 1. Subtotal por diferencias salariales',dif],['(+) 2. Subtotal por vacaciones acumuladas',vac]];(G.T1.esp||[]).forEach(e=>{if(e.cuenta&&e.dif>0.005)L.push([`(+) ${L.length+1}. Diferencia salarial ${e.tipo==='ultimo'?'del último mes trabajado':'del mes del alta en la Seguridad Social'}`,r2(e.dif)]);});if(otras)L.push([`(+) ${L.length+1}. Otras cantidades adeudadas`,otras]);if(abon)L.push(['(−) Cantidad abonada al finalizar la relación',abon]);
  return {lineas:L,principal,mora,total,letras:FC.letras(total)};};
 FC.totText=G=>{const t=FC.totales(G);return ['  TOTALES CANTIDADES RECLAMADAS'].concat(t.lineas.map(([l,v])=>`  ${l}: ${eurN(v)} €`),[`  Total Principal: ${eurN(t.principal)} €`,`  Mora 10%: ${eurN(t.mora)} €`,`  Total Pendiente: ${eurN(t.total)} €`,`  ${t.letras}`]).join('\n');};
 /* modelo común de las tablas de la papeleta (formato acordado por el despacho) */
 const MESC=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 const dsl=x=>x?x.slice(8,10)+'/'+x.slice(5,7)+'/'+x.slice(0,4):'⟦fecha⟧';
-FC.tabla1=G=>{const c=G.c;const est={smi:'⟦SMI sin verificar⟧',jornada:'⟦falta jornada⟧',sindatos:'⟦sin datos⟧'};const R=G.T1.rows.filter(r=>!r.presc||c.abg.incluirPrescritos);
+FC.t1Pagados=G=>{const c=G.c;return G.T1.rows.filter(r=>!r.esp&&(!r.presc||c.abg.incluirPrescritos)&&r.dif!=null&&r.dif<=0.005);};
+FC.parrPagados=G=>{const M=FC.t1Pagados(G);if(!M.length)return '';const Y=[];M.forEach(r=>{let y=Y.find(x=>x.y===r.y);if(!y)Y.push(y={y:r.y,m:[]});y.m.push(MESC[r.m-1].toLowerCase());});
+ return `En los devengos correspondientes de salario base más el complemento a salario base ${Y.map(y=>`del año ${y.y} de ${listY(y.m)}`).join(' y ')} ${G.c.cli.trato==='d'?'el demandante':'la demandante'} percibió lo correspondiente al convenio aplicable.`;};
+const filaMes=(r,est)=>[`${MESC[r.m-1]} ${r.y}${r.cov<r.dim?` (${r.cov} días)`:''}`,r.deb!=null?eurN(r.deb)+' €':(est[r.estado]||'—'),r.perc!=null?eurN(r.perc)+' €':'⟦sin datos⟧',r.dif!=null?eurN(r.dif)+' €':'—'];
+FC.tablaEsp=(c,e)=>{const r=e.rows[e.rows.length-1];const rows=e.tipo==='ultimo'?[filaMes(r,{smi:'⟦SMI sin verificar⟧',jornada:'⟦falta jornada⟧',sindatos:'⟦sin datos⟧'})]:[[`Del ${dsl(e.a)} al ${dsl(e.b)}`,e.deb!=null?eurN(e.deb)+' €':'⟦falta jornada o SMI⟧',eurN(e.perc)+' €'+(e.bruto==null?' (neto)':''),e.dif!=null?eurN(e.dif)+' €':'—']];
+ return {titulo:`Diferencia salarial ${e.tipo==='ultimo'?'del último mes trabajado':'del mes del alta en la Seguridad Social'} (del ${dsl(e.a)} al ${dsl(e.b)})`,head:['Concepto','Debía Percibir','Percibido','Diferencia'],rows,foot:['Total diferencia salarial','','TOTAL',eurN(e.dif!=null?Math.max(0,e.dif):0)+' €'],w:[3000,2000,1800,2000]};};
+FC.tabla1=G=>{const c=G.c;const est={smi:'⟦SMI sin verificar⟧',jornada:'⟦falta jornada⟧',sindatos:'⟦sin datos⟧'};const R0=G.T1.rows.filter(r=>!r.esp&&(!r.presc||c.abg.incluirPrescritos));const R=R0.filter(r=>!(r.dif!=null&&r.dif<=0.005));
  const rows=R.map(r=>[`${MESC[r.m-1]} ${r.y}${r.cov<r.dim?` (${r.cov} días)`:''}`,r.deb!=null?eurN(r.deb)+' €':(est[r.estado]||'—'),r.perc!=null?eurN(r.perc)+' €':'⟦sin datos⟧',r.dif!=null?eurN(r.dif)+' €':'—']);
- return {titulo:`1. Diferencias salariales por el periodo del ${dsl(R.length?R[0].a:null)} al ${dsl(R.length?R[R.length-1].b:null)}`,head:['Concepto','Debía Percibir','Percibido','Diferencia'],rows,foot:['Total diferencia salarial','','TOTAL',eurN(G.T1.total)+' €'],w:[3000,2000,1800,2000]};};
+ return {titulo:`1. Diferencias salariales por el periodo del ${dsl(R0.length?R0[0].a:null)} al ${dsl(R0.length?R0[R0.length-1].b:null)}`,head:['Concepto','Debía Percibir','Percibido','Diferencia'],rows,foot:['Total diferencia salarial','','TOTAL',eurN(G.T1.total)+' €'],w:[3000,2000,1800,2000]};};
 FC.tabla2=G=>{const c=G.c;const rows=G.T2.rows.map(r=>[String(r.y),r.base!=null?eurN(r.base)+' €':'⟦SMI sin verificar⟧',n1(r.dev),String(r.disfr),r.imp!=null?eurN(r.imp)+' €':'—']);
  return {titulo:`2. Vacaciones devengadas y no disfrutadas por el periodo del ${dsl(c.rel.inicio)} al ${dsl(FC.endRel(c))}`,head:['Año','Base mensual','Días devengados','Días disfrutados','Importe'],rows,foot:['Total vacaciones','','','TOTAL',eurN(G.T2.total)+' €'],w:[1400,1950,1750,1750,1950]};};
 const tabText=t=>['  '+t.titulo,'  '+t.head.join(' | ')].concat(t.rows.map(r=>'  '+r.join(' | ')),['  '+t.foot.filter(Boolean).join(' | ')]).join('\n');
 FC.t1Text=G=>tabText(FC.tabla1(G));
 FC.t2Text=G=>tabText(FC.tabla2(G));
+FC.tabText=tabText;
 
 /* ---------------- conversión desde la ficha C anterior ---------------- */
 FC.migrate=old=>{const st=FC.newC();const c=st.c;const V=(id)=>SF.V(old,id);st.id=old.id;st.creada=old.creada;
@@ -526,6 +547,13 @@ FC.runTests=()=>{const H='2026-10-26';const prev=FC._hoy;FC._hoy=H;const out=[];
  T('Territorio','Nombre homónimo en dos provincias: hay que elegir provincia',()=>{const a=FC.munAll('Arroyomolinos');return {ok:a.length===2,det:a.map(x=>x.name+' ('+FC.provName(x.cpro)+')').join(', ')};});
  T('Territorio','Nombres bilingües: «Alcoi» encuentra Alcoy/Alcoi',()=>{const r=FC.munSearch('03','Alcoi');return {ok:r.length&&/Alcoy/.test(r[0].name),det:r[0]&&r[0].name};});
  T('Tabla 1','Último mes trabajado: «no le pagaron» pone 0 y «sí» pone lo que dice',()=>{const s=FC.demo(H),k=s.c;const last=()=>{const r=FC.calcT1(s).rows;return r[r.length-1].perc;};const base=last();k.sal.ultimoMes='no';const a=last();k.sal.ultimoMes='si';k.sal.ultimoMesImporte='250';const b=last();k.sal.ultimoMesImporte='';const d=last();return {ok:a===0&&b===250&&d===base&&base!==0,det:[base,a,b,d].join(' / ')};});
+ T('Tabla 1','Meses cobrados correctamente: fuera de la tabla y en el párrafo «En los devengos…» agrupados por año',()=>{const s=FC.demo(H),k=s.c;k.sal.fijo='no';const R=FC.calcT1(s).rows.filter(r=>!r.presc);const ok=[R[1],R[2],R[R.length-2]];k.meses=R.map(r=>Object.assign(FC.T.meses(k),{mes:r.key,salario:ok.includes(r)?'5000':'100'}));const G={T1:FC.calcT1(s),c:k};const t=FC.tabla1(G),par=FC.parrPagados(G);const nom=r=>MESC[r.m-1].toLowerCase();
+  const exp=`del año ${ok[0].y} de ${ok[0].y===ok[1].y?nom(ok[0])+' y '+nom(ok[1]):nom(ok[0])}`;return {ok:t.rows.length===R.length-3&&!t.rows.some(x=>x[0].startsWith(MESC[ok[0].m-1]+' '+ok[0].y))&&par.startsWith('En los devengos correspondientes de salario base más el complemento a salario base '+exp)&&/la demandante percibió lo correspondiente al convenio aplicable\.$/.test(par),det:par};});
+ T('Tabla 1','Último mes con su propia tabla; vacaciones, pagas y otros del finiquito se descuentan; la indemnización no',()=>{const s=FC.demo(H),k=s.c;k.sal.ultimoMes='si';k.sal.ultimoMesImporte='300';k.sal.finVac='200';k.sal.finPagas='100';k.sal.finIndem='999';const T1=FC.calcT1(s);const e=T1.esp.find(x=>x.tipo==='ultimo');const G={T1,T2:FC.calcT2(s),c:k};const t=FC.tabla1(G);const tot=FC.totales(G);const last=T1.rows[T1.rows.length-1];
+  return {ok:!!e&&e.perc===300&&!t.rows.some(x=>x[0].startsWith(MESC[last.m-1]+' '+last.y))&&T1.pagoFinal===300&&tot.lineas.some(([l,v])=>/último mes trabajado/.test(l)&&Math.abs(v-Math.round(e.dif*100)/100)<0.005)&&/Diferencia salarial del último mes trabajado/.test(FC.papText(FC.pap(s,H))),det:JSON.stringify(tot.lineas)};});
+ T('Tabla 1','Mes del alta con su propia tabla: bruto como percibido y debía percibir del periodo',()=>{const s=FC.demo(H),k=s.c;const R=FC.calcT1(s).rows.filter(r=>!r.presc&&r.deb!=null&&r.cov===r.dim);const r=R[2];k.rel.alta='si';k.altas=[Object.assign(FC.T.altas(k),{alta:r.a,pagoBruto:'500',pagoNeto:'450',pagoDesde:r.a,pagoHasta:r.b})];const T1=FC.calcT1(s);const e=T1.esp.find(x=>x.tipo==='alta');const t=FC.tablaEsp(k,e);
+  return {ok:!!e&&e.perc===500&&Math.abs(e.deb-r.deb)<0.01&&!e.parcial&&!FC.tabla1({T1,c:k}).rows.some(x=>x[0].startsWith(MESC[r.m-1]+' '+r.y))&&/mes del alta/.test(t.titulo)&&/500 € brutos \(450 € netos\)/.test(FC.papText(FC.pap(s,H)).replace(/500,00/g,'500').replace(/450,00/g,'450')),det:e&&[e.deb,e.perc,e.dif].join(' / ')};});
+ T('Totales','Vacaciones: por defecto, horas semanales con un máximo de 40',()=>{const s=FC.demo(H);const T2=FC.calcT2(s);return {ok:T2.rows.length>0&&T2.rows.every(r=>r.hb!=null&&r.hb<=40)&&T2.rows.some(r=>r.hb===40),det:T2.rows.map(r=>r.hb).join(', ')};});
  T('Documentos','DNI y NIE con letra correcta: válidos',()=>({ok:FC.docCheck('DNI','12345678Z')===''&&FC.docCheck('DNI','12.345.678-z')===''&&FC.docCheck('NIE','X1234567L')===''&&FC.docCheck('nie','Y0000000Z')===''&&FC.docCheck('Pasaporte','ABC')===''}));
  T('Documentos','DNI o NIE con letra o formato incorrecto: aviso',()=>({ok:/no corresponde/.test(FC.docCheck('DNI','12345678A'))&&/8 números/.test(FC.docCheck('DNI','1234567Z'))&&/no corresponde/.test(FC.docCheck('NIE','X1234567T'))&&/X, Y o Z/.test(FC.docCheck('NIE','A1234567L'))}));
  T('Territorio','Sede social del municipio según el CSV',()=>{const m=FC.mun('28176');return {ok:m&&m.social==='MOSTOLES',det:m&&(m.name+' → '+m.social)};});
