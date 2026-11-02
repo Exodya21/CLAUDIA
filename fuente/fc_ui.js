@@ -5,6 +5,7 @@ const getP=FC.getP,setP=FC.setP;
 const pid=p=>'f_'+p.replace(/\./g,'_');
 const has=v=>!(v===undefined||v===null||v===''||v===false||(Array.isArray(v)&&!v.length));
 const SI=[['si','Sí'],['no','No']];
+const CONOCIO=[['tiktok','TikTok'],['facebook','Facebook'],['instagram','Instagram'],['vozavoz','Boca a boca'],['amiga','Una amiga o familiar'],['excliente','Es excliente o se lo recomendó uno'],['despacho','Pasó por el despacho'],['otro','Otro']];
 const n1=x=>{const r=Math.round(x*10)/10;return (Number.isInteger(r)?String(r):r.toFixed(1)).replace('.',',');};
 const eur=SF.eur,fmt=SF.fmt;
 const numS=x=>{if(x===''||x==null)return null;const n=Number(String(x).replace(',','.'));return isFinite(n)?n:null;};
@@ -67,7 +68,8 @@ function s0(){const c=C(),f=c.filtro;let b=op('filtro.abogado','¿Otro abogado e
   if(['demanda','ambas'].includes(f.actuado))b+=txt('filtro.demFecha','Fecha de la demanda',{type:'date',ns:1});
   if(['papeleta','demanda','ambas'].includes(f.actuado))b+='<div class="al w">Pida copia sellada de lo presentado y súbala en el paso «Pruebas».</div>';}
  if(!FC.soloContacto(c)&&f.abogado){b+=op('filtro.reclamar','¿Por qué viene al despacho? ¿Qué quiere reclamar?',[['despido','Su despido'],['salarios','Salarios que le deben'],['vacaciones','Vacaciones'],['horas','Horas de más'],['alta','Que la den de alta'],['finiquito','Finiquito'],['otro','Otra cosa']],{multi:1,req:1})+txt('filtro.motivo','Con sus palabras, ¿qué le gustaría conseguir?',{area:1,nota:false});}
- b+=op('filtro.conocio','¿Cómo nos conoció?',[['tiktok','TikTok'],['facebook','Facebook'],['instagram','Instagram'],['vozavoz','Boca a boca'],['amiga','Una amiga o familiar'],['excliente','Es excliente o se lo recomendó uno'],['despacho','Pasó por el despacho'],['otro','Otro']],{multi:1,req:1,nota:false});if((f.conocio||[]).includes('otro'))b+=txt('filtro.conocioOtro','¿Cómo exactamente?',{nota:false});
+ b+=op('filtro.conocio','¿Cómo nos conoció?',CONOCIO,{multi:1,req:1,nota:false});if((f.conocio||[]).includes('otro'))b+=txt('filtro.conocioOtro','¿Cómo exactamente?',{nota:false});
+ b+=txt('filtro.hechaPor','Ficha hecha por (nombre de quien hace la entrevista)',{nota:false,help:'Sale al final de la ficha en Word, junto a la firma.'});
  return sec('Antes de empezar',b);}
 function s1(){const c=C(),k=c.cli;let b=op('cli.trato','¿Cómo hay que nombrarle en los papeles?',[['da','D.ª'],['d','D.']],{req:1,nota:false})+txt('cli.nombre','Nombre',{req:1,help:'Tal como sale en su documento. En este prototipo, solo nombres inventados.'})+txt('cli.apellidos','Apellidos',{req:1,help:'Los dos apellidos, si los tiene, tal como salen en su documento.'})
   +op('cli.doc','¿Qué documento tiene?',[['Pasaporte','Pasaporte'],['NIE','NIE'],['DNI','DNI'],['ninguno','Ninguno']],{req:1,ns:1});
@@ -373,12 +375,14 @@ FC.fichaModel=()=>{const st=FC.st,c=st.c;E=FC.evaluate(st);const M=[];const T=x=
  /* resumen */
  M.push({t:'h1',text:'Resumen para el abogado'});
  const G=FC.pap(st);const tot=FC.totales(G);
- M.push({t:'h2',text:'Cantidades calculadas por el sistema'});qa('Diferencias salariales',SF.eur(G.T1.total));qa('Vacaciones',SF.eur(G.T2.total));qa('Total principal',SF.eur(tot.principal));qa('Total pendiente (con mora del 10 %)',SF.eur(tot.total));
+ M.push({t:'h2',text:'Cantidades calculadas por el sistema'});qa('Diferencias salariales',SF.eur(G.T1.total));(G.T1.esp||[]).forEach(e=>qa(e.tipo==='ultimo'?'Diferencia del último mes trabajado':'Diferencia del mes del alta',SF.eur(e.dif>0?e.dif:0)+(e.cuenta?'':' (más de un año: no se suma)')));qa('Vacaciones',SF.eur(G.T2.total));if(G.T1.pagoFinal)qa('Abonado al finalizar (a descontar)',SF.eur(G.T1.pagoFinal));qa('Total principal',SF.eur(tot.principal));qa('Total pendiente (con mora del 10 %)',SF.eur(tot.total));
+ (G.T1.esp||[]).forEach(e=>{const t=FC.tablaEsp(c,e);M.push({t:'h3',text:t.titulo});M.push({t:'tab',head:t.head,rows:t.rows.concat([t.foot])});});
  M.push({t:'h2',text:'Lo que falta por responder'});if(E.inc.length)E.inc.forEach(i=>M.push({t:'p',text:`• ${i.l} (paso ${i.s})`,warn:1}));else M.push({t:'p',text:'Nada obligatorio pendiente.'});
  if(E.ns.length){M.push({t:'h2',text:'Respondido «No lo sabe»'});E.ns.forEach(i=>M.push({t:'p',text:'• '+i.l}));}
  M.push({t:'h2',text:'Contradicciones'});if(E.contra.length)E.contra.forEach(x=>M.push({t:'p',text:`• ${x.titulo}: ${x.texto}`,warn:1}));else M.push({t:'p',text:'No se detectan.'});
  M.push({t:'h2',text:'Plazos y avisos'});if(E.alerts.length)E.alerts.forEach(a=>M.push({t:'p',text:`• [${a.nivel==='critica'?'CRÍTICA':a.nivel==='alta'?'ALTA':'Aviso'}] ${a.titulo}. ${a.detalle}`,warn:a.nivel!=='media'}));else M.push({t:'p',text:'Sin avisos.'});
  if((c.obs||'').trim()){M.push({t:'h2',text:'Observaciones generales'});M.push({t:'p',text:c.obs.trim()});}
+ const f=c.filtro||{};M.push({t:'firma',fem:c.cli.trato!=='d',hecha:T(f.hechaPor),referido:(f.conocio||[]).map(k=>k==='otro'?(T(f.conocioOtro)||'Otro'):(CONOCIO.find(x=>x[0]===k)||[,''])[1]).filter(Boolean).join(', ')});
  return M;};
 FC.saveFile=async(data,f,msg)=>{if(!FC.dl){try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}));a.download=f;document.body.appendChild(a);a.click();a.remove();}catch(e){SF.toast('No se pudo descargar aquí',1);return false;}}
  else{try{await FC.dl.save({filename:f,data:new Blob([data])});}catch(e){if(e&&e.code==='declined')return false;SF.toast('No se pudo descargar aquí',1);return false;}}SF.toast(msg||'Word generado');return true;};
