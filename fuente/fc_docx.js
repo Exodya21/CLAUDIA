@@ -8,14 +8,14 @@ const X=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&g
 const eurN=x=>SF.eur(x).replace(' €','');
 const n1=x=>{const r=Math.round(x*10)/10;return (Number.isInteger(r)?String(r):r.toFixed(1)).replace('.',',');};
 /* runs: texto con ⟦huecos⟧ resaltados en amarillo */
-function runs(text,o){o=o||{};const out=[];String(text).split(/(⟦[^⟧]*⟧)/).forEach(part=>{if(!part)return;const hole=/^⟦.*⟧$/.test(part);const t=hole?'['+part.slice(1,-1)+']':part;
- out.push(`<w:r><w:rPr>${o.b?'<w:b/>':''}${hole||o.hl?'<w:highlight w:val="yellow"/>':''}${o.sz?`<w:sz w:val="${o.sz}"/><w:szCs w:val="${o.sz}"/>`:''}</w:rPr><w:t xml:space="preserve">${X(t)}</w:t></w:r>`);});return out.join('');}
+function runs(text,o){o=o||{};const out=[];let bb=false;String(text).split(/(⟦[^⟧]*⟧|⟪|⟫)/).forEach(part=>{if(!part)return;if(part==='⟪'){bb=true;return;}if(part==='⟫'){bb=false;return;}const hole=/^⟦.*⟧$/.test(part);const t=hole?'['+part.slice(1,-1)+']':part;
+ out.push(`<w:r><w:rPr>${o.b||bb?'<w:b/>':''}${o.u?'<w:u w:val="single"/>':''}${hole||o.hl?'<w:highlight w:val="yellow"/>':''}${o.sz?`<w:sz w:val="${o.sz}"/><w:szCs w:val="${o.sz}"/>`:''}</w:rPr><w:t xml:space="preserve">${X(t)}</w:t></w:r>`);});return out.join('');}
 const par=(inner,ppr)=>`<w:p>${ppr?`<w:pPr>${ppr}</w:pPr>`:''}${inner}</w:p>`;
 const CENTER='<w:jc w:val="center"/><w:ind w:firstLine="0"/>';
 const NOIND='<w:ind w:firstLine="0"/>';
 const MARK='[Variante nueva: pendiente de aprobación] ';
 function para(x){if(x.lista)return x.lista.map(i=>par(runs('•  '+i),'<w:ind w:left="703" w:firstLine="0"/>')).join('');
- return par((x.st==='nuevo'?runs(MARK,{hl:1,b:1}):'')+runs(x.text,{b:x.bold}));}
+ return par(runs(x.text,{b:x.bold}));}
 function cell(t,o){o=o||{};return `<w:tc><w:tcPr><w:tcW w:w="${o.w||2000}" w:type="dxa"/></w:tcPr>${par(runs(t,{b:o.b,sz:20}),`<w:spacing w:after="0" w:line="240" w:lineRule="auto"/><w:ind w:firstLine="0"/><w:jc w:val="${o.r?'right':'left'}"/>`)}</w:tc>`;}
 function table(head,rows,ws){const B='<w:tblBorders>'+['top','left','bottom','right','insideH','insideV'].map(k=>`<w:${k} w:val="single" w:sz="4" w:space="0" w:color="808080"/>`).join('')+'</w:tblBorders>';
  const tr=(cs,b)=>`<w:tr>${cs.map((c,i)=>cell(c,{b,r:i>0,w:ws[i]})).join('')}</w:tr>`;
@@ -36,10 +36,10 @@ function tot(G){const t=FC.totales(G);const W=[6400,2600];
  return `<w:tbl><w:tblPr><w:tblW w:w="${W[0]+W[1]}" w:type="dxa"/><w:jc w:val="center"/>${B}<w:tblCellMar><w:left w:w="80" w:type="dxa"/><w:right w:w="80" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>${W.map(w=>`<w:gridCol w:w="${w}"/>`).join('')}</w:tblGrid>${rows.join('')}</w:tbl>`+par('','<w:spacing w:after="0"/>');}
 const t2=G=>ftab(FC.tabla2(G));
 FC.docXml=G=>{const B=[];
- G.head.forEach(h=>{if(h.k==='enc')B.push(par(runs(h.text,{b:1,hl:h.st==='pend'}),CENTER));else if(h.k==='dice')B.push(par(runs(h.text,{b:1}),NOIND));else B.push(para(h));
+ G.head.forEach(h=>{if(h.k==='enc')B.push(par(runs(h.text,{b:1,sz:28,hl:h.st==='pend'}),CENTER));else if(h.k==='dice')B.push(par(runs(h.text,{b:1,u:1}),CENTER));else B.push(para(h));
   if(h.k==='enc')B.push(par('',CENTER));});
  B.push(par(runs('H E C H O S',{b:1}),CENTER));
- G.hechos.forEach(h=>{B.push(par(runs(`${h.n}.- ${h.titulo}`,{b:1}),NOIND));h.paras.forEach(x=>{if(x.t)B.push(ftab(x.t));else if(x.tabla==='T1')B.push(t1(G));else if(x.tabla==='T2')B.push(t2(G));else if(x.tabla==='TOT')B.push(tot(G));else B.push(para(x));});});
+ G.hechos.forEach(h=>{B.push(par(runs(`${h.n}.- ${h.titulo}`,{b:1}),'<w:ind w:firstLine="703"/>'));h.paras.forEach(x=>{if(x.t)B.push(ftab(x.t));else if(x.tabla==='T1')B.push(t1(G));else if(x.tabla==='T2')B.push(t2(G));else if(x.tabla==='TOT')B.push(tot(G));else B.push(para(x));});});
  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><w:body>${B.join('')}<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1418" w:right="1418" w:bottom="1418" w:left="1701" w:header="709" w:footer="709" w:gutter="0"/></w:sectPr></w:body></w:document>`;};
 const STYLES=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -68,13 +68,13 @@ FC._pack=(doc,styles,footer)=>zip([['[Content_Types].xml',footer?CT.replace('</T
 FC.docx=G=>{const doc=FC.docXml(G);FC._lastDocXml=doc;FC._lastStyles=STYLES;return zip([['[Content_Types].xml',CT],['_rels/.rels',RELS],['word/_rels/document.xml.rels',DRELS],['word/document.xml',doc],['word/styles.xml',STYLES]]);};
 /* HTML con el mismo formato, para «copiar con formato» y pegar en Word */
 FC.papHtml=G=>{const st='font-family:Arial;font-size:12pt;line-height:150%;text-align:justify;text-indent:1.24cm;margin:0 0 8pt 0';const c0='font-family:Arial;font-size:12pt;line-height:150%;text-align:center;font-weight:bold;margin:0 0 8pt 0';const ni=st.replace('text-indent:1.24cm','text-indent:0');
- const R=t=>X(t).replace(/⟦([^⟧]*)⟧/g,'<span style="background:yellow">[$1]</span>');
- const P=x=>x.lista?x.lista.map(i=>`<p style="${ni};margin-left:1.24cm">•&nbsp;&nbsp;${R(i)}</p>`).join(''):`<p style="${st}${x.bold?';font-weight:bold':''}">${x.st==='nuevo'?`<b style="background:yellow">${MARK}</b>`:''}${R(x.text)}</p>`;
+ const R=t=>X(t).replace(/⟦([^⟧]*)⟧/g,'<span style="background:yellow">[$1]</span>').replace(/⟪/g,'<b>').replace(/⟫/g,'</b>');
+ const P=x=>x.lista?x.lista.map(i=>`<p style="${ni};margin-left:1.24cm">•&nbsp;&nbsp;${R(i)}</p>`).join(''):`<p style="${st}${x.bold?';font-weight:bold':''}">${R(x.text)}</p>`;
  const tb=(h,rows)=>`<table style="border-collapse:collapse;font-family:Arial;font-size:10pt;margin:0 auto 8pt">${[h].concat(rows).map((r,i)=>`<tr>${r.map((v,j)=>`<td style="border:1px solid #808080;padding:2px 6px;text-align:${j?'right':'left'};${i===0||i===rows.length?'font-weight:bold':''}">${R(v)}</td>`).join('')}</tr>`).join('')}</table>`;
  const c=G.c;const T1=G.T1.rows.filter(r=>!r.presc||c.abg.incluirPrescritos).map(r=>[FC.mesTxt(r.y,r.m),r.deb!=null?eurN(r.deb)+' €':'⟦sin calcular⟧',r.perc!=null?eurN(r.perc)+' €':'⟦sin datos⟧',r.dif!=null?eurN(r.dif)+' €':'—']).concat([['TOTAL','','',eurN(G.T1.total)+' €']]);
  const T2=G.T2.rows.filter(r=>!r.anterior||c.abg.incluirPrescritos).map(r=>[String(r.y),r.base!=null?eurN(r.base)+' €':'⟦SMI sin verificar⟧',n1(r.dev),String(r.disfr),r.imp!=null?eurN(r.imp)+' €':'—']).concat([['TOTAL','','','',eurN(G.T2.total)+' €']]);
- const B=[];G.head.forEach(h=>{if(h.k==='enc')B.push(`<p style="${c0}">${R(h.text)}</p>`);else if(h.k==='dice')B.push(`<p style="${ni};font-weight:bold">${R(h.text)}</p>`);else B.push(P(h));});
- B.push(`<p style="${c0}">H E C H O S</p>`);G.hechos.forEach(h=>{B.push(`<p style="${ni};font-weight:bold">${X(h.n+'.- '+h.titulo)}</p>`);h.paras.forEach(x=>B.push(x.t?FC.tabHtml(x.t,true):x.tabla==='TOT'?FC.totHtml(G,true):x.tabla==='T1'?FC.tabHtml(FC.tabla1(G),true):x.tabla==='T2'?FC.tabHtml(FC.tabla2(G),true):P(x)));});
+ const B=[];G.head.forEach(h=>{if(h.k==='enc')B.push(`<p style="${c0};font-size:14pt">${R(h.text)}</p>`);else if(h.k==='dice')B.push(`<p style="${ni};text-align:center;font-weight:bold;text-decoration:underline">${R(h.text)}</p>`);else B.push(P(h));});
+ B.push(`<p style="${c0}">H E C H O S</p>`);G.hechos.forEach(h=>{B.push(`<p style="${st};font-weight:bold">${X(h.n+'.- '+h.titulo)}</p>`);h.paras.forEach(x=>B.push(x.t?FC.tabHtml(x.t,true):x.tabla==='TOT'?FC.totHtml(G,true):x.tabla==='T1'?FC.tabHtml(FC.tabla1(G),true):x.tabla==='T2'?FC.tabHtml(FC.tabla2(G),true):P(x)));});
  return B.join('');};
 })();
 (function(){
