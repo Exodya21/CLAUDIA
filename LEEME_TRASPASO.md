@@ -49,7 +49,7 @@ Es un **prototipo con datos ficticios**:
 
 **Pruebas automáticas:**
 
-- Hay 117 y deben pasar todas.
+- Hay 118 y deben pasar todas.
 - Para ejecutarlas, abrir la consola del navegador y escribir `SF.runTests()`, o ejecutar `node pruebas/prueba_navegador_simulado.js`, que necesita `npm i jsdom`.
 
 ## 3. Pasos de la ficha (orden actual)
@@ -147,7 +147,7 @@ En cada pregunta hay «No lo sabe», «Añadir explicación libre» y marca de o
   - Los meses anteriores quedan fuera salvo que el abogado los incluya.
   - Función `FC.ventana`.
 - **Tabla 2 · vacaciones:**
-  - 30 días al año en proporción a lo trabajado (**días trabajados × 30 / 360**, con un máximo de 30 por año), menos los disfrutados.
+  - 30 días al año en proporción a lo trabajado (**días trabajados × 30 / 360**, con un máximo de 30 por año y **redondeado a 2 decimales** antes de multiplicar), menos los disfrutados.
   - Base = SMI con prorrata × horas semanales / 40, con un **máximo de 40 horas** (el abogado puede cambiar las horas base).
   - **Suma todos los años.**
 - **Meses de interés (cada uno con su propia tabla y su párrafo en la papeleta, y su tabla en la revisión):**

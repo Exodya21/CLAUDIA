@@ -11,6 +11,7 @@ const FC=window.FC={};
 const DAY=864e5;
 const pd=SF.pd,iso=SF.iso,fmt=SF.fmt;
 const eur=SF.eur,eurN=x=>SF.eur(x).replace(' €','');
+const n2=x=>(Math.round(x*100)/100).toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2});
 const n1=x=>{const r=Math.round(x*10)/10;return (Number.isInteger(r)?String(r):r.toFixed(1)).replace('.',',');};
 const dmy=s=>{const t=pd(s);if(t==null)return null;const d=new Date(t);return `${String(d.getUTCDate()).padStart(2,'0')}.${String(d.getUTCMonth()+1).padStart(2,'0')}.${d.getUTCFullYear()}`;};
 const today=()=>FC._hoy||SF.today();
@@ -223,9 +224,9 @@ FC.calcT2=st=>{const c=st.c;const J=FC.calcJ(c);const ini=c.rel.inicio,fin=FC.en
  for(let y=y0;y<=y1;y++){const a=Math.max(Date.UTC(y,0,1),pd(ini)),b=Math.min(Date.UTC(y,11,31),pd(fin));const cov=Math.round((b-a)/DAY)+1;const diy=360;
   let ef=0,pres=0,jd=0;for(let t=a;t<=b;t+=DAY){const x=J.map[iso(t)];if(x){ef+=x.ef;pres+=x.pres;jd++;}}
   const hbAuto=jd?Math.min(40,FC.horasPag(ef/(jd/7),pres/(jd/7))):null;const hbM=numS(c.abg.horasBaseVac);const hb=hbM!=null?hbM:hbAuto;
-  const smi=FC.smiP(st,y);const base=smi!=null&&hb!=null?smi*hb/40:null;const dev=Math.min(30,30*cov/diy);
+  const smi=FC.smiP(st,y);const base=smi!=null&&hb!=null?smi*hb/40:null;const dev=Math.round(Math.min(30,30*cov/diy)*100)/100;
   let disfr=0,disfrNoPag=0,pagNoDisfr=0;(c.vac.tuvo==='si'?c.vacaciones:[]).forEach(v=>{const va=pd(v.desde),vb=pd(v.hasta);if(va==null||vb==null||vb<va)return;const oa=Math.max(va,a),ob=Math.min(vb,b);const days=ob>=oa?Math.round((ob-oa)/DAY)+1:0;if(v.disfruto==='si'){disfr+=days;if(v.pagadas==='no')disfrNoPag+=days;}if(v.disfruto==='no'&&v.pagadas==='si'&&new Date(va).getUTCFullYear()===y)pagNoDisfr+=numS(v.importe)||0;});
-  const pend=Math.max(0,dev-disfr);const imp=base!=null?pend*base/30+disfrNoPag*base/30-pagNoDisfr:null;
+  const pend=Math.round(Math.max(0,dev-disfr)*100)/100;const imp=base!=null?pend*base/30+disfrNoPag*base/30-pagNoDisfr:null;
   rows.push({y,cov,dev,disfr,disfrNoPag,pagNoDisfr,pend,hb,base,imp,smi,anterior:false});}
  const total=rows.reduce((s,r)=>s+(r.imp>0?r.imp:0),0);return {rows,total};};
 /* los cálculos paso a paso, para el resumen (revisión y ficha en Word) */
@@ -485,7 +486,7 @@ FC.tablaEsp=(c,e)=>{const r=e.rows[e.rows.length-1];const rows=e.tipo==='ultimo'
 FC.tabla1=G=>{const c=G.c;const est={smi:'⟦SMI sin verificar⟧',jornada:'⟦falta jornada⟧',sindatos:'⟦sin datos⟧'};const R0=G.T1.rows.filter(r=>!r.esp&&(!r.presc||c.abg.incluirPrescritos));const R=R0.filter(r=>!(r.dif!=null&&r.dif<=0.005));
  const rows=R.map(r=>[`${MESC[r.m-1]} ${r.y}${r.cov<r.dim?` (${r.cov} días)`:''}`,r.deb!=null?eurN(r.deb)+' €':(est[r.estado]||'—'),r.perc!=null?eurN(r.perc)+' €':'⟦sin datos⟧',r.dif!=null?eurN(r.dif)+' €':'—']);
  return {titulo:`1. Diferencias salariales por el periodo del ${dsl(R0.length?R0[0].a:null)} al ${dsl(R0.length?R0[R0.length-1].b:null)}`,head:['Concepto','Debía Percibir','Percibido','Diferencia'],rows,foot:['Total diferencia salarial','','TOTAL',eurN(G.T1.total)+' €'],w:[3000,2000,1800,2000]};};
-FC.tabla2=G=>{const c=G.c;const rows=G.T2.rows.map(r=>[String(r.y),r.base!=null?eurN(r.base)+' €':'⟦SMI sin verificar⟧',n1(r.dev),String(r.disfr),r.imp!=null?eurN(r.imp)+' €':'—']);
+FC.tabla2=G=>{const c=G.c;const rows=G.T2.rows.map(r=>[String(r.y),r.base!=null?eurN(r.base)+' €':'⟦SMI sin verificar⟧',n2(r.dev),String(r.disfr),r.imp!=null?eurN(r.imp)+' €':'—']);
  return {titulo:`2. Vacaciones devengadas y no disfrutadas por el periodo del ${dsl(c.rel.inicio)} al ${dsl(FC.endRel(c))}`,head:['Año','Base mensual','Días devengados','Días disfrutados','Importe'],rows,foot:['Total vacaciones','','','TOTAL',eurN(G.T2.total)+' €'],w:[1400,1950,1750,1750,1950]};};
 const tabText=t=>['  '+t.titulo,'  '+t.head.join(' | ')].concat(t.rows.map(r=>'  '+r.join(' | ')),['  '+t.foot.filter(Boolean).join(' | ')]).join('\n');
 FC.t1Text=G=>tabText(FC.tabla1(G));
@@ -573,7 +574,8 @@ FC.runTests=()=>{const H='2026-10-26';const prev=FC._hoy;FC._hoy=H;const out=[];
  T('Word','Rellenar desde Word: solo lo vacío, direcciones con municipio del mapa y lista de lo que falta',()=>{if(!FC.aplicarImport)return {ok:false,det:'sin importador'};const s=FC.newC(),k=s.c;k.cli.nombre='Ya escrito';const R=FC.aplicarImport(k,{cliente:{nombre:'Otro',apellidos:'Prueba',documento:'NIE',telefono:'+51 987654321',domicilio:{calle:'Mayor',numero:'1',cp:'28013',municipio:'Madrid'},email:null},empleadores:[{nombre:'Ana',apellidos:'Test',domicilio:null}],jornada:{modalidad:'externa',turnos:[{dias:[0,1,2,3,4],entrada:'9:00',salida:'14:30'}]},relacion:{inicio:'2025-13-40'}});
   return {ok:k.cli.nombre==='Ya escrito'&&k.cli.apellidos==='Prueba'&&k.cli.doc==='NIE'&&k.cli.telPref==='PE'&&k.cli.tel==='987654321'&&k.cli.dom.codm==='28079'&&k.empleadores.length===1&&k.periodos[0].semanas[0].turnos[0].s==='14:30'&&!k.rel.inicio&&R.falta.includes('Cliente: correo electrónico')&&R.falta.includes('Empleador 1: domicilio')&&R.falta.includes('Relación: fecha de inicio'),det:JSON.stringify(R.falta.slice(0,5))};});
  T('Tabla 1','Mes incompleto: siempre entre 30 días (18 días de agosto = 18/30 del mes)',()=>({ok:FC.frMes(18,31)===18/30&&FC.frMes(31,31)===1&&FC.frMes(15,28)===0.5&&FC.frMes(28,28)===1&&Math.round(2136.75*FC.frMes(18,31)*100)/100===1282.05}));
- T('Totales','Vacaciones entre 360: 199 días = 30 × 199 / 360 días; un año completo, máximo 30',()=>{const s2=FC.demo(H),k=s2.c;k.rel.inicio='2025-01-01';k.fin.fechaFin='2026-07-18';k.rel.fin='2026-07-18';const R=FC.calcT2(s2).rows;const r25=R.find(r=>r.y===2025),r26=R.find(r=>r.y===2026);return {ok:r25.dev===30&&Math.abs(r26.dev-30*199/360)<1e-9&&r26.cov===199,det:R.map(r=>r.y+':'+r.cov+'→'+r.dev).join(' ')};});
+ T('Totales','Vacaciones entre 360: 199 días = 30 × 199 / 360 días; un año completo, máximo 30',()=>{const s2=FC.demo(H),k=s2.c;k.rel.inicio='2025-01-01';k.fin.fechaFin='2026-07-18';k.rel.fin='2026-07-18';const R=FC.calcT2(s2).rows;const r25=R.find(r=>r.y===2025),r26=R.find(r=>r.y===2026);return {ok:r25.dev===30&&r26.dev===16.58&&Math.abs(r26.imp-1424.5*16.58/30)<0.005&&r26.cov===199,det:R.map(r=>r.y+':'+r.cov+'→'+r.dev).join(' ')};});
+ T('Totales','Vacaciones: días con 2 decimales antes de multiplicar (16,58 × 1.424,50 / 30 = 787,27 €)',()=>{const s2=FC.demo(H),k=s2.c;k.rel.inicio='2026-02-01';k.fin.fechaFin='2026-08-18';k.rel.fin='2026-08-18';k.vac.tuvo='no';const r=FC.calcT2(s2).rows[0];return {ok:r.dev===16.58&&Math.round(r.imp*100)/100===787.27,det:r.dev+' / '+r.imp};});
  T('Papeleta Word','Negritas como el escrito del despacho, DICE subrayado, títulos a 14 y sin «Variante nueva»',()=>{const G=FC.pap(FC.demo(H),H);const x=FC.docXml(G);return {ok:!/Variante nueva/.test(x)&&/<w:b\/><w:sz w:val="28"\/>/.test(x)&&/<w:b\/><w:u w:val="single"\/>.*?DICE:/.test(x)&&/<w:ind w:firstLine="703"\/><\/w:pPr><w:r><w:rPr><w:b\/>[^]*?PRIMERO|1\.- /.test(x)&&/<w:b\/>[^<]*<\/w:rPr><w:t xml:space="preserve">D\.ª ROSA QUISPE MAMANI/.test(x)&&!/[⟪⟫]/.test(x)};});
  T('Documentos','DNI y NIE con letra correcta: válidos',()=>({ok:FC.docCheck('DNI','12345678Z')===''&&FC.docCheck('DNI','12.345.678-z')===''&&FC.docCheck('NIE','X1234567L')===''&&FC.docCheck('nie','Y0000000Z')===''&&FC.docCheck('Pasaporte','ABC')===''}));
  T('Documentos','DNI o NIE con letra o formato incorrecto: aviso',()=>({ok:/no corresponde/.test(FC.docCheck('DNI','12345678A'))&&/8 números/.test(FC.docCheck('DNI','1234567Z'))&&/no corresponde/.test(FC.docCheck('NIE','X1234567T'))&&/X, Y o Z/.test(FC.docCheck('NIE','A1234567L'))}));
