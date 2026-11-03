@@ -50,7 +50,7 @@ Es un **prototipo con datos ficticios**:
 
 **Pruebas automáticas:**
 
-- Hay 119 y deben pasar todas.
+- Hay 123 y deben pasar todas.
 - Para ejecutarlas, abrir la consola del navegador y escribir `SF.runTests()`, o ejecutar `node pruebas/prueba_navegador_simulado.js`, que necesita `npm i jsdom`.
 
 ## 3. Pasos de la ficha (orden actual)
@@ -130,6 +130,7 @@ En cada pregunta hay «No lo sabe», «Añadir explicación libre» y marca de o
 
 - **Horas que se pagan (escrito de ejemplo):** 40 h de trabajo efectivo más hasta 20 h de presencia, y lo que pasa de 40 h efectivas cuenta como presencia. Tope de 60 h, que con el SMI de 2026 dan **2.136,75 €** (1.424,50 × 60 / 40). Función `FC.horasPag`.
 - **SMI con prorrata:** mensual × 14 / 12.
+- **Pagas extra (lo elige el abogado en la revisión):** «prorrateadas» (por defecto, como el escrito de ejemplo: cada mes con SMI × 14 / 12) o «por separado» (cada mes con SMI × 12 / 12 y una tabla «3. Pagas extraordinarias» con 2/12 de lo que debía percibir cada mes, menos lo cobrado como paga extra en la tabla de meses y en el finiquito). La revisión muestra el total principal de las dos formas y marca la mayor. El párrafo que introduce la tabla de pagas y el del hecho PRIMERO con el SMI «sin incluir la prorrata de pagas extraordinarias» son redacción nueva, pendiente de aprobación.
 
   | Año | SMI | Estado |
   |---|---|---|
