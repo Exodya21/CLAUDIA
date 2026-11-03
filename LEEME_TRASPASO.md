@@ -49,7 +49,7 @@ Es un **prototipo con datos ficticios**:
 
 **Pruebas automáticas:**
 
-- Hay 118 y deben pasar todas.
+- Hay 119 y deben pasar todas.
 - Para ejecutarlas, abrir la consola del navegador y escribir `SF.runTests()`, o ejecutar `node pruebas/prueba_navegador_simulado.js`, que necesita `npm i jsdom`.
 
 ## 3. Pasos de la ficha (orden actual)
@@ -150,6 +150,7 @@ En cada pregunta hay «No lo sabe», «Añadir explicación libre» y marca de o
   - 30 días al año en proporción a lo trabajado (**días trabajados × 30 / 360**, con un máximo de 30 por año y **redondeado a 2 decimales** antes de multiplicar), menos los disfrutados.
   - Base = SMI con prorrata × horas semanales / 40, con un **máximo de 40 horas** (el abogado puede cambiar las horas base).
   - **Suma todos los años.**
+  - **Dos formas de descontar:** restar los días disfrutados, o restar el dinero pagado por vacaciones (sin restar días). Si hay de las dos, se calculan ambas, se muestran juntas (en Vacaciones y en la revisión) y se usa la que da más, salvo que se elija otra. La tabla de la papeleta muestra «Días disfrutados» o «Pagado» según la forma usada.
 - **Meses de interés (cada uno con su propia tabla y su párrafo en la papeleta, y su tabla en la revisión):**
   - **Último mes trabajado:** se pregunta en Salarios, concepto por concepto (salario de los días trabajados, vacaciones pendientes, pagas extra, indemnización y otros). Solo el salario de los días entra como «percibido» del mes; vacaciones, pagas extra y otros se descuentan como «abonado al finalizar»; la indemnización no se descuenta. «No le pagaron» = 0 €.
   - **Mes del alta** (si antes trabajaba sin alta): bruto, neto y fechas que cubría el pago. Percibido = bruto (o neto si no hay bruto); debía percibir = el del periodo. Si el periodo no cubre meses completos, sale una contradicción para revisarlo.
