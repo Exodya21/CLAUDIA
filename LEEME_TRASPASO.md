@@ -36,6 +36,7 @@ Es un **prototipo con datos ficticios**:
 | `fuente/fc_ui.js` | Pantallas y botones de la ficha C. |
 | `fuente/fc_import.js` | «Rellenar desde una ficha en Word»: lee el .docx, Claude lo interpreta (capacidad `sample` de la página publicada) y rellena solo las preguntas vacías; lista lo que falta. |
 | `herramientas/construir.py` | Une `fuente/` en `super_ficha_laboral.html`. |
+| `herramientas/preguntas_extraer.js` y `preguntas_excel.py` | Sacan todas las preguntas de la ficha (recorriéndola en el navegador) y generan `documentacion/Superficha - preguntas y respuestas.xlsx`, una hoja por bloque. |
 | `herramientas/csv_a_territorio.py` | Regenera `territorio.js` desde el CSV del mapa. |
 | `herramientas/pdf_a_organismos.py` | Regenera `orgt.js` desde la tabla de organismos (PDF). |
 | `pruebas/prueba_navegador_simulado.js` | Prueba de punta a punta sin navegador (Node + jsdom). |
