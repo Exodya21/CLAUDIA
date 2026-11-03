@@ -117,5 +117,64 @@ for p in pasos:
     r0 += 1
 idx.cell(row=r0, column=2, value='Total').font = Font(name=F, bold=True, size=10)
 idx.cell(row=r0, column=3, value=f'=SUM(C5:C{r0-1})').font = Font(name=F, bold=True, size=10)
+# ---- hoja «Respuestas clave»: las preguntas elegidas por el despacho, para ver las respuestas de un vistazo ----
+SEL = {0: [6, 8, 10], 1: list(range(1, 9)) + list(range(10, 19)), 2: [1, 2] + list(range(16, 33)) + list(range(34, 38)),
+       3: list(range(1, 15)) + list(range(18, 37))}
+CALC = {4: [('Total de horas a la semana de la jornada laboral', 'Horas efectivas y de presencia por semana, según los turnos de la jornada')],
+        5: [('Diferencias salariales de los meses', 'Total de la tabla 1'), ('Diferencia del mes del alta en la Seguridad Social', 'Tabla propia del mes del alta'),
+            ('Diferencia del último mes trabajado', 'Tabla propia del último mes'), ('Pagas extra', 'Pagas extra pendientes'),
+            ('Vacaciones', 'Total de la tabla 2'), ('Otros', 'Otras cantidades adeudadas (− lo abonado al finalizar)'),
+            ('Total', 'Total principal'), ('Total + mora', 'Total pendiente con la mora del 10 %')],
+        6: [('Días disfrutados o pagados sin disfrutar', 'Según la forma de descontar elegida (días o dinero)')],
+        7: [('Descripción del fin de la relación laboral', 'Qué pasó, fecha y cómo se lo comunicaron')]}
+TIPOS_PRUEBA = next(x['ops'] for x in pasos[8]['items'] if x['label'] == 'Tipo')
+rk = wb.create_sheet('Respuestas clave', 1)
+rk['A1'] = 'Respuestas clave de la ficha'
+rk['A1'].font = ft
+rk['A2'] = ('Las preguntas que el despacho quiere ver de un vistazo. Rellene la columna amarilla «Respuesta». '
+            '«Nº» es el número de la pregunta en la hoja de su bloque. Las filas «Dato calculado» las calcula la ficha.')
+rk['A2'].font, rk['A2'].alignment = fs, wrap
+rk.merge_cells('A2:G2')
+rk.row_dimensions[2].height = 30
+HK = [('Bloque', 22), ('Nº', 6), ('Grupo (repetible)', 22), ('Pregunta o dato', 46), ('Tipo', 22), ('Respuestas posibles / de dónde sale', 44), ('Respuesta', 40)]
+for c, (h, w) in enumerate(HK, 1):
+    cell = rk.cell(row=4, column=c, value=h)
+    cell.font, cell.fill, cell.alignment = fh, fill_h, Alignment(wrap_text=True, vertical='center')
+    rk.column_dimensions[cell.column_letter].width = w
+fill_in = PatternFill('solid', fgColor='FFF2CC')
+r = 5
+def fila(vals):
+    global r
+    for c, v in enumerate(vals, 1):
+        cell = rk.cell(row=r, column=c, value=v)
+        cell.font, cell.alignment = fb, wrap
+    rk.cell(row=r, column=7).fill = fill_in
+    r += 1
+for pq in pasos:
+    blo = f"{pq['paso']} {pq['nombre']}"
+    for n in SEL.get(pq['paso'], []):
+        x = pq['items'][n - 1]
+        fila([blo, n, x['grupo'], x['label'], x['tipo'], '\n'.join(x['ops']), None])
+    for lab, de in CALC.get(pq['paso'], []):
+        fila([blo, None, None, lab, 'Dato calculado', de, None])
+    if pq['paso'] == 8:
+        for t in TIPOS_PRUEBA:
+            fila([blo, None, 'Checklist de tipo de pruebas', t, 'Sí / No', '¿Hay alguna prueba de este tipo?', None])
+tk = Table(displayName='RespuestasClave', ref=f'A4:G{r-1}')
+tk.tableStyleInfo = TableStyleInfo(name='TableStyleLight9', showRowStripes=False)
+rk.add_table(tk)
+rk.freeze_panes = 'E5'
+from openpyxl.worksheet.datavalidation import DataValidation
+dv = DataValidation(type='list', formula1='"Sí,No"', allow_blank=True)
+rk.add_data_validation(dv)
+for rr in range(5, r):
+    if rk.cell(row=rr, column=5).value == 'Sí / No':
+        dv.add(rk.cell(row=rr, column=7))
+idx.cell(row=4, column=4, value='Respuestas clave').font = fh
+idx.cell(row=4, column=4).fill = fill_h
+idx.column_dimensions['D'].width = 22
+lk = idx.cell(row=5, column=4, value='Ver la hoja')
+lk.hyperlink = "#'Respuestas clave'!A1"
+lk.font = Font(name=F, size=10, color='0563C1', underline='single')
 wb.save(out)
 print('OK', out)
