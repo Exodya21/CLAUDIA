@@ -24,21 +24,21 @@
 
 ## Resto de condiciones
 
-- **Jornada:** 40 h semanales de lunes a viernes (art. 43). La jornada anual es de 1.736 h: el art. 43 la fija para 2017-2018 y remite después al convenio estatal; para 2025 y 2026 se deduce del precio de la hora extra (total anual / 1.736 = 15,76 €).
+- **Jornada:** 40 h semanales de lunes a viernes (art. 43 del provincial) y **1.736 h anuales** (art. 71 del VII Convenio General, durante toda su vigencia; cuadra con el precio de la hora extra: total anual / 1.736 = 15,76 €). Máximo 9 h ordinarias al día (art. 71.4).
 - **Horas extra (Anexo III y art. 24), peón ordinario 2026:** 15,76 €/h las diurnas en día laborable (col. I); 18,91 €/h las nocturnas (22 a 6 h), sábados, domingos y festivos (col. II). En 2025: 15,32 y 18,39 €.
-- **Pagas extra (arts. 14.1.4 y 17):** dos, con el importe fijo de la tabla. Junio se devenga del 1-1 al 30-6 y Navidad del 1-7 al 31-12, por días naturales. **Prohibido prorratearlas o pagar «salario global» (art. 17.6):** si se prorratean, se consideran salario ordinario del mes. En la ficha: pagas por separado.
+- **Pagas extra (arts. 14.1.4 y 17):** dos, con el importe fijo de la tabla. Junio se devenga del 1-1 al 30-6 y Navidad del 1-7 al 31-12, por días naturales. **Prohibido prorratearlas o pagar «salario global» (art. 17.6 del provincial y art. 61 del VII Convenio General):** si se prorratean, se consideran salario ordinario del mes. En la ficha: pagas por separado.
 - **Vacaciones (art. 46):** 30 días naturales (21 laborables), con el importe fijo de la tabla. La incapacidad temporal cuenta como tiempo trabajado.
-- **Incapacidad temporal (art. 28):**
-  - Hospitalización: complemento del 25 % de la base reguladora durante el ingreso y una convalecencia igual (máximo 100 días).
+- **Incapacidad temporal (art. 28 del provincial y art. 70 del VII Convenio General):**
+  - Hospitalización (enfermedad o accidente, laboral o no): el VII Convenio General garantiza el **100 % del salario base y los pluses salariales** durante la hospitalización y los 60 días siguientes; el provincial da un 25 % de la base reguladora hasta 100 días de convalecencia. Se aplica lo más favorable.
   - Accidente de trabajo sin hospitalización: garantía de salario base + plus de convenio + antigüedad, desde el día 16 y hasta 80 días, en bajas de 15 días o más.
   - Primera baja del año: 100 % de la base reguladora los 3 primeros días.
 - **Preaviso al dimitir (art. 38):** personal obrero 1 semana; empleados y encargados 1 mes; técnicos titulados 2 meses, por escrito. Si no se cumple, se descuentan en la liquidación los días u horas no preavisados.
 - **Antigüedad (art. 18):** solo la consolidada a 19-1-1997, «ad personam». No se generan trienios nuevos.
-- **Clasificación (art. 50):** remite a los Anexos X y XI del VI Convenio General; las tablas actuales ya usan los grupos del VII.
+- **Clasificación:** peón ordinario = **Grupo 1, nivel XII**, área de producción (art. 30 y Anexo XI del VII Convenio General; el art. 50 del provincial remite a esos anexos).
 - **Otros:** dietas (art. 52), locomoción (art. 53), ropa de trabajo (art. 57), plan de pensiones 2026 (peón ordinario, 558,65 € al año, según las tablas).
 
 ## Por verificar
 
 - Tablas de 2025 y 2026 provisionales (cláusula de garantía salarial).
-- VII Convenio General (BOE-A-2023-19903 y erratas BOE-A-2024-426): no se ha podido leer porque `www.boe.es` no está permitido en la sesión. Hace falta para la jornada anual exacta y para lo que regula el estatal (art. 66 sobre incapacidad temporal, clasificación).
+- VII Convenio General leído en el BOE (BOE-A-2023-19903, `../99005585011900-vii-convenio-general-construccion/`), con la corrección de erratas BOE-A-2024-426, que no afecta a los artículos usados. No se ha leído la modificación de noviembre de 2025 (BOE 10-12-2025), que afecta a las tablas.
 - Encaje en peón ordinario o especialista según las funciones reales.

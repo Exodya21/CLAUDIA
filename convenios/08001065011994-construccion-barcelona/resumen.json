@@ -3,7 +3,7 @@
   "nombre": "Convenio colectivo de trabajo del sector de la Construcción y Obras Públicas de la provincia de Barcelona",
   "codigo": "08001065011994",
   "ambito": "provincial — Barcelona (art. 2)",
-  "vigencia": "1-1-2017 a 31-12-2021 (arts. 4 y 5), prorrogado (art. 6); tablas 2025 y 2026 provisionales (acta Comisión Paritaria 16-12-2025)",
+  "vigencia": "1-1-2017 a 31-12-2021 (arts. 4 y 5), prorrogado (art. 6); tablas 2025 y 2026 provisionales (acta Comisión Paritaria 16-12-2025) · VII Convenio General: BOE 23-9-2023 (BOE-A-2023-19903), erratas BOE-A-2024-426, modificación BOE 10-12-2025",
   "publicacion": "Texto: BOPB 29-3-2019. Tablas 2026: BOPB 17-3-2026 (Resolución de 6-3-2026)",
   "enlace": "https://bop.diba.cat/anunci/3909929"
  },
@@ -80,25 +80,25 @@
   "anual_horas": 1736,
   "semanal_horas": 40,
   "horas_extra": "Peón ordinario 2026: 15,76 €/h (col. I, diurnas laborables) y 18,91 €/h (col. II, nocturnas, sábados, domingos y festivos); 2025: 15,32 y 18,39",
-  "articulo": "art. 43 (40 h semanales; 1.736 h anuales en 2017-2018 y después según el convenio estatal) y art. 24 / Anexo III"
+  "articulo": "art. 43 del convenio provincial (40 h semanales, lunes a viernes) y art. 71 del VII Convenio General (1.736 h anuales y 40 h semanales durante su vigencia); Anexo III y art. 24 (horas extra)"
  },
  "pagas_extra": {
   "numero": 2,
   "cuantia": "importe fijo de la tabla: 2.199,47 € cada una en 2026 (2.135,41 € en 2025) para el peón ordinario",
   "devengo": "por días naturales: junio, del 1-1 al 30-6; Navidad, del 1-7 al 31-12; se pagan antes del 30-6 y del 20-12",
   "prorrateables": false,
-  "articulo": "arts. 14.1.4 y 17 (el 17.6 prohíbe el «salario global» y el prorrateo de pagas y vacaciones)"
+  "articulo": "arts. 14.1.4 y 17 del provincial (el 17.6 prohíbe el «salario global» y el prorrateo) y art. 61 del VII Convenio General"
  },
  "vacaciones": {
   "dias": 30,
   "tipo": "naturales",
   "base_calculo": "importe fijo de la tabla (2.199,47 € al año en 2026 para el peón ordinario), 21 de los 30 días laborables",
-  "articulo": "art. 46 y Anexo I-A"
+  "articulo": "art. 46 del provincial y art. 76 del VII Convenio General; importe en el Anexo I-A"
  },
  "incapacidad_temporal": {
-  "enfermedad": "hospitalización: complemento del 25 % de la base reguladora durante el ingreso y una convalecencia igual (máx. 100 días); primera baja del año: 100 % de la base reguladora los 3 primeros días",
-  "accidente": "accidente de trabajo sin hospitalización: garantía de salario base + plus de convenio + antigüedad desde el día 16 hasta 80 días (bajas de 15 días o más); con hospitalización, como en enfermedad",
-  "articulo": "art. 28"
+  "enfermedad": "hospitalización por cualquier contingencia: el VII Convenio General (art. 70) garantiza el 100 % del salario base y pluses salariales durante la hospitalización y los 60 días siguientes; el provincial (art. 28.1) da un 25 % de la base reguladora hasta 100 días de convalecencia (se aplica lo más favorable); primera baja del año: 100 % de la base reguladora los 3 primeros días (art. 28.7)",
+  "accidente": "accidente de trabajo sin hospitalización: garantía de salario base + plus de convenio + antigüedad desde el día 16 y hasta 80 días, en bajas de 15 días o más (art. 28.2 del provincial)",
+  "articulo": "art. 28 del provincial y art. 70 del VII Convenio General"
  },
  "preaviso": {
   "dias_por_grupo": "personal obrero: 1 semana; empleados y encargados: 1 mes; técnicos titulados: 2 meses (por escrito)",
@@ -106,14 +106,13 @@
   "articulo": "art. 38"
  },
  "otros": [
-  "Clasificación profesional: remite a los Anexos X y XI del VI Convenio General de la Construcción (art. 50); las tablas de 2025 y 2026 ya usan los grupos del VII Convenio General (peón ordinario, Grupo 1)",
+  "Clasificación: art. 30 y Anexo XI del VII Convenio General: peón ordinario, Grupo 1, nivel XII (área de producción); el art. 50 del provincial remite a los anexos del Convenio General",
   "Salario base por día natural (335 días al año) y plus de convenio por día trabajado (art. 14 y fórmula del art. 15)",
   "Dietas (art. 52), locomoción (art. 53), ropa de trabajo (art. 57)"
  ],
  "no_encontrado": [],
  "por_verificar": [
   "Las tablas de 2025 y 2026 son provisionales, pendientes de la cláusula de garantía salarial (acta de 16-12-2025)",
-  "La jornada anual de 2025 y 2026 (1.736 h) se deduce del precio de la hora extra (total anual / 1.736) y de fuentes secundarias; el art. 43 remite al convenio estatal, que no se ha podido leer porque www.boe.es no está permitido en esta sesión",
   "El encaje en peón ordinario o especialista depende de las funciones reales"
  ]
 }
