@@ -249,6 +249,8 @@ table.x-tbl{border-collapse:collapse;width:100%;font-size:12.5px}
 .x-modal textarea{flex:1;min-height:280px;font-family:var(--f-mono);font-size:12px}
 @media (prefers-reduced-motion:no-preference){.x-o,.x-btn,.x-step,.x-chip{transition:background .12s,border-color .12s,color .12s}}
 .x-sug{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.fc-imp{transition:border-color .12s,background .12s}
+.fc-imp.fc-drop{border:2px dashed var(--accent);background:var(--accent-soft)}
 .x-sug:empty{display:none}
 .fc-ct{grid-column:1/-1;font-weight:700;font-size:13.5px}
 .fc-tramo{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-bottom:4px}
@@ -3568,7 +3570,7 @@ FC.impCard=()=>{const c=FC.st.c,I=c.imp;const E=FC.evaluate(FC.st);
  if(FC.smp===null)h+=`<p class="x-help">Esta opción solo funciona con la ficha abierta en claude.ai: allí Claude lee el Word y rellena las preguntas.</p>`;
  else if(FC.smp===undefined)h+=`<p class="x-help">Comprobando si Claude está disponible…</p>`;
  else if(FC.impBusy)h+=`<p><b>${esc(FC.impBusy)}</b></p><div class="x-row"><button class="x-btn sm" type="button" id="fcImpStop">Detener</button></div>`;
- else h+=`<p class="x-help">Suba la ficha del cliente en Word (.docx). Claude la lee y responde todas las preguntas que pueda; solo rellena las que estén vacías. Después se listan las que no se han podido responder. Revise siempre lo rellenado. Prototipo: use solo fichas con datos inventados.</p><div class="x-row"><label class="x-btn pri" for="fcImpFile" style="cursor:pointer">Subir ficha en Word</label><input type="file" id="fcImpFile" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden></div>`;
+ else h+=`<p class="x-help">Suba la ficha del cliente en Word (.docx). Claude la lee y responde todas las preguntas que pueda; solo rellena las que estén vacías. Después se listan las que no se han podido responder. Revise siempre lo rellenado. Prototipo: use solo fichas con datos inventados.</p><div class="x-row"><label class="x-btn pri" for="fcImpFile" style="cursor:pointer">Subir ficha en Word</label><span class="x-lead">o arrastre el archivo y suéltelo en este recuadro</span><input type="file" id="fcImpFile" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden></div>`;
  if(I){h+=`<p class="x-lead">Rellenada desde «${esc(I.archivo)}» el ${esc(I.fecha)}: ${I.ok.length} respuestas.</p>`;
   const pasos=[...new Set(E.inc.map(i=>i.s))].sort((a,b)=>a-b);
   h+=`<h3 class="x-h3">Preguntas obligatorias sin responder (${E.inc.length})</h3>${E.inc.length?pasos.map(s=>`<div><button class="x-link" type="button" data-step="${s}"><b>${esc(FC.STEPS[s])}</b></button><ul class="x-mini">${E.inc.filter(i=>i.s===s).map(i=>`<li class="w">${esc(i.l)}</li>`).join('')}</ul></div>`).join(''):'<p class="x-empty">Ninguna.</p>'}`;
@@ -3585,6 +3587,13 @@ async function importar(file){const c=FC.st.c;if(!/\.docx$/i.test(file.name)){SF
  catch(e){FC.impBusy=null;FC.render();if(e&&e.code==='cancelled')return;SF.toast(ERR[e&&e.code]||'No se ha podido completar. Pruebe otra vez más tarde.',1);}
  finally{ctl=null;}}
 document.addEventListener('change',e=>{if(e.target&&e.target.id==='fcImpFile'&&e.target.files&&e.target.files[0])importar(e.target.files[0]);});
+/* arrastrar y soltar el Word sobre el recuadro */
+const zona=e=>e.target&&e.target.closest?e.target.closest('.fc-imp'):null;const conArchivo=e=>e.dataTransfer&&[...(e.dataTransfer.types||[])].includes('Files');
+document.addEventListener('dragover',e=>{const z=zona(e);if(!z||!conArchivo(e))return;e.preventDefault();e.dataTransfer.dropEffect=FC.smp&&!FC.impBusy?'copy':'none';z.classList.add('fc-drop');});
+document.addEventListener('dragleave',e=>{const z=zona(e);if(z&&!z.contains(e.relatedTarget))z.classList.remove('fc-drop');});
+document.addEventListener('drop',e=>{const z=zona(e);if(!z||!conArchivo(e))return;e.preventDefault();z.classList.remove('fc-drop');
+ if(!FC.smp){SF.toast('Rellenar desde Word solo funciona con la ficha abierta en claude.ai',1);return;}if(FC.impBusy){SF.toast('Espere a que termine la lectura anterior',1);return;}
+ const fs=[...(e.dataTransfer.files||[])];if(fs.length>1)SF.toast('Se ha soltado más de un archivo: se usa el primero');if(fs[0])importar(fs[0]);});
 document.addEventListener('click',e=>{const t=e.target;if(!t||!t.id)return;if(t.id==='fcImpStop'&&ctl)ctl.abort();if(t.id==='fcImpClose'){delete FC.st.c.imp;FC.render();}});
 })();
 
