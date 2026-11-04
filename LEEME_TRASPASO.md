@@ -50,7 +50,7 @@ Es un **prototipo con datos ficticios**:
 
 **Pruebas automáticas:**
 
-- Hay 123 y deben pasar todas.
+- Hay 129 y deben pasar todas.
 - Para ejecutarlas, abrir la consola del navegador y escribir `SF.runTests()`, o ejecutar `node pruebas/prueba_navegador_simulado.js`, que necesita `npm i jsdom`.
 
 ## 3. Pasos de la ficha (orden actual)
@@ -125,6 +125,19 @@ Es un **prototipo con datos ficticios**:
     - copia con formato y texto plano.
 
 En cada pregunta hay «No lo sabe», «Añadir explicación libre» y marca de obligatoria.
+
+## 3 bis. Ficha B · Régimen general sin papeles (motor de la ficha C)
+
+- **Mismo motor que la C** (`st.c.reg='general'`): mismas preguntas, cálculos y Word, salvo lo propio del hogar (presencia, internas, tareas y personas cuidadas, llaves de la vivienda, RD 1620/2011). Las fichas B antiguas (versión 1) se siguen abriendo con el formulario anterior.
+- **Paso 2 «Empresa y lugares»:** empresa (razón social, CIF validado, actividad, CNAE, administrador y domicilio social) o persona física; horas del contrato y del alta.
+- **Paso 3 «Puesto y convenio»:** cargo, funciones reales y categoría de la nómina; personas del trabajo; bloque **Convenio colectivo**:
+  1. Identificar: actividad, CNAE, convenio de la nómina, código. Botón «Copiar la petición» para buscarlo con Claude Code (skill `convenio-colectivo-aplicable`): la página no tiene internet.
+  2. Cargar: importar el `resumen.json` de la skill `convenio-a-markdown`, o leer el PDF/Word/texto del convenio con Claude dentro de la página (pdf.js + capacidad `sample`; solo las partes relevantes, hasta ~140.000 caracteres).
+  3. Comprobar: cada bloque (convenio, categoría, tablas, jornada, pagas, vacaciones, IT, preaviso) con su casilla «Comprobado»; si faltan, aviso en la banda.
+  4. Lo que debía percibir por año: convenio o SMI, con prorrata, sin pagas, pagas y anual.
+- **Cálculo:** al mes, lo mayor entre la tabla del convenio de su categoría (base + pluses + prorrata de pagas, o anual / 12) y el SMI en cómputo anual (`FC.salB`); por la parte de jornada respecto a la del convenio (`FC.fracB`, máximo 1); meses incompletos entre 30. Pagas: prorrateadas o por separado (por separado por defecto si el convenio no permite prorratearlas), con el número e importe de pagas del convenio. Vacaciones: días del convenio (30 por defecto) × días trabajados / 360, base = salario mensual con prorrata (o importe fijo de las tablas).
+- **Papeleta B:** sigue `datos/Papeleta ejemplo régimen general (plantilla).docx` (mercantil con CIF y administrador; salario por conceptos o anual; contratación irregular y alta posterior; jornada y obras; salario percibido; despido verbal o por carta; burofax; despido improcedente arts. 55.1 ET y 108 LRJS; cantidades según el convenio con tablas de diferencias, pagas y vacaciones; acumulación; representación sindical). Lo que no está en la plantilla sale como variante nueva.
+- **Pendiente en la B:** el relleno desde Word todavía usa las preguntas de la C; horas extra no se reclaman aparte (solo aviso); antigüedad y pluses por día no se calculan.
 
 ## 4. Reglas de cálculo (no cambiar sin validar con el abogado)
 
