@@ -20,7 +20,7 @@
 - Por día (2026): salario base 34,51 €, plus de convenio 34,96 €, transporte 7,40 €: **76,87 € por día trabajado**; sábados, domingos y festivos, 34,51 €.
 - **Peón especialista** (Grupo 2), 2026: 27.824,43 € al año. El encaje depende de las funciones reales.
 - **SMI:** 2026, 17.094 € al año (1.221 × 14); 2025, 16.576 €. Sin el plus extrasalarial, el convenio da 25.745,08 € en 2026: está muy por encima del SMI, así que manda el convenio.
-- **Para la ficha (al mes, sin contar dos veces vacaciones y pagas):** base + plus de convenio 1.595,56 € (2026) y 1.549,08 € (2025); transporte 133,89 €; 2 pagas de 2.199,47 € (2.135,41 €); vacaciones 2.199,47 € (2.135,41 €).
+- **Para la ficha (al mes, sin contar dos veces vacaciones y pagas):** salario base 963,33 € (2026) y 935,27 € (2025); pluses (convenio + transporte) 766,12 € (2026) y 747,70 € (2025); 2 pagas de 2.199,47 € (2.135,41 €); vacaciones 2.199,47 € (2.135,41 €).
 
 ## Resto de condiciones
 
