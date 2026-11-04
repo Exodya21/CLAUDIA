@@ -48,12 +48,14 @@ Busca y anota, con **artículo (o anexo) y cita literal breve** de cada dato:
 | Preaviso | días de preaviso de la persona trabajadora al dimitir según grupo y **penalización** si no se cumple (descuento en la liquidación); también el preaviso de la empresa si lo regula |
 | Otros | indemnizaciones propias, ropa de trabajo, dietas, permisos retribuidos que mejoren el ET |
 
+Si el salario está fijado **por días** (por ejemplo, en construcción: salario base por día natural, pluses por día trabajado), pásalo a cifras mensuales sin contar dos veces las vacaciones ni las pagas: `base_mensual` = (salario base anual + pluses salariales anuales) / 12; `pluses_mensuales` = pluses extrasalariales anuales / 12; `paga_importe` = importe de cada paga extra de la tabla; `vacaciones_importe` = importe anual de las vacaciones de la tabla. Comprueba que base_mensual × 12 + pluses_mensuales × 12 + pagas × paga_importe + vacaciones_importe = total anual de la tabla.
+
 Escribe dos archivos en la carpeta del convenio:
 - `resumen.md`: los datos de la tabla anterior en lenguaje claro, con su artículo, y una lista de lo que **no aparece** o está **por verificar** (por ejemplo, tablas del año en curso no publicadas).
 - `resumen.json`: los mismos datos en este formato, para cargarlos después en la ficha B:
   ```json
   {"convenio":{"nombre":"","codigo":"","ambito":"","vigencia":"","publicacion":"","enlace":""},
-   "categorias":[{"grupo":"","categoria":"","funciones":"","salario":{"2026":{"base_mensual":0,"pagas":14,"anual":0}},"articulo":""}],
+   "categorias":[{"grupo":"","categoria":"","funciones":"","salario":{"2026":{"base_mensual":0,"pluses_mensuales":0,"pagas":14,"paga_importe":0,"vacaciones_importe":0,"anual":0}},"articulo":""}],
    "pluses":[{"nombre":"","cuantia":"","tipo":"salarial|extrasalarial","en_vacaciones":true,"en_pagas":false,"articulo":""}],
    "jornada":{"anual_horas":0,"semanal_horas":0,"horas_extra":"","articulo":""},
    "pagas_extra":{"numero":0,"cuantia":"","devengo":"","prorrateables":true,"articulo":""},
