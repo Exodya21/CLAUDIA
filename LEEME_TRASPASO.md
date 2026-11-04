@@ -50,7 +50,7 @@ Es un **prototipo con datos ficticios**:
 
 **Pruebas automáticas:**
 
-- Hay 129 y deben pasar todas.
+- Hay 131 y deben pasar todas.
 - Para ejecutarlas, abrir la consola del navegador y escribir `SF.runTests()`, o ejecutar `node pruebas/prueba_navegador_simulado.js`, que necesita `npm i jsdom`.
 
 ## 3. Pasos de la ficha (orden actual)
@@ -130,6 +130,9 @@ En cada pregunta hay «No lo sabe», «Añadir explicación libre» y marca de o
 
 - **Mismo motor que la C** (`st.c.reg='general'`): mismas preguntas, cálculos y Word, salvo lo propio del hogar (presencia, internas, tareas y personas cuidadas, llaves de la vivienda, RD 1620/2011). Las fichas B antiguas (versión 1) se siguen abriendo con el formulario anterior.
 - **Paso 2 «Empresa y lugares»:** empresa (razón social, CIF validado, actividad, CNAE, administrador y domicilio social) o persona física; horas del contrato y del alta.
+- **Datos de la empresa por CIF:** con un CIF válido aparecen «Buscar este CIF en axesor» (abre la búsqueda en el navegador de quien rellena la ficha) y «Pegar la ficha de axesor»: se pega el texto de la página de la empresa y Claude rellena razón social, domicilio social, CNAE, actividad y administrador (solo lo vacío; avisa si el CIF no coincide). No se consulta axesor de forma automática: su protección antibots rechaza las peticiones automáticas y la página no tiene internet.
+- **Convenios de la app:** `herramientas/construir.py` mete en la página cada `convenios/<carpeta>/resumen.json` (`window.CONVENIOS`). En «¿Qué convenio pone en la nómina…?» la lista se filtra al escribir (sin distinguir tildes ni mayúsculas, por nombre, código o ámbito) y «Cargar los datos de este convenio» importa su resumen. Para añadir un convenio: procesarlo con la skill `convenio-a-markdown` en su carpeta y volver a construir.
+- **Altas y lugares de trabajo (ficha B):** «¿Qué empleadores…?» ofrece también las empresas (razón social y CIF), no solo las personas.
 - **Paso 3 «Puesto y convenio»:** cargo, funciones reales y categoría de la nómina; personas del trabajo; bloque **Convenio colectivo**:
   1. Identificar: actividad, CNAE, convenio de la nómina, código. Botón «Copiar la petición» para buscarlo con Claude Code (skill `convenio-colectivo-aplicable`): la página no tiene internet.
   2. Cargar: importar el `resumen.json` de la skill `convenio-a-markdown`, o leer el PDF/Word/texto del convenio con Claude dentro de la página (pdf.js + capacidad `sample`; solo las partes relevantes, hasta ~140.000 caracteres).
