@@ -186,6 +186,13 @@ FC.cifCheck=v=>{const n=String(v||'').toUpperCase().replace(/[\s.\-]/g,'');if(!n
 /* NIF de una persona física (autónomo): DNI o NIE, con su letra de control */
 FC.nifCheck=v=>{const n=String(v||'').toUpperCase().replace(/[\s.\-]/g,'');if(!n)return '';return FC.docCheck(/^[XYZ]/.test(n)?'NIE':'DNI',n);};
 FC.newB=()=>{const st=FC.newC();st.tipo='B';const c=st.c;c.reg='general';c.conv=FC.convVacio();c.puesto={categoria:'',funciones:'',nomina:''};c.rel.horasContrato='';c.rel.horasAlta='';return st;};
+/* justificación del convenio aplicable, por su ámbito funcional y territorial (papeleta B) */
+FC.convJustTexto=c=>{const K=c.conv||{},J=K.just||{},g=(f,m)=>FC.gen(c,f,m),tr=g('la trabajadora','el trabajador');const e0=c.empleadores[0]||{};const L=c.lugares.filter(l=>!FC.dirVacia(l.dir));const mun=[...new Set(L.map(l=>{const m=FC.mun(l.dir.codm);return m?m.name:(l.dir.munq||'');}).filter(Boolean))];
+ const est=K.aplicado==='estatal';const nom=est&&K.estatal?K.estatal.nombre:(K.nombre||'el convenio colectivo aplicable'),cod=est&&K.estatal?K.estatal.codigo:K.codigo;const act=(e0.actividad||K.actividad||'').trim(),cat=(K.categoria||(c.puesto||{}).categoria||'').trim(),fun=((c.puesto||{}).funciones||'').trim().replace(/\.$/,'');
+ let t=`Resulta de aplicación a la relación laboral el ${nom}${cod?` (código de convenio ${cod})`:''}, por cuanto su ámbito funcional comprende ${J.funcional||'la actividad desarrollada por la empresa'}${act?`, actividad a la que se dedica la mercantil (${act})`:''} y en la que se encuadran las funciones desempeñadas por ${tr}${cat?` como ${cat.toLowerCase()}`:''}${fun?` (${fun})`:''}`;
+ t+=est?`, siendo de ámbito estatal`:`, y su ámbito territorial se extiende a ${J.territorial||'la provincia en la que radica el centro de trabajo'}, donde ${tr} prestaba sus servicios${mun.length?` (${listY(mun)})`:''}`;
+ if(!est&&K.estatal)t+=`. Dicho convenio se articula con el ${K.estatal.nombre} (código de convenio ${K.estatal.codigo}), conforme al artículo 83.2 del Estatuto de los Trabajadores, y resulta de aplicación en todo aquello en que mejora las condiciones de este`;
+ return t+', sin que en ningún caso puedan aplicarse condiciones inferiores a las establecidas en el Estatuto de los Trabajadores.';};
 FC.jornB=c=>numS((c.conv||{}).jornadaSemanal)||40;
 FC.fracB=(c,efw)=>Math.min(1,(efw||0)/FC.jornB(c));
 FC.esInterna=c=>!FC.esB(c)&&c.periodos.some(p=>p.modalidad==='interna'||p.modalidad==='mixta');
@@ -424,6 +431,7 @@ FC.pap=(st,hoy)=>{hoy=hoy||today();const c=st.c,E=FC.evaluate(st,hoy),T1=E.T1,T2
   const yFin=+(FC.endRel(c)||hoy).slice(0,4);const D=FC.salB(st,yFin);const eI=x=>Number.isInteger(Math.round(x*100)/100)?Math.round(x).toLocaleString('es-ES'):eurN(x);
   /* PRIMERO */
   const P1=[p(`${TR} inició su relación laboral con ${LM} en fecha ${dmy(c.rel.inicio)||P('fecha de inicio')}.`),p(`Que ${g('la misma','el mismo')} fue ${g('contratada','contratado')} como ⟪${up(K.categoria||(c.puesto||{}).categoria)||P('categoría')}${K.grupo||K.nivel?' ('+[K.grupo,K.nivel].filter(Boolean).map(up).join(', ')+')':''}⟫ según clasificación profesional establecida en el ${convN}.`)];
+  if(K.nombre)P1.push(p((K.justificacion||'').trim()||FC.convJustTexto(c),'nuevo'));
   if(!D)P1.push(p(P('salario: SMI del año sin verificar'),'pend'));
   else if(D.fuente==='convenio'&&D.T&&numS(D.T.base)!=null){const T=D.T;const L=[`Salario base: ⟪${eurN(numS(T.base))} €⟫`];const plN=String(K.pluses||'').split('\n').map(l=>l.split(':')[0].replace(/\s*\(.*$/,'').trim()).filter(Boolean);if(numS(T.pluses))L.push(`Pluses y complementos del convenio${plN.length?' ('+listY(plN.map(x=>x.charAt(0).toLowerCase()+x.slice(1))).replace(/\.$/,'')+')':''}: ⟪${eurN(numS(T.pluses))} €⟫`);if(!sepB)L.push(`Prorrata de gratificaciones extraordinarias: ⟪${eurN(D.N*D.paga/12)} €⟫`);
    P1.push(p(`De conformidad con los anexos de las tablas salariales del citado convenio, ${tr} tenía derecho a percibir mensualmente los siguientes conceptos:`));P1.push({lista:L,st:'ok'});
