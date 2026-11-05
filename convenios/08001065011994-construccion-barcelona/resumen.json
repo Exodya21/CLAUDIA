@@ -10,8 +10,8 @@
  "categorias": [
   {
    "grupo": "Grupo 1",
-   "categoria": "Peón ordinario",
-   "funciones": "Producción y actividades asimiladas",
+   "categoria": "Peón Ordinario",
+   "funciones": "Área funcional: Producción y Actividades asimiladas",
    "salario": {
     "2025": {
      "base_mensual": 935.27,
@@ -35,10 +35,175 @@
    "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
   },
   {
-   "grupo": "Grupo 2",
-   "categoria": "Peón especialista",
-   "funciones": "Producción y actividades asimiladas",
+   "grupo": "Grupo 1",
+   "categoria": "Ordenanza",
+   "funciones": "Área funcional: Servicios transversales",
    "salario": {
+    "2025": {
+     "base_mensual": 888.53,
+     "pluses_mensuales": 681.47,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2059.19,
+     "vacaciones_importe": 2059.19,
+     "anual": 25017.62
+    },
+    "2026": {
+     "base_mensual": 915.19,
+     "pluses_mensuales": 697.9,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2120.97,
+     "vacaciones_importe": 2120.97,
+     "anual": 25719.96
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 1",
+   "categoria": "Portero",
+   "funciones": "Área funcional: Servicios transversales",
+   "salario": {
+    "2025": {
+     "base_mensual": 888.53,
+     "pluses_mensuales": 681.47,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2059.19,
+     "vacaciones_importe": 2059.19,
+     "anual": 25017.62
+    },
+    "2026": {
+     "base_mensual": 915.19,
+     "pluses_mensuales": 697.9,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2120.97,
+     "vacaciones_importe": 2120.97,
+     "anual": 25719.96
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 1",
+   "categoria": "Telefonista",
+   "funciones": "Área funcional: Servicios transversales",
+   "salario": {
+    "2025": {
+     "base_mensual": 888.53,
+     "pluses_mensuales": 681.47,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2059.19,
+     "vacaciones_importe": 2059.19,
+     "anual": 25017.62
+    },
+    "2026": {
+     "base_mensual": 915.19,
+     "pluses_mensuales": 697.9,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2120.97,
+     "vacaciones_importe": 2120.97,
+     "anual": 25719.96
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 2",
+   "categoria": "Calcador",
+   "funciones": "Área funcional: Gestión técnica, diseño y planificación",
+   "salario": {
+    "2025": {
+     "base_mensual": 888.53,
+     "pluses_mensuales": 681.47,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2059.19,
+     "vacaciones_importe": 2059.19,
+     "anual": 25017.62
+    },
+    "2026": {
+     "base_mensual": 915.19,
+     "pluses_mensuales": 697.9,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2120.97,
+     "vacaciones_importe": 2120.97,
+     "anual": 25719.96
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 2",
+   "categoria": "Ayudante",
+   "funciones": "Área funcional: Producción y Actividades asimiladas",
+   "salario": {
+    "2025": {
+     "base_mensual": 967.91,
+     "pluses_mensuales": 776.66,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2216.81,
+     "vacaciones_importe": 2216.81,
+     "anual": 27585.22
+    },
+    "2026": {
+     "base_mensual": 996.95,
+     "pluses_mensuales": 795.74,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2283.31,
+     "vacaciones_importe": 2283.31,
+     "anual": 28362.17
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 2",
+   "categoria": "Ayudante Topografía",
+   "funciones": "Área funcional: Producción y Actividades asimiladas",
+   "salario": {
+    "2025": {
+     "base_mensual": 888.53,
+     "pluses_mensuales": 681.47,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2059.19,
+     "vacaciones_importe": 2059.19,
+     "anual": 25017.62
+    },
+    "2026": {
+     "base_mensual": 915.19,
+     "pluses_mensuales": 697.9,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2120.97,
+     "vacaciones_importe": 2120.97,
+     "anual": 25719.96
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 2",
+   "categoria": "Peón Especialista",
+   "funciones": "Área funcional: Producción y Actividades asimiladas",
+   "salario": {
+    "2025": {
+     "base_mensual": 946.26,
+     "pluses_mensuales": 764.89,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2176.42,
+     "vacaciones_importe": 2176.42,
+     "anual": 27063.13
+    },
     "2026": {
      "base_mensual": 974.65,
      "pluses_mensuales": 783.62,
@@ -47,6 +212,1306 @@
      "paga_importe": 2241.71,
      "vacaciones_importe": 2241.71,
      "anual": 27824.43
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 2",
+   "categoria": "Almacenero Almacén Central",
+   "funciones": "Área funcional: Servicios transversales",
+   "salario": {
+    "2025": {
+     "base_mensual": 1022.86,
+     "pluses_mensuales": 795.87,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2299.56,
+     "vacaciones_importe": 2299.56,
+     "anual": 28723.47
+    },
+    "2026": {
+     "base_mensual": 1053.55,
+     "pluses_mensuales": 815.73,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2368.55,
+     "vacaciones_importe": 2368.55,
+     "anual": 29536.98
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 2",
+   "categoria": "Conserje",
+   "funciones": "Área funcional: Servicios transversales",
+   "salario": {
+    "2025": {
+     "base_mensual": 888.53,
+     "pluses_mensuales": 681.47,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2059.19,
+     "vacaciones_importe": 2059.19,
+     "anual": 25017.62
+    },
+    "2026": {
+     "base_mensual": 915.19,
+     "pluses_mensuales": 697.9,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2120.97,
+     "vacaciones_importe": 2120.97,
+     "anual": 25719.96
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 2",
+   "categoria": "Guarda Jurado",
+   "funciones": "Área funcional: Servicios transversales",
+   "salario": {
+    "2025": {
+     "base_mensual": 1000.38,
+     "pluses_mensuales": 783.61,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2256.89,
+     "vacaciones_importe": 2256.89,
+     "anual": 28178.53
+    },
+    "2026": {
+     "base_mensual": 1030.39,
+     "pluses_mensuales": 803.11,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2324.6,
+     "vacaciones_importe": 2324.6,
+     "anual": 28975.7
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 2",
+   "categoria": "Listero Almacenero",
+   "funciones": "Área funcional: Servicios transversales",
+   "salario": {
+    "2025": {
+     "base_mensual": 1000.25,
+     "pluses_mensuales": 782.08,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2255.06,
+     "vacaciones_importe": 2255.06,
+     "anual": 28153.11
+    },
+    "2026": {
+     "base_mensual": 1030.26,
+     "pluses_mensuales": 801.52,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2322.71,
+     "vacaciones_importe": 2322.71,
+     "anual": 28949.5
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 2",
+   "categoria": "Vendedor 1ª",
+   "funciones": "Área funcional: Servicios transversales",
+   "salario": {
+    "2025": {
+     "base_mensual": 1095.61,
+     "pluses_mensuales": 830.71,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2507.75,
+     "vacaciones_importe": 2507.75,
+     "anual": 30639.12
+    },
+    "2026": {
+     "base_mensual": 1128.48,
+     "pluses_mensuales": 850.72,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2582.98,
+     "vacaciones_importe": 2582.98,
+     "anual": 31499.34
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 2",
+   "categoria": "Vendedor 2ª",
+   "funciones": "Área funcional: Servicios transversales",
+   "salario": {
+    "2025": {
+     "base_mensual": 1006.38,
+     "pluses_mensuales": 738.89,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2277.46,
+     "vacaciones_importe": 2277.46,
+     "anual": 27775.68
+    },
+    "2026": {
+     "base_mensual": 1036.57,
+     "pluses_mensuales": 757.04,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2345.78,
+     "vacaciones_importe": 2345.78,
+     "anual": 28560.74
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 2",
+   "categoria": "Vigila. Taller o Almacén",
+   "funciones": "Área funcional: Servicios transversales",
+   "salario": {
+    "2025": {
+     "base_mensual": 934.84,
+     "pluses_mensuales": 748.69,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2137.21,
+     "vacaciones_importe": 2137.21,
+     "anual": 26614.05
+    },
+    "2026": {
+     "base_mensual": 962.89,
+     "pluses_mensuales": 767.14,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2201.33,
+     "vacaciones_importe": 2201.33,
+     "anual": 27364.28
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 3",
+   "categoria": "Auxiliar Organización",
+   "funciones": "Área funcional: Gestión técnica, diseño y planificación",
+   "salario": {
+    "2025": {
+     "base_mensual": 908.95,
+     "pluses_mensuales": 690.54,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2093.47,
+     "vacaciones_importe": 2093.47,
+     "anual": 25474.29
+    },
+    "2026": {
+     "base_mensual": 936.22,
+     "pluses_mensuales": 707.24,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2156.27,
+     "vacaciones_importe": 2156.27,
+     "anual": 26190.3
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 3",
+   "categoria": "Auxiliar Técnico de Obra",
+   "funciones": "Área funcional: Gestión técnica, diseño y planificación",
+   "salario": {
+    "2025": {
+     "base_mensual": 1131.45,
+     "pluses_mensuales": 851.62,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2499.99,
+     "vacaciones_importe": 2499.99,
+     "anual": 31296.87
+    },
+    "2026": {
+     "base_mensual": 1165.4,
+     "pluses_mensuales": 873.15,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2574.99,
+     "vacaciones_importe": 2574.99,
+     "anual": 32187.57
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 3",
+   "categoria": "Oficial 2ª",
+   "funciones": "Área funcional: Producción y Actividades asimiladas",
+   "salario": {
+    "2025": {
+     "base_mensual": 1036.44,
+     "pluses_mensuales": 813.18,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2344.03,
+     "vacaciones_importe": 2344.03,
+     "anual": 29227.51
+    },
+    "2026": {
+     "base_mensual": 1067.54,
+     "pluses_mensuales": 833.35,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2414.35,
+     "vacaciones_importe": 2414.35,
+     "anual": 30053.74
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 3",
+   "categoria": "Auxiliar Administrativo",
+   "funciones": "Área funcional: Servicios transversales",
+   "salario": {
+    "2025": {
+     "base_mensual": 908.95,
+     "pluses_mensuales": 690.54,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2093.47,
+     "vacaciones_importe": 2093.47,
+     "anual": 25474.29
+    },
+    "2026": {
+     "base_mensual": 936.22,
+     "pluses_mensuales": 707.24,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2156.27,
+     "vacaciones_importe": 2156.27,
+     "anual": 26190.3
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 3",
+   "categoria": "Auxiliar Administrativo de Obra",
+   "funciones": "Área funcional: Servicios transversales",
+   "salario": {
+    "2025": {
+     "base_mensual": 1087.47,
+     "pluses_mensuales": 841.04,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2432.85,
+     "vacaciones_importe": 2432.85,
+     "anual": 30440.75
+    },
+    "2026": {
+     "base_mensual": 1120.1,
+     "pluses_mensuales": 862.26,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2505.84,
+     "vacaciones_importe": 2505.84,
+     "anual": 31305.8
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 3",
+   "categoria": "Auxiliar Vendedor",
+   "funciones": "Área funcional: Servicios transversales",
+   "salario": {
+    "2025": {
+     "base_mensual": 908.95,
+     "pluses_mensuales": 690.54,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2093.47,
+     "vacaciones_importe": 2093.47,
+     "anual": 25474.29
+    },
+    "2026": {
+     "base_mensual": 936.22,
+     "pluses_mensuales": 707.24,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2156.27,
+     "vacaciones_importe": 2156.27,
+     "anual": 26190.3
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 3",
+   "categoria": "Cobrador",
+   "funciones": "Área funcional: Servicios transversales",
+   "salario": {
+    "2025": {
+     "base_mensual": 888.53,
+     "pluses_mensuales": 681.47,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2059.19,
+     "vacaciones_importe": 2059.19,
+     "anual": 25017.62
+    },
+    "2026": {
+     "base_mensual": 915.19,
+     "pluses_mensuales": 697.9,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2120.97,
+     "vacaciones_importe": 2120.97,
+     "anual": 25719.96
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 3",
+   "categoria": "Enfermero",
+   "funciones": "Área funcional: Servicios transversales",
+   "salario": {
+    "2025": {
+     "base_mensual": 888.53,
+     "pluses_mensuales": 681.47,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2059.19,
+     "vacaciones_importe": 2059.19,
+     "anual": 25017.62
+    },
+    "2026": {
+     "base_mensual": 915.19,
+     "pluses_mensuales": 697.9,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2120.97,
+     "vacaciones_importe": 2120.97,
+     "anual": 25719.96
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 4",
+   "categoria": "Delineante 1ª",
+   "funciones": "Área funcional: Gestión técnica, diseño y planificación",
+   "salario": {
+    "2025": {
+     "base_mensual": 1095.61,
+     "pluses_mensuales": 830.71,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2507.75,
+     "vacaciones_importe": 2507.75,
+     "anual": 30639.12
+    },
+    "2026": {
+     "base_mensual": 1128.48,
+     "pluses_mensuales": 850.72,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2582.98,
+     "vacaciones_importe": 2582.98,
+     "anual": 31499.34
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 4",
+   "categoria": "Delineante 2ª",
+   "funciones": "Área funcional: Gestión técnica, diseño y planificación",
+   "salario": {
+    "2025": {
+     "base_mensual": 1006.38,
+     "pluses_mensuales": 738.89,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2277.46,
+     "vacaciones_importe": 2277.46,
+     "anual": 27775.68
+    },
+    "2026": {
+     "base_mensual": 1036.57,
+     "pluses_mensuales": 757.04,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2345.78,
+     "vacaciones_importe": 2345.78,
+     "anual": 28560.74
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 4",
+   "categoria": "Técnico Organización 1ª",
+   "funciones": "Área funcional: Gestión técnica, diseño y planificación",
+   "salario": {
+    "2025": {
+     "base_mensual": 1095.61,
+     "pluses_mensuales": 830.71,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2507.75,
+     "vacaciones_importe": 2507.75,
+     "anual": 30639.12
+    },
+    "2026": {
+     "base_mensual": 1128.48,
+     "pluses_mensuales": 850.72,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2582.98,
+     "vacaciones_importe": 2582.98,
+     "anual": 31499.34
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 4",
+   "categoria": "Técnico Organización 2ª",
+   "funciones": "Área funcional: Gestión técnica, diseño y planificación",
+   "salario": {
+    "2025": {
+     "base_mensual": 1006.38,
+     "pluses_mensuales": 738.89,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2277.46,
+     "vacaciones_importe": 2277.46,
+     "anual": 27775.68
+    },
+    "2026": {
+     "base_mensual": 1036.57,
+     "pluses_mensuales": 757.04,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2345.78,
+     "vacaciones_importe": 2345.78,
+     "anual": 28560.74
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 4",
+   "categoria": "Adornista",
+   "funciones": "Área funcional: Producción y Actividades asimiladas",
+   "salario": {
+    "2025": {
+     "base_mensual": 1152.96,
+     "pluses_mensuales": 875.68,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2561.05,
+     "vacaciones_importe": 2561.05,
+     "anual": 32026.75
+    },
+    "2026": {
+     "base_mensual": 1187.55,
+     "pluses_mensuales": 897.73,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2637.88,
+     "vacaciones_importe": 2637.88,
+     "anual": 32936.95
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 4",
+   "categoria": "Capataz",
+   "funciones": "Área funcional: Producción y Actividades asimiladas",
+   "salario": {
+    "2025": {
+     "base_mensual": 1165.71,
+     "pluses_mensuales": 930.53,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2648.87,
+     "vacaciones_importe": 2648.87,
+     "anual": 33101.42
+    },
+    "2026": {
+     "base_mensual": 1200.68,
+     "pluses_mensuales": 953.33,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2728.34,
+     "vacaciones_importe": 2728.34,
+     "anual": 34033.13
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 4",
+   "categoria": "Contramaestre",
+   "funciones": "Área funcional: Producción y Actividades asimiladas",
+   "salario": {
+    "2025": {
+     "base_mensual": 1165.71,
+     "pluses_mensuales": 930.53,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2648.87,
+     "vacaciones_importe": 2648.87,
+     "anual": 33101.42
+    },
+    "2026": {
+     "base_mensual": 1200.68,
+     "pluses_mensuales": 953.33,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2728.34,
+     "vacaciones_importe": 2728.34,
+     "anual": 34033.13
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 4",
+   "categoria": "Encargado",
+   "funciones": "Área funcional: Producción y Actividades asimiladas",
+   "salario": {
+    "2025": {
+     "base_mensual": 1243.05,
+     "pluses_mensuales": 971.71,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2792.41,
+     "vacaciones_importe": 2792.41,
+     "anual": 34954.33
+    },
+    "2026": {
+     "base_mensual": 1280.35,
+     "pluses_mensuales": 995.74,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2876.18,
+     "vacaciones_importe": 2876.18,
+     "anual": 35941.61
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 4",
+   "categoria": "Entibador-Barrenero",
+   "funciones": "Área funcional: Producción y Actividades asimiladas",
+   "salario": {
+    "2025": {
+     "base_mensual": 1118.29,
+     "pluses_mensuales": 906.21,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2561.88,
+     "vacaciones_importe": 2561.88,
+     "anual": 31979.53
+    },
+    "2026": {
+     "base_mensual": 1151.83,
+     "pluses_mensuales": 928.28,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2638.74,
+     "vacaciones_importe": 2638.74,
+     "anual": 32877.58
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 4",
+   "categoria": "Modelista",
+   "funciones": "Área funcional: Producción y Actividades asimiladas",
+   "salario": {
+    "2025": {
+     "base_mensual": 1152.96,
+     "pluses_mensuales": 875.68,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2561.05,
+     "vacaciones_importe": 2561.05,
+     "anual": 32026.75
+    },
+    "2026": {
+     "base_mensual": 1187.55,
+     "pluses_mensuales": 897.73,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2637.88,
+     "vacaciones_importe": 2637.88,
+     "anual": 32936.95
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 4",
+   "categoria": "Oficial 1ª",
+   "funciones": "Área funcional: Producción y Actividades asimiladas",
+   "salario": {
+    "2025": {
+     "base_mensual": 1122.54,
+     "pluses_mensuales": 859.01,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2503.98,
+     "vacaciones_importe": 2503.98,
+     "anual": 31290.43
+    },
+    "2026": {
+     "base_mensual": 1156.21,
+     "pluses_mensuales": 880.56,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2579.1,
+     "vacaciones_importe": 2579.1,
+     "anual": 32178.55
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 4",
+   "categoria": "Topógrafo 2ª",
+   "funciones": "Área funcional: Producción y Actividades asimiladas",
+   "salario": {
+    "2025": {
+     "base_mensual": 1006.38,
+     "pluses_mensuales": 738.89,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2277.46,
+     "vacaciones_importe": 2277.46,
+     "anual": 27775.68
+    },
+    "2026": {
+     "base_mensual": 1036.57,
+     "pluses_mensuales": 757.04,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2345.78,
+     "vacaciones_importe": 2345.78,
+     "anual": 28560.74
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 4",
+   "categoria": "Inspector Administrativo",
+   "funciones": "Área funcional: Servicios transversales",
+   "salario": {
+    "2025": {
+     "base_mensual": 1348.65,
+     "pluses_mensuales": 955.99,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2981.22,
+     "vacaciones_importe": 2981.22,
+     "anual": 36599.38
+    },
+    "2026": {
+     "base_mensual": 1389.11,
+     "pluses_mensuales": 979.76,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3070.66,
+     "vacaciones_importe": 3070.66,
+     "anual": 37638.43
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 4",
+   "categoria": "Oficial Administrativo 1ª",
+   "funciones": "Área funcional: Servicios transversales",
+   "salario": {
+    "2025": {
+     "base_mensual": 1095.61,
+     "pluses_mensuales": 830.71,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2507.75,
+     "vacaciones_importe": 2507.75,
+     "anual": 30639.12
+    },
+    "2026": {
+     "base_mensual": 1128.48,
+     "pluses_mensuales": 850.72,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2582.98,
+     "vacaciones_importe": 2582.98,
+     "anual": 31499.34
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 4",
+   "categoria": "Oficial Administrativo 2ª",
+   "funciones": "Área funcional: Servicios transversales",
+   "salario": {
+    "2025": {
+     "base_mensual": 1006.38,
+     "pluses_mensuales": 738.89,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2277.46,
+     "vacaciones_importe": 2277.46,
+     "anual": 27775.68
+    },
+    "2026": {
+     "base_mensual": 1036.57,
+     "pluses_mensuales": 757.04,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2345.78,
+     "vacaciones_importe": 2345.78,
+     "anual": 28560.74
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 5",
+   "categoria": "Ayudante Arquitecto Técnico",
+   "funciones": "Área funcional: Gestión técnica, diseño y planificación",
+   "salario": {
+    "2025": {
+     "base_mensual": 1412.86,
+     "pluses_mensuales": 987.87,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3101.96,
+     "vacaciones_importe": 3101.96,
+     "anual": 38114.64
+    },
+    "2026": {
+     "base_mensual": 1455.24,
+     "pluses_mensuales": 1012.6,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3195.02,
+     "vacaciones_importe": 3195.02,
+     "anual": 39199.14
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 5",
+   "categoria": "Ayudante Ingeniero",
+   "funciones": "Área funcional: Gestión técnica, diseño y planificación",
+   "salario": {
+    "2025": {
+     "base_mensual": 1412.86,
+     "pluses_mensuales": 987.87,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3101.96,
+     "vacaciones_importe": 3101.96,
+     "anual": 38114.64
+    },
+    "2026": {
+     "base_mensual": 1455.24,
+     "pluses_mensuales": 1012.6,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3195.02,
+     "vacaciones_importe": 3195.02,
+     "anual": 39199.14
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 5",
+   "categoria": "Delineante Superior",
+   "funciones": "Área funcional: Gestión técnica, diseño y planificación",
+   "salario": {
+    "2025": {
+     "base_mensual": 1192.3,
+     "pluses_mensuales": 876.8,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2686.78,
+     "vacaciones_importe": 2686.78,
+     "anual": 32889.52
+    },
+    "2026": {
+     "base_mensual": 1228.07,
+     "pluses_mensuales": 898.19,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2767.38,
+     "vacaciones_importe": 2767.38,
+     "anual": 33817.25
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 5",
+   "categoria": "Jefe Seccion Organización 1ª",
+   "funciones": "Área funcional: Gestión técnica, diseño y planificación",
+   "salario": {
+    "2025": {
+     "base_mensual": 1348.65,
+     "pluses_mensuales": 955.99,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2981.22,
+     "vacaciones_importe": 2981.22,
+     "anual": 36599.38
+    },
+    "2026": {
+     "base_mensual": 1389.11,
+     "pluses_mensuales": 979.76,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3070.66,
+     "vacaciones_importe": 3070.66,
+     "anual": 37638.43
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 5",
+   "categoria": "Jefe Seccion Organización 2ª",
+   "funciones": "Área funcional: Gestión técnica, diseño y planificación",
+   "salario": {
+    "2025": {
+     "base_mensual": 1192.3,
+     "pluses_mensuales": 876.8,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2686.78,
+     "vacaciones_importe": 2686.78,
+     "anual": 32889.52
+    },
+    "2026": {
+     "base_mensual": 1228.07,
+     "pluses_mensuales": 898.19,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2767.38,
+     "vacaciones_importe": 2767.38,
+     "anual": 33817.25
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 5",
+   "categoria": "Ayudante de Obra",
+   "funciones": "Área funcional: Producción y Actividades asimiladas",
+   "salario": {
+    "2025": {
+     "base_mensual": 1316.94,
+     "pluses_mensuales": 941.03,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2921.97,
+     "vacaciones_importe": 2921.97,
+     "anual": 35861.46
+    },
+    "2026": {
+     "base_mensual": 1356.44,
+     "pluses_mensuales": 964.34,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3009.63,
+     "vacaciones_importe": 3009.63,
+     "anual": 36878.36
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 5",
+   "categoria": "Encargado General",
+   "funciones": "Área funcional: Producción y Actividades asimiladas",
+   "salario": {
+    "2025": {
+     "base_mensual": 1285.22,
+     "pluses_mensuales": 923.65,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2859.95,
+     "vacaciones_importe": 2859.95,
+     "anual": 35086.29
+    },
+    "2026": {
+     "base_mensual": 1323.77,
+     "pluses_mensuales": 946.45,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2945.75,
+     "vacaciones_importe": 2945.75,
+     "anual": 36079.94
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 5",
+   "categoria": "Jefe Taller",
+   "funciones": "Área funcional: Producción y Actividades asimiladas",
+   "salario": {
+    "2025": {
+     "base_mensual": 1243.14,
+     "pluses_mensuales": 971.15,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2791.73,
+     "vacaciones_importe": 2791.73,
+     "anual": 34946.62
+    },
+    "2026": {
+     "base_mensual": 1280.43,
+     "pluses_mensuales": 995.17,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2875.48,
+     "vacaciones_importe": 2875.48,
+     "anual": 35933.67
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 5",
+   "categoria": "Topógrafo 1ª",
+   "funciones": "Área funcional: Producción y Actividades asimiladas",
+   "salario": {
+    "2025": {
+     "base_mensual": 1095.61,
+     "pluses_mensuales": 830.71,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2507.75,
+     "vacaciones_importe": 2507.75,
+     "anual": 30639.12
+    },
+    "2026": {
+     "base_mensual": 1128.48,
+     "pluses_mensuales": 850.72,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2582.98,
+     "vacaciones_importe": 2582.98,
+     "anual": 31499.34
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 5",
+   "categoria": "Jefe Administrativo 2ª",
+   "funciones": "Área funcional: Servicios transversales",
+   "salario": {
+    "2025": {
+     "base_mensual": 1192.3,
+     "pluses_mensuales": 876.8,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2686.78,
+     "vacaciones_importe": 2686.78,
+     "anual": 32889.52
+    },
+    "2026": {
+     "base_mensual": 1228.07,
+     "pluses_mensuales": 898.19,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2767.38,
+     "vacaciones_importe": 2767.38,
+     "anual": 33817.25
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 6",
+   "categoria": "Aparejador / Arquitecto Técnico",
+   "funciones": "Área funcional: Gestión técnica, diseño y planificación",
+   "salario": {
+    "2025": {
+     "base_mensual": 1412.86,
+     "pluses_mensuales": 987.87,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3101.96,
+     "vacaciones_importe": 3101.96,
+     "anual": 38114.64
+    },
+    "2026": {
+     "base_mensual": 1455.24,
+     "pluses_mensuales": 1012.6,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3195.02,
+     "vacaciones_importe": 3195.02,
+     "anual": 39199.14
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 6",
+   "categoria": "Ayudante Licenciado",
+   "funciones": "Área funcional: Gestión técnica, diseño y planificación",
+   "salario": {
+    "2025": {
+     "base_mensual": 1505.76,
+     "pluses_mensuales": 1035.48,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3278.25,
+     "vacaciones_importe": 3278.25,
+     "anual": 40329.59
+    },
+    "2026": {
+     "base_mensual": 1550.93,
+     "pluses_mensuales": 1061.63,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3376.6,
+     "vacaciones_importe": 3376.6,
+     "anual": 41480.53
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 6",
+   "categoria": "Profesor Mercantil",
+   "funciones": "Área funcional: Gestión técnica, diseño y planificación",
+   "salario": {
+    "2025": {
+     "base_mensual": 1412.86,
+     "pluses_mensuales": 987.87,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3101.96,
+     "vacaciones_importe": 3101.96,
+     "anual": 38114.64
+    },
+    "2026": {
+     "base_mensual": 1455.24,
+     "pluses_mensuales": 1012.6,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3195.02,
+     "vacaciones_importe": 3195.02,
+     "anual": 39199.14
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 6",
+   "categoria": "Jefe de Obras",
+   "funciones": "Área funcional: Producción y Actividades asimiladas",
+   "salario": {
+    "2025": {
+     "base_mensual": 1505.76,
+     "pluses_mensuales": 1035.48,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3278.25,
+     "vacaciones_importe": 3278.25,
+     "anual": 40329.59
+    },
+    "2026": {
+     "base_mensual": 1550.93,
+     "pluses_mensuales": 1061.63,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3376.6,
+     "vacaciones_importe": 3376.6,
+     "anual": 41480.53
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 6",
+   "categoria": "Jefe de Servicio",
+   "funciones": "Área funcional: Producción y Actividades asimiladas",
+   "salario": {
+    "2025": {
+     "base_mensual": 1573.01,
+     "pluses_mensuales": 1064.19,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3396.45,
+     "vacaciones_importe": 3396.45,
+     "anual": 41835.74
+    },
+    "2026": {
+     "base_mensual": 1620.2,
+     "pluses_mensuales": 1091.2,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3498.34,
+     "vacaciones_importe": 3498.34,
+     "anual": 43031.85
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 6",
+   "categoria": "Graduado Social",
+   "funciones": "Área funcional: Servicios transversales",
+   "salario": {
+    "2025": {
+     "base_mensual": 1412.86,
+     "pluses_mensuales": 987.87,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3101.96,
+     "vacaciones_importe": 3101.96,
+     "anual": 38114.64
+    },
+    "2026": {
+     "base_mensual": 1455.24,
+     "pluses_mensuales": 1012.6,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3195.02,
+     "vacaciones_importe": 3195.02,
+     "anual": 39199.14
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 6",
+   "categoria": "Jefe Administrativo 1ª",
+   "funciones": "Área funcional: Servicios transversales",
+   "salario": {
+    "2025": {
+     "base_mensual": 1348.65,
+     "pluses_mensuales": 955.99,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2981.22,
+     "vacaciones_importe": 2981.22,
+     "anual": 36599.38
+    },
+    "2026": {
+     "base_mensual": 1389.11,
+     "pluses_mensuales": 979.76,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3070.66,
+     "vacaciones_importe": 3070.66,
+     "anual": 37638.43
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 6",
+   "categoria": "Jefe de Personal",
+   "funciones": "Área funcional: Servicios transversales",
+   "salario": {
+    "2025": {
+     "base_mensual": 1348.65,
+     "pluses_mensuales": 955.99,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 2981.22,
+     "vacaciones_importe": 2981.22,
+     "anual": 36599.38
+    },
+    "2026": {
+     "base_mensual": 1389.11,
+     "pluses_mensuales": 979.76,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3070.66,
+     "vacaciones_importe": 3070.66,
+     "anual": 37638.43
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 7",
+   "categoria": "Arquitecto Superior",
+   "funciones": "Área funcional: Gestión técnica, diseño y planificación",
+   "salario": {
+    "2025": {
+     "base_mensual": 1505.76,
+     "pluses_mensuales": 1035.48,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3278.25,
+     "vacaciones_importe": 3278.25,
+     "anual": 40329.59
+    },
+    "2026": {
+     "base_mensual": 1550.93,
+     "pluses_mensuales": 1061.63,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3376.6,
+     "vacaciones_importe": 3376.6,
+     "anual": 41480.53
+    }
+   },
+   "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
+  },
+  {
+   "grupo": "Grupo 7",
+   "categoria": "Ingeniero Superior",
+   "funciones": "Área funcional: Gestión técnica, diseño y planificación",
+   "salario": {
+    "2025": {
+     "base_mensual": 1505.76,
+     "pluses_mensuales": 1035.48,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3278.25,
+     "vacaciones_importe": 3278.25,
+     "anual": 40329.59
+    },
+    "2026": {
+     "base_mensual": 1550.93,
+     "pluses_mensuales": 1061.63,
+     "pagas": 14,
+     "pagas_extra": 2,
+     "paga_importe": 3376.6,
+     "vacaciones_importe": 3376.6,
+     "anual": 41480.53
     }
    },
    "articulo": "Anexo I-A (tablas 2025: BOPB anuncio 3909928; 2026: BOPB 17-3-2026, anuncio 3909929)"
