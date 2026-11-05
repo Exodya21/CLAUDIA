@@ -23,68 +23,68 @@
 - **Para la ficha (al mes, sin contar dos veces vacaciones y pagas):** salario base 963,33 € (2026) y 935,27 € (2025); pluses (convenio + transporte) 766,12 € (2026) y 747,70 € (2025); 2 pagas de 2.199,47 € (2.135,41 €); vacaciones 2.199,47 € (2.135,41 €).
 
 
-## Todas las categorías (Anexo I-A, total anual)
+## Todas las categorías (Anexo I-A, total anual; nivel según el Anexo XI del VII Convenio General, «—» = sin equivalencia clara: verificar)
 
-| Grupo | Área funcional | Categoría | 2025 | 2026 |
-|---|---|---|---:|---:|
-| Grupo 1 | Producción y Actividades asimiladas | Peón Ordinario | 26.601,89 € | 27.351,74 € |
-| Grupo 1 | Servicios transversales | Ordenanza | 25.017,62 € | 25.719,96 € |
-| Grupo 1 | Servicios transversales | Portero | 25.017,62 € | 25.719,96 € |
-| Grupo 1 | Servicios transversales | Telefonista | 25.017,62 € | 25.719,96 € |
-| Grupo 2 | Gestión técnica, diseño y planificación | Calcador | 25.017,62 € | 25.719,96 € |
-| Grupo 2 | Producción y Actividades asimiladas | Ayudante | 27.585,22 € | 28.362,17 € |
-| Grupo 2 | Producción y Actividades asimiladas | Ayudante Topografía | 25.017,62 € | 25.719,96 € |
-| Grupo 2 | Producción y Actividades asimiladas | Peón Especialista | 27.063,13 € | 27.824,43 € |
-| Grupo 2 | Servicios transversales | Almacenero Almacén Central | 28.723,47 € | 29.536,98 € |
-| Grupo 2 | Servicios transversales | Conserje | 25.017,62 € | 25.719,96 € |
-| Grupo 2 | Servicios transversales | Guarda Jurado | 28.178,53 € | 28.975,70 € |
-| Grupo 2 | Servicios transversales | Listero Almacenero | 28.153,11 € | 28.949,50 € |
-| Grupo 2 | Servicios transversales | Vendedor 1ª | 30.639,12 € | 31.499,34 € |
-| Grupo 2 | Servicios transversales | Vendedor 2ª | 27.775,68 € | 28.560,74 € |
-| Grupo 2 | Servicios transversales | Vigila. Taller o Almacén | 26.614,05 € | 27.364,28 € |
-| Grupo 3 | Gestión técnica, diseño y planificación | Auxiliar Organización | 25.474,29 € | 26.190,30 € |
-| Grupo 3 | Gestión técnica, diseño y planificación | Auxiliar Técnico de Obra | 31.296,87 € | 32.187,57 € |
-| Grupo 3 | Producción y Actividades asimiladas | Oficial 2ª | 29.227,51 € | 30.053,74 € |
-| Grupo 3 | Servicios transversales | Auxiliar Administrativo | 25.474,29 € | 26.190,30 € |
-| Grupo 3 | Servicios transversales | Auxiliar Administrativo de Obra | 30.440,75 € | 31.305,80 € |
-| Grupo 3 | Servicios transversales | Auxiliar Vendedor | 25.474,29 € | 26.190,30 € |
-| Grupo 3 | Servicios transversales | Cobrador | 25.017,62 € | 25.719,96 € |
-| Grupo 3 | Servicios transversales | Enfermero | 25.017,62 € | 25.719,96 € |
-| Grupo 4 | Gestión técnica, diseño y planificación | Delineante 1ª | 30.639,12 € | 31.499,34 € |
-| Grupo 4 | Gestión técnica, diseño y planificación | Delineante 2ª | 27.775,68 € | 28.560,74 € |
-| Grupo 4 | Gestión técnica, diseño y planificación | Técnico Organización 1ª | 30.639,12 € | 31.499,34 € |
-| Grupo 4 | Gestión técnica, diseño y planificación | Técnico Organización 2ª | 27.775,68 € | 28.560,74 € |
-| Grupo 4 | Producción y Actividades asimiladas | Adornista | 32.026,75 € | 32.936,95 € |
-| Grupo 4 | Producción y Actividades asimiladas | Capataz | 33.101,42 € | 34.033,13 € |
-| Grupo 4 | Producción y Actividades asimiladas | Contramaestre | 33.101,42 € | 34.033,13 € |
-| Grupo 4 | Producción y Actividades asimiladas | Encargado | 34.954,33 € | 35.941,61 € |
-| Grupo 4 | Producción y Actividades asimiladas | Entibador-Barrenero | 31.979,53 € | 32.877,58 € |
-| Grupo 4 | Producción y Actividades asimiladas | Modelista | 32.026,75 € | 32.936,95 € |
-| Grupo 4 | Producción y Actividades asimiladas | Oficial 1ª | 31.290,43 € | 32.178,55 € |
-| Grupo 4 | Producción y Actividades asimiladas | Topógrafo 2ª | 27.775,68 € | 28.560,74 € |
-| Grupo 4 | Servicios transversales | Inspector Administrativo | 36.599,38 € | 37.638,43 € |
-| Grupo 4 | Servicios transversales | Oficial Administrativo 1ª | 30.639,12 € | 31.499,34 € |
-| Grupo 4 | Servicios transversales | Oficial Administrativo 2ª | 27.775,68 € | 28.560,74 € |
-| Grupo 5 | Gestión técnica, diseño y planificación | Ayudante Arquitecto Técnico | 38.114,64 € | 39.199,14 € |
-| Grupo 5 | Gestión técnica, diseño y planificación | Ayudante Ingeniero | 38.114,64 € | 39.199,14 € |
-| Grupo 5 | Gestión técnica, diseño y planificación | Delineante Superior | 32.889,52 € | 33.817,25 € |
-| Grupo 5 | Gestión técnica, diseño y planificación | Jefe Seccion Organización 1ª | 36.599,38 € | 37.638,43 € |
-| Grupo 5 | Gestión técnica, diseño y planificación | Jefe Seccion Organización 2ª | 32.889,52 € | 33.817,25 € |
-| Grupo 5 | Producción y Actividades asimiladas | Ayudante de Obra | 35.861,46 € | 36.878,36 € |
-| Grupo 5 | Producción y Actividades asimiladas | Encargado General | 35.086,29 € | 36.079,94 € |
-| Grupo 5 | Producción y Actividades asimiladas | Jefe Taller | 34.946,62 € | 35.933,67 € |
-| Grupo 5 | Producción y Actividades asimiladas | Topógrafo 1ª | 30.639,12 € | 31.499,34 € |
-| Grupo 5 | Servicios transversales | Jefe Administrativo 2ª | 32.889,52 € | 33.817,25 € |
-| Grupo 6 | Gestión técnica, diseño y planificación | Aparejador / Arquitecto Técnico | 38.114,64 € | 39.199,14 € |
-| Grupo 6 | Gestión técnica, diseño y planificación | Ayudante Licenciado | 40.329,59 € | 41.480,53 € |
-| Grupo 6 | Gestión técnica, diseño y planificación | Profesor Mercantil | 38.114,64 € | 39.199,14 € |
-| Grupo 6 | Producción y Actividades asimiladas | Jefe de Obras | 40.329,59 € | 41.480,53 € |
-| Grupo 6 | Producción y Actividades asimiladas | Jefe de Servicio | 41.835,74 € | 43.031,85 € |
-| Grupo 6 | Servicios transversales | Graduado Social | 38.114,64 € | 39.199,14 € |
-| Grupo 6 | Servicios transversales | Jefe Administrativo 1ª | 36.599,38 € | 37.638,43 € |
-| Grupo 6 | Servicios transversales | Jefe de Personal | 36.599,38 € | 37.638,43 € |
-| Grupo 7 | Gestión técnica, diseño y planificación | Arquitecto Superior | 40.329,59 € | 41.480,53 € |
-| Grupo 7 | Gestión técnica, diseño y planificación | Ingeniero Superior | 40.329,59 € | 41.480,53 € |
+| Grupo | Nivel | Área funcional | Categoría | 2025 | 2026 |
+|---|---|---|---|---:|---:|
+| Grupo 1 | XII | Producción y Actividades asimiladas | Peón Ordinario | 26.601,89 € | 27.351,74 € |
+| Grupo 1 | X | Servicios transversales | Ordenanza | 25.017,62 € | 25.719,96 € |
+| Grupo 1 | X | Servicios transversales | Portero | 25.017,62 € | 25.719,96 € |
+| Grupo 1 | — | Servicios transversales | Telefonista | 25.017,62 € | 25.719,96 € |
+| Grupo 2 | IX | Gestión técnica, diseño y planificación | Calcador | 25.017,62 € | 25.719,96 € |
+| Grupo 2 | X | Producción y Actividades asimiladas | Ayudante | 27.585,22 € | 28.362,17 € |
+| Grupo 2 | IX | Producción y Actividades asimiladas | Ayudante Topografía | 25.017,62 € | 25.719,96 € |
+| Grupo 2 | XI | Producción y Actividades asimiladas | Peón Especialista | 27.063,13 € | 27.824,43 € |
+| Grupo 2 | X | Servicios transversales | Almacenero Almacén Central | 28.723,47 € | 29.536,98 € |
+| Grupo 2 | IX | Servicios transversales | Conserje | 25.017,62 € | 25.719,96 € |
+| Grupo 2 | — | Servicios transversales | Guarda Jurado | 28.178,53 € | 28.975,70 € |
+| Grupo 2 | — | Servicios transversales | Listero Almacenero | 28.153,11 € | 28.949,50 € |
+| Grupo 2 | IX | Servicios transversales | Vendedor 1ª | 30.639,12 € | 31.499,34 € |
+| Grupo 2 | IX | Servicios transversales | Vendedor 2ª | 27.775,68 € | 28.560,74 € |
+| Grupo 2 | X | Servicios transversales | Vigila. Taller o Almacén | 26.614,05 € | 27.364,28 € |
+| Grupo 3 | IX | Gestión técnica, diseño y planificación | Auxiliar Organización | 25.474,29 € | 26.190,30 € |
+| Grupo 3 | — | Gestión técnica, diseño y planificación | Auxiliar Técnico de Obra | 31.296,87 € | 32.187,57 € |
+| Grupo 3 | IX | Producción y Actividades asimiladas | Oficial 2ª | 29.227,51 € | 30.053,74 € |
+| Grupo 3 | IX | Servicios transversales | Auxiliar Administrativo | 25.474,29 € | 26.190,30 € |
+| Grupo 3 | — | Servicios transversales | Auxiliar Administrativo de Obra | 30.440,75 € | 31.305,80 € |
+| Grupo 3 | — | Servicios transversales | Auxiliar Vendedor | 25.474,29 € | 26.190,30 € |
+| Grupo 3 | X | Servicios transversales | Cobrador | 25.017,62 € | 25.719,96 € |
+| Grupo 3 | — | Servicios transversales | Enfermero | 25.017,62 € | 25.719,96 € |
+| Grupo 4 | VI | Gestión técnica, diseño y planificación | Delineante 1ª | 30.639,12 € | 31.499,34 € |
+| Grupo 4 | VII | Gestión técnica, diseño y planificación | Delineante 2ª | 27.775,68 € | 28.560,74 € |
+| Grupo 4 | VI | Gestión técnica, diseño y planificación | Técnico Organización 1ª | 30.639,12 € | 31.499,34 € |
+| Grupo 4 | VII | Gestión técnica, diseño y planificación | Técnico Organización 2ª | 27.775,68 € | 28.560,74 € |
+| Grupo 4 | VII | Producción y Actividades asimiladas | Adornista | 32.026,75 € | 32.936,95 € |
+| Grupo 4 | VII | Producción y Actividades asimiladas | Capataz | 33.101,42 € | 34.033,13 € |
+| Grupo 4 | VII | Producción y Actividades asimiladas | Contramaestre | 33.101,42 € | 34.033,13 € |
+| Grupo 4 | VI | Producción y Actividades asimiladas | Encargado | 34.954,33 € | 35.941,61 € |
+| Grupo 4 | VII | Producción y Actividades asimiladas | Entibador-Barrenero | 31.979,53 € | 32.877,58 € |
+| Grupo 4 | VII | Producción y Actividades asimiladas | Modelista | 32.026,75 € | 32.936,95 € |
+| Grupo 4 | VIII | Producción y Actividades asimiladas | Oficial 1ª | 31.290,43 € | 32.178,55 € |
+| Grupo 4 | VII | Producción y Actividades asimiladas | Topógrafo 2ª | 27.775,68 € | 28.560,74 € |
+| Grupo 4 | — | Servicios transversales | Inspector Administrativo | 36.599,38 € | 37.638,43 € |
+| Grupo 4 | VI | Servicios transversales | Oficial Administrativo 1ª | 30.639,12 € | 31.499,34 € |
+| Grupo 4 | VIII | Servicios transversales | Oficial Administrativo 2ª | 27.775,68 € | 28.560,74 € |
+| Grupo 5 | — | Gestión técnica, diseño y planificación | Ayudante Arquitecto Técnico | 38.114,64 € | 39.199,14 € |
+| Grupo 5 | — | Gestión técnica, diseño y planificación | Ayudante Ingeniero | 38.114,64 € | 39.199,14 € |
+| Grupo 5 | V | Gestión técnica, diseño y planificación | Delineante Superior | 32.889,52 € | 33.817,25 € |
+| Grupo 5 | III | Gestión técnica, diseño y planificación | Jefe Seccion Organización 1ª | 36.599,38 € | 37.638,43 € |
+| Grupo 5 | V | Gestión técnica, diseño y planificación | Jefe Seccion Organización 2ª | 32.889,52 € | 33.817,25 € |
+| Grupo 5 | IV | Producción y Actividades asimiladas | Ayudante de Obra | 35.861,46 € | 36.878,36 € |
+| Grupo 5 | V | Producción y Actividades asimiladas | Encargado General | 35.086,29 € | 36.079,94 € |
+| Grupo 5 | VI | Producción y Actividades asimiladas | Jefe Taller | 34.946,62 € | 35.933,67 € |
+| Grupo 5 | VI | Producción y Actividades asimiladas | Topógrafo 1ª | 30.639,12 € | 31.499,34 € |
+| Grupo 5 | V | Servicios transversales | Jefe Administrativo 2ª | 32.889,52 € | 33.817,25 € |
+| Grupo 6 | III | Gestión técnica, diseño y planificación | Aparejador / Arquitecto Técnico | 38.114,64 € | 39.199,14 € |
+| Grupo 6 | — | Gestión técnica, diseño y planificación | Ayudante Licenciado | 40.329,59 € | 41.480,53 € |
+| Grupo 6 | III | Gestión técnica, diseño y planificación | Profesor Mercantil | 38.114,64 € | 39.199,14 € |
+| Grupo 6 | — | Producción y Actividades asimiladas | Jefe de Obras | 40.329,59 € | 41.480,53 € |
+| Grupo 6 | — | Producción y Actividades asimiladas | Jefe de Servicio | 41.835,74 € | 43.031,85 € |
+| Grupo 6 | III | Servicios transversales | Graduado Social | 38.114,64 € | 39.199,14 € |
+| Grupo 6 | III | Servicios transversales | Jefe Administrativo 1ª | 36.599,38 € | 37.638,43 € |
+| Grupo 6 | IV | Servicios transversales | Jefe de Personal | 36.599,38 € | 37.638,43 € |
+| Grupo 7 | II | Gestión técnica, diseño y planificación | Arquitecto Superior | 40.329,59 € | 41.480,53 € |
+| Grupo 7 | II | Gestión técnica, diseño y planificación | Ingeniero Superior | 40.329,59 € | 41.480,53 € |
 
 ## Resto de condiciones
 

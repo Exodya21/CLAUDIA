@@ -38,7 +38,7 @@ Busca y anota, con **artículo (o anexo) y cita literal breve** de cada dato:
 | Dato | Qué buscar |
 |---|---|
 | Identificación | nombre oficial, código REGCON, ámbito funcional, territorial y personal, vigencia, ultraactividad, boletín y fecha |
-| Clasificación profesional | grupos, niveles y categorías con sus funciones; qué datos deciden el encaje (funciones, titulación, autonomía) |
+| Clasificación profesional | grupos, **niveles retributivos** y categorías con sus funciones; qué datos deciden el encaje (funciones, titulación, autonomía). Si el convenio provincial remite al estatal para la clasificación (en construcción, Anexo XI del Convenio General), toma de allí el nivel de cada categoría y anota la fuente; si una categoría no aparece, déjala sin nivel y ponla en «por verificar» |
 | Salario | tablas salariales por categoría y **año** (busca también revisiones salariales publicadas aparte); salario base mensual o anual y nº de pagas. Compara siempre con el **SMI** del año: lo que debía percibir es lo mayor de los dos |
 | Pluses y complementos | antigüedad, transporte, nocturnidad, festivos, turnicidad, toxicidad, idiomas, manutención…: cuantía, si son salariales o extrasalariales, si se cobran en vacaciones y pagas |
 | Jornada | jornada máxima anual y semanal, distribución irregular, descansos, horas extra (precio o compensación) |
@@ -55,7 +55,7 @@ Escribe dos archivos en la carpeta del convenio:
 - `resumen.json`: los mismos datos en este formato, para cargarlos después en la ficha B:
   ```json
   {"convenio":{"nombre":"","codigo":"","ambito":"","vigencia":"","publicacion":"","enlace":""},
-   "categorias":[{"grupo":"","categoria":"","funciones":"","salario":{"2026":{"base_mensual":0,"pluses_mensuales":0,"pagas":14,"paga_importe":0,"vacaciones_importe":0,"anual":0}},"articulo":""}],
+   "categorias":[{"grupo":"","nivel":"","nivel_fuente":"artículo o anexo de donde sale el nivel","categoria":"","funciones":"","salario":{"2026":{"base_mensual":0,"pluses_mensuales":0,"pagas":14,"paga_importe":0,"vacaciones_importe":0,"anual":0}},"articulo":""}],
    "pluses":[{"nombre":"","cuantia":"","tipo":"salarial|extrasalarial","en_vacaciones":true,"en_pagas":false,"articulo":""}],
    "jornada":{"anual_horas":0,"semanal_horas":0,"horas_extra":"","articulo":""},
    "pagas_extra":{"numero":0,"cuantia":"","devengo":"","prorrateables":true,"articulo":""},
