@@ -211,8 +211,7 @@ FC.convAplicar=(c,d,fuente)=>{const K=c.conv;d=d&&typeof d==='object'?d:{};const
  if(Array.isArray(d.no_encontrado))K.noEncontrado=d.no_encontrado.join('\n');if(Array.isArray(d.por_verificar))K.porVerificar=d.por_verificar.join('\n');
  const nz=x=>String(x||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();const pu=nz((c.puesto||{}).categoria);const inc=pu?K.categorias.filter(x=>nz(x.categoria).includes(pu)):[];
  const cat=K.categorias.length===1?K.categorias[0]:(pu&&K.categorias.find(x=>nz(x.categoria)===pu))||(inc.length===1?inc[0]:null);if(cat)FC.convCategoria(c,cat);
- K.articulos=Array.isArray(d.articulos)?d.articulos:[];K.ambitoFuncional=s(d.ambito_funcional);K.ambitoFuncionalCita=s(d.ambito_funcional_cita);K.ambitoTerritorial=s(d.ambito_territorial);K.ambitoTerritorialCita=s(d.ambito_territorial_cita);
- K.estatal=d.estatal||null;K.comparacion=Array.isArray(d.comparacion)?d.comparacion:[];K.sugerencia=s(d.sugerencia);K.just=d.justificacion||null;K.justificacion='';K.aplicado='';
+ FC.convAnalisis(K,d);
  K.fuente=fuente;K.ok={};};
 FC.convCategoria=(c,x)=>{const K=c.conv;K.categoria=x.categoria||'';K.grupo=x.grupo||'';K.nivel=x.nivel||'';K.nivelFuente=x.nivel_fuente||'';const sal=x.salario||{};const T=Object.keys(sal).filter(y=>/^\d{4}$/.test(y)).sort().map(y=>{const r=sal[y]||{};const pagas=Number(r.pagas);
   const v=x=>x!=null&&x!==''?String(x):'';return Object.assign(FC.T.tablas(c),{anio:y,base:v(r.base_mensual),pluses:v(r.pluses_mensuales),pagasNum:r.pagas_extra!=null?String(r.pagas_extra):pagas>12?String(pagas-12):(K.pagasNum||''),pagaImporte:r.paga_importe!=null?String(r.paga_importe):(r.base_mensual!=null&&pagas>12?String(r.base_mensual):''),anual:r.anual!=null&&r.base_mensual==null?String(r.anual):'',vacImporte:v(r.vacaciones_importe)});});if(T.length)K.tablas=T;if(T.some(t=>t.vacImporte))K.vacBase='tabla';};

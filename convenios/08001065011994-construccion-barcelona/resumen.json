@@ -1691,5 +1691,745 @@
   "Las tablas de 2025 y 2026 son provisionales, pendientes de la cláusula de garantía salarial (acta de 16-12-2025)",
   "El encaje en peón ordinario o especialista depende de las funciones reales",
   "Nivel retributivo: tomado del Anexo XI del VII Convenio General (art. 50 del provincial remite a él). Sin equivalencia clara en el anexo: Telefonista, Guarda Jurado, Listero Almacenero, Auxiliar Técnico de Obra, Auxiliar Administrativo de Obra, Auxiliar Vendedor, Enfermero, Inspector Administrativo, Ayudante Arquitecto Técnico, Ayudante Ingeniero, Ayudante Licenciado, Jefe de Obras, Jefe de Servicio"
- ]
+ ],
+ "articulos": [
+  {
+   "num": "1",
+   "titulo": "Ámbito funcional",
+   "capitulo": "Capítulo I. Disposiciones generales",
+   "resumen": "Obliga en todas las actividades propias del sector de la construcción: a) construcción y obras públicas (albañilería, hormigón, pintura, carpintería, canteras y graveras, movimiento de tierras, montaje de andamios, alquiler de maquinaria, rehabilitación y derribos, inmobiliarias y promoción, instalaciones de agua, electricidad, telecomunicaciones y climatización cuya actividad principal se realice en obra, control de calidad, etc.); b) conservación y mantenimiento de autopistas, carreteras, vías férreas y vías públicas; c) canteras y explotación de tierras industriales; d) embarcaciones y ferrocarriles auxiliares en obras de puertos; e) comercio de construcción mayorista y exclusivista. Excluye las explotaciones regidas por la Reglamentación de Minas de fosfatos, azufre, potasa, talco, etc."
+  },
+  {
+   "num": "2",
+   "titulo": "Ámbito territorial",
+   "capitulo": "Capítulo I. Disposiciones generales",
+   "resumen": "Ámbito provincial: se aplica a todos los centros de trabajo situados en la provincia de Barcelona, aunque la sede o domicilio social de la empresa esté fuera. Las partes se comprometen a participar en la negociación de un futuro convenio del mismo ámbito funcional para Cataluña."
+  },
+  {
+   "num": "3",
+   "titulo": "Ámbito personal",
+   "capitulo": "Capítulo I. Disposiciones generales",
+   "resumen": "Incluye a todas las personas trabajadoras por cuenta de las empresas sujetas al convenio; excluye expresamente las relaciones de los arts. 1.3 y 2 ET (actividades excluidas y relaciones especiales)."
+  },
+  {
+   "num": "4",
+   "titulo": "Vigencia",
+   "capitulo": "Capítulo I. Disposiciones generales",
+   "resumen": "Entra en vigor el 1 de enero de 2017, salvo los aspectos con vigencia distinta pactada expresamente."
+  },
+  {
+   "num": "5",
+   "titulo": "Duración",
+   "capitulo": "Capítulo I. Disposiciones generales",
+   "resumen": "Duración de 5 años: concluye el 31 de diciembre de 2021."
+  },
+  {
+   "num": "6",
+   "titulo": "Prórroga",
+   "capitulo": "Capítulo I. Disposiciones generales",
+   "resumen": "Prórroga tácita por periodos anuales si no se denuncia con al menos 1 mes de antelación al vencimiento inicial o de cualquier prórroga."
+  },
+  {
+   "num": "7",
+   "titulo": "Revisión o rescisión",
+   "capitulo": "Capítulo I. Disposiciones generales",
+   "resumen": "La denuncia debe hacerse con 1 mes de antelación al fin de la vigencia o prórroga; las negociaciones deben iniciarse en máximo 30 días desde la denuncia. Transcurridos 18 meses desde el vencimiento sin nuevo convenio, este pierde sus efectos salvo pacto en contrario."
+  },
+  {
+   "num": "8",
+   "titulo": "Prelación de normas",
+   "capitulo": "Capítulo I. Disposiciones generales",
+   "resumen": "En lo no previsto se aplica el VI Convenio General del Sector de la Construcción y demás disposiciones de carácter general."
+  },
+  {
+   "num": "9",
+   "titulo": "Absorción y compensación",
+   "capitulo": "Capítulo I. Disposiciones generales",
+   "resumen": "Las cuantías del convenio son mínimas; las empresas pueden absorber y compensar mejoras con lo realmente abonado si son conceptos homogéneos y superiores en conjunto y cómputo anual, comparando globalmente conceptos salariales y extrasalariales. No son absorbibles los incentivos, primas de producción y destajos."
+  },
+  {
+   "num": "10",
+   "titulo": "Vinculación a la totalidad",
+   "capitulo": "Capítulo I. Disposiciones generales",
+   "resumen": "Las condiciones forman un todo orgánico e indivisible y se aplican globalmente; si la autoridad laboral remite el convenio al Juzgado de lo Social (art. 90.5 ET) se estará a la sentencia."
+  },
+  {
+   "num": "11",
+   "titulo": "Condición más beneficiosa",
+   "capitulo": "Capítulo I. Disposiciones generales",
+   "resumen": "Se respetan las condiciones más beneficiosas ad personam en cómputo anual y global, sin perjuicio de la absorción del art. 9; las condiciones del convenio son mínimas y es nulo todo pacto individual que las vulnere."
+  },
+  {
+   "num": "12",
+   "titulo": "Comisión Paritaria",
+   "capitulo": "Capítulo I. Disposiciones generales",
+   "resumen": "Crea la Comisión Paritaria (6 vocales empresariales y 6 sindicales; presidente y secretario sin voto) con funciones de vigilancia, interpretación, arbitraje, elaboración del calendario anual y colaboración en tablas de rendimiento. Se reúne al menos trimestralmente, decide por consenso de ambas partes, se convoca con 3 días de antelación y las consultas se canalizan por las organizaciones firmantes con el modelo del anexo 10."
+  },
+  {
+   "num": "13",
+   "titulo": "Estructura de las percepciones económicas",
+   "capitulo": "Capítulo II. Condiciones económicas",
+   "resumen": "Las tablas salariales anexas se ajustan al capítulo séptimo del Convenio General; las partes declaran su voluntad de que los pluses extrasalariales (art. 48.2.b del VI CGSC) lleguen a representar el 5% del total anual de tablas de cada categoría."
+  },
+  {
+   "num": "14",
+   "titulo": "Devengo de las percepciones económicas",
+   "capitulo": "Capítulo II. Condiciones económicas",
+   "resumen": "Salario base por días naturales; pluses salariales por días efectivamente trabajados; pluses extrasalariales por días de asistencia (importes del anexo 1.A). Paga de junio se devenga del 1-1 al 30-6 y la de Navidad del 1-7 al 31-12; las vacaciones según el art. 46.2."
+  },
+  {
+   "num": "15",
+   "titulo": "Determinación de las percepciones",
+   "capitulo": "Capítulo II. Condiciones económicas",
+   "resumen": "Los anexos fijan salario anual, diario y mensual por categoría y nivel. Retribución anual: RA = SB×335 + (PS+PE)×días efectivos de trabajo + vacaciones + paga de junio + paga de Navidad. La Comisión Paritaria elabora las tablas revisadas (art. 26), que se aplican en las fechas convenidas con independencia de su publicación; las tablas forman parte del convenio."
+  },
+  {
+   "num": "16",
+   "titulo": "Salario base",
+   "capitulo": "Capítulo II. Condiciones económicas",
+   "resumen": "El salario base se devenga todos los días naturales por los importes del anexo 1.A."
+  },
+  {
+   "num": "17",
+   "titulo": "Gratificaciones extraordinarias de junio y Navidad",
+   "capitulo": "Capítulo II. Condiciones económicas",
+   "resumen": "Dos pagas al año, abonables antes del 30 de junio y del 20 de diciembre, por la cuantía del anexo 1.A; no se devengan durante la suspensión del contrato (art. 45 ET) y se prorratean por permanencia o tiempo parcial. Durante la IT se abonan al 25% de lo que correspondería en activo (ap. 5). Se prohíbe el «salario global» o «todo incluido» que prorratee pagas, vacaciones o indemnización por fin de contrato; si se hace, se considera retribución ordinaria del periodo (ap. 6)."
+  },
+  {
+   "num": "18",
+   "titulo": "Antigüedad consolidada",
+   "capitulo": "Capítulo II. Condiciones económicas",
+   "resumen": "Conforme al Acuerdo sectorial de 18-10-1996, se mantienen como complemento «ad personam» los importes de antigüedad que el trabajador tuviera a 19-1-1997 (más la parte proporcional devengada y no cobrada a esa fecha); son invariables, no se revalorizan, se extinguen con el contrato y figuran en nómina como «antigüedad consolidada»."
+  },
+  {
+   "num": "19",
+   "titulo": "Plus de convenio",
+   "capitulo": "Capítulo II. Condiciones económicas",
+   "resumen": "Cuantía por categoría según tablas del anexo 1; se percibe por días efectivamente trabajados (art. 14.1.2)."
+  },
+  {
+   "num": "20",
+   "titulo": "Trabajos excepcionalmente penosos, tóxicos o peligrosos y trabajos de altura o montaña",
+   "capitulo": "Capítulo II. Condiciones económicas",
+   "resumen": "Plus del 25% del salario base por trabajos excepcionalmente penosos, tóxicos, peligrosos, de altura o de montaña, o del 10% si se realizan durante media jornada o menos. No es exigible si la empresa ya abona igual o mayor cantidad por ese concepto o lo incluye en el salario del puesto; no es consolidable; las discrepancias las resuelve la autoridad judicial. Plus de altura: trabajos circunstanciales en exterior a más de 12 m; plus de montaña: a más de 1.500 m de altitud y a la intemperie."
+  },
+  {
+   "num": "21",
+   "titulo": "Plus de nocturnidad",
+   "capitulo": "Capítulo II. Condiciones económicas",
+   "resumen": "Trabajo entre las 22 y las 6 h: plus del 25% del salario base. Si se trabajan menos de 4 h nocturnas se paga solo por el tiempo trabajado; si más de 4 h, por toda la jornada. Con dos turnos, una sola hora nocturna no genera plus."
+  },
+  {
+   "num": "22",
+   "titulo": "Complemento por discapacidad",
+   "capitulo": "Capítulo II. Condiciones económicas",
+   "resumen": "Complemento personal mensual bruto según el grado reconocido: 13-22%: 17 €; 23-32%: 24 €; 33% o más: 34 €. Un solo complemento, ajustable si el grado baja, y compensable con ayudas análogas que ya abone la empresa."
+  },
+  {
+   "num": "23",
+   "titulo": "Plus de distancia, transporte y desgaste de herramientas",
+   "capitulo": "Capítulo II. Condiciones económicas",
+   "resumen": "Plus extrasalarial que compensa los gastos de desplazamiento al trabajo (cualquiera que sea la distancia) y el desgaste de herramientas; se devenga por día de asistencia según la tabla del anexo 1."
+  },
+  {
+   "num": "24",
+   "titulo": "Horas extraordinarias",
+   "capitulo": "Capítulo II. Condiciones económicas",
+   "resumen": "Son extras las que exceden de la jornada ordinaria en cómputo semanal; son voluntarias salvo art. 35.3 ET (siniestros) y se insta a reducirlas. Precio de la hora ordinaria = salario bruto anual / jornada anual. Anexo 3: columna I (hora ordinaria) para diurnas en día laborable; columna II (hora ordinaria +20%) para nocturnas (22-6 h), en sábado, domingo o festivo (o descanso sustitutorio) y las obligatorias por siniestros."
+  },
+  {
+   "num": "25",
+   "titulo": "Pago de las retribuciones",
+   "capitulo": "Capítulo II. Condiciones económicas",
+   "resumen": "Pago exclusivamente por cheque nominativo o transferencia a la cuenta que designe el trabajador; recibo de salarios en modelo oficial, desglosado, con retenciones y bases de cotización, entregando duplicado al trabajador."
+  },
+  {
+   "num": "26",
+   "titulo": "Incrementos del Convenio durante su vigencia",
+   "capitulo": "Capítulo II. Condiciones económicas",
+   "resumen": "Incremento del 2% para 2018 sobre las tablas de 2017; para 2019, 2020 y 2021 se aplicarán las variaciones acordadas en la negociación colectiva estatal."
+  },
+  {
+   "num": "27",
+   "titulo": "Atrasos",
+   "capitulo": "Capítulo II. Condiciones económicas",
+   "resumen": "Los atrasos del convenio o de su revisión se pagan en el plazo de un mes desde la firma del convenio o de la revisión."
+  },
+  {
+   "num": "28",
+   "titulo": "Complemento de la indemnización de incapacidad temporal",
+   "capitulo": "Capítulo II. Condiciones económicas",
+   "resumen": "28.1: en IT con hospitalización (enfermedad común o profesional o accidente de trabajo), la empresa complementa con un 25% de la base reguladora (sin prorrata de pagas) durante la hospitalización y una convalecencia igual, con máximo de 100 días de convalecencia. 28.2: en baja por accidente de trabajo sin hospitalización de al menos 15 días, se garantiza salario base + plus convenio + antigüedad consolidada de tablas desde el día 16 y hasta 80 días. 28.7: en la primera baja del año, los tres primeros días se abona el 100% de la base reguladora diaria. Se pierde si cesa el derecho a la prestación o se extingue el contrato; en lo no previsto, art. 66 VI CGSC."
+  },
+  {
+   "num": "29",
+   "titulo": "Indemnización extraordinaria por muerte, incapacidad permanente, total, absoluta y gran invalidez",
+   "capitulo": "Capítulo II. Condiciones económicas",
+   "resumen": "Muerte por enfermedad común o accidente no laboral: una mensualidad de todos los conceptos de tablas. Muerte, incapacidad permanente absoluta o gran invalidez por accidente de trabajo o enfermedad profesional: 47.000 €; incapacidad permanente total por esas contingencias: 28.000 €. Son a cuenta de responsabilidades civiles, no sujetas a recargo de prestaciones; fecha del hecho causante = accidente o causa de la enfermedad; obligan a los 30 días de la publicación del convenio."
+  },
+  {
+   "num": "30",
+   "titulo": "Forma de la Contratación",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Todos los contratos se formalizan por escrito; los verbales se presumen indefinidos y a jornada completa salvo prueba en contrario. En lo no regulado remite al Capítulo II, Título I, Libro I del VI CGSC."
+  },
+  {
+   "num": "31",
+   "titulo": "Contratos formativos",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Los contratos para la formación y el aprendizaje deben impartir preferentemente la formación en la Fundación Laboral de la Construcción, aplicándose el art. 25.4 del VI CGSC, y el contrato debe indicar el centro de formación teórica. Los contratados en prácticas deben haber estudiado preferentemente en la Fundación, salvo titulaciones universitarias."
+  },
+  {
+   "num": "32",
+   "titulo": "Contrato para la formación y el aprendizaje",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Para mayores de 16 y menores de 21 años sin titulación para prácticas (sin límite de edad para personas con discapacidad y alumnos de talleres de empleo; hasta 24 años en escuelas taller). Duración de 6 meses a 3 años (2 años para los colectivos especiales), con prórrogas de al menos 6 meses y preaviso de 15 días si dura más de un año; la IT inferior a 6 meses amplía la duración. Retribución sobre el nivel IX: 65%, 70% y 85% el 1º, 2º y 3º año (colectivos sin límite de edad: 95% y 100%), con descuento proporcional del tiempo de formación (tablas del anexo 4), e indemnización por cese del 4,5% de los conceptos salariales de tablas. Remite al art. 25.4 del VI CGSC."
+  },
+  {
+   "num": "33",
+   "titulo": "Contrato fijo de obras",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Contrato para una obra (equiparado al art. 15.1.a ET), por escrito, que termina al finalizar los trabajos del oficio y categoría del trabajador en la obra; el cese se preavisa por escrito con 15 días naturales, sustituibles por indemnización. Puede encadenar distintas obras de la misma empresa en la provincia durante un máximo de 3 años consecutivos (cambio de obra con preaviso verbal de 48 h y oposición en 7 días); sin cese escrito al término pasa a fijo de plantilla. Regula la paralización temporal de obra por causa imprevisible e indemnización por cese del 7% de los conceptos salariales de tablas; modelo en anexo 6 y remisión al art. 24 VI CGSC."
+  },
+  {
+   "num": "34",
+   "titulo": "Otras modalidades de la contratación",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Contrato por obra o servicio (art. 15.1.a ET): indemnización del 7% de conceptos salariales de tablas. Eventual por circunstancias de la producción: máximo 12 meses en 18; indemnización de 12 días de salario si dura hasta 3 meses, 8 días si dura más de 3 y menos de 6, y 7% de salario base, plus convenio, pagas y vacaciones si dura 6 meses o más. Interinidad (art. 15.1.c ET): 7%. A los trabajadores cedidos por ETT se les aplican las tablas del convenio provincial o autonómico (remite al art. 25.3 VI CGSC)."
+  },
+  {
+   "num": "35",
+   "titulo": "Norma de prevalencia",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Según los acuerdos de la Comisión Paritaria del Convenio General de 13-5-1992, las indemnizaciones por cese de los contratos temporales de este convenio sustituyen a las de los arts. 24 y 25 del VI CGSC."
+  },
+  {
+   "num": "36",
+   "titulo": "Contrato de relevo",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Se permite celebrar contratos de relevo conforme a la legislación vigente."
+  },
+  {
+   "num": "37",
+   "titulo": "Período de prueba",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Máximo, por escrito: técnicos titulados superiores 6 meses; de grado medio 2 meses; empleados de niveles III a V del CGSC 3 meses, niveles VI a X 2 meses, resto 15 días naturales; encargados y capataces 1 mes; resto de operarios 15 días naturales. El desistimiento, sin preaviso ni indemnización, debe comunicarse por escrito; el tiempo computa como antigüedad. Exentos los titulares de la Tarjeta Profesional de la Construcción que lo tengan acreditado para su categoría."
+  },
+  {
+   "num": "38",
+   "titulo": "Preaviso del cese voluntario por el/la trabajador/a",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Preaviso por escrito: técnicos titulados 2 meses; empleados 1 mes; encargados 1 mes; personal obrero 1 semana. Su incumplimiento permite descontar de la liquidación la retribución de los días u horas no preavisados."
+  },
+  {
+   "num": "39",
+   "titulo": "Documento de liquidación de saldo y finiquito",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "El finiquito solo tiene efectos liberatorios si recoge la información del anexo 7, está firmado por el trabajador y se ha realizado el pago efectivo."
+  },
+  {
+   "num": "40",
+   "titulo": "Documentos de afiliación a la Seguridad Social",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "La empresa debe entregar al trabajador copia del alta o baja en la Seguridad Social en los 10 días siguientes a su tramitación."
+  },
+  {
+   "num": "41",
+   "titulo": "Subrogación",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Remite al art. 27 del VI CGSC y lo extiende a las concesiones administrativas adjudicadas por concurso público de mantenimiento, conservación y reparación de agua, gas, electricidad, telecomunicaciones e infraestructuras viarias urbanas municipales."
+  },
+  {
+   "num": "42",
+   "titulo": "Subcontratación",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "La empresa principal responde frente a los trabajadores de las subcontratistas según el art. 42 ET, y la responsabilidad se extiende a la indemnización por muerte o incapacidad permanente derivada de AT/EP (el texto cita el «artículo 26», aunque esta indemnización está en el art. 29). Exige cumplir la Ley 32/2006 y el RD 1109/2007, coordinar la prevención y permite a los trabajadores de contratas sin representación dirigirse a la de la principal."
+  },
+  {
+   "num": "43",
+   "titulo": "Jornada y horario",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Jornada de 40 h semanales de trabajo efectivo, con máximo anual de 1.736 h en 2017 y 2018 (para 2019-2021 según la negociación estatal), distribuida de lunes a viernes. La Comisión Paritaria elabora el calendario laboral anual, salvo pacto distinto en la empresa, y debe exponerse en cada centro. La jornada empieza en la obra o lugar de destino; a vigilantes y barraqueros con 72 h semanales, las horas entre 60 y 72 se pagan con un 20% de recargo."
+  },
+  {
+   "num": "44",
+   "titulo": "Jornada intensiva",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Puede pactarse con la representación legal jornada intensiva para el personal de oficinas fijas entre el 15 de junio y el 14 de septiembre."
+  },
+  {
+   "num": "45",
+   "titulo": "Fiestas",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Son fiestas las nacionales, autonómicas y locales oficiales, más la fiesta gremial (lunes siguiente a la semana del 13 de junio, San Antonio de Padua) y 3 días festivos en la semana de Navidad (trasladables por acuerdo). Son abonables y no recuperables; cualquier otra festividad requiere acuerdo en la empresa."
+  },
+  {
+   "num": "46",
+   "titulo": "Vacaciones",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "30 días naturales retribuidos, de los que 21 deben ser laborables, fraccionables en periodos de al menos 10 laborables y sin empezar en viernes. La IT computa como tiempo trabajado; si coincide con IT por embarazo, parto o lactancia o con suspensión por nacimiento se disfrutan después, y si coincide con otra IT hasta 18 meses tras el año de devengo. Se disfrutan entre el 1 de junio y el 30 de septiembre salvo acuerdo, con plan preavisado con 3 meses si no hay acuerdo; quien tenga menos de 12 meses de antigüedad puede disfrutar 30 días, siendo retribuida solo la parte proporcional. Retribución según el anexo 1.A."
+  },
+  {
+   "num": "47",
+   "titulo": "Permisos",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Permisos retribuidos (salario base, plus convenio y antigüedad): matrimonio 15 días naturales; fallecimiento de cónyuge, hijos, padres o hermanos 3 a 6 días según el lugar del sepelio (6 días para trabajadores con desplazamiento a países no colindantes); de otros parientes hasta 2º grado 2 días (4 con desplazamiento); enfermedad grave u hospitalización de familiares directos y nacimiento o adopción 3 a 5 días (2 o 4 días hasta 2º grado); matrimonio de hijos 1 día; traslado 1 día; deber público, funciones sindicales, médico especialista y exámenes prenatales por el tiempo indispensable. Regula también lactancia (1 h diaria hasta 9 meses), hijos prematuros, reducción de jornada por guarda legal (1/8 a 1/2) con preaviso de 15 días para reincorporarse; se extiende a parejas de hecho inscritas y remite a la LO 3/2007 y al art. 37 ET."
+  },
+  {
+   "num": "48",
+   "titulo": "Permisos para formación profesional",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Fijos de plantilla y fijos de obra con más de 3 meses de antigüedad que asistan a cursos de la Fundación Laboral de la Construcción: hasta 135 h por bienio (art. 23 ET), con el 50% a cargo de la empresa con máximo de 34 h anuales y límite del 10% de la plantilla (o un trabajador en centros de menos de 10). Además, quien tenga 1 año de antigüedad dispone de 20 h anuales retribuidas de formación profesional para el empleo, acumulables hasta 5 años."
+  },
+  {
+   "num": "49",
+   "titulo": "Excedencias de los trabajadores y las trabajadoras que ostenten cargos sindicales",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Excedencia forzosa, de concesión obligatoria y sin retribución, para quien ocupe cargos sindicales incompatibles con el trabajo; solicitud escrita con certificado sindical, preaviso de reingreso de 30 días y readmisión inmediata. En los fijos de obra no altera la naturaleza del contrato, que se extingue a su término."
+  },
+  {
+   "num": "50",
+   "titulo": "Clasificación profesional",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Remite a los Anexos X y XI del VI Convenio General del Sector de la Construcción."
+  },
+  {
+   "num": "51",
+   "titulo": "Movilidad geográfica",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "La empresa puede desplazar al personal por razones técnicas, organizativas, de producción o de contratación. Fuera del municipio del domicilio de la empresa y limítrofes: desplazamiento de hasta 1 año genera dietas o medias dietas (anexo 5); si supera 1 año con cambio de residencia, indemnización del 35% de las percepciones anuales brutas el primer año, 20% el segundo y 10% el tercero y el cuarto, más gastos de viaje, mudanza y 5 dietas por familiar, y licencia retribuida de 7 días. Si se opone con justa causa, puede rescindir el contrato en 15 días con 30 días por año (tope de una anualidad); no aplica a desplazamientos voluntarios."
+  },
+  {
+   "num": "52",
+   "titulo": "Dietas",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Dieta y media dieta son extrasalariales e indemnizatorias. Dieta completa por día natural cuando no se puede pernoctar en casa (solo el 20% si la empresa organiza y costea manutención y alojamiento); media dieta por día trabajado cuando hay que comer fuera y se puede pernoctar en casa. Se pagan con el salario, con anticipos quincenales en desplazamientos de más de una semana; fuera de la provincia se paga la dieta más favorable (origen o destino) y se reembolsan gastos superiores autorizados y justificados."
+  },
+  {
+   "num": "53",
+   "titulo": "Locomoción",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Los gastos de locomoción por desplazamiento son a cargo de la empresa (medios propios, compensación o kilometraje del anexo 5 si se usa vehículo propio con autorización escrita), además del plus del art. 23. Si el desplazado tarda más de 1 hora en cada trayecto con transporte ordinario, el exceso se abona a prorrata de salario base, plus convenio, antigüedad, pagas y complementos, excluidas vacaciones."
+  },
+  {
+   "num": "54",
+   "titulo": "Tablas de rendimiento",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Conforme al art. 41 del VI CGSC, se mantienen las tablas de rendimientos elaboradas por la comisión creada al efecto en el convenio provincial de Barcelona."
+  },
+  {
+   "num": "55",
+   "titulo": "Comisión de productividad",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Crea una Comisión de productividad (2 titulares y 2 suplentes por parte) para estudiar la productividad del sector, presentar las tablas de rendimiento a la Comisión nacional (art. 41.2 VI CGSC), controlar su aplicación, resolver reclamaciones sobre ellas y elaborar el calendario de tablas del próximo convenio."
+  },
+  {
+   "num": "56",
+   "titulo": "Inclemencias del tiempo",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "Si el jefe de obra manda marchar al personal por inclemencias, se abona el día completo (salario base, plus convenio, transporte y distancia y, en su caso, antigüedad consolidada). Los trabajadores deben presentarse al inicio de la jornada y realizar otras tareas distintas de su categoría si se les ordena."
+  },
+  {
+   "num": "57",
+   "titulo": "Prendas de trabajo y abrigo",
+   "capitulo": "Capítulo III. Condiciones de trabajo",
+   "resumen": "La empresa entrega una prenda de trabajo (buzo o similar) con duración de 6 meses y prenda de abrigo cuando lo determinen prevención o los delegados; son de uso obligatorio. Limpieza a cargo del trabajador salvo trabajos con amianto o tóxicos; si cesa antes de los 6 meses debe devolverla o se le descuenta la parte proporcional de su coste."
+  },
+  {
+   "num": "58",
+   "titulo": "Disposiciones mínimas de seguridad y salud aplicables a las obras de construcción",
+   "capitulo": "Capítulo IV. Seguridad y salud laboral",
+   "resumen": "Remite a las disposiciones mínimas del Título IV del Libro II del VI Convenio General del Sector de la Construcción."
+  },
+  {
+   "num": "59",
+   "titulo": "Comité de seguridad y salud",
+   "capitulo": "Capítulo IV. Seguridad y salud laboral",
+   "resumen": "En centros de 20 o más trabajadores el comité es paritario: 2 miembros por parte de 20 a 100 trabajadores, 3 de 101 a 250, y a partir de 251 según la LPRL; por debajo de 20, delegado de prevención. Al menos un representante de los trabajadores debe ser delegado de personal o miembro del comité de empresa; la empresa pacta el tiempo retribuido para sus funciones."
+  },
+  {
+   "num": "60",
+   "titulo": "Comisión de seguridad y salud de la construcción de Cataluña",
+   "capitulo": "Capítulo IV. Seguridad y salud laboral",
+   "resumen": "Esta Comisión colaborará con la Comisión Paritaria Sectorial de Seguridad y Salud del art. 134 del Convenio General para coordinar la actividad preventiva en el sector."
+  },
+  {
+   "num": "61",
+   "titulo": "Comisión Paritaria provincial de formación profesional",
+   "capitulo": "Capítulo V. Formación profesional",
+   "resumen": "Comisión de 4 representantes empresariales y 4 sindicales para promover la formación en el sector, autónoma o en colaboración con la Fundación Laboral de la Construcción y la comisión del art. 112 VI CGSC; estudia necesidades formativas y la necesidad de certificados de profesionalidad."
+  },
+  {
+   "num": "62",
+   "titulo": "Norma general",
+   "capitulo": "Capítulo VI. Derechos colectivos de los trabajadores y las trabajadoras",
+   "resumen": "Los derechos colectivos y la actuación de delegados, comités y secciones sindicales se rigen por la normativa vigente, sin perjuicio de los acuerdos de los artículos siguientes."
+  },
+  {
+   "num": "63",
+   "titulo": "Antigüedad de los/as candidatos/as en elecciones de representantes de los trabajadores y las trabajadoras",
+   "capitulo": "Capítulo VI. Derechos colectivos de los trabajadores y las trabajadoras",
+   "resumen": "En desarrollo del art. 69.2 ET, son elegibles quienes tengan 18 años y al menos 3 meses de antigüedad, computando todos los periodos trabajados en la empresa en los 12 meses anteriores a la convocatoria."
+  },
+  {
+   "num": "64",
+   "titulo": "Acumulación de crédito de horas de los/as representantes de los trabajadores y las trabajadoras",
+   "capitulo": "Capítulo VI. Derechos colectivos de los trabajadores y las trabajadoras",
+   "resumen": "Empresas de hasta 100 trabajadores: acumulación bimensual de horas entre miembros del mismo sindicato, sin superar 80 h al mes por persona. Más de 100: acumulación de hasta el 75% de las horas retribuidas en uno o varios representantes. Debe notificarse a la empresa en 48 h."
+  },
+  {
+   "num": "65",
+   "titulo": "Asambleas de personal",
+   "capitulo": "Capítulo VI. Derechos colectivos de los trabajadores y las trabajadoras",
+   "resumen": "La empresa facilita asambleas con preaviso de 48 h, fuera de la jornada; excepcionalmente, en caso de concurso o ERE, dentro de la jornada y sin pérdida de retribución, hasta 2 h semanales."
+  },
+  {
+   "num": "66",
+   "titulo": "Local y Medios a disposición de los comités de empresa, Delegados/as de Personal y Secciones Sindicales",
+   "capitulo": "Capítulo VI. Derechos colectivos de los trabajadores y las trabajadoras",
+   "resumen": "La empresa debe facilitar un local adecuado en el centro (o en el domicilio administrativo) y medios informáticos (ordenador, correo electrónico e intranet) a comités, delegados y secciones sindicales; el local puede usarse por afiliados para reuniones fuera de horas de trabajo."
+  },
+  {
+   "num": "67",
+   "titulo": "Tablón de anuncios",
+   "capitulo": "Capítulo VI. Derechos colectivos de los trabajadores y las trabajadoras",
+   "resumen": "Tablones de al menos 0,80 × 1,20 m en todos los centros para comunicaciones de representantes y afiliados (que deben avisar previamente a los representantes y a la empresa, sin que estos puedan oponerse); la dirección tiene derecho de réplica."
+  },
+  {
+   "num": "68",
+   "titulo": "Comunicación a los trabajadores y las trabajadoras en relación con expedientes de regulación de empleo o de la solicitud de concurso",
+   "capitulo": "Capítulo VI. Derechos colectivos de los trabajadores y las trabajadoras",
+   "resumen": "La empresa entrega a la representación copia completa del ERE con la antelación del art. 51 ET y le informa de la solicitud de concurso al presentarla; la representación debe guardar reserva."
+  },
+  {
+   "num": "69",
+   "titulo": "Documentos de cotización",
+   "capitulo": "Capítulo VI. Derechos colectivos de los trabajadores y las trabajadoras",
+   "resumen": "La empresa entrega a la representación que lo solicite los TC1 y TC2 y trimestralmente los pone a disposición del comité o delegados respecto del personal del centro."
+  },
+  {
+   "num": "70",
+   "titulo": "Comité mixto, centrales sindicales, Federación de Entidades Empresariales de la Construcción",
+   "capitulo": "Capítulo VI. Derechos colectivos de los trabajadores y las trabajadoras",
+   "resumen": "Mantiene la Comisión mixta creada en 1981 (4 vocales de CCOO y UGT y 4 de la Federación de Entidades Empresariales de la Construcción) para el estudio de los problemas del sector, en especial el intrusismo; sus acuerdos figuran en el anexo 8 a efectos informativos."
+  },
+  {
+   "num": "71",
+   "titulo": "Cuota sindical",
+   "capitulo": "Capítulo VI. Derechos colectivos de los trabajadores y las trabajadoras",
+   "resumen": "La empresa descuenta mensualmente la cuota sindical de la nómina y la transfiere al sindicato, previa solicitud escrita firmada por el trabajador (sindicato, importe y cuenta) diligenciada por el sindicato; se mantiene hasta su revocación escrita."
+  },
+  {
+   "num": "72",
+   "titulo": "Igualdad de oportunidades y no discriminación",
+   "capitulo": "Capítulo VII. Igualdad de oportunidades",
+   "resumen": "Principios de igualdad efectiva y no discriminación en acceso al empleo, formación, promoción y condiciones de trabajo. En empresas de más de 100 trabajadores las medidas deben dirigirse a elaborar y aplicar un Plan de Igualdad, previo diagnóstico, con objetivos, medidas (retribución, conciliación, acoso sexual y por razón de sexo, etc.) y sistemas de seguimiento, para toda la empresa."
+  },
+  {
+   "num": "73",
+   "titulo": "(sin título)",
+   "capitulo": "Capítulo VIII. Normalización lingüística",
+   "resumen": "Los anuncios en la empresa se redactan en catalán (también en castellano si conviene para su comprensión) y se reconoce el derecho a usar el catalán oral y escrito. En empresas de más de 50 trabajadores, o donde se acuerde, se crea una Comisión de normalización lingüística."
+  },
+  {
+   "num": "74",
+   "titulo": "(sin título)",
+   "capitulo": "Capítulo VIII. Normalización lingüística",
+   "resumen": "En empresas de más de 500 trabajadores, o donde se considere oportuno, puede estudiarse con los departamentos de Cultura y Trabajo un servicio lingüístico de empresa, con participación de las secciones sindicales y la representación de los trabajadores."
+  },
+  {
+   "num": "75",
+   "titulo": "Concepto",
+   "capitulo": "Capítulo IX. Inaplicación de condiciones de trabajo",
+   "resumen": "Establece un mecanismo preventivo y coyuntural de suspensión temporal de la aplicación efectiva del convenio sobre determinadas condiciones para favorecer el empleo, sin perjuicio del art. 82.3 ET."
+  },
+  {
+   "num": "76",
+   "titulo": "Materias afectadas",
+   "capitulo": "Capítulo IX. Inaplicación de condiciones de trabajo",
+   "resumen": "La inaplicación puede afectar a jornada, horario y distribución del tiempo, turnos, sistema de remuneración y cuantía salarial, sistema de trabajo y rendimiento, funciones (más allá del art. 39 ET) y mejoras voluntarias de la Seguridad Social, sin perjuicio del art. 41 ET."
+  },
+  {
+   "num": "77",
+   "titulo": "Causas",
+   "capitulo": "Capítulo IX. Inaplicación de condiciones de trabajo",
+   "resumen": "Procede por disminución persistente de ingresos o perspectivas económicas negativas para el empleo; se entiende que concurre causa cuando el resultado de explotación por empleado o las ventas del último ejercicio o 12 meses sea inferior en un 12% al del periodo anterior. En extinciones por art. 50 ET o despidos improcedentes durante la inaplicación, la indemnización se calcula sobre el salario del convenio sin inaplicar."
+  },
+  {
+   "num": "78",
+   "titulo": "Procedimiento",
+   "capitulo": "Capítulo IX. Inaplicación de condiciones de trabajo",
+   "resumen": "Comunicación a la representación (o a los sindicatos más representativos o comisión ad hoc del art. 41.4 ET) y a la Comisión Paritaria; periodo de consultas de máximo 15 días con documentación económica (auditada o depositada si se alega el descenso del 12%). Con acuerdo se presume la causa (impugnable solo por fraude, dolo, coacción o abuso de derecho), se notifica a la Comisión Paritaria y no puede durar más allá de un nuevo convenio ni afectar a la igualdad retributiva. Sin acuerdo, la Comisión Paritaria resuelve en 7 días por unanimidad (acta del anexo 11) y, si no hay acuerdo, arbitraje vinculante del Tribunal Laboral de Catalunya."
+  },
+  {
+   "num": "79",
+   "titulo": "Clases de faltas",
+   "capitulo": "Capítulo X. Faltas y sanciones",
+   "resumen": "Las faltas se clasifican, según importancia y reincidencia, en leves, graves y muy graves."
+  },
+  {
+   "num": "80",
+   "titulo": "Prescripción de las faltes",
+   "capitulo": "Capítulo X. Faltas y sanciones",
+   "resumen": "Remite a los plazos de prescripción del art. 60.2 ET."
+  },
+  {
+   "num": "81",
+   "titulo": "Faltas leves",
+   "capitulo": "Capítulo X. Faltas y sanciones",
+   "resumen": "Enumera 15 faltas leves, entre ellas: hasta 3 faltas de puntualidad injustificadas en un mes; no avisar con 48 h de una ausencia justificada; abandono breve sin perjuicio; faltar 1 día al mes sin justificar; pequeños descuidos; incumplimiento de normas de prevención sin riesgo grave; uso particular de medios telemáticos de la empresa sin autorización."
+  },
+  {
+   "num": "82",
+   "titulo": "Faltas graves",
+   "capitulo": "Capítulo X. Faltas y sanciones",
+   "resumen": "Enumera 17 faltas graves, entre ellas: más de 3 faltas de puntualidad al mes (o 3 de más de 15 minutos); faltar 2 días al mes sin justificar; simular IT o accidente; incumplir normas de prevención con riesgo grave o negarse a usar medios de seguridad; desobediencia; negligencia grave; reincidencia en falta leve sancionada por escrito en el mismo trimestre; consumo de alcohol o drogas que repercuta en el trabajo."
+  },
+  {
+   "num": "83",
+   "titulo": "Faltas muy graves",
+   "capitulo": "Capítulo X. Faltas y sanciones",
+   "resumen": "Enumera 17 faltas muy graves, entre ellas: más de 10 faltas de puntualidad en 3 meses o 20 en 6; faltar más de 2 días al mes sin justificar; fraude, deslealtad, hurto o robo; daños intencionados; embriaguez habitual o toxicomanía con repercusión; malos tratos o faltas graves de respeto; abuso de autoridad; incumplimiento preventivo causante de accidente grave; reincidencia en falta grave sancionada en el mismo semestre."
+  },
+  {
+   "num": "84",
+   "titulo": "Sanciones. Aplicación",
+   "capitulo": "Capítulo X. Faltas y sanciones",
+   "resumen": "Leves: amonestación verbal o escrita; graves: suspensión de empleo y sueldo de 1 a 15 días; muy graves: suspensión de 16 a 90 días o despido. Se gradúan según responsabilidad, categoría y repercusión. Para representantes legales o sindicales (y hasta un año tras el cese) se exige expediente contradictorio en faltas graves y muy graves, y para afiliados conocidos, audiencia previa a los delegados sindicales."
+  },
+  {
+   "num": "DA 1ª",
+   "titulo": "Primera",
+   "capitulo": "Disposiciones adicionales",
+   "resumen": "Las partes asumen el Acuerdo Interprofesional de Cataluña 2018-2020 (DOGC 7-9-2018) sobre el Tribunal Laboral de Conciliación, Mediación y Arbitraje de Cataluña y su Reglamento."
+  },
+  {
+   "num": "DA 2ª",
+   "titulo": "Segunda",
+   "capitulo": "Disposiciones adicionales",
+   "resumen": "A efectos de la cuota de reserva del 2% para personas con discapacidad (art. 42.1 RDLeg. 1/2013), el cómputo se hace solo sobre el personal adscrito a centros de trabajo permanentes, dados los riesgos de las obras."
+  },
+  {
+   "num": "DA 3ª",
+   "titulo": "Tercera",
+   "capitulo": "Disposiciones adicionales",
+   "resumen": "Declaración de la Comisión Negociadora sobre la penosidad del trabajo en obra para trabajadores próximos a la jubilación; propone un estudio de siniestralidad por edades y promover reformas legales para reducir la edad de jubilación del personal de obra o aplicar coeficientes reductores."
+  },
+  {
+   "num": "DA 4ª",
+   "titulo": "Cuarta",
+   "capitulo": "Disposiciones adicionales",
+   "resumen": "Compromiso de abrir conversaciones, durante la vigencia, sobre la conveniencia de sentar bases para negociar un convenio de construcción y obras públicas de ámbito autonómico catalán."
+  },
+  {
+   "num": "DA 5ª",
+   "titulo": "Quinta",
+   "capitulo": "Disposiciones adicionales",
+   "resumen": "A quienes presten servicios en contratas de mantenimiento de carreteras se les aplica la disposición adicional quinta del Convenio General del Sector de la Construcción."
+  },
+  {
+   "num": "Anexo 6",
+   "titulo": "Contrato de trabajo",
+   "capitulo": "Anexos",
+   "resumen": "Modelo de contrato fijo de obras: categoría y obra, posibilidad de prestar servicios en distintas obras de la misma provincia hasta 3 años (oposición en 7 días, preaviso verbal de 48 h), periodo de prueba, condiciones del convenio, terminación con preaviso de 15 días (sustituible por indemnización), conversión en fijo de plantilla a los 3 años e indemnización por fin de contrato computando todas las obras."
+  },
+  {
+   "num": "Anexo 7",
+   "titulo": "Modelo de documento de liquidación, saldo y finiquito",
+   "capitulo": "Anexos",
+   "resumen": "Modelo de finiquito con detalle de partes proporcionales de pagas de Navidad y junio, vacaciones e indemnización por finalización del contrato, al que remite el art. 39."
+  },
+  {
+   "num": "Anexo 8",
+   "titulo": "Acuerdos de la Comisión Mixta de Intrusismo",
+   "capitulo": "Anexos",
+   "resumen": "Acuerdos informativos de la comisión del art. 70 sobre falsos autónomos (contrato mercantil escrito, comprobación de DCE y cotizaciones, responsabilidad solidaria; sanciones de 601,01 a 90.151,81 €), fraude en el desempleo, empresas prestamistas (cesión ilegal), requisitos de subcontratistas, autoconstrucción y propuestas a la Administración (visado previo de obras, mayor inspección)."
+  },
+  {
+   "num": "Anexo 9",
+   "titulo": "Tarjeta profesional de la construcción",
+   "capitulo": "Anexos",
+   "resumen": "Compromiso de colaborar con la Fundación Laboral de la Construcción en la Tarjeta Profesional; sus titulares con contrato fijo de obra o temporal están exentos del periodo de prueba en su categoría si consta acreditado en la tarjeta."
+  },
+  {
+   "num": "Anexo 10",
+   "titulo": "Model a omplir per fer consultes a la Comissió Paritària del Conveni de construcció per la província de barcelona",
+   "capitulo": "Anexos",
+   "resumen": "Formulario (en catalán) para plantear consultas de interpretación a la Comisión Paritaria según el art. 12: datos de la empresa, de quien consulta, artículo a interpretar, hechos y consulta."
+  },
+  {
+   "num": "Anexo 11",
+   "titulo": "Inaplicación de condiciones de trabajo. Acta de desacuerdo",
+   "capitulo": "Anexos",
+   "resumen": "Modelo de acta para remitir a la Comisión Paritaria una inaplicación terminada sin acuerdo, solicitando ambas partes, si la Comisión no alcanza acuerdo, el arbitraje vinculante del Tribunal Laboral de Catalunya."
+  },
+  {
+   "num": "Anexo I-A",
+   "titulo": "Tabla de retribuciones (vigentes desde el 1 de enero de 2018)",
+   "capitulo": "Anexos",
+   "resumen": "Tablas salariales por grupos (1 a 7) y áreas funcionales: retribución anual (salario base, plus convenio, plus de transporte, distancia y herramientas, pagas de junio y Navidad, vacaciones y total), mensual y diaria (incluido importe de sábado, domingo y festivo). Ejemplo: peón ordinario, total anual de 22.127,68 €."
+  },
+  {
+   "num": "Anexo II",
+   "titulo": "Antigüedades",
+   "capitulo": "Anexos",
+   "resumen": "Importes de antigüedad consolidada por tramos de 2 a 34 años de servicio: en euros/día para personal con salario diario (encargados, capataces, oficiales, ayudantes, peones, etc.) y en euros/mes para personal con salario mensual (técnicos, administrativos, etc.)."
+  },
+  {
+   "num": "Anexo II (bis)",
+   "titulo": "Antigüedades pagas extras y vacaciones",
+   "capitulo": "Anexos",
+   "resumen": "Importes de antigüedad consolidada que se añaden a cada paga extraordinaria y a las vacaciones, por grupos de categorías y años de antigüedad (2 a 34 años)."
+  },
+  {
+   "num": "Anexo III",
+   "titulo": "Horas extraordinarias (euros/hora) (vigentes desde el 1 de enero de 2018)",
+   "capitulo": "Anexos",
+   "resumen": "Precio de la hora extraordinaria por categoría: columna I (diurnas laborables) y columna II (+20%: nocturnas, sábados, domingos y festivos); por ejemplo, peón ordinario 12,75 € y 15,26 €. Al que remite el art. 24."
+  },
+  {
+   "num": "Anexo IV",
+   "titulo": "Tabla de retribuciones anuales del contrato de formación (vigentes desde el 1 de enero de 2018)",
+   "capitulo": "Anexos",
+   "resumen": "Retribución anual de los contratos para la formación (art. 32), para jornada al 100% y al 85% (15% de formación): 1º, 2º y 3º año (p. ej., 1º año al 100%: 16.360,36 €) y colectivos sin límite de edad, 1º y 2º año (23.166,82 € y 24.301,23 € al 100%)."
+  }
+ ],
+ "ambito_funcional": "El convenio se aplica obligatoriamente a todas las actividades propias del sector de la construcción: construcción y obras públicas (albañilería, hormigón, pintura, carpintería, piedra y mármol, canteras y graveras, movimiento de tierras, demolición y rehabilitación, montaje y alquiler de andamios y maquinaria, ferralla, cimentaciones, inmobiliarias y promoción de edificación y urbanizaciones, instalaciones de fontanería, electricidad, telecomunicaciones y aire acondicionado cuya actividad principal se realice en obra, gestión de residuos en obra y control de calidad). También abarca la conservación y mantenimiento de autopistas, carreteras, vías férreas y vías públicas, las canteras y explotación de tierras industriales (excepto las regidas por la Reglamentación de Minas), las embarcaciones y ferrocarriles auxiliares en obras de puertos y el comercio de construcción mayorista y exclusivista.",
+ "ambito_funcional_cita": "El presente Convenio será de obligado cumplimiento en todas las actividades propias del Sector de la Construcción, que son las siguientes: a) Las dedicadas a la Construcción y Obras Públicas comprendiendo: - Albañilería - Hormigón - Pintura para decoración y empapelado - Carpintería de Armar",
+ "ambito_territorial": "Convenio de ámbito provincial aplicable a todos los centros de trabajo incluidos en su ámbito funcional situados en la provincia de Barcelona, aunque la sede central o el domicilio social de la empresa estén fuera de la provincia. Las partes se comprometen además a participar en la negociación de un eventual convenio del sector de ámbito catalán.",
+ "ambito_territorial_cita": "El presente Convenio será de ámbito provincial y se extenderá a la provincia de Barcelona, quedando incluidos en el mismo todos los centros de trabajo […] que se hallen emplazados en la provincia, aun cuando la sede central o el domicilio social de la empresa radiquen fuera […]",
+ "estatal": {
+  "id": "99005585011900-vii-convenio-general-construccion",
+  "nombre": "VII Convenio General del Sector de la Construcción",
+  "codigo": "99005585011900",
+  "articulacion": "artículo 12",
+  "articulacion_resumen": "El art. 12 otorga al Convenio General prioridad aplicativa sobre cualquier otra norma, salvo remisión expresa a otros ámbitos, y reserva en exclusiva al ámbito estatal, sin posibilidad de negociarlas en ámbitos inferiores, estas materias: naturaleza jurídica, ámbitos y garantías (arts. 3-10); inaplicación de condiciones (arts. 14-17); condiciones generales de prestación de trabajo (arts. 18-107); contratación (arts. 22-27); subcontratación (art. 28); subrogación (art. 29 y DA 4ª); clasificación profesional (art. 30); productividad y tablas de rendimiento de alcance nacional (arts. 39-47); conceptos, estructura y cuantía de las percepciones económicas, salariales y no salariales, salvo las no cuantificadas numérica o porcentualmente (arts. 49-70); modificaciones de condiciones de trabajo (arts. 49-77); régimen de indemnizaciones (art. 69); jornada anual y descansos (arts. 71-75); vacaciones, licencias y permisos (arts. 76-77); movilidad funcional y geográfica (arts. 78-92); suspensión y extinción (arts. 93-99); jubilación (art. 100); condiciones básicas del régimen disciplinario (arts. 101-107); órganos de representación (arts. 108-110); cuota a la FLC (art. 119); OPPC (arts. 121-137); información y formación en seguridad y salud (arts. 138-153); acreditación de la formación y TPC (arts. 154-166); disposiciones mínimas de seguridad y salud (arts. 167-239); plan de pensiones (art. 240); y las disposiciones transitorias 1ª a 3ª y adicionales 1ª a 8ª. Los ámbitos inferiores deben remitirse al Convenio General, que es además derecho supletorio, y en el ámbito autonómico no pueden negociarse acuerdos que afecten a lo dispuesto en él (art. 84.3 ET). Son materias específicas de los convenios provinciales o, en su caso, autonómicos: a) el contenido obligacional; b) la concreción cuantitativa de las percepciones económicas no cuantificadas numérica o porcentualmente en el Convenio General; c) la distribución de la jornada anual de trabajo efectivo y su regulación en horarios y calendarios; d) el periodo de prueba; e) el desarrollo del régimen disciplinario; f) la concreción de medidas de flexibilidad funcional y geográfica no establecidas expresamente en el Convenio General; g) la aplicación en su ámbito de los acuerdos sectoriales nacionales; h) cualesquiera otras materias no reguladas por convenios de ámbito superior; e i) las materias remitidas por los convenios de ámbito superior. Estos convenios provinciales o autonómicos prevalecen sobre los de ámbito inferior en esas materias, todo ello sin perjuicio del art. 84.1 y 2 ET."
+ },
+ "comparacion": [
+  {
+   "materia": "Salario (tablas por categoría)",
+   "provincial": "Tablas propias por categoría y año con salario base, plus de convenio, plus de transporte, pagas y vacaciones (Anexo I-A; tablas 2026 en el BOPB del 17-3-2026)",
+   "estatal": "No tiene tablas por categoría: fija la estructura salarial y la remuneración mínima bruta anual; las tablas las negocian los convenios provinciales (arts. 50 y 53)",
+   "et": "Salario mínimo interprofesional (art. 27)",
+   "favorable": "provincial",
+   "articulos": "Prov. Anexo I-A · Est. arts. 50 y 53"
+  },
+  {
+   "materia": "Jornada",
+   "provincial": "40 h semanales de lunes a viernes; jornada anual según el convenio estatal (art. 43)",
+   "estatal": "1.736 h anuales y 40 h semanales, máximo 9 h diarias (art. 71)",
+   "et": "40 h semanales de promedio en cómputo anual y máximo 9 h diarias (art. 34)",
+   "favorable": "igual",
+   "articulos": "Prov. art. 43 · Est. art. 71"
+  },
+  {
+   "materia": "Horas extra",
+   "provincial": "Precio fijado en tablas (Anexo III): col. I hora ordinaria; col. II, +20 % (nocturnas, sábados, domingos y festivos) (art. 24)",
+   "estatal": "Remite el importe a los convenios provinciales (art. 68)",
+   "et": "Pago no inferior a la hora ordinaria o descanso equivalente; máximo 80 al año (art. 35)",
+   "favorable": "provincial",
+   "articulos": "Prov. art. 24 y Anexo III · Est. arts. 66 a 68"
+  },
+  {
+   "materia": "Pagas extraordinarias",
+   "provincial": "Dos (junio y Navidad), importe fijo de la tabla; prohibido el prorrateo y el «salario global» (art. 17)",
+   "estatal": "Dos pagas; prohibido el prorrateo para nuevos contratos (arts. 60 y 61)",
+   "et": "Dos al año, con importe fijado por convenio (art. 31)",
+   "favorable": "igual",
+   "articulos": "Prov. art. 17 · Est. arts. 60 y 61"
+  },
+  {
+   "materia": "Vacaciones",
+   "provincial": "30 días naturales, 21 laborables; importe fijo de la tabla (art. 46)",
+   "estatal": "30 días naturales, 21 laborables (art. 76)",
+   "et": "30 días naturales (art. 38)",
+   "favorable": "igual",
+   "articulos": "Prov. art. 46 · Est. art. 76"
+  },
+  {
+   "materia": "Baja médica con hospitalización",
+   "provincial": "Complemento del 25 % de la base reguladora durante el ingreso y una convalecencia igual (máx. 100 días) (art. 28.1)",
+   "estatal": "Garantiza el 100 % del salario base y pluses salariales durante la hospitalización y los 60 días siguientes (art. 70)",
+   "et": "Sin complemento (solo la prestación de la Seguridad Social)",
+   "favorable": "estatal",
+   "articulos": "Prov. art. 28.1 · Est. art. 70"
+  },
+  {
+   "materia": "Baja por accidente de trabajo sin hospitalización",
+   "provincial": "Garantía de salario base + plus de convenio + antigüedad desde el día 16 y hasta 80 días, en bajas de 15 días o más (art. 28.2)",
+   "estatal": "No lo regula (solo la hospitalización, art. 70)",
+   "et": "Sin complemento",
+   "favorable": "provincial",
+   "articulos": "Prov. art. 28.2 · Est. art. 70"
+  },
+  {
+   "materia": "Primeros días de baja",
+   "provincial": "Primera baja del año: 100 % de la base reguladora los 3 primeros días (art. 28.7)",
+   "estatal": "No lo regula",
+   "et": "Sin complemento",
+   "favorable": "provincial",
+   "articulos": "Prov. art. 28.7"
+  },
+  {
+   "materia": "Indemnización por muerte o incapacidad",
+   "provincial": "Muerte natural: una mensualidad; muerte o incapacidad absoluta/gran invalidez por accidente de trabajo: 47.000 €; incapacidad total: 28.000 € (art. 29)",
+   "estatal": "Mismas cuantías: una mensualidad, 47.000 € y 28.000 € (art. 69)",
+   "et": "No lo regula",
+   "favorable": "igual",
+   "articulos": "Prov. art. 29 · Est. art. 69"
+  },
+  {
+   "materia": "Periodo de prueba",
+   "provincial": "Titulados superiores 6 meses; titulados de grado medio 2 meses; empleados niveles III-V 3 meses, VI-X 2 meses; operarios: encargados y capataces 1 mes, resto 15 días (art. 37)",
+   "estatal": "Titulados superiores y medios 6 meses; resto igual que el provincial (art. 21)",
+   "et": "Máximo 6 meses titulados y 2 meses el resto (art. 14)",
+   "favorable": "provincial",
+   "articulos": "Prov. art. 37 · Est. art. 21"
+  },
+  {
+   "materia": "Permiso por fallecimiento",
+   "provincial": "De 3 a 6 días naturales según dónde sea el sepelio (cónyuge, hijos, padres, hermanos); 6 días para no comunitarios que viajen a su país (art. 47.1.b)",
+   "estatal": "3 días laborables, 4 con desplazamiento; 6 días laborables para no comunitarios que viajen a su país (art. 77.1.d)",
+   "et": "2 días, 4 con desplazamiento (art. 37.3.b bis)",
+   "favorable": "depende",
+   "articulos": "Prov. art. 47 · Est. art. 77"
+  },
+  {
+   "materia": "Permiso por enfermedad grave u hospitalización de familiar",
+   "provincial": "De 3 a 5 días naturales según el lugar (texto de 2017-2021) (art. 47.1.c)",
+   "estatal": "5 días laborables (art. 77.1.e)",
+   "et": "5 días (art. 37.3.b, tras el RDL 5/2023)",
+   "favorable": "estatal",
+   "articulos": "Prov. art. 47 · Est. art. 77"
+  },
+  {
+   "materia": "Preaviso al dimitir",
+   "provincial": "Personal obrero 1 semana; empleados y encargados 1 mes; técnicos titulados 2 meses; si no se cumple, se descuentan los días en la liquidación (art. 38)",
+   "estatal": "No regula el preaviso de la persona trabajadora al dimitir (el art. 25 solo fija 15 días de preaviso de la empresa en el contrato indefinido adscrito a obra)",
+   "et": "El que fije el convenio o la costumbre (art. 49.1.d)",
+   "favorable": "solo_provincial",
+   "articulos": "Prov. art. 38 · Est. art. 25"
+  },
+  {
+   "materia": "Antigüedad",
+   "provincial": "Solo la consolidada a 19-1-1997, «ad personam» (art. 18)",
+   "estatal": "Antigüedad consolidada, sin nuevos devengos (art. 58)",
+   "et": "No la impone",
+   "favorable": "igual",
+   "articulos": "Prov. art. 18 · Est. art. 58"
+  },
+  {
+   "materia": "Dietas",
+   "provincial": "Dieta completa y media dieta; el 20 % si la empresa paga manutención y alojamiento (art. 52); importes en tablas",
+   "estatal": "Misma regulación (art. 86)",
+   "et": "No lo regula",
+   "favorable": "igual",
+   "articulos": "Prov. art. 52 · Est. art. 86"
+  }
+ ],
+ "sugerencia": "Aplicar el convenio provincial de Barcelona, articulado con el VII Convenio General: el provincial aporta las tablas salariales de la categoría (sin ellas no se puede calcular lo que debía percibir), el precio de las horas extra, la garantía en bajas por accidente sin hospitalización, el 100 % de los tres primeros días de baja y periodos de prueba más cortos para titulados medios; del estatal se aplica lo que mejora al provincial (complemento del 100 % en hospitalización y 5 días laborables de permiso por enfermedad grave). En ningún caso por debajo del Estatuto de los Trabajadores.",
+ "justificacion": {
+  "funcional": "las actividades propias del sector de la construcción y obras públicas (albañilería, hormigón, obras públicas y demás relacionadas en su artículo 1)",
+  "territorial": "la provincia de Barcelona (artículo 2)"
+ }
 }

@@ -106,3 +106,10 @@
 - Tablas de 2025 y 2026 provisionales (cláusula de garantía salarial).
 - VII Convenio General leído en el BOE (BOE-A-2023-19903, `../99005585011900-vii-convenio-general-construccion/`), con la corrección de erratas BOE-A-2024-426, que no afecta a los artículos usados. No se ha leído la modificación de noviembre de 2025 (BOE 10-12-2025), que afecta a las tablas.
 - Encaje en peón ordinario o especialista según las funciones reales.
+
+## Resumen de artículos, ámbitos y comparación con el estatal
+
+`resumen.json` incluye ahora:
+- `articulos`: los 84 artículos, las disposiciones adicionales y los anexos, con título y resumen. Avisos: falta el texto del Anexo 5 (dietas); los arts. 73 y 74 no tienen título; el art. 42 remite al «artículo 26» (error del propio convenio).
+- `ambito_funcional` y `ambito_territorial`, con la cita literal (arts. 1 y 2).
+- `estatal` (VII Convenio General, art. 12 de articulación), `comparacion` (15 materias, con el más favorable en cada una), `sugerencia` y `justificacion` (texto base para la papeleta).
