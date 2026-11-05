@@ -80,6 +80,13 @@ FC.dirsUsadas=(c,salvo)=>{const L=[],vis=new Set([FC.dirSig(getP(c,salvo))]);con
  const dc=FC.gen(c,'de la clienta','del cliente');add('cli.dom','Domicilio '+dc);if(c.cli.empadronada==='si')add('cli.padronDir','Padrón '+dc);if(c.cli.postalIgual==='no')add('cli.postal','Dirección postal '+dc);
  c.empleadores.forEach((e,i)=>{add(`empleadores.${i}.dom`,'Domicilio de '+(FC.full(FC.per(c,e.titular))||'empleador '+(i+1)));(e.otros||[]).forEach(id=>{const k=c.personas.findIndex(q=>q.id===id);if(k>=0)add(`personas.${k}.dom`,'Domicilio de '+(FC.full(c.personas[k])||'otra persona empleadora'));});});
  c.lugares.forEach((l,i)=>add(`lugares.${i}.dir`,'Lugar de trabajo '+(i+1)));return L.filter(x=>x.p!==salvo);};
+/* código postal → provincia y municipio; también al corregir un código mal escrito */
+FC.cpAplicar=(d,v)=>{v=String(v||'').trim();if(!d||!/^\d{5}$/.test(v))return;const pr=v.slice(0,2);if(!window.TERR.prov[pr])return;
+ if(d.prov!==pr){d.prov=pr;d.codm='';d.munq='';d.social='';}
+ const ML=FC.munList(pr),cur=FC.mun(d.codm),pon=o=>{const m=FC.mun(o.codm)||o;d.codm=o.codm;d.munq=m.name||'';d.social=m.social||'';};
+ /* el mapa tiene un código por municipio: se busca el exacto y, si no, por las 4 y las 3 primeras cifras */
+ for(const n of [5,4,3]){const L=ML.filter(o=>o.cp&&o.cp.slice(0,n)===v.slice(0,n));if(L.length===1){if(!cur||cur.codm!==L[0].codm)pon(L[0]);return;}if(L.length>1&&cur&&L.some(o=>o.codm===cur.codm))return;}
+ if(cur&&(cur.cp||'').slice(0,3)!==v.slice(0,3)){d.codm='';d.munq='';d.social='';}};
 FC.dirCPmal=d=>d&&/^\d{5}$/.test(d.cp||'')&&d.prov&&d.cp.slice(0,2)!==d.prov;
 
 /* ---------------- plantillas de registros ---------------- */
@@ -767,6 +774,10 @@ FC.runTests=()=>{const H='2026-10-26';const prev=FC._hoy;FC._hoy=H;const out=[];
  T('Correcciones','NIE: solo países de la Unión Europea, con su nombre oficial en la papeleta',()=>{const s2=FC.demo(H),k=s2.c;k.cli.doc='NIE';k.cli.docnum='X1234567L';k.cli.emisorPais='FR';const t=FC.papText(FC.pap(s2,H));return {ok:FC.PAISES_UE.length===27&&FC.PAISES_UE[0][0]==='ES'&&/emitido por la REPÚBLICA FRANCESA/.test(t),det:(t.match(/emitido por [^,]*/)||[''])[0]};});
  T('Correcciones','Tratamiento: «Domicilio del cliente» o «de la clienta» según D. o D.ª (y por defecto, según la ficha)',()=>{const s2=FC.demo(H),k=s2.c;const e=FC.T.lugares(k);k.lugares=[e];k.cli.trato='d';const a=FC.dirsUsadas(k,'lugares.0.dir').map(x=>x.l);k.cli.trato='da';const b=FC.dirsUsadas(k,'lugares.0.dir').map(x=>x.l);k.cli.trato='';const c0=FC.gen(k,'f','m'),cB=FC.gen(FC.newB().c,'f','m');
   return {ok:a.includes('Domicilio del cliente')&&b.includes('Domicilio de la clienta')&&c0==='f'&&cB==='m',det:a.join(', ')};});
+ T('Correcciones','Código postal corregido: cambia la provincia y el municipio aunque ya estuvieran puestos',()=>{const uno=pr=>{const L=FC.munList(pr);const n={};L.forEach(o=>{if(o.cp)n[o.cp]=(n[o.cp]||0)+1;});return L.find(o=>o.cp&&n[o.cp]===1);};const a=uno('28'),b=uno('08'),b2=FC.munList('08').find(o=>o.cp&&o.codm!==b.codm&&FC.munList('08').filter(x=>x.cp===o.cp).length===1);
+  const d=FC.newDir();FC.cpAplicar(d,a.cp);const p1=[d.prov,d.codm].join();FC.cpAplicar(d,b.cp);const p2=[d.prov,d.codm].join();FC.cpAplicar(d,b2.cp);const p3=[d.prov,d.codm].join();FC.cpAplicar(d,'123');const p4=[d.prov,d.codm].join();
+  FC.cpAplicar(d,'08015');const p5=d.munq;FC.cpAplicar(d,'28805');const p6=d.munq;FC.cpAplicar(d,'28016');const p7=d.munq;
+  return {ok:p1==='28,'+a.codm&&p2==='08,'+b.codm&&p3==='08,'+b2.codm&&p4===p3&&p5==='Barcelona'&&p6==='Alcalá de Henares'&&p7==='Madrid',det:[p1,p2,p3,p4,p5,p6,p7].join(' → ')};});
  T('Papeleta Word','Negritas como el escrito del despacho, DICE subrayado, títulos a 14 y sin «Variante nueva»',()=>{const G=FC.pap(FC.demo(H),H);const x=FC.docXml(G);return {ok:!/Variante nueva/.test(x)&&/<w:b\/><w:sz w:val="28"\/>/.test(x)&&/<w:b\/><w:u w:val="single"\/>.*?DICE:/.test(x)&&/<w:ind w:firstLine="703"\/><\/w:pPr><w:r><w:rPr><w:b\/>[^]*?PRIMERO|1\.- /.test(x)&&/<w:b\/>[^<]*<\/w:rPr><w:t xml:space="preserve">D\.ª ROSA QUISPE MAMANI/.test(x)&&!/[⟪⟫]/.test(x)};});
  T('Documentos','DNI y NIE con letra correcta: válidos',()=>({ok:FC.docCheck('DNI','12345678Z')===''&&FC.docCheck('DNI','12.345.678-z')===''&&FC.docCheck('NIE','X1234567L')===''&&FC.docCheck('nie','Y0000000Z')===''&&FC.docCheck('Pasaporte','ABC')===''}));
  T('Documentos','DNI o NIE con letra o formato incorrecto: aviso',()=>({ok:/no corresponde/.test(FC.docCheck('DNI','12345678A'))&&/8 números/.test(FC.docCheck('DNI','1234567Z'))&&/no corresponde/.test(FC.docCheck('NIE','X1234567T'))&&/X, Y o Z/.test(FC.docCheck('NIE','A1234567L'))}));
