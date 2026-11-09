@@ -527,9 +527,9 @@ FC.pap=(st,hoy)=>{hoy=hoy||today();const c=st.c,E=FC.evaluate(st,hoy),T1=E.T1,T2
  const P3=[];const pers=c.periodos.filter(x=>x.desde);
  if(pers.length===1){const x=pers[0];const ds=FC.descSemana(x.semanas[0]);const r=per[0];
   if(ds&&x.semanas.length===1){const W=ds.W;const ok=W.ef>=40&&W.ef+W.pres>40;const lit=ok&&ds.uniform&&x.modalidad==='interna'&&!/^sin /.test(ds.libre);const first=ds.uniform?`realizando una jornada ${ds.gtxt(ds.groups[0]).replace(/^el /,'de ')}`:`realizando una jornada ${ds.groups.map(ds.gtxt).join(', y ')}`;
-   P3.push(p(`${TR} prestaba sus servicios por cuenta de ${empArt} con una jornada laboral con carácter de ${FC.modTxt(x.modalidad)}, ${first}, ${ds.desc?`con un descanso de ${ds.desc} minutos, `:''}${/^sin /.test(ds.libre)?'':'y '}${ds.libre||P('días libres')}, sumando así un total de ${n1(W.ef+W.pres)} horas semanales, ${ok?'que incluyen las 40h de trabajo efectivo más el resto de horas de presencia superando así de esta manera la jornada laboral y tiempo de presencia legalmente establecido en el artículo 9 del Real Decreto.':`de las cuales ${n1(W.ef)} son de trabajo efectivo${W.pres?' y '+n1(W.pres)+' de presencia':''}${W.ef>40||W.pres>20?', superando así la jornada laboral y tiempo de presencia legalmente establecido en el artículo 9 del Real Decreto':''}.`}`,lit?'ok':'nuevo'));}
-  else P3.push(p(`${TR} prestaba sus servicios por cuenta de ${empArt} con carácter de ${FC.modTxt(x.modalidad)}, alternando las siguientes semanas: ${x.semanas.map(s=>{const d=FC.descSemana(s);return d?`semana ${s.nombre}: ${d.groups.map(d.gtxt).join(', ')} (${n1(d.W.ef)} h de trabajo efectivo${d.W.pres?' y '+n1(d.W.pres)+' de presencia':''})`:'';}).filter(Boolean).join('; ')}${r?`, sumando un promedio de ${n1((r.ef+r.pres)/(r.days/7))} horas semanales`:''}.`,'nuevo'));}
- else if(pers.length>1)P3.push(p(`${TR} prestaba sus servicios por cuenta de ${empArt} con la siguiente jornada: ${pers.map((x,i)=>{const r=E.J.per.find(q=>q.id===x.id);const d=FC.descSemana(x.semanas[0]);return `del ${dmy(x.desde)} al ${dmy(r&&r.hasta)}, con carácter de ${FC.modTxt(x.modalidad)}${d?', '+d.groups.map(d.gtxt).join(', ')+(d.libre?', '+d.libre:''):''}${r&&r.days?`, con un promedio de ${n1(r.ef/(r.days/7))} horas semanales de trabajo efectivo${r.pres?' y '+n1(r.pres/(r.days/7))+' de presencia':''}`:''}`;}).join('; ')}, superando la jornada laboral y tiempo de presencia legalmente establecido en el artículo 9 del Real Decreto.`,'nuevo'));
+   P3.push(p(`${TR} prestaba sus servicios por cuenta ${empArt.replace(/^el /,'del ').replace(/^(?!del )/,'de ')} con una jornada laboral con carácter de ${FC.modTxt(x.modalidad)}, ${first}, ${ds.desc?`con un descanso de ${ds.desc} minutos, `:''}${/^sin /.test(ds.libre)?'':'y '}${ds.libre||P('días libres')}, sumando así un total de ${n1(W.ef+W.pres)} horas semanales, ${ok?'que incluyen las 40h de trabajo efectivo más el resto de horas de presencia superando así de esta manera la jornada laboral y tiempo de presencia legalmente establecido en el artículo 9 del Real Decreto.':`de las cuales ${n1(W.ef)} son de trabajo efectivo${W.pres?' y '+n1(W.pres)+' de presencia':''}${W.ef>40||W.pres>20?', superando así la jornada laboral y tiempo de presencia legalmente establecido en el artículo 9 del Real Decreto':''}.`}`,lit?'ok':'nuevo'));}
+  else P3.push(p(`${TR} prestaba sus servicios por cuenta ${empArt.replace(/^el /,'del ').replace(/^(?!del )/,'de ')} con carácter de ${FC.modTxt(x.modalidad)}, alternando las siguientes semanas: ${x.semanas.map(s=>{const d=FC.descSemana(s);return d?`semana ${s.nombre}: ${d.groups.map(d.gtxt).join(', ')} (${n1(d.W.ef)} h de trabajo efectivo${d.W.pres?' y '+n1(d.W.pres)+' de presencia':''})`:'';}).filter(Boolean).join('; ')}${r?`, sumando un promedio de ${n1((r.ef+r.pres)/(r.days/7))} horas semanales`:''}.`,'nuevo'));}
+ else if(pers.length>1)P3.push(p(`${TR} prestaba sus servicios por cuenta ${empArt.replace(/^el /,'del ').replace(/^(?!del )/,'de ')} con la siguiente jornada: ${pers.map((x,i)=>{const r=E.J.per.find(q=>q.id===x.id);const d=FC.descSemana(x.semanas[0]);return `del ${dmy(x.desde)} al ${dmy(r&&r.hasta)}, con carácter de ${FC.modTxt(x.modalidad)}${d?', '+d.groups.map(d.gtxt).join(', ')+(d.libre?', '+d.libre:''):''}${r&&r.days?`, con un promedio de ${n1(r.ef/(r.days/7))} horas semanales de trabajo efectivo${r.pres?' y '+n1(r.pres/(r.days/7))+' de presencia':''}`:''}`;}).join('; ')}, superando la jornada laboral y tiempo de presencia legalmente establecido en el artículo 9 del Real Decreto.`,'nuevo'));
  else P3.push(p(P('jornada: falta el periodo de jornada'),'pend'));
  const fx=c.tareas.filter(t=>FC.TAREAP[t]).map(t=>FC.TAREAP[t]);if(c.tareas.includes('otras')&&c.tareasOtras)fx.push(c.tareasOtras.trim().replace(/\.$/,''));
  const lug=c.lugares.filter(l=>!FC.dirVacia(l.dir));
@@ -688,6 +688,144 @@ FC.demo=hoy=>{hoy=hoy||today();const st=FC.newC();const c=st.c;const d=(dd)=>SF.
  Object.assign(c.abg,{calif:'',acum:''});[c.cli.dom,c.cli.padronDir,...c.lugares.map(l=>l.dir),...c.empleadores.map(e=>e.dom),luis.dom].forEach(d=>{d.gmaps=FC.dirSig(d);});
  return st;};
 
+/* ---------------- casos tipo de la ficha C (ficticios) ----------------
+   Cada uno reproduce la ESTRUCTURA de un caso real del despacho (duración, horarios, salarios, forma de terminar),
+   con nombres, documentos, direcciones y teléfonos inventados. Las fechas se calculan desde hoy. */
+FC.demoBase=(hoy,o)=>{hoy=hoy||today();const st=FC.newC();const c=st.c;const fin=SF.wdBack(hoy,o.finHab||6);const d=n=>SF.addDays(fin,n);
+ const pe=x=>{const p=FC.T.personas(c);Object.assign(p,x);c.personas.push(p);return p;};
+ const dir=(x)=>Object.assign(FC.newDir(),x);
+ const mes=f=>f.slice(0,7);const meses=(a,b)=>{const L=[];let y=+a.slice(0,4),m=+a.slice(5,7);const Y=+b.slice(0,4),M=+b.slice(5,7);while(y<Y||(y===Y&&m<=M)){L.push(`${y}-${String(m).padStart(2,'0')}`);m++;if(m>12){m=1;y++;}}return L;};
+ const sem=(pj,spec)=>{const w=pj.semanas[0];spec.forEach(([dias,tr])=>dias.forEach(i=>{if(tr==='libre')w.dias[i].libre=true;else w.dias[i].tramos=tr.map(([t,e,s,nota])=>Object.assign(FC.newTramo(c,t,e,s),{nota:nota||''}));}));FC.dias2turnos(c,w);return pj;};
+ const per=(desde,hasta,mod,lug,spec)=>{const pj=FC.T.periodos(c);Object.assign(pj,{desde,hasta:hasta||'',modalidad:mod,lugar:lug.id});sem(pj,spec);c.periodos.push(pj);return pj;};
+ const lug=(dd,desde,hasta,quienes)=>{const l=FC.T.lugares(c);Object.assign(l.dir,dd);l.desde=desde;l.hasta=hasta;l.quienes=quienes;c.lugares.push(l);return l;};
+ const R={st,c,fin,d,pe,dir,mes,meses,per,lug};o.build(R);
+ [c.cli.dom,c.cli.padronDir,...c.lugares.map(l=>l.dir),...c.empleadores.map(e=>e.dom),...c.personas.map(p=>p.dom).filter(Boolean)].forEach(x=>{if(x&&x.calle)x.gmaps=FC.dirSig(x);});
+ return st;};
+const EF='efectivo',DS='descanso',PR='presencia',LV=[0,1,2,3,4];
+FC.DEMOS_C=[
+ {id:'C1',nombre:'Externa que cuidaba a dos niñas en dos casas tras la separación de los padres; despido disciplinario por carta',build:R=>{const {c,fin,d,pe,dir,meses,per,lug}=R;
+  Object.assign(c.filtro,{abogado:'no',reclamar:['despido','salarios','vacaciones'],conocio:['tiktok'],motivo:'Cree que el despido disciplinario es injusto y quiere cobrar el finiquito.',hechaPor:'ASESOR_03 (ficticio)'});
+  Object.assign(c.cli,{trato:'da',nombre:'Marta Elena',apellidos:'Suazo Ríos (ficticia)',doc:'DNI',docnum:'00000001R (ficticio)',pais:'HN',nac:'1982-05-08',tel:'600 000 401',email:'marta.ficticia@example.com',empadronada:'si',padronFecha:d(-2500),postalIgual:'si',sindical:'no'});
+  Object.assign(c.cli.dom,{via:'Calle',calle:'Imaginaria (ficticia)',num:'10',piso:'1',puerta:'2',cp:'08013',prov:'08',codm:'08019'});Object.assign(c.cli.padronDir,c.cli.dom);
+  const pa=pe({trato:'d',nombre:'Andrés',apellidos:'Vidal Soler (ficticio)',papel:'padre de las niñas',edad:'45',docTipo:'DNI',docNum:'00000002W (ficticio)',m:{vive:true,titular:true,contrato:true,ordenes:true,pago:true,despidio:true}});
+  const ma=pe({trato:'da',nombre:'Laura',apellidos:'Pons Gil (ficticia)',papel:'expareja',edad:'43',m:{vive:true,contrato:true,ordenes:true}});
+  const n1=pe({trato:'da',nombre:'Lucía',apellidos:'Vidal Pons (ficticia)',papel:'hija',edad:'8',m:{vive:true}});const n2=pe({trato:'da',nombre:'Clara',apellidos:'Vidal Pons (ficticia)',papel:'hija',edad:'10',m:{vive:true}});
+  const ini=d(-2987),sep=d(-340),alta=d(-1278);
+  const e=FC.T.empleadores(c);e.titular=pa.id;e.otros=[ma.id];Object.assign(e.dom,{via:'Paseo',calle:'Supuesto (ficticio)',num:'22',piso:'4',puerta:'2',cp:'08010',prov:'08',codm:'08019'});e.desde=ini;e.hasta=fin;c.empleadores.push(e);
+  ma.dom=R.dir({via:'Paseo',calle:'Supuesto (ficticio)',num:'22',piso:'3',puerta:'1',cp:'08010',prov:'08',codm:'08019'});pa.empDesde=ini;pa.empHasta=fin;ma.empDesde=ini;ma.empHasta=fin;
+  const lA=lug(e.dom,ini,fin,[pa.id,ma.id]);const lB=lug(ma.dom,sep,fin,[ma.id]);
+  Object.assign(c.rel,{inicio:ini,contrato:'verbal',alta:'si',autGlobal:'siempre'});
+  c.altas.push(Object.assign(FC.T.altas(c),{alta,baja:fin,emps:[pa.id],fuente:'cliente',pagoBruto:'392',pagoNeto:'370',pagoDesde:alta.slice(0,8)+'01',pagoHasta:SF.addDays(SF.addDays(alta.slice(0,8)+'28',4).slice(0,8)+'01',-1),pagoMes:SF.addDays(SF.addDays(alta.slice(0,8)+'28',4).slice(0,8)+'01',0),pagoMesForma:'transferencia',pagoMesObs:'el mismo importe que antes, ya con nómina'}));
+  c.tareas=['ninos','limpiar_casa','limpiar_banos','limpiar_cocina','cocinar','lavar','planchar'];
+  [n1,n2].forEach(n=>c.cuidados.push(Object.assign(FC.T.cuidados(c),{persona:n.id,autonomia:'leve',colegio:'colegio del barrio (ficticio)',cu:['comida','colegio','deberes','paseo']})));
+  const p1fin=d(-2440),p2ini=SF.addDays(p1fin,1),p2fin=SF.addDays(sep,-1);
+  per(ini,p1fin,'externa',lA,[[LV,[[EF,'09:00','15:00'],[DS,'12:00','12:20']]],[[5,6],'libre']]);
+  per(p2ini,p2fin,'externa',lA,[[LV,[[EF,'09:00','13:00'],[DS,'11:00','11:20']]],[[5,6],'libre']]);
+  per(sep,fin,'externa',lA,[[[0],[[EF,'10:30','14:30','casa del padre']]],[[1,4],[[EF,'10:30','12:30','casa del padre'],[EF,'12:35','14:30','casa de la madre']]],[[2,3,5,6],'libre']]);
+  /* salario distinto por época: mes a mes del último par de años */
+  const L=meses(SF.addDays(fin,-730),fin);const sal=m=>m<=p1fin.slice(0,7)?600:m<sep.slice(0,7)?392:484;
+  c.meses=L.slice(0,-1).map(m=>Object.assign(FC.T.meses(c),{mes:m,salario:String(sal(m)),extra:/-(06|12)$/.test(m)&&m>=SF.addDays(fin,-460).slice(0,7)?String(sal(m)>=484?484:480):'',forma:'transferencia'}));
+  Object.assign(c.sal,{fijo:'no',forma:['transferencia'],dia:'a final de mes',pagas:'si',pagasTxt:'en el último año le pagaron las de junio y diciembre',ultimoMes:'si',ultimoMesImporte:'484',finOtros:'270',finOtrosTxt:'finiquito (no lo firmó)',entrega:[pa.id]});
+  c.vac.tuvo='si';c.vac.autoriza=[pa.id];c.vacaciones.push(Object.assign(FC.T.vacaciones(c),{desde:d(-38),hasta:d(-9),pagadas:'si',disfruto:'si'}));
+  Object.assign(c.fin,{tipo:'despido',fechaCom:fin,fechaFin:fin,medio:'carta',dicho:'despido disciplinario por haber dejado manchado el suelo de una de las casas',motivo:'si',docEntregado:'si',pidieronFirmar:'si',firmo:'si',copia:'si',dia:'El padre le entregó la carta de despido disciplinario y ella la firmó como recibida. No firmó el finiquito.',quien:[pa.id],burofax:'no'});
+  Object.assign(c.pru,{llaves:'si',acceso:'si',audios:'si',telefono:'si',conversaciones:'si',convCon:[pa.id,ma.id]});
+  Object.assign(c.pruebas[0],{nombre:'Carta de despido disciplinario',tipo:'Documento',desc:'Carta entregada por el padre; la firmó como recibida',fecha:fin,hecho:'fin'});
+  c.obs='Ejemplo ficticio. Los padres se separaron y desde entonces la jornada se repartió entre dos pisos del mismo edificio; siempre le pagó el padre por las dos casas.';}},
+ {id:'C2',nombre:'Interna que cuidaba a un matrimonio mayor; la contrató la nieta y la dieron de alta solo las dos últimas semanas',build:R=>{const {c,fin,d,pe,per,lug}=R;
+  Object.assign(c.filtro,{abogado:'no',reclamar:['despido','salarios','vacaciones'],conocio:['tiktok'],motivo:'Le deben los días del último mes y el finiquito.',hechaPor:'ASESOR_04 (ficticio)'});
+  Object.assign(c.cli,{trato:'da',nombre:'Gloria Patricia',apellidos:'Mejía Ruiz (ficticia)',doc:'NIE',docnum:'Y0000002X (ficticio)',pais:'CO',nac:'1977-05-09',tel:'600 000 402',email:'gloria.ficticia@example.com',empadronada:'si',padronFecha:d(-200),postalIgual:'si',sindical:'no'});
+  Object.assign(c.cli.dom,{via:'Calle',calle:'Inventada (ficticia)',num:'36',piso:'bajo',puerta:'H',cp:'11403',prov:'11',codm:'11020'});Object.assign(c.cli.padronDir,c.cli.dom);
+  const ab=pe({trato:'d',nombre:'Joaquín',apellidos:'Pérez Morales (ficticio)',papel:'señor de la casa',edad:'94',docTipo:'DNI',docNum:'00000006Y (ficticio)',m:{vive:true,titular:true}});
+  const aa=pe({trato:'da',nombre:'Remedios',apellidos:'Sánchez Vela (ficticia)',papel:'señora de la casa',edad:'93',m:{vive:true}});
+  const ni=pe({trato:'da',nombre:'Mónica',apellidos:'Ortega Pérez (ficticia)',papel:'nieta',edad:'35',m:{contrato:true,ordenes:true,despidio:true},frec:'semanal',vio:'si'});
+  const hi=pe({trato:'d',nombre:'Francisco',apellidos:'Pérez Sánchez (ficticio)',papel:'hijo',edad:'62',m:{pago:true,ordenes:true},frec:'semanal',vio:'si'});
+  const ini=d(-276),alta=d(-14);
+  const e=FC.T.empleadores(c);e.titular=ab.id;e.otros=[ni.id,hi.id];Object.assign(e.dom,{via:'Calle',calle:'Concepción (ficticia)',num:'46',cp:'11510',prov:'11',codm:'11028'});e.desde=ini;e.hasta=fin;c.empleadores.push(e);
+  const l=lug(e.dom,ini,fin,[ab.id,ni.id,hi.id]);
+  Object.assign(c.rel,{inicio:ini,contrato:'escrito',alta:'si',autGlobal:'parte'});
+  c.autorizacion.push(Object.assign(FC.T.autorizacion(c),{tipo:'sin',desde:ini,hasta:SF.addDays(alta,-1)}),Object.assign(FC.T.autorizacion(c),{tipo:'con',desde:alta,permiso:'autorización de residencia y trabajo (ficticia)'}));
+  c.altas.push(Object.assign(FC.T.altas(c),{alta,baja:fin,emps:[ab.id],fuente:'cliente',pagoBruto:'',pagoNeto:'',pagoDesde:alta,pagoHasta:fin,pagoMes:'',pagoMesForma:'',pagoMesObs:'no le pagaron nada de ese periodo'}));c.ns['altas.0.pagoMes']=true;
+  c.tareas=['mayores','dependientes','limpiar_casa','limpiar_cocina','lavar','cocinar','citas','mascotas'];c.mascotas='un gato';
+  c.cuidados.push(Object.assign(FC.T.cuidados(c),{persona:ab.id,autonomia:'leve',cu:['comida','medicacion','medico','paseo']}),Object.assign(FC.T.cuidados(c),{persona:aa.id,autonomia:'moderada',ayudas:'andador',cu:['aseo','vestir','comida','medicacion','movilidad','medico']}));
+  per(ini,fin,'interna',l,[[[0,1,2,3,4,5],[[EF,'08:00','22:30'],[DS,'15:00','17:00']]],[[6],[[EF,'09:00','01:00'],[DS,'15:00','17:00']]]]);
+  Object.assign(c.int,{finReal:'22:30',dormia:'propia',disponible:'no'});
+  Object.assign(c.sal,{fijo:'si',importe:'1200',forma:['efectivo'],dia:'a primeros de mes',pagas:'no',ultimoMes:'no',entrega:[hi.id]});
+  c.vac.tuvo='no';
+  Object.assign(c.fin,{tipo:'despido',fechaCom:fin,fechaFin:fin,medio:'carta',dicho:'no le dieron ningún motivo real; la nieta no quería que siguiera',motivo:'no',docEntregado:'si',pidieronFirmar:'si',firmo:'no',dia:'La nieta le dio la carta de despido y un finiquito de 356 € que no le llegaron a pagar.',quien:[ni.id],burofax:'no'});
+  Object.assign(c.pru,{llaves:'si',acceso:'si',audios:'si',telefono:'si',conversaciones:'si',convCon:[ni.id,hi.id]});
+  Object.assign(c.pruebas[0],{nombre:'Carta de despido y documento de finiquito',tipo:'Documento',desc:'Finiquito de 356 € sin pagar',fecha:fin,hecho:'fin'});
+  c.obs='Ejemplo ficticio. Le daban un día libre cada quince días, el que ella eligiera.';}},
+ {id:'C3',nombre:'Externa embarazada que cuidaba a una señora con tetraplejia; despedida por carta',build:R=>{const {c,fin,d,pe,per,lug}=R;
+  Object.assign(c.filtro,{abogado:'no',reclamar:['despido','salarios','vacaciones'],conocio:['tiktok'],motivo:'Cree que la despidieron por estar embarazada.',hechaPor:'ASESOR_04 (ficticio)'});
+  Object.assign(c.cli,{trato:'da',nombre:'Juliana Andrea',apellidos:'Cardona Ríos (ficticia)',doc:'NIE',docnum:'Y0000003B (ficticio)',pais:'CO',nac:'1994-02-11',tel:'600 000 403',email:'juliana.ficticia@example.com',empadronada:'si',padronFecha:d(-400),postalIgual:'si',sindical:'no'});
+  Object.assign(c.cli.dom,{via:'Calle',calle:'Supuesta (ficticia)',num:'7',piso:'2',puerta:'B',cp:'28980',prov:'28',codm:'28106'});Object.assign(c.cli.padronDir,c.cli.dom);
+  const sa=pe({trato:'da',nombre:'Ana',apellidos:'(solo la conoce por el nombre)',papel:'señora de la casa',edad:'52',m:{vive:true,titular:true,contrato:true,ordenes:true,despidio:true}});
+  const es=pe({trato:'d',nombre:'Francisco José',apellidos:'Contreras Abad (ficticio)',papel:'esposo',edad:'55',docTipo:'DNI',docNum:'00000004G (ficticio)',m:{vive:true,contrato:true,pago:true}});
+  const ini=d(-136),alta=d(-38);
+  const e=FC.T.empleadores(c);e.titular=sa.id;e.otros=[es.id];Object.assign(e.dom,{via:'Calle',calle:'Zamora (ficticia)',num:'14',piso:'4',puerta:'A',cp:'28982',prov:'28',codm:'28106'});e.desde=ini;e.hasta=fin;c.empleadores.push(e);
+  const l=lug(e.dom,ini,fin,[sa.id,es.id]);
+  Object.assign(c.rel,{inicio:ini,contrato:'escrito',alta:'si',autGlobal:'parte'});
+  c.autorizacion.push(Object.assign(FC.T.autorizacion(c),{tipo:'sin',desde:ini,hasta:SF.addDays(alta,-1)}),Object.assign(FC.T.autorizacion(c),{tipo:'con',desde:alta,permiso:'autorización de residencia y trabajo (ficticia)'}));
+  c.altas.push(Object.assign(FC.T.altas(c),{alta,baja:fin,emps:[sa.id],fuente:'cliente',pagoBruto:'600',pagoNeto:'560',pagoDesde:alta,pagoHasta:SF.addDays(alta,29),pagoMes:SF.addDays(alta,30),pagoMesForma:'transferencia',pagoMesObs:'la única transferencia, con nómina'}));
+  c.tareas=['dependientes','limpiar_casa','limpiar_cocina','lavar','planchar','cocinar','mascotas'];c.mascotas='dos gatos';
+  c.cuidados.push(Object.assign(FC.T.cuidados(c),{persona:sa.id,autonomia:'total',diag:['discapacidad'],grado:'III',ayudas:'silla de ruedas',cu:['aseo','vestir','comida','medicacion','movilidad','paseo']}));
+  per(ini,fin,'externa',l,[[LV,[[EF,'09:30','13:30'],[DS,'11:00','11:05']]],[[5,6],'libre']]);
+  Object.assign(c.sal,{fijo:'si',importe:'600',forma:['efectivo','transferencia'],dia:'a final de mes',pagas:'no',ultimoMes:'si',ultimoMesImporte:'600',finOtros:'68.87',finOtrosTxt:'liquidación',entrega:[es.id]});
+  c.vac.tuvo='si';c.vacaciones.push(Object.assign(FC.T.vacaciones(c),{desde:d(-80),hasta:d(-74),pagadas:'si',disfruto:'si'}));
+  Object.assign(c.fin,{tipo:'despido',fechaCom:fin,fechaFin:fin,medio:'carta',dicho:'no le explicaron el motivo; ella cree que es por su embarazo (26 semanas)',motivo:'no',docEntregado:'si',pidieronFirmar:'no',firmo:'no',dia:'La señora le entregó la carta de despido en mano.',quien:[sa.id],burofax:'no'});
+  Object.assign(c.pru,{llaves:'si',acceso:'si',audios:'si',telefono:'si',conversaciones:'si',convCon:[sa.id,es.id]});
+  Object.assign(c.pruebas[0],{nombre:'Carta de despido',tipo:'Documento',desc:'Entregada en mano el día del despido',fecha:fin,hecho:'fin'});
+  c.obs='Ejemplo ficticio. EMBARAZO de 26 semanas en la fecha del despido: valorar la nulidad del despido (art. 55.5.b ET).';}},
+ {id:'C4',nombre:'Interna sin papeles ni contrato que cuidaba a un matrimonio mayor; despedida de palabra por los hijos',build:R=>{const {c,fin,d,pe,per,lug}=R;
+  Object.assign(c.filtro,{abogado:'no',reclamar:['despido','salarios','vacaciones'],conocio:['tiktok'],motivo:'La despidieron sin motivo después de una discusión.',hechaPor:'ASESOR_04 (ficticio)'});
+  Object.assign(c.cli,{trato:'da',nombre:'Yolanda Marisol',apellidos:'Blandón Pérez (ficticia)',doc:'NIE',docnum:'Y0000005M (ficticio)',pais:'NI',nac:'1997-04-05',tel:'600 000 404',email:'yolanda.ficticia@example.com',empadronada:'si',padronFecha:d(-250),postalIgual:'si',sindical:'no'});
+  Object.assign(c.cli.dom,{via:'Avenida',calle:'Ficticia',num:'12',piso:'12',puerta:'3',cp:'30006',prov:'30',codm:'30030'});Object.assign(c.cli.padronDir,c.cli.dom);
+  const se=pe({trato:'da',nombre:'María Josefa',apellidos:'Bienvenido Sáez (ficticia)',papel:'señora de la casa',edad:'80',m:{vive:true,titular:true,contrato:true,pago:true,ordenes:true}});
+  const sr=pe({trato:'d',nombre:'Antonio',apellidos:'Martínez Gómez (ficticio)',papel:'señor de la casa',edad:'88',m:{vive:true}});
+  const h1=pe({trato:'da',nombre:'Eva',apellidos:'Martínez Bienvenido (ficticia)',papel:'hija',edad:'55',m:{contrato:true,despidio:true},frec:'semanal'});
+  const h2=pe({trato:'da',nombre:'Esther',apellidos:'Martínez Bienvenido (ficticia)',papel:'hija',edad:'52',m:{despidio:true},frec:'mensual'});
+  const h3=pe({trato:'d',nombre:'Antonio',apellidos:'Martínez Bienvenido (ficticio)',papel:'hijo',edad:'50',m:{despidio:true},frec:'mensual'});
+  const ini=d(-303);
+  const e=FC.T.empleadores(c);e.titular=se.id;e.otros=[h1.id];Object.assign(e.dom,{via:'Calle',calle:'Navetas (ficticia)',num:'11',cp:'30151',prov:'30',codm:'30030'});e.desde=ini;e.hasta=fin;c.empleadores.push(e);
+  const l=lug(e.dom,ini,fin,[se.id,h1.id]);
+  Object.assign(c.rel,{inicio:ini,contrato:'verbal',alta:'no',autGlobal:'nunca'});
+  c.tareas=['mayores','dependientes','limpiar_casa','limpiar_cocina','lavar','cocinar'];
+  c.cuidados.push(Object.assign(FC.T.cuidados(c),{persona:sr.id,autonomia:'total',ayudas:'cama articulada',noche:'alguna',cu:['aseo','vestir','comida','medicacion','movilidad']}),Object.assign(FC.T.cuidados(c),{persona:se.id,autonomia:'moderada',ayudas:'andador',cu:['comida','medicacion','paseo']}));
+  per(ini,fin,'interna',l,[[LV,[[EF,'08:00','23:00'],[DS,'15:00','17:00']]],[[5],'libre'],[[6],[[EF,'18:00','22:00']]]]);
+  Object.assign(c.int,{finReal:'23:00',dormia:'propia',disponible:'si',disponibleTxt:'por si el señor necesitaba algo por la noche'});
+  Object.assign(c.sal,{fijo:'si',importe:'1290',forma:['efectivo'],dia:'a primeros de mes',pagas:'no',ultimoMes:'no',entrega:[se.id]});
+  c.vac.tuvo='si';c.vacaciones.push(Object.assign(FC.T.vacaciones(c),{desde:d(-34),hasta:d(-13),pagadas:'no',disfruto:'si'}));
+  Object.assign(c.fin,{tipo:'despido',fechaCom:fin,fechaFin:fin,medio:'verbal',dicho:'que no volviera, después de una discusión por tareas que no le correspondían',motivo:'no',docEntregado:'no',pidieronFirmar:'no',firmo:'no',dia:'Al llegar a trabajar, los tres hijos le dijeron que estaba despedida.',quien:[h1.id,h2.id,h3.id],burofax:'no'});
+  Object.assign(c.pru,{llaves:'si',acceso:'si',audios:'no',telefono:'si',conversaciones:'si',convCon:[h1.id,se.id]});
+  Object.assign(c.pruebas[0],{nombre:'Mensajes de WhatsApp con la hija',tipo:'Captura',desc:'Le pide que vaya también el domingo por la tarde',fecha:d(-90),hecho:'jornada'});
+  c.obs='Ejemplo ficticio. Salía el sábado a las 9:00 y volvía el domingo a las 18:00. Siempre trabajó sin contrato ni alta.';}},
+ {id:'C5',nombre:'Interna contratada a través de una agencia que renunció cuando la familia dejó el servicio',build:R=>{const {c,fin,d,pe,per,lug,meses}=R;
+  Object.assign(c.filtro,{abogado:'no',reclamar:['salarios','vacaciones'],conocio:['tiktok'],motivo:'Quiere saber si le deben dinero tras dejar el trabajo.',hechaPor:'ASESOR_03 (ficticio)'});
+  Object.assign(c.cli,{trato:'da',nombre:'Saturnina',apellidos:'Benítez Ortiz (ficticia)',doc:'Pasaporte',docnum:'PY000000 (ficticio)',pais:'PY',nac:'1989-10-26',tel:'600 000 405',email:'saturnina.ficticia@example.com',empadronada:'si',padronFecha:d(-700),postalIgual:'si',sindical:'no'});
+  Object.assign(c.cli.dom,{via:'Carretera',calle:'Antigua (ficticia)',num:'40',piso:'3',puerta:'2',cp:'08914',prov:'08',codm:'08015'});Object.assign(c.cli.padronDir,c.cli.dom);
+  const ag=pe({trato:'d',nombre:'Melchor',apellidos:'del Río Alba (ficticio)',papel:'responsable de la agencia de servicios (ficticia)',m:{titular:true,contrato:true}});
+  const co=pe({trato:'da',nombre:'Estefanía',apellidos:'Rueda (ficticia)',papel:'coordinadora de la agencia',m:{ordenes:true}});
+  const pg=pe({trato:'d',nombre:'Rey',apellidos:'Avelar (ficticio)',papel:'administración de la agencia',m:{pago:true}});
+  const s1=pe({trato:'da',nombre:'Begoña',apellidos:'de Lucas (ficticia)',papel:'señora atendida',edad:'83',m:{vive:true}});
+  const s2=pe({trato:'d',nombre:'Ramón',apellidos:'García Castell (ficticio)',papel:'señor atendido',edad:'78',m:{vive:true,despidio:true}});
+  const ini=d(-846),cambio=d(-135);
+  const e=FC.T.empleadores(c);e.titular=ag.id;e.otros=[];Object.assign(e.dom,{via:'Calle',calle:'Torrente (ficticia)',num:'8',piso:'bajo',puerta:'4',cp:'08031',prov:'08',codm:'08019'});e.desde=ini;e.hasta=fin;c.empleadores.push(e);
+  const l=lug({via:'Calle',calle:'Rectoría (ficticia)',num:'18',cp:'08031',prov:'08',codm:'08019'},ini,fin,[ag.id]);
+  Object.assign(c.rel,{inicio:ini,contrato:'verbal',alta:'no',autGlobal:'nunca'});
+  c.tareas=['mayores','limpiar_casa','limpiar_cocina','cocinar'];
+  c.cuidados.push(Object.assign(FC.T.cuidados(c),{persona:s1.id,autonomia:'moderada',cu:['aseo','comida','medicacion','paseo']}),Object.assign(FC.T.cuidados(c),{persona:s2.id,autonomia:'leve',cu:['comida','paseo']}));
+  per(ini,fin,'interna',l,[[LV,[[EF,'08:00','23:00'],[DS,'15:00','17:00']]],[[5],[[EF,'08:00','09:00']]],[[6],[[EF,'21:00','23:00']]]]);
+  Object.assign(c.int,{finReal:'23:00',dormia:'propia',disponible:'no'});
+  const L=meses(SF.addDays(fin,-730),fin);c.meses=L.slice(0,-1).map(m=>Object.assign(FC.T.meses(c),{mes:m,salario:m<cambio.slice(0,7)?'1100':'1150',forma:'transferencia'}));
+  Object.assign(c.sal,{fijo:'no',forma:['transferencia'],dia:'a primeros de mes',pagas:'si',pagasTxt:'dice que iban prorrateadas en el salario',ultimoMes:'si',ultimoMesImporte:'1050',finVac:'',entrega:[pg.id]});
+  c.vac.tuvo='si';c.vac.autoriza=[co.id];c.vacaciones.push(Object.assign(FC.T.vacaciones(c),{desde:d(-160),hasta:d(-131),pagadas:'si',disfruto:'si'}));
+  Object.assign(c.fin,{tipo:'renuncia',fechaCom:fin,fechaFin:fin,renMedio:'verbal',renMotivo:'que la familia dejó de contratar el servicio de la agencia y esta no le asignó otro destino ni le siguió pagando',burofax:'no'});
+  Object.assign(c.pru,{llaves:'si',acceso:'si',audios:'no',telefono:'si',conversaciones:'si',convCon:[co.id]});
+  Object.assign(c.pruebas[0],{nombre:'Transferencias de la agencia',tipo:'Documento',desc:'Justificantes de los pagos mensuales',fecha:d(-30),hecho:'salario'});
+  c.obs='Ejemplo ficticio. La contrató una agencia de servicios (ficticia) para atender a un matrimonio mayor; la reclamación se dirige contra la agencia, no contra la familia. Le pagaron 1.050 € por los días trabajados y 12 días de vacaciones.';}}
+];
+FC.DEMOS_C.forEach(x=>{x.fn=hoy=>FC.demoBase(hoy,x);});
+
 /* ejemplo ficticio de la ficha B: peón de la construcción sin papeles (como el escrito de ejemplo de régimen general) */
 FC.DEMO_NAME_B='Peón de la construcción sin papeles en Barcelona, despedido de palabra';
 FC.demoB=hoy=>{hoy=hoy||today();const st=FC.newB();const c=st.c;const d=dd=>SF.addDays(hoy,dd);const fin0=SF.wdBack(hoy,5);
@@ -782,6 +920,7 @@ FC.runTests=()=>{const H='2026-10-26';const prev=FC._hoy;FC._hoy=H;const out=[];
   return {ok:k.conv.nombre==='Convenio X'&&k.conv.categoria==='Peón ordinario'&&k.conv.tablas.length===2&&k.conv.tablas[1].base==='1250'&&k.conv.tablas[1].pagasNum==='2'&&k.conv.pagasProrrata==='no'&&k.conv.jornadaSemanal==='40'&&/art\. 45/.test(k.conv.preaviso),det:JSON.stringify(k.conv.tablas)};});
  T('Ficha B','Resumen del convenio: artículos con título, ámbitos, comparación con el estatal y justificación en la papeleta',()=>{const st=FC.demoB(H),K=st.c.conv;const t=FC.papText(FC.pap(st,H));K.aplicado='estatal';const t2=FC.papText(FC.pap(st,H));K.justificacion='Texto propio del abogado.';const t3=FC.papText(FC.pap(st,H));
   return {ok:K.articulos.length>=84&&K.articulos.every(a=>a.num&&a.resumen)&&/Barcelona/.test(K.ambitoTerritorial)&&K.comparacion.length>=10&&K.estatal&&K.estatal.codigo==='99005585011900'&&/Resulta de aplicación a la relación laboral el Convenio colectivo[^.]*Barcelona[^.]*por cuanto su ámbito funcional/.test(t)&&/83\.2 del Estatuto de los Trabajadores/.test(t)&&/Resulta de aplicación a la relación laboral el VII Convenio General/.test(t2)&&/Texto propio del abogado\./.test(t3),det:K.articulos.length+' arts / '+K.comparacion.length};});
+ T('Ejemplos','Ficha C: los 5 casos tipo cargan, generan papeleta y Word y todos sus nombres son ficticios',()=>{const bad=[];FC.DEMOS_C.forEach(x=>{try{const st=x.fn(H);const G=FC.pap(st,H);const t=FC.papText(G);FC.docXml(G);const k=st.c;const noms=[k.cli.apellidos,...k.personas.map(p=>p.apellidos||p.nombre)];if(noms.some(n=>!/ficti|solo la conoce/i.test(n||'')))bad.push(x.id+': nombre no ficticio');if(!/H E C H O S|HECHOS/.test(t))bad.push(x.id+': sin hechos');}catch(e){bad.push(x.id+': '+e.message);}});return {ok:FC.DEMOS_C.length===5&&!bad.length,det:bad.join(' | ')};});
  T('Ficha B','Convenios de la app: la búsqueda no distingue tildes ni mayúsculas y encuentra por código',()=>{const L=FC.convFiltra?FC.convFiltra('CONSTRUCCION Y OBRAS PUBLICAS'):[];const k=FC.convFiltra?FC.convFiltra('08001065011994'):[];return {ok:!!window.CONVENIOS&&L.length===1&&k.length===1&&FC.convFiltra('hosteleria madrid').length===0,det:L.length+' / '+k.length};});
  T('Ficha B','Datos de la empresa leídos de axesor: solo rellena lo vacío y avisa si el CIF no coincide',()=>{const s2=FC.newB(),k=s2.c;const e=FC.T.empleadores(k);const p=FC.T.personas(k);k.personas.push(p);e.titular=p.id;e.cif='B12345674';e.razon='Ya Escrita SL';k.empleadores.push(e);FC.empAplicar(k,e,{razon:'Otra SL',cif:'B99999999',cnae:'4121',actividad:'construcción',domicilio:{calle:'Mayor',numero:'1',cp:'08001',municipio:'Barcelona'},administradores:[{cargo:'Administrador único',nombre:'X Y Z'}]});
   return {ok:e.razon==='Ya Escrita SL'&&e.cnae==='4121'&&e.dom.calle==='Mayor'&&e.dom.prov==='08'&&p.nombre==='X Y Z'&&/no coincide/.test(e.fuenteDatos)};});

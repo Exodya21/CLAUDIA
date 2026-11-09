@@ -50,7 +50,7 @@ Es un **prototipo con datos ficticios**:
 
 **Pruebas automáticas:**
 
-- Hay 137 y deben pasar todas.
+- Hay 138 y deben pasar todas.
 - Para ejecutarlas, abrir la consola del navegador y escribir `SF.runTests()`, o ejecutar `node pruebas/prueba_navegador_simulado.js`, que necesita `npm i jsdom`.
 
 ## 3. Pasos de la ficha (orden actual)
