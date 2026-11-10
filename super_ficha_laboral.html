@@ -4000,7 +4000,7 @@ FC.plaDir=(texto,extra)=>{extra=extra||{};let s=limpio(texto).replace(/\n/g,', '
  const cp=(/\b(\d{5})\b/.exec(s)||[])[1]||(/^\d{5}$/.test(String(extra.cp||'').trim())?String(extra.cp).trim():'');if(cp)s=s.replace(cp,' ');
  for(const [re,v] of VIA)if(re.test(s)){D.via=v;s=s.replace(re,'');break;}
  const take=(re)=>{const m=re.exec(s);if(!m)return '';s=s.slice(0,m.index)+(/^\s*,/.test(m[0])?', ':' ')+s.slice(m.index+m[0].length);return m[1];};
- D.puerta=take(/,?\s*\b(?:puerta|pta\.?|pt\.?)\s*([\w\d]+)/i);D.piso=take(/,?\s*\b(?:piso|planta|p\.)\s*([\w\dºª]+)/i)||take(/,?\s*\b(\d{1,2})\s*[ºª°]\s*(?=[\w\d]?)/i);
+ D.puerta=take(/,?\s*\b(?:puerta|pta\.?|pt\.?)\s*([\w\d]+)/i);D.piso=take(/,?\s*\b(?:piso|planta|p\.)\s*([\w\dºª]+)/i);if(!D.piso){const m=/,?\s*\b(\d{1,2})\s*[ºª°]\s*(?:([a-z]|\d{1,2})(?![a-z0-9]))?/i.exec(s);if(m){D.piso=m[1];if(m[2]&&!D.puerta)D.puerta=m[2].toUpperCase();s=s.slice(0,m.index)+(/^\s*,/.test(m[0])?', ':' ')+s.slice(m.index+m[0].length);}}
  D.esc=take(/,?\s*\b(?:escalera|esc\.?)\s*([\w\d]+)/i);D.bloque=take(/,?\s*\b(?:bloque|blq\.?)\s*([\w\d]+)/i);
  D.num=take(/,?\s*\b(?:n[ºo°]\.?|n\.|num\.?|número|numero)\s*(\d+\s*[a-z]?)\b/i)||take(/,\s*(\d+\s*[a-z]?)\b/i)||take(/\s(\d+[a-z]?)\b(?=\s*(,|$))/i);
  const partes=s.split(',').map(x=>x.replace(/\s+/g,' ').trim()).filter(Boolean);D.calle=tc(partes.shift()||'');
@@ -4030,7 +4030,7 @@ const de=(M,preg)=>{const k=norm(preg);for(const x in M)if(x.startsWith(k))retur
 FC.plaAplicar=(st,P)=>{const c=st.c,B=FC.esB&&FC.esB(c);const R={ok:[],falta:[],rev:[],aviso:[]};const obs=[];
  const put=(path,v,label)=>{if(!has(v)){R.falta.push(label);return false;}if(has(FC.getP(c,path)))return false;FC.setP(c,path,v);R.ok.push(label);return true;};
  const putSi=(path,v,label)=>{if(has(v))put(path,v,label);};
- const tablas=(n,h2)=>P.t.filter(T=>sec(T.h1)===n&&(h2==null||norm(T.h2)===norm(h2)));
+ const tablas=(n,h2)=>P.t.filter(T=>sec(T.h1)===n&&(h2==null||norm(T.h2).startsWith(norm(h2))));
  const Q=(n,h2,preg)=>{for(const T of tablas(n,h2)){const v=de(mapa(T),preg);if(v)return v;}return '';};
  const nota=(path,t)=>{if(t)c.nota[path]=(c.nota[path]?c.nota[path]+'\n':'')+'De la plantilla: '+t;};
  /* 1. datos del cliente (tabla de 4 columnas) */
@@ -4049,8 +4049,8 @@ FC.plaAplicar=(st,P)=>{const c=st.c,B=FC.esB&&FC.esB(c);const R={ok:[],falta:[],
   const ue=Q(4,'Regular / Irregular','país (ue)');if(ue)putSi('cli.emisorPais',paisUE(ue),cl+'país que expidió el NIE');const pp=Q(4,'Regular / Irregular','país que expidió el pasaporte');if(pp)putSi('cli.emisorPais',pais(pp),cl+'país que expidió el pasaporte');
   const pap=Q(4,'Regular / Irregular','¿tiene papeles');if(pap)obs.push('¿Tiene papeles?: '+pap);const cad=Q(4,'Regular / Irregular','caducidad');if(cad)nota('cli.docnum','caducidad del NIE: '+cad);
   put('cli.empadronada',siNo(Q(4,'Domicilio','¿está empadronad')),cl+'¿está empadronado/a?');
-  const pd=Q(4,'Domicilio','dirección del padrón');if(pd){const D=FC.plaDir(pd);if(D&&FC.dirVacia(c.cli.padronDir)){c.cli.padronDir=D;R.ok.push(cl+'dirección del padrón');R.rev.push(cl+'dirección del padrón');}}
-  const po=Q(4,'Domicilio','dirección postal');if(po&&!c.cli.postalIgual){const D=FC.plaDir(po);if(D){c.cli.postalIgual='no';c.cli.postal=D;R.ok.push(cl+'dirección postal');R.rev.push(cl+'dirección postal');}}
+  const pd=Q(4,'Domicilio','dirección del padrón');if(pd&&/^(la misma|el mismo|misma|igual)/.test(norm(pd))&&!FC.dirVacia(c.cli.dom)&&FC.dirVacia(c.cli.padronDir)){c.cli.padronDir=JSON.parse(JSON.stringify(c.cli.dom));R.ok.push(cl+'dirección del padrón (la misma)');}else if(pd){const D=FC.plaDir(pd);if(D&&FC.dirVacia(c.cli.padronDir)){c.cli.padronDir=D;R.ok.push(cl+'dirección del padrón');R.rev.push(cl+'dirección del padrón');}}
+  const po=Q(4,'Domicilio','dirección postal');if(po&&!c.cli.postalIgual&&/^(la misma|el mismo|misma|igual|idem|la de arriba)/.test(norm(po))){c.cli.postalIgual='si';R.ok.push(cl+'dirección postal (la misma)');}else if(po&&!c.cli.postalIgual){const D=FC.plaDir(po);if(D){c.cli.postalIgual='no';c.cli.postal=D;R.ok.push(cl+'dirección postal');R.rev.push(cl+'dirección postal');}}
   const ec=Q(4,'Otros','estado civil');if(ec)obs.push('Estado civil: '+ec);const dep=Q(4,'Otros','¿personas que dependan');if(dep)obs.push('Personas que dependen de él/ella: '+dep);
   put('cli.sindical',siNo(Q(4,'Otros','en el último año')),cl+'cargo sindical');}
  /* 2. antes de empezar */
@@ -4082,7 +4082,7 @@ FC.plaAplicar=(st,P)=>{const c=st.c,B=FC.esB&&FC.esB(c);const R={ok:[],falta:[],
   const gente=per.filter(x=>!x.emp),empresas=per.filter(x=>x.emp);
   if(B&&empresas.length){const ps=gente.filter(x=>!x.testigo).map(mkP);gente.filter(x=>x.testigo).forEach(mkP);
    empresas.forEach((x,k)=>{const e=FC.T.empleadores(c);Object.assign(e,{tipoEmp:'juridica',razon:limpio(x.nom),cif:String(x.nd2||'').toUpperCase().replace(/\s/g,''),desde:x.d1||c.rel.inicio||'',hasta:x.d2||c.rel.fin||''});if(x.dir)e.dom=x.dir;if(k===0&&ps[0]){e.titular=ps[0].id;e.otros=ps.slice(1).map(p=>p.id);}c.empleadores.push(e);});}
-  else{const cand=gente.filter(x=>!x.testigo&&!x.cuidada);empresas.forEach(x=>obs.push(`Contrario ${x.i+1} (empresa): ${x.nom}${x.nd2?' · '+x.nd2:''}`));
+  else{const cand=gente.filter(x=>!x.testigo&&(!x.cuidada||x.m.titular||x.m.contrato||x.m.pago||x.m.ordenes||x.m.despidio));empresas.forEach(x=>obs.push(`Contrario ${x.i+1} (empresa): ${x.nom}${x.nd2?' · '+x.nd2:''}`));
    gente.forEach(mkP);const tit=cand.find(x=>x.m.titular)||cand.find(x=>x.m.contrato||x.m.pago)||cand[0];
    if(tit){const e=FC.T.empleadores(c);e.titular=tit.p.id;tit.p.m.titular=true;e.otros=cand.filter(x=>x!==tit).map(x=>x.p.id);e.desde=tit.d1||c.rel.inicio||'';e.hasta=tit.d2||c.rel.fin||'';if(tit.dir)e.dom=JSON.parse(JSON.stringify(tit.dir));
     if(B){e.tipoEmp='fisica';e.cif=String(tit.nd2||'').toUpperCase().replace(/\s/g,'');}c.empleadores.push(e);}
