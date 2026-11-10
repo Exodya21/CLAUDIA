@@ -64,6 +64,7 @@ ${t}
 """`;
 
 /* ---------------- 3. pasar la respuesta a la ficha (solo lo vacío) ---------------- */
+FC.docxXml=async file=>leerZip(await file.arrayBuffer(),'word/document.xml');
 FC.aplicarImport=(c,d)=>{const R={ok:[],falta:[]};d=d&&typeof d==='object'?d:{};
  const put=(path,v,label)=>{if(!has(v)){R.falta.push(label);return;}if(has(getP(c,path))){return;}setP(c,path,v);R.ok.push(label);};
  const prov=(cp,nombre)=>{if(/^\d{5}$/.test(cp||'')&&window.TERR.prov[cp.slice(0,2)])return cp.slice(0,2);const k=norm(nombre);if(!k)return '';const f=FC.provList().find(([,n])=>norm(n)===k||norm(n).includes(k)||k.includes(norm(n)));return f?f[0]:'';};
@@ -117,18 +118,24 @@ FC.smp=undefined;FC.impBusy=null;
 (async()=>{try{FC.smp=(window.claude&&window.claude.use)?await window.claude.use('sample'):null;}catch(e){FC.smp=null;}if(FC.st&&FC.step===0&&$('vC')&&!$('vC').hidden)FC.render();})();
 const ERR={not_granted:'No se ha dado permiso a esta página para usar Claude.',sampling_disabled:'Claude no está disponible para esta cuenta.',rate_limited:'Demasiadas peticiones o límite de uso alcanzado. Pruebe más tarde.',session_expired:'La sesión ha caducado: vuelva a entrar en claude.ai.',prompt_too_large:'El Word es demasiado largo para leerlo de una vez.',invalid_json:'Claude no devolvió una respuesta legible. Pruebe otra vez.',refused:'Claude no ha podido procesar este documento.'};
 FC.impCard=()=>{const c=FC.st.c,I=c.imp;const E=FC.evaluate(FC.st);
- let h=`<div class="x-card x-stack fc-imp"><h3 class="x-h3">Rellenar desde una ficha en Word</h3>`;
+ let h=`<div class="x-card x-stack"><h3 class="x-h3">Rellenar desde una ficha en Word</h3>
+ <div class="x-stack fc-imp" data-modo="pla" style="border:1px solid var(--line,#ccc);border-radius:10px;padding:12px"><b>Ficha nueva (plantilla «Ficha de entrevista inicial»)</b><p class="x-help">Se lee directamente, sin Claude: cada respuesta de la plantilla va a su pregunta. Solo rellena las preguntas vacías. Funciona en cualquier sitio, también sin conexión.</p><div class="x-row"><label class="x-btn pri" for="fcPlaFile" style="cursor:pointer">Subir plantilla en Word</label><span class="x-lead">o arrastre el archivo y suéltelo en este recuadro</span><input type="file" id="fcPlaFile" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden></div></div>
+ <div class="x-stack fc-imp" data-modo="ia" style="border:1px solid var(--line,#ccc);border-radius:10px;padding:12px"><b>Ficha antigua (Word libre, la interpreta Claude)</b>`;
  if(FC.smp===null)h+=`<p class="x-help">Esta opción solo funciona con la ficha abierta en claude.ai: allí Claude lee el Word y rellena las preguntas.</p>`;
  else if(FC.smp===undefined)h+=`<p class="x-help">Comprobando si Claude está disponible…</p>`;
  else if(FC.impBusy)h+=`<p><b>${esc(FC.impBusy)}</b></p><div class="x-row"><button class="x-btn sm" type="button" id="fcImpStop">Detener</button></div>`;
  else h+=`<p class="x-help">Suba la ficha del cliente en Word (.docx). Claude la lee y responde todas las preguntas que pueda; solo rellena las que estén vacías. Después se listan las que no se han podido responder. Revise siempre lo rellenado. Prototipo: use solo fichas con datos inventados.</p><div class="x-row"><label class="x-btn pri" for="fcImpFile" style="cursor:pointer">Subir ficha en Word</label><span class="x-lead">o arrastre el archivo y suéltelo en este recuadro</span><input type="file" id="fcImpFile" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden></div>`;
- if(I){h+=`<p class="x-lead">Rellenada desde «${esc(I.archivo)}» el ${esc(I.fecha)}: ${I.ok.length} respuestas.</p>`;
+ h+='</div>';
+ if(I){h+=`<p class="x-lead">Rellenada desde «${esc(I.archivo)}»${I.modo==='plantilla'?' (plantilla nueva, sin Claude)':''} el ${esc(I.fecha)}: ${I.ok.length} respuestas.</p>`;
+  if(I.aviso&&I.aviso.length)h+=I.aviso.map(a=>`<div class="x-flag">${esc(a)}</div>`).join('');
+  if(I.rev&&I.rev.length)h+=`<h3 class="x-h3">Revise estas respuestas (${I.rev.length})</h3><p class="x-help">Se han deducido de un texto escrito a mano (direcciones, nombres, horarios…): compruébelas.</p><ul class="x-mini">${[...new Set(I.rev)].map(x=>`<li class="w">${esc(x)}</li>`).join('')}</ul>`;
   const pasos=[...new Set(E.inc.map(i=>i.s))].sort((a,b)=>a-b);
   h+=`<h3 class="x-h3">Preguntas obligatorias sin responder (${E.inc.length})</h3>${E.inc.length?pasos.map(s=>`<div><button class="x-link" type="button" data-step="${s}"><b>${esc(FC.STEPS[s])}</b></button><ul class="x-mini">${E.inc.filter(i=>i.s===s).map(i=>`<li class="w">${esc(i.l)}</li>`).join('')}</ul></div>`).join(''):'<p class="x-empty">Ninguna.</p>'}`;
   const fal=I.falta.filter((x,i,a)=>a.indexOf(x)===i);h+=`<h3 class="x-h3">Datos que no estaban en el Word (${fal.length})</h3>${fal.length?`<ul class="x-mini">${fal.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'<p class="x-empty">Ninguno.</p>'}<div class="x-row"><button class="x-btn sm" type="button" id="fcImpClose">Ocultar este resumen</button></div>`;}
  return h+'</div>';};
 let ctl=null;
 async function importar(file){const c=FC.st.c;if(!/\.docx$/i.test(file.name)){SF.toast('Suba un archivo Word .docx (los .doc antiguos no se pueden leer: ábralo en Word y guárdelo como .docx)',1);return;}
+ try{if(FC.plaLeer&&FC.plaEs(FC.plaLeer(await FC.docxXml(file)||''))){SF.toast('Es la plantilla nueva: se lee sin Claude');return FC.plaImportar(file);}}catch(e){}
  FC.impBusy='Leyendo el Word…';FC.render();let texto;
  try{texto=await FC.docxTexto(file);}catch(e){FC.impBusy=null;FC.render();SF.toast('No se ha podido leer el Word',1);return;}
  if(!texto.trim()){FC.impBusy=null;FC.render();SF.toast('El Word no tiene texto',1);return;}
@@ -140,9 +147,10 @@ async function importar(file){const c=FC.st.c;if(!/\.docx$/i.test(file.name)){SF
 document.addEventListener('change',e=>{if(e.target&&e.target.id==='fcImpFile'&&e.target.files&&e.target.files[0])importar(e.target.files[0]);});
 /* arrastrar y soltar el Word sobre el recuadro */
 const zona=e=>e.target&&e.target.closest?e.target.closest('.fc-imp'):null;const conArchivo=e=>e.dataTransfer&&[...(e.dataTransfer.types||[])].includes('Files');
-document.addEventListener('dragover',e=>{const z=zona(e);if(!z||!conArchivo(e))return;e.preventDefault();e.dataTransfer.dropEffect=FC.smp&&!FC.impBusy?'copy':'none';z.classList.add('fc-drop');});
+document.addEventListener('dragover',e=>{const z=zona(e);if(!z||!conArchivo(e))return;e.preventDefault();e.dataTransfer.dropEffect=z.dataset.modo==='pla'||(FC.smp&&!FC.impBusy)?'copy':'none';z.classList.add('fc-drop');});
 document.addEventListener('dragleave',e=>{const z=zona(e);if(z&&!z.contains(e.relatedTarget))z.classList.remove('fc-drop');});
 document.addEventListener('drop',e=>{const z=zona(e);if(!z||!conArchivo(e))return;e.preventDefault();z.classList.remove('fc-drop');
+ if(z.dataset.modo==='pla'){const f=(e.dataTransfer.files||[])[0];if(f)FC.plaImportar(f);return;}
  if(!FC.smp){SF.toast('Rellenar desde Word solo funciona con la ficha abierta en claude.ai',1);return;}if(FC.impBusy){SF.toast('Espere a que termine la lectura anterior',1);return;}
  const fs=[...(e.dataTransfer.files||[])];if(fs.length>1)SF.toast('Se ha soltado más de un archivo: se usa el primero');if(fs[0])importar(fs[0]);});
 document.addEventListener('click',e=>{const t=e.target;if(!t||!t.id)return;if(t.id==='fcImpStop'&&ctl)ctl.abort();if(t.id==='fcImpClose'){delete FC.st.c.imp;FC.render();}});

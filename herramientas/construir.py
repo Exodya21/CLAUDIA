@@ -3,7 +3,7 @@ import os
 B=os.path.join(os.path.dirname(__file__),'..','fuente')
 r=lambda f:open(os.path.join(B,f),encoding='utf-8').read()
 parts=[r('head.html').rstrip('\n'),'<script>\n'+r('v5_original.js')+'</script>']
-for f in ['app.js','territorio.js','orgt.js','fc.js','fc_docx.js','fc_ui.js','fc_import.js']:
+for f in ['app.js','territorio.js','orgt.js','fc.js','fc_docx.js','fc_ui.js','fc_import.js','fc_plantilla.js']:
     parts.append('<script>\n'+r(f)+'\n</script>')
 # catálogo de convenios: cada convenios/<carpeta>/resumen.json (formato de la skill convenio-a-markdown)
 import glob,json
