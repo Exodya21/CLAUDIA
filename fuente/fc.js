@@ -512,8 +512,8 @@ FC.pap=(st,hoy)=>{hoy=hoy||today();const c=st.c,E=FC.evaluate(st,hoy),T1=E.T1,T2
   out.T1=T1;out.T2=T2;out.E=E;out.c=c;return out;}
  /* PRIMERO */
  const per=E.J.per.filter(r=>r.ok);const P1=[p(`${TR} inició su relación laboral con ${empArt} en fecha ${dmy(c.rel.inicio)||P('fecha de inicio')}.`),p(`Que ${g('la misma','el mismo')} fue ${g('contratada','contratado')} como ${g('EMPLEADA','EMPLEADO')} DEL HOGAR según Real Decreto 1620/2011, de 14 de noviembre, por el que se regula la relación laboral de carácter especial del servicio del hogar familiar.`),
-  p('El artículo 9.1 de la citada norma determina claramente que “La jornada máxima semanal de carácter ordinario será de cuarenta horas de trabajo efectivo, sin perjuicio de los tiempos de presencia, (…).”.','ok',true),
-  p('Asimismo, el artículo 9.2 del Real Decreto establece que “(…) las horas de presencia no podrán exceder de veinte horas semanales de promedio en un periodo de referencia de un mes y SE RETRIBUIRÁN CON UN SALARIO DE CUANTÍA NO INFERIOR AL CORRESPONDIENTE A LAS HORAS ORDINARIAS.”','ok',true)];
+  p('El artículo 9.1 de la citada norma determina claramente que “⟪La jornada máxima semanal de carácter ordinario será de cuarenta horas de trabajo efectivo, sin perjuicio de los tiempos de presencia, (…).⟫”.','ok'),
+  p('Asimismo, el artículo 9.2 del Real Decreto establece que ⟪“(…) las horas de presencia no podrán exceder de veinte horas semanales de promedio en un periodo de referencia de un mes y SE RETRIBUIRÁN CON UN SALARIO DE CUANTÍA NO INFERIOR AL CORRESPONDIENTE A LAS HORAS ORDINARIAS⟫.”','ok')];
  const sepP=T1.metodo==='separado',PR=sepP?'(sin incluir la prorrata de pagas extraordinarias)':'(incluida prorrata)',smiS=y=>{const v=FC.smiP(st,y);return v!=null&&sepP?v*12/14:v;};
  const yFin=+(FC.endRel(c)||hoy).slice(0,4);const smiF=smiS(yFin);
  if(per.length===1){const r=per[0];const wk=r.days/7;const efw=r.ef/wk,prw=r.pres/wk;
