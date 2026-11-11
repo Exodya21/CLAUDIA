@@ -8,8 +8,8 @@ const X=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&g
 const eurN=x=>SF.eur(x).replace(' €','');
 const n1=x=>{const r=Math.round(x*10)/10;return (Number.isInteger(r)?String(r):r.toFixed(1)).replace('.',',');};
 /* runs: texto con ⟦huecos⟧ resaltados en amarillo */
-function runs(text,o){o=o||{};const out=[];let bb=false;String(text).split(/(⟦[^⟧]*⟧|⟪|⟫)/).forEach(part=>{if(!part)return;if(part==='⟪'){bb=true;return;}if(part==='⟫'){bb=false;return;}const hole=/^⟦.*⟧$/.test(part);const t=hole?'['+part.slice(1,-1)+']':part;
- out.push(`<w:r><w:rPr>${o.b||bb?'<w:b/>':''}${o.u?'<w:u w:val="single"/>':''}${hole||o.hl?'<w:highlight w:val="yellow"/>':''}${o.sz?`<w:sz w:val="${o.sz}"/><w:szCs w:val="${o.sz}"/>`:''}</w:rPr><w:t xml:space="preserve">${X(t)}</w:t></w:r>`);});return out.join('');}
+function runs(text,o){o=o||{};const out=[];let bb=false,uu=false;String(text).split(/(⟦[^⟧]*⟧|⟪|⟫|⟬|⟭)/).forEach(part=>{if(!part)return;if(part==='⟪'){bb=true;return;}if(part==='⟫'){bb=false;return;}if(part==='⟬'){bb=uu=true;return;}if(part==='⟭'){bb=uu=false;return;}const hole=/^⟦.*⟧$/.test(part);const t=hole?'['+part.slice(1,-1)+']':part;
+ out.push(`<w:r><w:rPr>${o.b||bb?'<w:b/>':''}${o.u||uu?'<w:u w:val="single"/>':''}${hole||o.hl?'<w:highlight w:val="yellow"/>':''}${o.sz?`<w:sz w:val="${o.sz}"/><w:szCs w:val="${o.sz}"/>`:''}</w:rPr><w:t xml:space="preserve">${X(t)}</w:t></w:r>`);});return out.join('');}
 const par=(inner,ppr)=>`<w:p>${ppr?`<w:pPr>${ppr}</w:pPr>`:''}${inner}</w:p>`;
 const CENTER='<w:jc w:val="center"/><w:ind w:firstLine="0"/>';
 const NOIND='<w:ind w:firstLine="0"/>';
@@ -68,7 +68,7 @@ FC._pack=(doc,styles,footer)=>zip([['[Content_Types].xml',footer?CT.replace('</T
 FC.docx=G=>{const doc=FC.docXml(G);FC._lastDocXml=doc;FC._lastStyles=STYLES;return zip([['[Content_Types].xml',CT],['_rels/.rels',RELS],['word/_rels/document.xml.rels',DRELS],['word/document.xml',doc],['word/styles.xml',STYLES]]);};
 /* HTML con el mismo formato, para «copiar con formato» y pegar en Word */
 FC.papHtml=G=>{const st='font-family:Arial;font-size:12pt;line-height:150%;text-align:justify;text-indent:1.24cm;margin:0 0 8pt 0';const c0='font-family:Arial;font-size:12pt;line-height:150%;text-align:center;font-weight:bold;margin:0 0 8pt 0';const ni=st.replace('text-indent:1.24cm','text-indent:0');
- const R=t=>X(t).replace(/⟦([^⟧]*)⟧/g,'<span style="background:yellow">[$1]</span>').replace(/⟪/g,'<b>').replace(/⟫/g,'</b>');
+ const R=t=>X(t).replace(/⟦([^⟧]*)⟧/g,'<span style="background:yellow">[$1]</span>').replace(/⟪/g,'<b>').replace(/⟫/g,'</b>').replace(/⟬/g,'<b><u>').replace(/⟭/g,'</u></b>');
  const P=x=>x.lista?x.lista.map(i=>`<p style="${ni};margin-left:1.24cm">•&nbsp;&nbsp;${R(i)}</p>`).join(''):`<p style="${st}${x.bold?';font-weight:bold':''}">${R(x.text)}</p>`;
  const tb=(h,rows)=>`<table style="border-collapse:collapse;font-family:Arial;font-size:10pt;margin:0 auto 8pt">${[h].concat(rows).map((r,i)=>`<tr>${r.map((v,j)=>`<td style="border:1px solid #808080;padding:2px 6px;text-align:${j?'right':'left'};${i===0||i===rows.length?'font-weight:bold':''}">${R(v)}</td>`).join('')}</tr>`).join('')}</table>`;
  const c=G.c;const T1=G.T1.rows.filter(r=>!r.presc||c.abg.incluirPrescritos).map(r=>[FC.mesTxt(r.y,r.m),r.deb!=null?eurN(r.deb)+' €':'⟦sin calcular⟧',r.perc!=null?eurN(r.perc)+' €':'⟦sin datos⟧',r.dif!=null?eurN(r.dif)+' €':'—']).concat([['TOTAL','','',eurN(G.T1.total)+' €']]);

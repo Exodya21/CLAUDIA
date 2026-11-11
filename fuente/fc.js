@@ -525,12 +525,26 @@ FC.pap=(st,hoy)=>{hoy=hoy||today();const c=st.c,E=FC.evaluate(st,hoy),T1=E.T1,T2
  /* SEGUNDO */
  const aut=c.rel.autGlobal;const alta=c.rel.alta;const P2=[];
  const gen=FC.gent(c)||P('nacionalidad');
- if(aut==='nunca'&&c.rel.contrato==='verbal'&&alta==='no')P2.push(p(`${g('La compareciente','El compareciente')} de nacionalidad ${gen}, fue ${g('contratada','contratado')} de forma irregular (careciendo de permiso de residencia y trabajo), mediante contrato verbal y con carácter indefinido, en virtud del art. 8.1 del Estatuto de los Trabajadores, sin haberse procedido a la correspondiente alta en la seguridad social como ${g('trabajadora','trabajador')}.`,'ok',true));
- else{let t=`${g('La compareciente','El compareciente')} de nacionalidad ${gen}, fue ${g('contratada','contratado')} ${aut==='nunca'?'de forma irregular (careciendo de permiso de residencia y trabajo), ':''}mediante contrato ${c.rel.contrato==='escrito'?'escrito':c.rel.contrato==='verbal'?'verbal':P('verbal o escrito')} y con carácter indefinido, en virtud del art. 8.1 del Estatuto de los Trabajadores${alta==='no'?`, sin haberse procedido a la correspondiente alta en la seguridad social como ${g('trabajadora','trabajador')}`:''}.`;
-  if(aut==='parte')t+=' '+c.autorizacion.filter(a=>a.tipo&&a.desde).map(a=>`Del ${dmy(a.desde)} al ${dmy(a.hasta)||'final de la relación'} ${a.tipo==='con'?'contaba':'carecía'} de autorización de trabajo${a.permiso&&a.tipo==='con'?' ('+a.permiso+')':''}.`).join(' ');
-  else if(aut==='siempre')t+=` Durante toda la relación ${g('la trabajadora','el trabajador')} contaba con autorización de trabajo.`;
-  if(alta==='si')t+=' '+(c.altas.filter(a=>a.alta).map(a=>`Consta de alta en la Seguridad Social desde el ${dmy(a.alta)}${a.baja?' hasta el '+dmy(a.baja):''}.`).join(' ')||P('fechas de alta'));
-  P2.push(p(t,'nuevo',true));}
+ /* un párrafo por cada situación de la relación, en orden: cómo empezó, cuándo obtuvo la autorización, altas y bajas, fin.
+    Solo va en negrita y subrayado «fue contratada de forma irregular (careciendo de permiso de residencia y trabajo)», como en el escrito del despacho. */
+ {const ini=c.rel.inicio,finR=c.rel.fin||c.fin.fechaFin||'';const cont=c.rel.contrato==='escrito'?'escrito':c.rel.contrato==='verbal'?'verbal':P('verbal o escrito');
+  const AU=c.autorizacion.filter(a=>a.tipo&&a.desde).slice().sort((a,b)=>a.desde<b.desde?-1:1);const AL=alta==='si'?c.altas.filter(a=>a.alta).slice().sort((a,b)=>a.alta<b.alta?-1:1):[];
+  const sinAlInicio=alta==='no'||(AL.length&&ini&&AL[0].alta>ini);const irregular=aut==='nunca'||(aut==='parte'&&(!AU.length||AU[0].tipo==='sin'||(ini&&AU[0].desde>ini)));
+  const finTxt=f=>f&&finR&&f>=finR?`hasta el fin de su relación laboral el día ${dmy(finR)}`:f?`hasta el ${dmy(f)}`:finR?`hasta el fin de su relación laboral el día ${dmy(finR)}`:'hasta el fin de su relación laboral';
+  const contIni=irregular&&cont==='escrito'&&AL.length&&sinAlInicio?'verbal':cont;
+  if(irregular)P2.push(p(`${g('La compareciente','El compareciente')} de nacionalidad ${gen} ⟬fue ${g('contratada','contratado')} de forma irregular (careciendo de permiso de residencia y trabajo)⟭, mediante contrato ${contIni} y con carácter indefinido, en virtud del art. 8.1 del Estatuto de los Trabajadores${sinAlInicio?`, sin haberse procedido a la correspondiente alta en la seguridad social como ${g('trabajadora','trabajador')}`:''}.`,contIni==='verbal'&&sinAlInicio?'ok':'nuevo'));
+  else P2.push(p(`${g('La compareciente','El compareciente')}, de nacionalidad ${gen}, fue ${g('contratada','contratado')}${ini?' en fecha '+dmy(ini):''} mediante contrato ${cont} y con carácter indefinido, en virtud del art. 8.1 del Estatuto de los Trabajadores${sinAlInicio?`, sin haberse procedido a la correspondiente alta en la seguridad social como ${g('trabajadora','trabajador')}`:''}.`,c.rel.contrato==='escrito'&&!sinAlInicio?'ok':'nuevo'));
+  /* cambios en la autorización y en el alta, por fecha */
+  const ev=[];AU.forEach((a,k)=>{if(k===0&&!irregular)return;if(ini&&a.desde<=ini&&k===0)return;ev.push({f:a.desde,t:'aut',a});});AL.forEach((a,k)=>ev.push({f:a.alta,t:'alta',a,k}));ev.sort((x,y)=>x.f<y.f?-1:x.f>y.f?1:(x.t==='aut'?-1:1));
+  const usados=new Set();
+  ev.forEach((e,k)=>{if(usados.has(e))return;const sig=ev[k+1];
+   if(e.t==='aut'&&e.a.tipo==='con'&&sig&&sig.t==='alta'&&sig.f===e.f){usados.add(sig);const a=sig.a;P2.push(p(`Posteriormente ${tr} fue ${g('dada','dado')} de alta en la Tesorería General de la Seguridad Social el ${dmy(a.alta)} ${finTxt(a.baja)}.`,'ok'));}
+   else if(e.t==='aut')P2.push(p(e.a.tipo==='con'?`Posteriormente, el ${dmy(e.a.desde)}, ${tr} obtuvo la autorización de residencia y trabajo${e.a.permiso&&!/autorizaci[oó]n de residencia/i.test(e.a.permiso)?' ('+e.a.permiso+')':''}.`:`A partir del ${dmy(e.a.desde)}, ${tr} dejó de contar con autorización de residencia y trabajo.`,'nuevo'));
+   else{const a=e.a;if(!(e.k===0&&ini&&a.alta<=ini))P2.push(p(`Posteriormente ${tr} fue ${g('dada','dado')} de alta en la Tesorería General de la Seguridad Social el ${dmy(a.alta)} ${finTxt(a.baja)}.`,'ok'));
+    else P2.push(p(`${g('La trabajadora','El trabajador')} fue ${g('dada','dado')} de alta en la Tesorería General de la Seguridad Social desde el inicio de la relación ${finTxt(a.baja)}.`,'nuevo'));}
+   const a=e.t==='alta'?e.a:(usados.has(sig)?sig.a:null);
+   if(a&&a.baja&&finR&&a.baja<finR){const nx=AL[AL.indexOf(a)+1];P2.push(p(`El ${dmy(a.baja)} ${tr} fue ${g('dada','dado')} de baja en la Seguridad Social${nx?`, hasta su nueva alta el ${dmy(nx.alta)}`:`, pese a continuar prestando servicios hasta el fin de su relación laboral el día ${dmy(finR)}`}.`,'nuevo'));}});
+  if(alta==='si'&&!AL.length)P2.push(p(P('fechas de alta en la Seguridad Social'),'pend'));}
  H('FORMA DE LA CONTRATACIÓN.',P2);
  /* TERCERO */
  const P3=[];const pers=c.periodos.filter(x=>x.desde);
@@ -613,7 +627,7 @@ FC.cuidTxt=(c,k,tr,TR,g)=>{const pr=FC.per(c,k.persona);if(!pr)return '';const o
  if(cu.length||k.medicacion)out.push(`${TR} se ocupaba de ${listY(cu.length?cu:['su atención diaria'])}${k.medicacion?`, administrándole la medicación (${k.medicacion.trim().replace(/\.$/,'')})`:''}.`);
  if(FC.NOCHE[k.noche])out.push(`Además, ${FC.NOCHE[k.noche]}.`);if(k.centro)out.push(k.centro.trim().replace(/\.?$/,'.').replace(/^./,x=>x.toUpperCase()));
  return out.join(' ');};
-FC.papText=G=>{const L=[];const strip=s=>String(s).replace(/[⟪⟫]/g,'');G.head.forEach(h=>{L.push((h.st==='nuevo'?'⟦Variante nueva: pendiente de aprobación⟧ ':'')+strip(h.text),'');});L.push('H E C H O S','');
+FC.papText=G=>{const L=[];const strip=s=>String(s).replace(/[⟪⟫⟬⟭]/g,'');G.head.forEach(h=>{L.push((h.st==='nuevo'?'⟦Variante nueva: pendiente de aprobación⟧ ':'')+strip(h.text),'');});L.push('H E C H O S','');
  G.hechos.forEach(h=>{L.push(`${h.n}.- ${h.titulo}`);h.paras.forEach(x=>{if(x.t){L.push(tabText(x.t));}else if(x.tabla==='T1'){L.push(FC.t1Text(G));}else if(x.tabla==='T2'){L.push(FC.t2Text(G));}else if(x.tabla==='TOT'){L.push(FC.totText(G));}else if(x.lista){x.lista.forEach(i=>L.push('  • '+strip(i)));}else L.push((x.st==='nuevo'?'⟦Variante nueva: pendiente de aprobación⟧ ':'')+strip(x.text));});L.push('');});return L.join('\n');};
 /* importe en letra (español, mayúsculas) */
 FC.letras=x=>{const U=['','UNO','DOS','TRES','CUATRO','CINCO','SEIS','SIETE','OCHO','NUEVE','DIEZ','ONCE','DOCE','TRECE','CATORCE','QUINCE','DIECISÉIS','DIECISIETE','DIECIOCHO','DIECINUEVE','VEINTE','VEINTIUNO','VEINTIDÓS','VEINTITRÉS','VEINTICUATRO','VEINTICINCO','VEINTISÉIS','VEINTISIETE','VEINTIOCHO','VEINTINUEVE'];
@@ -1115,7 +1129,7 @@ FC.runTests=()=>{const H='2026-10-26';const prev=FC._hoy;FC._hoy=H;const out=[];
  st=FC.demo(H);FC.st=st;txt=FC.papText(FC.pap(st,H));
  T('Revisión Word','D.ª en vez de Dña. y apellidos separados',()=>({ok:/^D\.ª ROSA QUISPE MAMANI \(FICTICIA\), mayor de edad/m.test(txt)&&!/Dña\./.test(txt)}));
  T('Revisión Word','Sin apellidos: se marca el hueco',()=>{const a=st.c.cli.apellidos;st.c.cli.apellidos='';const t=FC.papText(FC.pap(st,H));st.c.cli.apellidos=a;return {ok:/D\.ª ROSA ⟦apellidos⟧/.test(t)};});
- T('Revisión Word','Gentilicio en minúsculas desde el país elegido',()=>({ok:/de nacionalidad peruana, fue contratada/.test(txt)&&/emitido por la REPÚBLICA DEL PERÚ/.test(txt)}));
+ T('Revisión Word','Gentilicio en minúsculas desde el país elegido',()=>({ok:/de nacionalidad peruana,? (⟬)?fue contratada/.test(txt)&&/emitido por la REPÚBLICA DEL PERÚ/.test(txt)}));
  T('Revisión Word','El encabezamiento DICE no lleva marca de variante',()=>({ok:/\n\nQue interesa de este centro el intento de celebración de conciliación obligatoria por DESPIDO IMPROCEDENTE CON ACUMULACIÓN DE RECLAMACIÓN DE CANTIDAD con los empleadores/.test(txt)}));
  T('Revisión Word','Materia: las cuatro fórmulas del despacho',()=>{const m=()=>(FC.papText(FC.pap(st,H)).match(/obligatoria por (.*?) con (los|la|el) /)||[])[1];const r=[];st.c.abg.acum='no';r.push(m());st.c.abg.calif='nulo';st.c.abg.acum='si';r.push(m());st.c.abg.calif='';st.c.abg.acum='';const ft=st.c.fin.tipo;st.c.fin.tipo='continua';r.push(m());st.c.fin.tipo=ft;
   return {ok:r[0]==='DESPIDO IMPROCEDENTE'&&r[1]==='DESPIDO NULO POR VULNERACIÓN DE DERECHOS FUNDAMENTALES Y SUBSIDIARIAMENTE IMPROCEDENTE, CON ACUMULACIÓN DE ACCIÓN DE RECLAMACIÓN DE CANTIDAD'&&r[2]==='RECLAMACIÓN DE CANTIDAD',det:r.join(' | ')};});
