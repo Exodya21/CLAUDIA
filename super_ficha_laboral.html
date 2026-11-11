@@ -2532,8 +2532,11 @@ FC.pap=(st,hoy)=>{hoy=hoy||today();const c=st.c,E=FC.evaluate(st,hoy),T1=E.T1,T2
  c.cuidados.forEach(k=>{const pr=FC.per(c,k.persona);if(!pr)return;
   if(esTit(pr)&&!FC.esMenor(c,k))P3.push(p(`Asimismo, entre las funciones de ${tr} se encontraba atender las necesidades cotidianas de ${FC.perNom(pr)}, de ${pr.edad||P('edad')} años de edad, quien actuaba como titular del hogar familiar.`));
   const det=FC.cuidTxt(c,k,tr,TR,g);if(det)P3.push(p(det,'nuevo'));});
- FC.coempValidados(c).forEach(id=>{const q=FC.per(c,id);const tit=FC.per(c,(c.empleadores.find(e=>(e.otros||[]).includes(id))||{}).titular);
-  P3.push(p(`Cabe señalar que, esta parte se dirige igualmente contra ${FC.perNom(q)}, ${q.papel||P('parentesco')} de ${FC.perNom(tit)}, por cuanto que han intervenido de forma directa y personal en la relación laboral objeto del procedimiento, actuando como empleadores, siendo quienes han participado activamente tanto en la contratación y el despido de ${tr} como quienes abonaban el salario e impartían órdenes ${g('a la misma','al mismo')}, cumpliéndose con ello los requisitos que el artículo 1.1 del Estatuto de los Trabajadores marca para definir la relación laboral.`));});
+ /* todas las demás personas empleadoras en un solo párrafo (antes salía un párrafo repetido por persona) */
+ {const co=FC.coempValidados(c).map(id=>{const q=FC.per(c,id);const tit=FC.per(c,(c.empleadores.find(e=>(e.otros||[]).includes(id))||{}).titular);return {q,tit};}).filter(x=>x.q);
+  const rel=x=>{const pa=(x.q.papel||'').trim();if(!pa)return P('parentesco')+' de '+FC.perNom(x.tit);return /\bde(l)?\b/i.test(pa)||!x.tit?pa:`${pa} de ${FC.perNom(x.tit)}`;};
+  const yJ=a=>a.length>1?a.slice(0,-1).join(', ')+' y '+a[a.length-1]:a[0];
+  if(co.length)P3.push(p(`Cabe señalar que, esta parte se dirige igualmente contra ${co.length===1?`${FC.perNom(co[0].q)}, ${rel(co[0])},`:yJ(co.map(x=>`${FC.perNom(x.q)} (${rel(x)})`))} por cuanto que han intervenido de forma directa y personal en la relación laboral objeto del procedimiento, actuando como empleadores, siendo quienes han participado activamente tanto en la contratación y el despido de ${tr} como quienes abonaban el salario e impartían órdenes ${g('a la misma','al mismo')}, cumpliéndose con ello los requisitos que el artículo 1.1 del Estatuto de los Trabajadores marca para definir la relación laboral.`));}
  H('JORNADA, CENTRO DE TRABAJO Y FUNCIONES.',P3);
  /* CUARTO */
  const FP={efectivo:'en efectivo metálico',transferencia:'mediante transferencia',bizum:'mediante Bizum',otra:P('forma de pago')};
