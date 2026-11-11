@@ -30,7 +30,16 @@ FC.getP=getP;FC.setP=setP;
 
 /* ---------------- importes legales ---------------- */
 FC.SMI={
- 2023:{m:1080,h:null,rd:'RD 99/2023',ver:false,src:''},
+ /* 2015-2023: tabla facilitada por el despacho (mensual en 14 pagas; la prorrata es ×14/12) */
+ 2015:{m:648.6,h:null,rd:'RD 1106/2014',ver:true,src:'',fuente:'Tabla de SMI del despacho'},
+ 2016:{m:655.2,h:null,rd:'RD 1171/2015',ver:true,src:'',fuente:'Tabla de SMI del despacho'},
+ 2017:{m:707.7,h:null,rd:'RD 742/2016',ver:true,src:'',fuente:'Tabla de SMI del despacho'},
+ 2018:{m:735.9,h:null,rd:'RD 1077/2017',ver:true,src:'',fuente:'Tabla de SMI del despacho'},
+ 2019:{m:900,h:null,rd:'RD 1462/2018',ver:true,src:'',fuente:'Tabla de SMI del despacho'},
+ 2020:{m:950,h:null,rd:'RD 231/2020',ver:true,src:'',fuente:'Tabla de SMI del despacho'},
+ 2021:{m:965,h:null,rd:'RD 817/2021',ver:true,src:'',fuente:'Tabla de SMI del despacho',nota:'De enero a agosto de 2021 rigió el de 2020 (950 €); 965 € desde el 1 de septiembre de 2021.'},
+ 2022:{m:1000,h:null,rd:'RD 152/2022',ver:true,src:'',fuente:'Tabla de SMI del despacho'},
+ 2023:{m:1080,h:null,rd:'RD 99/2023',ver:true,src:'',fuente:'Tabla de SMI del despacho'},
  2024:{m:1134,h:8.87,rd:'RD 145/2024',ver:true,src:'https://www.laboral-social.com/publicado-real-decreto-salario-minimo-interprofesional-2024'},
  2025:{m:1184,h:9.26,rd:'RD 87/2025',ver:true,src:'https://www.cuestioneslaborales.es/cuantia-diaria-mensual-y-anual-del-smi-en-2025/'},
  2026:{m:1221,h:9.55,rd:'RD 126/2026',ver:true,src:'https://www.boe.es/eli/es/rd/2026/02/18/126/con'}
@@ -989,8 +998,9 @@ FC.runTests=()=>{const H='2026-10-26';const prev=FC._hoy;FC._hoy=H;const out=[];
  T('TABLA 1','Salario variable sin datos del mes: «sin datos», no se cuenta como impagado',()=>{c.sal.fijo='no';c.meses=[];const t=FC.calcT1(st);return {ok:t.rows[0].estado==='sindatos'&&t.total===0};});
  T('TABLA 1','Mes marcado «no cobró» sí cuenta como impagado',()=>{const m=FC.T.meses(c);m.mes='2026-10';m.nocobro=true;c.meses=[m];const t=FC.calcT1(st);return {ok:Math.abs(t.total-2136.75)<0.01,det:eurN(t.total)};});
  st=st0();c=st.c;c.rel.inicio='2023-05-01';c.fin.fechaFin='2023-05-31';pj=FC.T.periodos(c);pj.desde='2023-05-01';for(let i=0;i<5;i++)pj.semanas[0].dias[i].tramos=[FC.newTramo(c,'efectivo','09:00','17:00')];c.periodos.push(pj);c.sal.fijo='si';c.sal.importe='500';
- T('Importes legales','Un año sin SMI verificado bloquea su cálculo',()=>{const t=FC.calcT1(st);return {ok:t.rows[0].estado==='smi'&&t.blocked[2023]};});
- T('Importes legales','Al confirmarlo el abogado, se calcula',()=>{c.abg.smiVer[2023]=true;const t=FC.calcT1(st);return {ok:t.rows[0].deb!=null,det:eurN(t.rows[0].deb)};});
+ T('Importes legales','Un año sin SMI verificado bloquea su cálculo',()=>{const v=FC.SMI[2023].ver;FC.SMI[2023].ver=false;try{const t=FC.calcT1(st);return {ok:t.rows[0].estado==='smi'&&t.blocked[2023]};}finally{FC.SMI[2023].ver=v;}});
+ T('Importes legales','Al confirmarlo el abogado, se calcula',()=>{const v=FC.SMI[2023].ver;FC.SMI[2023].ver=false;c.abg.smiVer[2023]=true;try{const t=FC.calcT1(st);return {ok:t.rows[0].deb!=null,det:eurN(t.rows[0].deb)};}finally{FC.SMI[2023].ver=v;delete c.abg.smiVer[2023];}});
+ T('Importes legales','SMI 2015-2026 de la tabla del despacho: 14 pagas y prorrata (×14/12)',()=>{const E={2015:[648.6,756.7],2016:[655.2,764.4],2017:[707.7,825.65],2018:[735.9,858.55],2019:[900,1050],2020:[950,1108.33],2021:[965,1125.83],2022:[1000,1166.67],2023:[1080,1260],2024:[1134,1323],2025:[1184,1381.33],2026:[1221,1424.5]};const mal=Object.entries(E).filter(([y,[m,p]])=>!FC.SMI[y]||FC.SMI[y].m!==m||Math.abs(FC.SMI[y].m*14/12-p)>0.005||!FC.SMI[y].ver);return {ok:!mal.length,det:mal.map(x=>x[0]).join(', ')};});
  st=st0();c=st.c;c.rel.inicio='2025-01-01';c.fin.fechaFin='2026-10-20';pj=FC.T.periodos(c);pj.desde='2025-01-01';for(let i=0;i<5;i++)pj.semanas[0].dias[i].tramos=[FC.newTramo(c,'efectivo','09:00','17:00')];c.periodos.push(pj);c.vac.tuvo='no';
  T('TABLA 2','Año 2025 completo sin vacaciones: 30 días pendientes = una base mensual (1.381,33 €)',()=>{const t=FC.calcT2(st);const r=t.rows.find(x=>x.y===2025);return {ok:Math.abs(r.dev-30)<1e-9&&Math.abs(r.imp-1381.3333)<0.01,det:`${n1(r.dev)} días · ${eurN(r.imp)}`};});
  T('TABLA 2','Suma las vacaciones de todos los años de la relación',()=>{const t=FC.calcT2(st);const sum=t.rows.reduce((a,r)=>a+(r.imp>0?r.imp:0),0);return {ok:t.rows.length===2&&Math.abs(t.total-sum)<0.01,det:eurN(t.total)};});

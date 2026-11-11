@@ -29,8 +29,8 @@ const num1=n=>(Math.round(n*10)/10).toLocaleString('es-ES',{maximumFractionDigit
 SF.eur=eur;
 
 /* SMI mensual en 14 pagas. 2026: RD 126/2026 (BOE 19/02/2026). 2025: RD 87/2025. 2024: RD 145/2024. */
-SF.SMI={2024:1134,2025:1184,2026:1221};
-SF.smiMes=year=>{const y=Math.min(Math.max(year,2024),2026);return SF.SMI[y]*14/12;};
+SF.SMI={2015:648.6,2016:655.2,2017:707.7,2018:735.9,2019:900,2020:950,2021:965,2022:1000,2023:1080,2024:1134,2025:1184,2026:1221};
+SF.smiMes=year=>{const y=Math.min(Math.max(year,2015),2026);return SF.SMI[y]*14/12;};
 
 SF.TIPOS={
  A:{k:'A',corto:'Régimen general con papeles',d:'Tiene permiso para trabajar en España, aunque no tenga contrato escrito ni nóminas.',emp:'la empresa',Emp:'La empresa',paso2:'Empresa o empleador'},
@@ -245,7 +245,7 @@ SF.calc=(st,hoy)=>{hoy=hoy||SF.today();const v=id=>V(st,id),A=st.abg;const K={};
  if(A.estimaciones&&K.mesesC){
   if(v('sal_pagas')==='no'&&sal){const mb=Math.max(sal,SF.smiMes(yr)*12/14*K.jf);add('Pagas extraordinarias no abonadas',2*mb*K.mesesC/12,`2 pagas al año de ${eur(mb)} (art. 31 ET), parte proporcional de ${K.mesesC} meses`,true);}
   if(v('sal_vac')==='no'&&K.diario)add('Vacaciones no disfrutadas ni compensadas',30*K.diario*K.mesesC/12,`30 días naturales por año (art. 38 ET), parte proporcional de ${K.mesesC} meses`,true);
-  if(sal&&K.smiMes>K.base&&K.horas){const s14=SF.SMI[Math.min(Math.max(yr,2024),2026)]*K.jf;const pg=v('sal_pagas');const dif=pg==='incluidas'?s14*14/12-sal:pg==='aparte'?(s14-sal)*14/12:s14-sal;if(dif>0)add('Diferencias hasta el salario mínimo interprofesional',dif*K.mesesC,`${eur(dif)} al mes durante ${K.mesesC} meses (SMI ${yr}: ${eur(SF.SMI[Math.min(Math.max(yr,2024),2026)]).replace(',00','')}/mes en 14 pagas, proporcional a ${num1(K.horas)} h semanales${pg==='no'?'; las pagas extraordinarias se reclaman aparte':''})`,true);}
+  if(sal&&K.smiMes>K.base&&K.horas){const s14=SF.SMI[Math.min(Math.max(yr,2015),2026)]*K.jf;const pg=v('sal_pagas');const dif=pg==='incluidas'?s14*14/12-sal:pg==='aparte'?(s14-sal)*14/12:s14-sal;if(dif>0)add('Diferencias hasta el salario mínimo interprofesional',dif*K.mesesC,`${eur(dif)} al mes durante ${K.mesesC} meses (SMI ${yr}: ${eur(SF.SMI[Math.min(Math.max(yr,2015),2026)]).replace(',00','')}/mes en 14 pagas, proporcional a ${num1(K.horas)} h semanales${pg==='no'?'; las pagas extraordinarias se reclaman aparte':''})`,true);}
  }
  K.horasExceso=null;
  const refH=st.tipo==='C'?40:(Number(st.jor.ref)||40);
@@ -448,7 +448,7 @@ SF.genPapeleta=(st,hoy)=>{hoy=hoy||SF.today();const R=SF.evaluate(st,hoy),K=R.K,
   if(T==='C'&&(v('hog_presencia')==='si'||J.avgPres)){t+=` Además del trabajo efectivo, debía permanecer en el domicilio a disposición de la parte empleadora${J.avgPres?' una media de '+num1(J.avgPres)+' horas semanales':''}, tiempo de presencia que debe retribuirse o compensarse conforme al art. 9 del RD 1620/2011${J.avgPres>20?', y que excede el límite de 20 horas semanales de promedio mensual':''}.`;}
   if(T!=='C'&&v('jor_fichaje')==='no')t+=` La empresa no llevaba el registro diario de jornada obligatorio (art. 34.9 ET), por lo que, conforme al principio de facilidad probatoria (art. 217.7 LEC), le corresponderá acreditar una jornada distinta de la aquí descrita.`;
   H1(t);}
- if(K.regPorSMI&&K.horas){const y=K.fin?new Date(SF.pd(K.fin)).getUTCFullYear():2026,s14=SF.SMI[Math.min(Math.max(y,2024),2026)]*K.jf;H1(v('sal_pagas')==='no'?`El salario abonado, ${eur(K.sal)} mensuales en doce mensualidades y sin pagas extraordinarias, es inferior al salario mínimo interprofesional, que para la jornada realizada asciende a ${eur(s14)} mensuales en catorce pagas (Real Decreto 126/2026 y precedentes), por lo que se reclaman las diferencias y las pagas extraordinarias no abonadas.`:`El salario abonado, ${eur(K.base)} mensuales incluida la parte proporcional de pagas extraordinarias, es inferior al salario mínimo interprofesional, que para la jornada realizada asciende a ${eur(K.smiMes)} mensuales (Real Decreto 126/2026 y precedentes), por lo que se reclaman las diferencias.`);}
+ if(K.regPorSMI&&K.horas){const y=K.fin?new Date(SF.pd(K.fin)).getUTCFullYear():2026,s14=SF.SMI[Math.min(Math.max(y,2015),2026)]*K.jf;H1(v('sal_pagas')==='no'?`El salario abonado, ${eur(K.sal)} mensuales en doce mensualidades y sin pagas extraordinarias, es inferior al salario mínimo interprofesional, que para la jornada realizada asciende a ${eur(s14)} mensuales en catorce pagas (Real Decreto 126/2026 y precedentes), por lo que se reclaman las diferencias y las pagas extraordinarias no abonadas.`:`El salario abonado, ${eur(K.base)} mensuales incluida la parte proporcional de pagas extraordinarias, es inferior al salario mínimo interprofesional, que para la jornada realizada asciende a ${eur(K.smiMes)} mensuales (Real Decreto 126/2026 y precedentes), por lo que se reclaman las diferencias.`);}
  /* extinción */
  if(despLike(st)){const f=v('ext_forma'),fcom=v('fecha_com'),fef=v('fecha_efectos')||fcom;const quien=v('ext_quien')||SF.persWith(st,'despidio').map(p=>p.nombre).join(', ');
   const pal=v('ext_literal_txt');const dicho=v('ext_dicho');
