@@ -3,6 +3,60 @@
 Sistema Propio · 12/11/2026. Formato inspirado en *Keep a Changelog*. Las versiones siguen los incrementos del plan
 (F0.1 … F5.6). Los cambios de base de datos se indican con su migración.
 
+## [DOC-14] · 13/11/2026 — Odoo 20: sp_gastos · gastos de empleados
+Módulo nuevo `odoo/addons/sp_gastos` (versión **20.0.1.0.0**; depende de `hr_expense`, `sp_recepcion` y
+`sp_contabilidad`). Es la segunda parte del paso 3 de 19 §6 (19 §3.2; charter 4.13 y 4.14). Referencia: Sistema
+Propio F5.0 (`services/receipts.py`, `tests/test_f50_gastos.py`). Todo con datos ficticios.
+### Añadido
+- **Base estándar:** «Gastos» de Odoo 20 Community (`hr_expense`). La persona envía el gasto, su aprobador lo aprueba
+  (al aprobar, Odoo crea el asiento en borrador) y Contabilidad lo contabiliza.
+  - En Odoo 20 no hay «informes de gastos»: cada gasto se aprueba por separado.
+  - Odoo avisa de los gastos repetidos (misma categoría, fecha, importe y empleado) y, al aprobar uno, pide
+    confirmarlo. Comprobado en el escenario repetido.
+- **Lectura del ticket en el servidor**, sin OCR de pago (`lectura/tickets.py`).
+  - Es el `parse` de `services/receipts.py` de Sistema Propio, copiado. Único cambio, marcado en el código: el
+    validador de DNI/NIE se toma de `sp_contabilidad/lectura/identificadores.py`.
+  - El texto se obtiene con `sp_contabilidad/lectura/extraer.py` (pdftotext o Tesseract, imagen `despacho/odoo:20`).
+  - **Cuándo se lee** (`models/hr_expense.py`): al subir el ticket desde Gastos (`create_expense_from_attachments`) o
+    con el botón **Leer ticket** en un gasto en borrador (`views/hr_expense_views.xml`).
+  - **Qué propone:** fecha, comercio (como descripción), proveedor por su NIF (lo crea si no existe), total y el campo
+    nuevo **«IVA que figura en el ticket»** (`sp_iva_ticket`). Lo leído se guarda en `sp_lectura` (JSON) y se resume
+    en el historial con su confianza.
+  - **IVA:** elige el impuesto de bienes (`account_tax_template_p_iva{21,10,5,4}_bc`) cuyo tipo reproduce el IVA del
+    ticket. No calcula el IVA. Si después se cambia la categoría, lo vuelve a aplicar.
+- **Forma de pago del despacho** (campo `sp_forma_pago`, grupo «Pago en el despacho» del formulario):
+
+  | Forma de pago | En Odoo | Efecto |
+  |---|---|---|
+  | Pagado por la persona | `own_account` | Se le reembolsa |
+  | Efectivo de la caja de la sede | `company_account` con el método de pago de salida de la caja de la sede (`sp_sede_id`; por defecto, la sede habitual de la persona) | El asiento abona la cuenta 570… de esa caja: entra en su cierre diario (`sp_recepcion`). Sin sede no se permite |
+  | Tarjeta de empresa | `company_account` con el banco que se elija | Pagado por la empresa |
+- `odoo/configuracion/gastos.py`: 9 categorías de gasto con su cuenta del PGC **provisional** (T-40; 629000, 623000,
+  627000, 628000 y 555001 para tasas y suplidos) y fichas de empleado de demostración con aprobador
+  «Contabilidad 1» (demo).
+- Pruebas `tests/test_gastos.py` (6) y escenario `odoo/pruebas/prueba_gastos.py`.
+- `odoo/LEEME.md`: pasos 12 (instalar y probar el módulo) y 13 (configuración y escenario).
+- Captura `documentacion/odoo20_contabilidad/2_gasto_ticket_efectivo.png`. Se tomó en la primera ejecución, antes de
+  corregir el IVA: muestra el impuesto a 0,00 €; el «IVA que figura en el ticket» (2,07 €) sí aparece.
+### Corregido
+- Al cambiar la categoría, Odoo volvía a poner los impuestos del producto y se perdía el IVA reconocido. Ahora se
+  vuelve a aplicar (12 · INC-82).
+### Comprobado
+- **6 pruebas de `sp_gastos`, 0 fallos:** sede de la persona, reembolso, efectivo desde la caja con apunte en la 570,
+  efectivo sin sede bloqueado, lectura del ticket con IVA del 10 % y el IVA leído se mantiene al cambiar la categoría.
+- **Total de los tres módulos: 38 pruebas, 0 fallos** (27 `sp_recepcion` + 5 `sp_contabilidad` + 6 `sp_gastos`).
+- **Escenario:** ticket ficticio de comida de 22,73 € (IVA 2,07 €) pagado con la caja de Barcelona, aprobado por
+  Contabilidad 1 y contabilizado como `PCBAR/2026/00006`. En el script la aprobación se hace con `sudo()`.
+### Pendiente
+- **Tarjetas de empresa** de Sistema Propio: cada titular ve la suya, importación del extracto de la tarjeta y cargos
+  sin justificante señalados. Siguiente iteración.
+- **Resumen mensual** por persona, sede, concepto y forma de pago. De momento, los informes estándar de Gastos.
+- Límites y políticas de gasto.
+- **Autoaprobación:** en Odoo 20 el grupo «Gastos: Administrador» puede aprobar sus propios gastos (comprobado en el
+  código de `hr_expense`, `_get_cannot_approve_reason`). En Sistema Propio nadie revisa sus propios gastos (08, «Permisos añadidos en F5.0»).
+  Falta decidir quién aprueba los gastos de Contabilidad 1 y no dar ese grupo a quien registre gastos (08 §11).
+- Foto del ticket desde la app móvil (charter 4.13): **sin comprobar**.
+
 ## [DOC-13] · 13/11/2026 — Odoo 20: sp_contabilidad · facturas de proveedores
 Módulo nuevo `odoo/addons/sp_contabilidad` (versión **20.0.1.0.0**; depende de `account` y `l10n_es`). Es la primera
 parte del paso 3 de 19 §6 (19 §3.4; charter 4.17). Referencia: Sistema Propio F5.4/F5.5, lector v2 de

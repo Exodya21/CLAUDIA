@@ -107,6 +107,16 @@ propia `despacho/odoo:20`, en el entorno en la nube.
 | INC-79 | 13/11 | Las pruebas no se ejecutan: «0 tests» | Los decoradores `setup_country` y `setup_chart_template` de `AccountTestInvoicingCommon` se pusieron sobre la clase. Así la clase deja de ser una clase y no se ejecuta ninguna prueba | Poner los decoradores sobre `setUpClass` (`tests/test_facturas_proveedor.py`) | Comprobar siempre el número de pruebas ejecutadas, no solo que no haya fallos |
 | INC-80 | 13/11 | Al instalar el módulo por primera vez con `-i`, las pruebas `post_install` no se ejecutaron («0 tests»); con `-u`, sí | **Sin comprobar** | Pasar las pruebas con `-u sp_contabilidad` después de instalarlo | Comprobar el número de pruebas ejecutadas. Revisar el paso 10 de `odoo/LEEME.md`, que instala con `-i` |
 
+## 4f. Odoo 20 · sp_gastos
+Al desarrollar `odoo/addons/sp_gastos` (gastos de empleados; 11 · DOC-14). Entorno: Docker con la imagen propia
+`despacho/odoo:20`, en el entorno en la nube.
+
+| ID | Fecha | Síntoma | Causa | Solución | Prevención |
+|---|---|---|---|---|---|
+| INC-81 | 13/11 | No se puede guardar un gasto sin categoría («Select a product to proceed»), y `action_post` no existe en el gasto | En Odoo 20, Gastos exige la categoría (producto) para guardar, y el asiento se crea **al aprobar**, no con un paso de contabilizar en el gasto | Las pruebas crean el gasto con categoría; en el escenario se elige la categoría antes de enviar. Se contabiliza el asiento que crea la aprobación (`account_move_id.action_post()`) | Categorías creadas por `odoo/configuracion/gastos.py`; flujo descrito en 15 §9b |
+| INC-82 | 13/11 | Tras leer el ticket, al cambiar la categoría desaparecía el IVA reconocido | Al cambiar de producto, Odoo vuelve a poner los impuestos del producto | `write` vuelve a aplicar el impuesto que reproduce el IVA leído (`_sp_aplicar_iva_leido`) | Prueba `test_iva_leido_se_mantiene_al_elegir_categoria`. La captura `2_gasto_ticket_efectivo.png` es anterior a la corrección (impuesto 0,00 €) |
+| INC-83 | 13/11 | Las pruebas fallaban al crear usuarios y al editar el gasto con otro usuario | Con `hr` instalado, crear usuarios toca el campo `employee_ids` y exige `sudo()`. En Gastos, solo la propia persona (o su aprobador) puede editar su gasto | Crear usuarios y empleados con `sudo()` y leer el ticket con el entorno de la propia persona (`self.env(user=...)`) | Seguir este patrón en las pruebas de los `sp_*` que dependan de `hr` |
+
 ## 5. Incidencias abiertas o conocidas
 | ID | Tema | Estado |
 |---|---|---|

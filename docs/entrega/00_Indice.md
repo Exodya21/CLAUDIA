@@ -53,15 +53,20 @@ en el repositorio (`docs/entrega/`) junto al código y se actualiza con él. Se 
   - `odoo/pruebas/prueba_devoluciones.py`: escenario de una devolución completa con datos ficticios (11 · DOC-10).
   - `odoo/pruebas/prueba_facturas_proveedor.py`: escenario de una factura de proveedor leída y registrada con datos
     ficticios (11 · DOC-13).
+  - `odoo/configuracion/gastos.py`: categorías de gasto con cuenta provisional y fichas de empleado de demostración
+    (11 · DOC-14).
+  - `odoo/pruebas/prueba_gastos.py`: escenario de un ticket leído, pagado con la caja de la sede, aprobado y
+    contabilizado, con datos ficticios (11 · DOC-14).
   - `odoo/addons/`: módulos propios `sp_*` (19 §5): `odoo/addons/sp_recepcion/` (Recepción, cajas y devoluciones) y
     `odoo/addons/sp_contabilidad/` (facturas de proveedores: lectura en el servidor, cuadre y aviso de repetidas;
-    19 §3.4).
+    19 §3.4) y `odoo/addons/sp_gastos/` (gastos de empleados: lectura del ticket en el servidor y forma de pago del
+    despacho, con el efectivo desde la caja de la sede; 19 §3.2).
 - `herramientas/odoo_dev.sh`: levanta Odoo 20 de pruebas en Linux o en el entorno en la nube (09 · Anexo C).
 - `documentacion/odoo20_base_contable/`: capturas de la prueba de la base contable (datos ficticios).
 - `documentacion/odoo20_recepcion/`: capturas de Recepción y cajas en Odoo 20 (cobros, cobro con justificante,
   cierre de caja, justificante y devolución; datos ficticios).
-- `documentacion/odoo20_contabilidad/`: capturas de las facturas de proveedores en Odoo 20 (factura leída; datos
-  ficticios).
+- `documentacion/odoo20_contabilidad/`: capturas de las facturas de proveedores y de los gastos en Odoo 20 (factura
+  leída; gasto de un ticket pagado en efectivo, tomada antes de corregir el IVA; datos ficticios).
 - `documentacion/cuestionarios/`: cuestionario para la gestoría sobre el plan de cuentas
   (`Cuestionario_gestoria_plan_de_cuentas.docx`; T-40 y 18 · AL-06/AL-13; 11 · DOC-6).
 

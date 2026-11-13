@@ -178,10 +178,10 @@ La Dirección ha decidido montar el servidor definitivo sobre **Odoo Community**
 | Portal y comunicaciones | `portal`, `mail` | — | Conversaciones por expediente, avisos urgentes con plantilla; trato de usted |
 | WhatsApp / Callbell | (WhatsApp es Enterprise) | — | **Conector propio** con la API de Callbell (T-31) |
 | Economía (cobros no fiscales, caja, devoluciones) | `account.payment` | `account_cash_*` | **`sp_recepcion`**: justificante no fiscal, cierre de caja con validador distinto, devoluciones con doble rol |
-| Gastos de empresa | `hr_expense` | — | Lectura del ticket con OCR local |
+| Gastos de empresa | `hr_expense` | — | **`sp_gastos`** (hecho en parte, 13/11/2026): lectura del ticket con OCR local y pago en efectivo desde la caja de la sede; tarjetas de empresa pendientes (19 §3.2) |
 | Banco: extractos | (importación OFX/CAMT es Enterprise) | `account_statement_import_*` (bank-statement-import), `l10n_es_account_statement_import_n43` (l10n-spain) | Formatos Excel de Caixa y BBVA (ya resueltos en `bank/parsers.py`) |
 | Conciliación | (widget de conciliación es Enterprise en 17+) | `account_reconcile_oca` | Reglas de propuesta explicadas (`bank/matcher.py`); nunca automática |
-| Facturas de proveedores | `account` (Facturación): `account.move` tipo `in_invoice` | `account_invoice_import` (opcional) | Lectura de PDF v2 (`accounting/invoices.py`) como servicio |
+| Facturas de proveedores | `account` (Facturación): `account.move` tipo `in_invoice` | `account_invoice_import` (opcional) | **`sp_contabilidad`** (hecho en parte, 13/11/2026): lectura de PDF v2 (`accounting/invoices.py`) dentro del módulo, en `sp_contabilidad/lectura/` (19 §3.4) |
 | Remesas SEPA con doble firma | — | `account_payment_order`, `account_banking_sepa_credit_transfer`, `account_payment_order_tier_validation` / `base_tier_validation` | Dos firmas de personas distintas, ninguna de quien propone |
 | Cierre del mes, rutina, informes | — | `mis_builder` (informes) | **`sp_contabilidad_rutina`**: pasos comprobados, informes inmutables |
 | Contabilidad general (asientos, modelos AEAT) | `account`, `l10n_es` | `l10n-spain` (modelos 303, 111, 347…), `account-financial-reporting` | Plan de cuentas de la gestoría (T-40) |
@@ -202,13 +202,15 @@ La Dirección ha decidido montar el servidor definitivo sobre **Odoo Community**
 | `sp_recepcion` | `sp_expediente`, `account` | `reception/`, `routers/economy.py`, `routers/reception.py` |
 | `sp_banco` | `account`, OCA bank-statement-import, `account_reconcile_oca` | `bank/` |
 | `sp_contabilidad` | `account`, OCA bank-payment | `accounting/` |
+| `sp_gastos` | `hr_expense`, `sp_recepcion`, `sp_contabilidad` | `routers/expenses.py`, `services/receipts.py` |
 | `sp_rrhh` | `hr`, `hr_holidays` | `hr/` |
 | `sp_agentes` | `sp_base`, `base_automation` | `agents/` |
-| `sp_lectura` (servicio) | — | `services/receipts.py`, `immigration/reader.py`, `accounting/invoices.py` |
+| Lectura de documentos (no es un servicio aparte) | — | Vive en `sp_contabilidad/lectura/` (extracción de texto y OCR, facturas, identificadores; `accounting/invoices.py`) y la reutiliza `sp_gastos/lectura/tickets.py` (`services/receipts.py`). La de extranjería (`immigration/reader.py`) está sin asignar; previsiblemente, `sp_extranjeria` (13/11/2026; 11 · DOC-13 y DOC-14) |
 
 ### 8.3 Qué conviene reutilizar sin reescribir
 - **Lectura de documentos** (OCR, MRZ, facturas, nóminas, extractos): es Python puro sin dependencia de FastAPI.
-  Puede ir dentro de los módulos de Odoo o como un pequeño servicio interno al que Odoo llama.
+  En Odoo 20 va **dentro de los módulos**, no como servicio aparte: `sp_contabilidad/lectura/` (facturas) y
+  `sp_gastos/lectura/` (tickets), con pdftotext y Tesseract en la imagen `despacho/odoo:20` (11 · DOC-13 y DOC-14).
 - **Extensión de Chrome de Mercurio** (`apps/extension-mercurio`): solo hay que cambiar la URL de la que lee la ficha.
 - **Mapas de los formularios EX** (`immigration/ex_forms/EXnn.json`).
 - **Pruebas**: los casos de `apps/api/tests` describen el comportamiento esperado. Conviene reescribirlos como

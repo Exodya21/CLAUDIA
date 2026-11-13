@@ -127,6 +127,32 @@ También se encuentran con el filtro **Por decidir**. Captura: `documentacion/od
 3. Elija la forma de pago (caja, tarjeta de empresa o personal) y envíe.
 4. Si se lo devuelven, corrija y vuelva a enviar.
 
+## 9b. Gastos en Odoo 20
+Menú **Gastos** (módulo `sp_gastos`; 19 §3.2). Ejemplos con datos ficticios.
+1. **Subir el ticket:** suba la foto o el PDF del ticket. Odoo crea el gasto y lo lee solo, en el propio servidor.
+   Si el gasto ya tenía el ticket adjunto, pulse **Leer ticket** (solo en borrador).
+2. **Revisar lo propuesto:** la lectura **propone**; no decide. Compruebe con el ticket la fecha, el comercio, el
+   proveedor (si no existía, se crea con el NIF leído), el total y el «IVA que figura en el ticket».
+   - El impuesto se elige para que reproduzca el IVA del ticket. Si no coincide, corríjalo a mano.
+   - En el historial verá un resumen de lo leído.
+3. **Categoría:** elíjala siempre; sin categoría Odoo no guarda el gasto. Al cambiarla, el IVA leído se mantiene.
+4. **Forma de pago** (grupo «Pago en el despacho»):
+   - **Pagado por la persona:** se le reembolsa.
+   - **Efectivo de la caja de la sede:** el dinero sale de la caja de la **sede** indicada (por defecto, su sede
+     habitual) y entra en el cierre de caja de ese día. Sin sede no se permite.
+   - **Tarjeta de empresa:** lo paga la empresa con el banco que se elija.
+5. **Enviar:** pulse **Enviar**. Lo aprueba la persona indicada como aprobador en su ficha de empleado (08 §11).
+   Cada gasto se aprueba por separado.
+6. **Contabilidad:** al aprobar se crea el asiento en borrador; Contabilidad lo revisa y lo contabiliza.
+
+Si un gasto se parece a otro (misma categoría, fecha, importe y persona), Odoo lo avisa y pide confirmarlo al aprobar.
+
+Ejemplo: ticket ficticio de comida de 22,73 € (IVA 2,07 €) pagado con la caja de Barcelona y contabilizado como
+`PCBAR/2026/00006`. Captura: `documentacion/odoo20_contabilidad/2_gasto_ticket_efectivo.png` (tomada antes de
+corregir el IVA: el impuesto aparece a 0,00 €).
+
+Aún no están en Odoo 20 las tarjetas de empresa de Sistema Propio ni el resumen mensual (11 · DOC-14).
+
 ## 10. Contabilidad
 Pestañas: **Rutina · Banco y conciliación · Proveedores y facturas · Tesorería · Cierre · Informes · Pendientes**.
 

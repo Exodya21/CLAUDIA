@@ -668,3 +668,27 @@ Crear la numeración de cada sede, obtener el número del justificante, generar 
 para enviarles avisos o tareas (posible repetido y pasos de las devoluciones), crear y cerrar esas tareas, buscar
 cierres validados (al anular un cobro y al pasar a borrador o cancelar un apunte de caja), sumar los apuntes de la
 caja, crear el asiento de ajuste al validar y añadir la sede habitual a las sedes del usuario.
+
+## 11. Odoo 20 · Gastos de empleados (`sp_gastos`)
+Comprobado en el código de `odoo/addons/sp_gastos` (versión 20.0.1.0.0; 11 · DOC-14) y en el de `hr_expense` de Odoo
+20 Community. `sp_gastos` **no añade grupos ni permisos** (no tiene carpeta `security/`) y su código no usa `sudo()`:
+los permisos son los estándar de Gastos.
+
+| Quién | Qué puede hacer con un gasto |
+|---|---|
+| La propia persona | Crearlo, subir el ticket, leerlo y editarlo mientras está en borrador; enviarlo. Solo ella (o su aprobador) puede editar su gasto (12 · INC-83) |
+| **Aprobador de la ficha del empleado** (campo «Aprobador de gastos», `expense_manager_id`) | Aprobar o rechazar los gastos de esa persona |
+| Grupo «Gastos: Aprobador de equipo» (`hr_expense.group_hr_expense_team_approver`) | Aprobar los gastos de las personas de las que es aprobador, responsable directo o responsable del departamento, **salvo los suyos** |
+| Grupo «Gastos: Aprobador de todo» (`hr_expense.group_hr_expense_user`) | Aprobar gastos de cualquier persona de la compañía, **salvo los suyos** |
+| Grupo «Gastos: Administrador» (`hr_expense.group_hr_expense_manager`) | Todo lo anterior **y también sus propios gastos** |
+| Facturación (`account.group_account_invoice`) | Modificar la cuenta del gasto aprobado mientras el asiento no esté contabilizado, y contabilizar el asiento |
+
+- **Configuración de demostración** (`odoo/configuracion/gastos.py`): las fichas de empleado de los usuarios de
+  demostración tienen como aprobador a «Contabilidad 1»; la de Contabilidad 1 no tiene aprobador.
+- **Separación de funciones (aviso):** en Sistema Propio nadie revisa sus propios gastos (§«Permisos añadidos en
+  F5.0»). En Odoo 20, el grupo «Gastos: Administrador» sí puede aprobar los suyos (comprobado en
+  `_get_cannot_approve_reason` de `hr_expense`). Por tanto, ese grupo solo debe darse a quien no registre gastos.
+  **Pendiente de decidir:** quién aprueba los gastos de Contabilidad (en la demostración, nadie).
+- **Sin comprobar:** que «Contabilidad 1» apruebe sin permisos adicionales; el escenario `odoo/pruebas/prueba_gastos.py`
+  aprueba con `sudo()`.
+- **Tarjetas de empresa** («cada titular ve la suya»): pendientes, sin permisos todavía (19 §3.2).

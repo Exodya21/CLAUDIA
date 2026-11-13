@@ -126,12 +126,23 @@ numeración y el registro en Verifactu son los del estándar (§1.3, 01 §4). Fa
 (12 · ABI-04).
 
 ### 3.2 Gastos de empresa
+**Hecho en parte · 13/11/2026** con `sp_gastos` 20.0.1.0.0 (11 · DOC-14). Base: «Gastos» estándar de Odoo 20
+Community (`hr_expense`). En Odoo 20 no hay «informes de gastos»: cada gasto se aprueba por separado.
+
 | Función | Tabla | Odoo 20 de serie | OCA | Módulo propio | Charter |
 |---|---|---|---|---|---|
-| Ticket subido por la persona → propuesta de datos → confirma → Contabilidad aprueba o devuelve | `expense`, `expense_event` | `hr_expense` (borrador → enviado → aprobado → contabilizado) | — | Lectura del ticket en el servidor (OCR local de `services/receipts.py`), en lugar del OCR de pago de Enterprise. La extracción de texto y el OCR ya están en `sp_contabilidad/lectura/extraer.py` y en la imagen `despacho/odoo:20` (11 · DOC-13) | 4.13 |
-| Gasto en efectivo que mueve la caja de su sede | `cash_movement` | Pago del gasto con el diario de caja | — | Elegir la caja según la sede de la persona | 4.14 |
-| **Tarjetas de empresa** (cada titular ve la suya; cargos sin justificante señalados) | `company_card`, `card_transaction` | — | — | Modelo `sp.company.card` e importación del extracto de la tarjeta | — |
-| Resumen mensual por persona, sede, concepto y forma de pago | — | Análisis de gastos | `mis_builder` | Exportación registrada en la auditoría | — |
+| Ticket subido por la persona → propuesta de datos → confirma → se aprueba o se devuelve | `expense`, `expense_event` | `hr_expense`: borrador → enviado → aprobado (crea el asiento en borrador) → contabilizado. Aprueba el aprobador de la ficha del empleado (08 §11) | — | **Hecho (DOC-14).** Lectura del ticket en el servidor (`sp_gastos/lectura/tickets.py`, copia de `services/receipts.py`) con la extracción y el OCR de `sp_contabilidad/lectura/extraer.py`. Se lee al subir el ticket o con **Leer ticket**. Propone fecha, comercio, proveedor por NIF, total y el «IVA que figura en el ticket»; elige el impuesto de bienes que reproduce ese IVA y lo mantiene si se cambia la categoría | 4.13 |
+| Aviso de gasto repetido | — | **De serie:** aviso por misma categoría, fecha, importe y empleado; al aprobar pide confirmarlo | — | — (comprobado en el escenario repetido) | — |
+| Forma de pago: pagado por la persona, efectivo o tarjeta de empresa | `expense` | `payment_mode` (`own_account` / `company_account`) y método de pago | — | **Hecho (DOC-14).** Campo `sp_forma_pago`: «Pagado por la persona» → reembolso; «Tarjeta de empresa» → pagado por la empresa con el banco que se elija | 4.13 |
+| Gasto en efectivo que mueve la caja de su sede | `cash_movement` | Pago del gasto con el diario de caja | — | **Hecho (DOC-14).** «Efectivo de la caja de la sede»: usa el método de pago de salida de la caja de la sede (`sp_sede_id`, por defecto la sede habitual). El asiento abona la 570… de esa caja y entra en su cierre diario (`sp_recepcion`). Sin sede no se permite | 4.14 |
+| Categorías de gasto con su cuenta | — | Productos «se puede incluir en gastos» | — | **Hecho (configuración).** `odoo/configuracion/gastos.py`: 9 categorías con cuenta del PGC **provisional** (T-40, 18 · AL-13) | — |
+| **Tarjetas de empresa** (cada titular ve la suya; cargos sin justificante señalados) | `company_card`, `card_transaction` | — | — | **Pendiente (siguiente iteración).** Modelo `sp.company.card` e importación del extracto de la tarjeta | — |
+| Resumen mensual por persona, sede, concepto y forma de pago | — | Análisis de gastos | `mis_builder` | **Pendiente.** De momento, los informes estándar de Gastos. Después, exportación registrada en la auditoría | — |
+| Límites y políticas de gasto | — | — | — | **Pendiente** | — |
+
+**Aviso (comprobado en el código de `hr_expense`):** el grupo «Gastos: Administrador» puede aprobar sus propios
+gastos. Para mantener la separación de funciones (§4, regla 1; en Sistema Propio nadie revisa sus propios gastos), ese grupo no debe darse a quien registre
+gastos, y falta decidir quién aprueba los gastos de Contabilidad 1 (08 §11).
 
 ### 3.3 Banco y conciliación
 | Función | Tabla | Odoo 20 de serie | OCA | Módulo propio | Charter |
@@ -236,7 +247,7 @@ rama 20.0. Para esas piezas se puede partir del código de la OCA 19.0 portado (
 |---|---|---|---|---|
 | `sp_base` | `account`, `hr`, `mail` | Sedes, actividad, roles y separación de funciones, auditoría | `auditlog` (en parte) | `security/`, `audit.py` |
 | `sp_recepcion` · **hecho en parte (13/11/2026, 11 · DOC-8 y DOC-10; versión 20.0.1.1.0)** | `account` (de momento; las sedes viven en este módulo hasta que exista `sp_base`) | Hecho: sedes y sedes por persona, cobros con confirmación, aviso de repetidos, justificante por sede, anulación con motivo, cierre de caja con doble persona (también en BD), protección de apuntes de caja de días validados y devoluciones con su flujo. Pendiente: informe por sede y vínculo con expedientes (§3.1) | — | `reception/`, `routers/economy.py`, `routers/reception.py` |
-| `sp_gastos` | `sp_base`, `hr_expense` | Lectura del ticket, tarjetas de empresa | — | `routers/expenses.py`, `services/receipts.py` |
+| `sp_gastos` · **hecho en parte (13/11/2026, 11 · DOC-14; versión 20.0.1.0.0)** | `hr_expense`, `sp_recepcion`, `sp_contabilidad` (de momento; `sp_base` cuando exista) | Hecho: lectura del ticket en el servidor (con la extracción de `sp_contabilidad/lectura/`), IVA del ticket, forma de pago del despacho y efectivo desde la caja de la sede (§3.2). Pendiente: tarjetas de empresa, resumen mensual, límites y políticas | — | `routers/expenses.py`, `services/receipts.py` |
 | `sp_banco` | `sp_base`, `account` | Importación de extractos y conciliación con propuestas | `account_statement_import_camt`, `account_statement_import_sheet_file`, `l10n_es_account_statement_import_n43`, `account_reconcile_oca` | `bank/parsers.py`, `bank/matcher.py`, `bank/service.py` |
 | `sp_contabilidad` · **hecho en parte (13/11/2026, 11 · DOC-13; versión 20.0.1.0.0)** | `account`, `l10n_es` (de momento; `sp_banco` cuando lleguen las remesas) | Hecho: facturas de proveedor con lectura en el servidor (`lectura/`), cuadre con el total de la factura y aviso de repetidas (§3.4). Pendiente: estado «validada», alta rápida del proveedor, remesas con doble firma y SEPA, previsión | `account_payment_order`, `account_banking_sepa_credit_transfer`, `base_tier_validation` | `accounting/invoices.py`, `accounting/treasury.py` |
 | `sp_contabilidad_rutina` | `sp_contabilidad`, `mis_builder` | Cierre del mes, rutina comprobada e informes | `account_financial_report`, `l10n_es_aeat_mod303`, `mod111`, `mod347` (y demás `l10n_es_aeat_*`) | `accounting/close.py`, `routine.py`, `reports.py` |
@@ -264,13 +275,18 @@ Quedan sin asignar a un `sp_*` concreto `l10n_es_aeat_sii_oca` (Odoo 20 Communit
    expedientes (y con él la regla «cobro sin expediente solo si es consulta»). Quién aprueba las devoluciones ya está
    decidido: Contabilidad, como en Sistema Propio (18 · AL-14, 13/11/2026).
 3. **Proveedores y gastos** (`sp_contabilidad` sin remesas, `sp_gastos`). **Hecho en parte · 13/11/2026**
-   (11 · DOC-13): facturas de proveedores en `sp_contabilidad` 20.0.1.0.0. Se leen en el servidor al subirlas (PDF
-   con texto o escaneado, OCR en español), se registran solo si cuadran con el total de la factura y avisan de
-   posibles repetidas; 5 pruebas automáticas sin fallos y escenario `odoo/pruebas/prueba_facturas_proveedor.py`
-   correcto. Cómo instalarlo: `odoo/LEEME.md` («Facturas de proveedores», pasos 10 y 11). **Pendiente:** estado
-   «validada» y «programada» (esta con las remesas), alta rápida y revisión del proveedor nuevo, comprobar la subida
-   de varias facturas a la vez y **gastos de empleados** (siguiente iteración: `hr_expense`, lectura del ticket con
-   el mismo lector local y tarjetas de empresa; §3.2).
+   (11 · DOC-13 y DOC-14):
+   - **Facturas de proveedores** en `sp_contabilidad` 20.0.1.0.0. Se leen en el servidor al subirlas (PDF con texto o
+     escaneado, OCR en español), se registran solo si cuadran con el total de la factura y avisan de posibles
+     repetidas; 5 pruebas automáticas sin fallos y escenario `odoo/pruebas/prueba_facturas_proveedor.py` correcto.
+     Cómo instalarlo: `odoo/LEEME.md` («Facturas de proveedores», pasos 10 y 11).
+   - **Gastos de empleados** en `sp_gastos` 20.0.1.0.0 (§3.2): lectura del ticket en el servidor, IVA del ticket y
+     forma de pago del despacho, con el efectivo saliendo de la caja de la sede; 6 pruebas sin fallos (38 en total
+     con los otros dos módulos) y escenario `odoo/pruebas/prueba_gastos.py` correcto. Cómo instalarlo:
+     `odoo/LEEME.md` («Gastos de empleados», pasos 12 y 13).
+   - **Pendiente:** estado «validada» y «programada» (esta con las remesas), alta rápida y revisión del proveedor
+     nuevo, comprobar la subida de varias facturas a la vez, **tarjetas de empresa** (siguiente iteración), resumen
+     mensual de gastos, límites y políticas, y quién aprueba los gastos de Contabilidad (§3.2, aviso).
 4. **Banco y conciliación** (`sp_banco`): la pieza más grande en Odoo 20 (decidido, 18 · AL-02).
 5. **Remesas SEPA con doble firma.**
 6. **Cierre, rutina e informes.**
