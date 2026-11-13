@@ -5,12 +5,15 @@ Aquí está lo que se construye sobre **Odoo 20 Community** (decisión del 13/11
 | Carpeta / archivo | Qué es |
 |---|---|
 | `docker-compose.yml` | Odoo 20 + PostgreSQL 16 para pruebas en un ordenador con Docker Desktop |
+| `Dockerfile` | Imagen `despacho/odoo:20` = oficial `odoo:20` + `pdftotext`/`pdftoppm` y Tesseract en español, para leer documentos en el propio servidor |
 | `configuracion/base_contable.py` | Monta la **base contable** (compañías, plan contable, diarios y series, bancos, cajas, analítica, cuentas propias, productos base, Verifactu en pruebas). Se puede repetir sin duplicar nada |
 | `pruebas/prueba_base_contable.py` | Prueba con **datos ficticios**: facturas CIT y EXP, IVA, retención de IRPF, suplido, cobro parcial, rectificativa y Verifactu |
 | `addons/sp_recepcion/` | **Recepción y cajas**: cobros con justificante por sede (cada recepción solo ve su sede), aviso de repetidos, confirmación por Contabilidad, anulación con motivo, cierre de caja validado por otra persona y **devoluciones** (revisión, letrado, aprobación y pago) |
 | `configuracion/recepcion.py` | Crea las sedes (Barcelona, Madrid, Valencia) y usuarios de **demostración** para probar Recepción |
 | `pruebas/prueba_recepcion.py` | Escenario de Recepción con datos ficticios (una vez, sobre una base recién montada) |
 | `pruebas/prueba_devoluciones.py` | Escenario de una devolución completa con datos ficticios |
+| `addons/sp_contabilidad/` | **Facturas de proveedores**: lectura del PDF o la foto en el servidor (proveedor por CIF, número, fechas, base, IVA, retención y total), cuadre con el total de la factura y aviso de facturas repetidas |
+| `pruebas/prueba_facturas_proveedor.py` | Escenario: se sube una factura ficticia en PDF, Odoo la lee y se registra |
 | `addons/` | Módulos propios `sp_*` (ver documento 19 §5) |
 
 Todo usa **datos ficticios**. En la instalación real se cambian los valores del bloque CONFIGURACIÓN de
@@ -19,9 +22,9 @@ Todo usa **datos ficticios**. En la instalación real se cambian los valores del
 ## Montarlo en Windows (Docker Desktop)
 En PowerShell, dentro de la carpeta `odoo` del repositorio. Un comando cada vez.
 
-1. Arrancar Odoo 20:
+1. Construir la imagen (la primera vez y cuando cambie el `Dockerfile`) y arrancar Odoo 20:
    ```
-   docker compose up -d
+   docker compose up -d --build
    ```
 2. Crear la base de datos `sp_contable` con Contabilidad, la localización española y la colombiana y Verifactu
    (tarda unos minutos):
@@ -62,6 +65,19 @@ En Facturación aparece el menú **Recepción** (Cobros, Cierres de caja, Sedes)
 usuario): `recepcion.bcn`, `recepcion.mad`, `recepcion.vlc` (Recepción, cada una solo ve su sede), `contabilidad.1`, `contabilidad.2`
 (responsables), `atc.demo` (Atención al cliente: revisa devoluciones) y `letrado.demo` (informe jurídico de
 devoluciones). Son solo para la base de pruebas.
+
+### Facturas de proveedores (módulo `sp_contabilidad`)
+10. Instalar el módulo y pasar sus pruebas:
+    ```
+    docker compose exec odoo odoo -d sp_contable -i sp_contabilidad --test-enable --test-tags /sp_contabilidad --stop-after-init --no-http --db_host=db -r odoo -w odoo
+    ```
+11. (Opcional) Escenario con una factura ficticia:
+    ```
+    docker compose exec -T odoo odoo shell -d sp_contable --db_host=db -r odoo -w odoo --no-http < pruebas/prueba_facturas_proveedor.py
+    ```
+En **Facturación → Proveedores → Facturas**, el botón **Subir** crea la factura a partir del PDF o la foto y la lee
+sola; en un borrador con el documento adjunto, **Leer factura** la vuelve a leer. Antes de registrar, compruebe los
+datos: la lectura **propone**.
 
 En Linux (entorno de Claude): `bash herramientas/odoo_dev.sh sp_recepcion` arranca todo y actualiza el módulo.
 
