@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sp_devolucion_list" model="ir.ui.view">
+        <field name="name">sp.devolucion.list</field>
+        <field name="model">sp.devolucion</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="estado in ('rechazada', 'pagada')" decoration-warning="estado == 'escalada_legal'">
+                <field name="name"/>
+                <field name="create_date" string="Fecha"/>
+                <field name="partner_id"/>
+                <field name="sede_id" optional="show"/>
+                <field name="importe" sum="Total"/>
+                <field name="solicitado_por" optional="show"/>
+                <field name="estado" widget="badge" decoration-success="estado == 'pagada'"
+                       decoration-info="estado in ('registrada', 'en_revision')" decoration-warning="estado == 'aprobada'"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="sp_devolucion_form" model="ir.ui.view">
+        <field name="name">sp.devolucion.form</field>
+        <field name="model">sp.devolucion</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_revisar" type="object" string="Empezar revisión" class="btn-primary"
+                            invisible="estado != 'registrada'" groups="sp_recepcion.group_sp_devolucion_revision"/>
+                    <button name="action_escalar" type="object" string="Escalar al letrado"
+                            invisible="estado != 'en_revision'" groups="sp_recepcion.group_sp_devolucion_revision"/>
+                    <button name="action_informe_letrado" type="object" string="Enviar informe del letrado" class="btn-primary"
+                            invisible="estado != 'escalada_legal'" groups="sp_recepcion.group_sp_devolucion_letrado"/>
+                    <button name="action_aprobar" type="object" string="Aprobar" class="btn-primary"
+                            invisible="estado not in ('registrada', 'en_revision')" groups="sp_recepcion.group_sp_responsable"/>
+                    <button name="action_rechazar" type="object" string="Rechazar"
+                            invisible="estado not in ('registrada', 'en_revision')" groups="sp_recepcion.group_sp_responsable"/>
+                    <button name="action_pagar" type="object" string="Registrar pago" class="btn-primary"
+                            invisible="estado != 'aprobada'" groups="sp_recepcion.group_sp_responsable"/>
+                    <button name="action_reabrir" type="object" string="Reabrir"
+                            invisible="estado != 'rechazada'" groups="sp_recepcion.group_sp_responsable"/>
+                    <field name="estado" widget="statusbar" statusbar_visible="registrada,en_revision,aprobada,pagada"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="partner_id" readonly="estado != 'registrada'"/>
+                            <field name="importe" readonly="estado not in ('registrada', 'en_revision')"/>
+                            <field name="sede_id" readonly="estado != 'registrada'"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group groups="account.group_account_invoice">
+                            <field name="cobro_id" readonly="estado in ('aprobada', 'pagada')"/>
+                            <field name="factura_id" readonly="estado in ('aprobada', 'pagada')"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="motivo" readonly="estado != 'registrada'"/>
+                    </group>
+                    <notebook>
+                        <page string="Revisión" name="revision">
+                            <group>
+                                <field name="informe_revision" readonly="estado != 'en_revision'"
+                                       placeholder="Qué se ha comprobado (investigación del caso)"/>
+                                <field name="revisado_por"/>
+                            </group>
+                        </page>
+                        <page string="Informe del letrado" name="letrado" invisible="estado == 'registrada' and not opinion_legal">
+                            <group>
+                                <field name="opinion_legal" readonly="estado != 'escalada_legal'"/>
+                                <field name="opinion_legal_por"/>
+                                <field name="opinion_legal_fecha"/>
+                            </group>
+                        </page>
+                        <page string="Decisión y pago" name="decision" groups="sp_recepcion.group_sp_devolucion_revision">
+                            <group>
+                                <group>
+                                    <field name="motivo_decision" readonly="estado in ('aprobada', 'pagada')"/>
+                                    <field name="decidido_por"/>
+                                    <field name="decidido_fecha"/>
+                                </group>
+                                <group groups="sp_recepcion.group_sp_responsable">
+                                    <field name="diario_pago_id" readonly="estado != 'aprobada'" required="estado == 'aprobada'"/>
+                                    <field name="referencia_pago" readonly="estado != 'aprobada'"/>
+                                    <field name="rectificativa_id" readonly="estado != 'aprobada'"/>
+                                    <field name="pago_id"/>
+                                    <field name="pagado_por"/>
+                                    <field name="pagado_fecha"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                    <group><field name="solicitado_por"/></group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="sp_devolucion_search" model="ir.ui.view">
+        <field name="name">sp.devolucion.search</field>
+        <field name="model">sp.devolucion</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <filter name="abiertas" string="Abiertas"
+                        domain="[('estado', 'in', ('registrada', 'en_revision', 'escalada_legal', 'aprobada'))]"/>
+                <filter name="por_decidir" string="Por decidir" domain="[('estado', 'in', ('registrada', 'en_revision'))]"/>
+                <filter name="escaladas" string="Escaladas al letrado" domain="[('estado', '=', 'escalada_legal')]"/>
+                <filter name="por_pagar" string="Aprobadas sin pagar" domain="[('estado', '=', 'aprobada')]"/>
+                <filter name="group_estado" string="Estado" context="{'group_by': 'estado'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_sp_devolucion" model="ir.actions.act_window">
+        <field name="name">Devoluciones</field>
+        <field name="res_model">sp.devolucion</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_abiertas': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Registre una solicitud de devolución</p>
+            <p>Atención al cliente la revisa, el letrado informa si hace falta y Contabilidad la aprueba y la paga.</p>
+        </field>
+    </record>
+</odoo>

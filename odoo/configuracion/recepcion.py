@@ -3,8 +3,8 @@
 #   odoo-bin shell -d <base> ... < odoo/configuracion/recepcion.py
 # Idempotente. Crea:
 #   - Una sede por cada caja de la S.L. (Caja Barcelona → sede Barcelona, código BCN…).
-#   - Usuarios de DEMOSTRACIÓN para probar la separación de funciones: una persona de Recepción por sede y dos de
-#     Contabilidad. Contraseña = usuario. SOLO para la base de pruebas: en la real se crean las personas de verdad.
+#   - Usuarios de DEMOSTRACIÓN para probar la separación de funciones: una persona de Recepción por sede (solo ve
+#     su sede), dos de Contabilidad, una de Atención al cliente y un letrado. Contraseña = usuario. SOLO para la base de pruebas: en la real se crean las personas de verdad.
 
 SEDES = [("CBAR", "Barcelona", "BCN"), ("CMAD", "Madrid", "MAD"), ("CVAL", "Valencia", "VLC")]
 USUARIOS_DEMO = [
@@ -13,6 +13,8 @@ USUARIOS_DEMO = [
     ("recepcion.vlc", "Recepción Valencia (demo)", "sp_recepcion.group_sp_recepcion", "VLC"),
     ("contabilidad.1", "Contabilidad 1 (demo)", "sp_recepcion.group_sp_responsable", "BCN"),
     ("contabilidad.2", "Contabilidad 2 (demo)", "sp_recepcion.group_sp_responsable", "BCN"),
+    ("atc.demo", "Atención al cliente (demo)", "sp_recepcion.group_sp_devolucion_revision", "BCN"),
+    ("letrado.demo", "Letrado (demo)", "sp_recepcion.group_sp_devolucion_letrado", "BCN"),
 ]
 
 co = env["res.company"].search([("name", "=", "Despacho S.L. (demo)")], limit=1)

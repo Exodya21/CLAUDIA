@@ -1,36 +1,12 @@
 # Pruebas de sp_recepcion con DATOS FICTICIOS. Especificación: Sistema Propio F5.2 (tests/test_f52_recepcion.py).
 from odoo.exceptions import AccessError, UserError, ValidationError
-from odoo.tests import new_test_user, tagged
-from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+from odoo.tests import tagged
+
+from .common import SpRecepcionCommon
 
 
 @tagged("post_install", "-at_install", "sp_recepcion")
-class TestRecepcion(AccountTestInvoicingCommon):
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.caja = cls.company_data["default_journal_cash"]
-        for linea in cls.caja.inbound_payment_method_line_ids | cls.caja.outbound_payment_method_line_ids:
-            linea.payment_account_id = cls.caja.default_account_id
-        cls.sede = cls.env["sp.sede"].create({"name": "Barcelona", "code": "BCN", "journal_id": cls.caja.id})
-        comunes = {"company_id": cls.env.company.id, "company_ids": [(6, 0, cls.env.company.ids)],
-                   "sp_sede_id": cls.sede.id}
-        cls.recepcion = new_test_user(cls.env, "test.sp.recepcion", groups="sp_recepcion.group_sp_recepcion", **comunes)
-        cls.conta1 = new_test_user(cls.env, "test.sp.conta1", groups="sp_recepcion.group_sp_responsable", **comunes)
-        cls.conta2 = new_test_user(cls.env, "test.sp.conta2", groups="sp_recepcion.group_sp_responsable", **comunes)
-        cls.cliente = cls.env["res.partner"].create({"name": "CLIENTE_01"})
-        cls.cliente2 = cls.env["res.partner"].create({"name": "CLIENTE_02"})
-
-    def _cobro(self, importe=50.0, cliente=None, usuario=None, **extra):
-        Pay = self.env["account.payment"].with_user(usuario or self.recepcion).with_context(sp_recepcion=True)
-        return Pay.create({"payment_type": "inbound", "partner_type": "customer",
-                           "partner_id": (cliente or self.cliente).id, "amount": importe, "journal_id": self.caja.id,
-                           "sp_tipo": "consulta", **extra})
-
-    def _cierre(self, contado, usuario=None, notas=False):
-        return self.env["sp.cierre.caja"].with_user(usuario or self.recepcion).create(
-            {"sede_id": self.sede.id, "contado": contado, "notas": notas})
+class TestRecepcion(SpRecepcionCommon):
 
     # --- Cobros y justificante -----------------------------------------------------------------------------
     def test_cobro_con_justificante_numerado_por_sede(self):

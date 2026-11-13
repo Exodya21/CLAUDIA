@@ -27,6 +27,7 @@ class SpSede(models.Model):
                 "prefix": f"REC-{sede.code.upper()}-%(range_year)s-",
                 "padding": 6,
                 "use_date_range": True,
+                "implementation": "no_gap",  # sin huecos, como el contador de Sistema Propio
                 "company_id": sede.company_id.id,
             })
         return sedes

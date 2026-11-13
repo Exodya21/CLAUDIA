@@ -21,4 +21,25 @@
         <field name="privilege_id" ref="res_groups_privilege_sp_recepcion"/>
         <field name="implied_ids" eval="[(4, ref('group_sp_recepcion'))]"/>
     </record>
+
+    <record id="group_sp_devolucion_revision" model="res.groups">
+        <field name="name">Atención al cliente · revisar devoluciones</field>
+        <field name="sequence">30</field>
+        <field name="comment">Revisa las devoluciones, escribe el informe y las escala al letrado. No las aprueba.</field>
+        <field name="privilege_id" ref="res_groups_privilege_sp_recepcion"/>
+        <field name="implied_ids" eval="[(4, ref('account.group_account_invoice'))]"/>
+    </record>
+
+    <record id="group_sp_devolucion_letrado" model="res.groups">
+        <field name="name">Letrado · informe de devoluciones</field>
+        <field name="sequence">40</field>
+        <field name="comment">Emite el informe jurídico de las devoluciones escaladas. No las aprueba.</field>
+        <field name="privilege_id" ref="res_groups_privilege_sp_recepcion"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <!-- Contabilidad también revisa devoluciones (como en Sistema Propio). -->
+    <record id="group_sp_responsable" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_sp_recepcion')), (4, ref('group_sp_devolucion_revision'))]"/>
+    </record>
 </odoo>

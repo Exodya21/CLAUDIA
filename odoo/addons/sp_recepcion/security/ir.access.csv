@@ -2,7 +2,14 @@ id,name,model_id,group_id/id,operation,domain
 access_sp_sede_user,Sedes · lectura,sp.sede,base.group_user,r,
 access_sp_sede_manager,Sedes · administración,sp.sede,account.group_account_manager,crud,
 sp_sede_company_rule,Sedes · multicompañía,sp.sede,,crud,"[('company_id', 'in', company_ids)]"
-access_sp_cierre_caja_recepcion,Cierres de caja · recepción,sp.cierre.caja,sp_recepcion.group_sp_recepcion,cru,
-access_sp_cierre_caja_responsable,Cierres de caja · responsable,sp.cierre.caja,sp_recepcion.group_sp_responsable,crud,
+access_sp_cierre_caja_recepcion,Cierres de caja · recepción (solo sus sedes),sp.cierre.caja,sp_recepcion.group_sp_recepcion,cru,"[('sede_id', 'in', user.sp_sede_ids.ids + user.sp_sede_id.ids)]"
+access_sp_cierre_caja_responsable,Cierres de caja · responsable (todas),sp.cierre.caja,sp_recepcion.group_sp_responsable,crud,
 sp_cierre_caja_company_rule,Cierres de caja · multicompañía,sp.cierre.caja,,crud,"[('company_id', 'in', company_ids)]"
+sp_payment_sede_rule,Cobros de recepción · cada recepción solo los de sus sedes,account.payment,,crud,"[(1, '=', 1)] if (user.has_group('sp_recepcion.group_sp_responsable') or not user.has_group('sp_recepcion.group_sp_recepcion')) else ['|', ('sp_sede_id', '=', False), ('sp_sede_id', 'in', user.sp_sede_ids.ids + user.sp_sede_id.ids)]"
 access_sp_anular_cobro,Anular cobro,sp.anular.cobro,sp_recepcion.group_sp_responsable,crud,
+access_sp_devolucion_recepcion,Devoluciones · solicitar y ver las propias,sp.devolucion,sp_recepcion.group_sp_recepcion,cr,"[('solicitado_por', '=', user.id)]"
+access_sp_devolucion_letrado_propias,Devoluciones · letrado solicita y ve las propias,sp.devolucion,sp_recepcion.group_sp_devolucion_letrado,cr,"[('solicitado_por', '=', user.id)]"
+access_sp_devolucion_letrado,Devoluciones · letrado (escaladas y las que ha informado),sp.devolucion,sp_recepcion.group_sp_devolucion_letrado,ru,"['|', ('estado', '=', 'escalada_legal'), ('opinion_legal_por', '=', user.id)]"
+access_sp_devolucion_revision,Devoluciones · revisión (todas),sp.devolucion,sp_recepcion.group_sp_devolucion_revision,cru,
+access_sp_devolucion_responsable,Devoluciones · Contabilidad (todas),sp.devolucion,sp_recepcion.group_sp_responsable,cru,
+sp_devolucion_company_rule,Devoluciones · multicompañía,sp.devolucion,,crud,"[('company_id', 'in', company_ids)]"

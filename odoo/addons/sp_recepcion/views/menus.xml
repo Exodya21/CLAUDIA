@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <menuitem id="menu_sp_recepcion" name="Recepción" parent="account.menu_finance" sequence="3"
+              groups="sp_recepcion.group_sp_recepcion,sp_recepcion.group_sp_devolucion_revision,sp_recepcion.group_sp_devolucion_letrado"/>
+    <menuitem id="menu_sp_cobros" name="Cobros" parent="menu_sp_recepcion" action="action_sp_cobros_recepcion" sequence="1"
               groups="sp_recepcion.group_sp_recepcion"/>
-    <menuitem id="menu_sp_cobros" name="Cobros" parent="menu_sp_recepcion" action="action_sp_cobros_recepcion" sequence="1"/>
-    <menuitem id="menu_sp_cierres" name="Cierres de caja" parent="menu_sp_recepcion" action="action_sp_cierre_caja" sequence="2"/>
+    <menuitem id="menu_sp_cierres" name="Cierres de caja" parent="menu_sp_recepcion" action="action_sp_cierre_caja" sequence="2"
+              groups="sp_recepcion.group_sp_recepcion"/>
+    <menuitem id="menu_sp_devoluciones" name="Devoluciones" parent="menu_sp_recepcion" action="action_sp_devolucion" sequence="3"/>
     <menuitem id="menu_sp_sedes" name="Sedes" parent="menu_sp_recepcion" action="action_sp_sede" sequence="10"
               groups="account.group_account_manager"/>
 </odoo>

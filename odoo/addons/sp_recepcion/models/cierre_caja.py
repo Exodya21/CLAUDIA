@@ -36,6 +36,39 @@ class SpCierreCaja(models.Model):
     nota_validacion = fields.Text("Nota de la validación o del rechazo", tracking=True)
     ajuste_move_id = fields.Many2one("account.move", "Asiento de ajuste", readonly=True)
 
+    # Refuerzo en la BASE DE DATOS (como los triggers de Sistema Propio): aunque alguien salte el código de Odoo,
+    # quien valida o rechaza nunca es quien contó, y un cierre validado o rechazado no cambia ni se borra.
+    _sp_otra_persona = models.Constraint(
+        "CHECK (validado_por IS NULL OR contado_por IS NULL OR validado_por <> contado_por)",
+        "El cierre lo tiene que validar o rechazar una persona distinta de la que ha contado la caja.")
+
+    def init(self):
+        self.env.cr.execute("""
+            CREATE OR REPLACE FUNCTION sp_cierre_caja_proteger() RETURNS trigger AS $$
+            BEGIN
+                IF TG_OP = 'DELETE' THEN
+                    IF OLD.estado IN ('pendiente', 'validado') THEN
+                        RAISE EXCEPTION 'Un cierre de caja contado o validado no se borra (sp_cierre_caja %)', OLD.id;
+                    END IF;
+                    RETURN OLD;
+                END IF;
+                IF OLD.estado IN ('validado', 'rechazado') AND (
+                       NEW.estado IS DISTINCT FROM OLD.estado OR NEW.sede_id IS DISTINCT FROM OLD.sede_id
+                    OR NEW.fecha IS DISTINCT FROM OLD.fecha OR NEW.esperado IS DISTINCT FROM OLD.esperado
+                    OR NEW.contado IS DISTINCT FROM OLD.contado OR NEW.diferencia IS DISTINCT FROM OLD.diferencia
+                    OR NEW.contado_por IS DISTINCT FROM OLD.contado_por
+                    OR NEW.validado_por IS DISTINCT FROM OLD.validado_por
+                    OR NEW.ajuste_move_id IS DISTINCT FROM OLD.ajuste_move_id) THEN
+                    RAISE EXCEPTION 'Un cierre de caja validado o rechazado no se modifica (sp_cierre_caja %)', OLD.id;
+                END IF;
+                RETURN NEW;
+            END;
+            $$ LANGUAGE plpgsql;
+            DROP TRIGGER IF EXISTS sp_cierre_caja_proteger ON sp_cierre_caja;
+            CREATE TRIGGER sp_cierre_caja_proteger BEFORE UPDATE OR DELETE ON sp_cierre_caja
+                FOR EACH ROW EXECUTE FUNCTION sp_cierre_caja_proteger();
+        """)
+
     @api.depends("sede_id", "fecha")
     def _compute_name(self):
         for c in self:

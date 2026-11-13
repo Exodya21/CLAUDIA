@@ -7,9 +7,10 @@ Aquí está lo que se construye sobre **Odoo 20 Community** (decisión del 13/11
 | `docker-compose.yml` | Odoo 20 + PostgreSQL 16 para pruebas en un ordenador con Docker Desktop |
 | `configuracion/base_contable.py` | Monta la **base contable** (compañías, plan contable, diarios y series, bancos, cajas, analítica, cuentas propias, productos base, Verifactu en pruebas). Se puede repetir sin duplicar nada |
 | `pruebas/prueba_base_contable.py` | Prueba con **datos ficticios**: facturas CIT y EXP, IVA, retención de IRPF, suplido, cobro parcial, rectificativa y Verifactu |
-| `addons/sp_recepcion/` | **Recepción y cajas**: cobros con justificante por sede, aviso de repetidos, confirmación por Contabilidad, anulación con motivo y cierre de caja validado por otra persona |
+| `addons/sp_recepcion/` | **Recepción y cajas**: cobros con justificante por sede (cada recepción solo ve su sede), aviso de repetidos, confirmación por Contabilidad, anulación con motivo, cierre de caja validado por otra persona y **devoluciones** (revisión, letrado, aprobación y pago) |
 | `configuracion/recepcion.py` | Crea las sedes (Barcelona, Madrid, Valencia) y usuarios de **demostración** para probar Recepción |
 | `pruebas/prueba_recepcion.py` | Escenario de Recepción con datos ficticios (una vez, sobre una base recién montada) |
+| `pruebas/prueba_devoluciones.py` | Escenario de una devolución completa con datos ficticios |
 | `addons/` | Módulos propios `sp_*` (ver documento 19 §5) |
 
 Todo usa **datos ficticios**. En la instalación real se cambian los valores del bloque CONFIGURACIÓN de
@@ -58,8 +59,9 @@ En PowerShell, dentro de la carpeta `odoo` del repositorio. Un comando cada vez.
    docker compose exec -T odoo odoo shell -d sp_contable --db_host=db -r odoo -w odoo --no-http < pruebas/prueba_recepcion.py
    ```
 En Facturación aparece el menú **Recepción** (Cobros, Cierres de caja, Sedes). Usuarios de demostración (contraseña =
-usuario): `recepcion.bcn`, `recepcion.mad`, `recepcion.vlc` (Recepción) y `contabilidad.1`, `contabilidad.2`
-(responsables). Son solo para la base de pruebas.
+usuario): `recepcion.bcn`, `recepcion.mad`, `recepcion.vlc` (Recepción, cada una solo ve su sede), `contabilidad.1`, `contabilidad.2`
+(responsables), `atc.demo` (Atención al cliente: revisa devoluciones) y `letrado.demo` (informe jurídico de
+devoluciones). Son solo para la base de pruebas.
 
 En Linux (entorno de Claude): `bash herramientas/odoo_dev.sh sp_recepcion` arranca todo y actualiza el módulo.
 

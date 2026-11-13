@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_sp_devolucion" model="ir.sequence">
+        <field name="name">Devoluciones a clientes</field>
+        <field name="code">sp.devolucion</field>
+        <field name="prefix">DEV/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+        <field name="implementation">no_gap</field>
+    </record>
+</odoo>
