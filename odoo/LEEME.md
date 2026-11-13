@@ -22,6 +22,11 @@ Aquí está lo que se construye sobre **Odoo 20 Community** (decisión del 13/11
 Todo usa **datos ficticios**. En la instalación real se cambian los valores del bloque CONFIGURACIÓN de
 `base_contable.py` en el servidor, sin subirlos al repositorio.
 
+## La forma más fácil en Windows: `MONTAR_ODOO.bat`
+Con Docker Desktop en marcha, doble clic en **`odoo/MONTAR_ODOO.bat`**. Construye la imagen, crea la base
+`sp_contable`, monta la base contable, instala Recepción, Contabilidad y Gastos, crea los usuarios de demostración y
+abre http://localhost:8069. Si la base ya existe, solo actualiza los módulos. Los pasos de abajo son lo mismo, a mano.
+
 ## Montarlo en Windows (Docker Desktop)
 En PowerShell, dentro de la carpeta `odoo` del repositorio. Un comando cada vez.
 

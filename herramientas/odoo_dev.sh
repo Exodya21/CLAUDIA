@@ -14,11 +14,16 @@ docker compose up -d >/dev/null
 for i in $(seq 1 60); do docker compose exec -T db pg_isready -U odoo >/dev/null 2>&1 && break; sleep 1; done
 ODOO="docker compose exec -T odoo odoo --db_host=db -r odoo -w odoo"
 if ! docker compose exec -T db psql -U odoo -lqt | cut -d'|' -f1 | grep -qw sp_contable; then
-  echo "Creando la base sp_contable…"
-  $ODOO -d sp_contable -i account,l10n_es,l10n_co,l10n_es_edi_verifactu --load-language=es_ES --stop-after-init --log-level=warn
+  echo "Creando la base sp_contable y montando todo (igual que MONTAR_ODOO.bat)…"
+  $ODOO -d sp_contable -i account,l10n_es,l10n_co,l10n_es_edi_verifactu --load-language=es_ES --stop-after-init --no-http --log-level=warn
   $ODOO shell -d sp_contable --no-http --log-level=error < configuracion/base_contable.py | tail -1
+  docker compose restart odoo >/dev/null
+  $ODOO -d sp_contable -i sp_recepcion,sp_contabilidad,sp_gastos --stop-after-init --no-http --log-level=warn
+  $ODOO shell -d sp_contable --no-http --log-level=error < configuracion/recepcion.py | tail -1
+  $ODOO shell -d sp_contable --no-http --log-level=error < configuracion/gastos.py | tail -1
 fi
 if [ -n "${1:-}" ]; then
   $ODOO -d sp_contable -i "$1" -u "$1" --stop-after-init --log-level=warn
 fi
+docker compose restart odoo >/dev/null
 echo "Odoo 20 en http://localhost:8069 (admin/admin) · base sp_contable"
