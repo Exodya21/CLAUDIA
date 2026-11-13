@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_expense_view_form_sp_gastos" model="ir.ui.view">
+        <field name="name">hr.expense.form.sp_gastos</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_sp_leer_ticket" type="object" string="Leer ticket" icon="fa-magic"
+                        invisible="state != 'draft'"/>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <group string="Pago en el despacho" name="sp_gastos">
+                    <group>
+                        <field name="sp_forma_pago" readonly="state != 'draft'"/>
+                        <field name="sp_sede_id" readonly="state != 'draft'" required="sp_forma_pago == 'efectivo'"/>
+                    </group>
+                    <group>
+                        <field name="sp_iva_ticket" invisible="not sp_iva_ticket"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

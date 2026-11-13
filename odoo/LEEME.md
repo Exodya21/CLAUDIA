@@ -14,6 +14,9 @@ Aquí está lo que se construye sobre **Odoo 20 Community** (decisión del 13/11
 | `pruebas/prueba_devoluciones.py` | Escenario de una devolución completa con datos ficticios |
 | `addons/sp_contabilidad/` | **Facturas de proveedores**: lectura del PDF o la foto en el servidor (proveedor por CIF, número, fechas, base, IVA, retención y total), cuadre con el total de la factura y aviso de facturas repetidas |
 | `pruebas/prueba_facturas_proveedor.py` | Escenario: se sube una factura ficticia en PDF, Odoo la lee y se registra |
+| `addons/sp_gastos/` | **Gastos de empleados** (sobre Gastos de Odoo): lectura del ticket en el servidor y forma de pago del despacho (efectivo de la caja de la sede, tarjeta de empresa o pagado por la persona) |
+| `configuracion/gastos.py` | Categorías de gasto con su cuenta (provisional, T-40) y fichas de empleado de demostración |
+| `pruebas/prueba_gastos.py` | Escenario: ticket de comida pagado con la caja de Barcelona (una vez) |
 | `addons/` | Módulos propios `sp_*` (ver documento 19 §5) |
 
 Todo usa **datos ficticios**. En la instalación real se cambian los valores del bloque CONFIGURACIÓN de
@@ -85,6 +88,24 @@ devoluciones). Son solo para la base de pruebas.
 En **Facturación → Proveedores → Facturas**, el botón **Subir** crea la factura a partir del PDF o la foto y la lee
 sola; en un borrador con el documento adjunto, **Leer factura** la vuelve a leer. Antes de registrar, compruebe los
 datos: la lectura **propone**.
+
+### Gastos de empleados (módulo `sp_gastos`)
+12. Instalar el módulo (instala también Gastos de Odoo) y después pasar sus pruebas:
+    ```
+    docker compose exec odoo odoo -d sp_contable -i sp_gastos --stop-after-init --no-http --db_host=db -r odoo -w odoo
+    ```
+    ```
+    docker compose exec odoo odoo -d sp_contable -u sp_gastos --test-enable --test-tags /sp_gastos --stop-after-init --no-http --db_host=db -r odoo -w odoo
+    ```
+13. Categorías de gasto y empleados de demostración; (opcional) escenario:
+    ```
+    docker compose exec -T odoo odoo shell -d sp_contable --db_host=db -r odoo -w odoo --no-http < configuracion/gastos.py
+    ```
+    ```
+    docker compose exec -T odoo odoo shell -d sp_contable --db_host=db -r odoo -w odoo --no-http < pruebas/prueba_gastos.py
+    ```
+En **Gastos**, la persona sube la foto o el PDF del ticket (se lee solo), elige la categoría y la **forma de pago**
+(si es efectivo de la caja, sale de la caja de su sede) y lo envía; Contabilidad lo aprueba y lo contabiliza.
 
 En Linux (entorno de Claude): `bash herramientas/odoo_dev.sh sp_recepcion` arranca todo y actualiza el módulo.
 
