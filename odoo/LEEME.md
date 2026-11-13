@@ -49,9 +49,13 @@ En PowerShell, dentro de la carpeta `odoo` del repositorio. Un comando cada vez.
    ```
    docker compose restart odoo
    ```
-7. Instalar el módulo y pasar sus pruebas automáticas:
+7. Instalar el módulo y después pasar sus pruebas automáticas (con `-u`: al instalar con `-i` las pruebas pueden no
+   ejecutarse, ver INC-80):
    ```
-   docker compose exec odoo odoo -d sp_contable -i sp_recepcion --test-enable --test-tags /sp_recepcion --stop-after-init --no-http --db_host=db -r odoo -w odoo
+   docker compose exec odoo odoo -d sp_contable -i sp_recepcion --stop-after-init --no-http --db_host=db -r odoo -w odoo
+   ```
+   ```
+   docker compose exec odoo odoo -d sp_contable -u sp_recepcion --test-enable --test-tags /sp_recepcion --stop-after-init --no-http --db_host=db -r odoo -w odoo
    ```
 8. Crear las sedes y los usuarios de demostración:
    ```
@@ -67,9 +71,12 @@ usuario): `recepcion.bcn`, `recepcion.mad`, `recepcion.vlc` (Recepción, cada un
 devoluciones). Son solo para la base de pruebas.
 
 ### Facturas de proveedores (módulo `sp_contabilidad`)
-10. Instalar el módulo y pasar sus pruebas:
+10. Instalar el módulo y después pasar sus pruebas:
     ```
-    docker compose exec odoo odoo -d sp_contable -i sp_contabilidad --test-enable --test-tags /sp_contabilidad --stop-after-init --no-http --db_host=db -r odoo -w odoo
+    docker compose exec odoo odoo -d sp_contable -i sp_contabilidad --stop-after-init --no-http --db_host=db -r odoo -w odoo
+    ```
+    ```
+    docker compose exec odoo odoo -d sp_contable -u sp_contabilidad --test-enable --test-tags /sp_contabilidad --stop-after-init --no-http --db_host=db -r odoo -w odoo
     ```
 11. (Opcional) Escenario con una factura ficticia:
     ```

@@ -157,6 +157,30 @@ Pestañas: **Rutina · Banco y conciliación · Proveedores y facturas · Tesore
 
 Guía de prueba paso a paso: `docs/pruebas/guia_manual_contabilidad.md` (28 pasos).
 
+## 10b. Facturas de proveedores en Odoo 20
+Menú **Facturación → Proveedores → Facturas** (módulo `sp_contabilidad`; 19 §3.4). Ejemplos con datos ficticios.
+1. **Subir:** pulse **Subir** y elija el PDF o la foto de la factura. Odoo crea el borrador y lo lee solo, en el
+   propio servidor. Si la factura ya tenía el documento adjunto, pulse **Leer factura**.
+2. **Revisar lo propuesto:** la lectura **propone**; no decide. Compruebe con la factura el proveedor, el número, la
+   fecha, el vencimiento, la base, el IVA, la retención y el «Total que figura en la factura».
+   - Solo se rellenan los campos vacíos. Lo que no ha podido leer queda en blanco: rellénelo a mano.
+   - En el historial (abajo) verá un resumen de lo leído y la **confianza** (alta, media o baja).
+   - Si el proveedor no existía, Odoo lo da de alta con el nombre y el CIF leídos y lo avisa en el historial.
+     Revise su ficha.
+3. **Imputar:** en la línea, indique la **Actividad** y la **Sede** en la distribución analítica (o use un modelo de
+   distribución del proveedor).
+4. **Confirmar:** Odoo solo registra la factura si su total coincide con el «Total que figura en la factura».
+   - Si no coincide, ajuste el impuesto o la retención. El IVA es siempre el que figura en la factura.
+   - Si se parece a otra factura (mismo proveedor y número; mismo proveedor, importe y fecha; o el mismo archivo),
+     Odoo avisa y no la registra. Si no es repetida, explique el motivo (mínimo 10 caracteres) en «Motivo (posible
+     factura repetida)» y vuelva a confirmar.
+
+Ejemplo: factura ficticia de base 100 €, IVA 21 € y retención 15 € → total 106 €, registrada como
+`FACTURA/2026/11/0001`. Captura: `documentacion/odoo20_contabilidad/1_factura_proveedor_leida.png`.
+
+Aún no están en Odoo 20 los pasos «validar» y «programar» de Sistema Propio ni el «Alta rápida» del proveedor
+(11 · DOC-13).
+
 ## 11. RRHH
 - **Mi ficha** (todos): sus datos, documentos y ausencias. Solicite vacaciones o permisos; RRHH los aprueba y quedan
   en la Agenda.

@@ -44,16 +44,24 @@ en el repositorio (`docs/entrega/`) junto al código y se actualiza con él. Se 
 ## Implantación en Odoo 20
 - `odoo/`: lo que se construye sobre Odoo 20 Community. Cómo montarlo en [`odoo/LEEME.md`](../../odoo/LEEME.md).
   - `odoo/docker-compose.yml`: Odoo 20 + PostgreSQL 16 para pruebas (solo accesible desde el propio ordenador).
+  - `odoo/Dockerfile`: imagen propia `despacho/odoo:20` (oficial + `pdftotext` y Tesseract en español para leer
+    documentos en el servidor; 09 · Anexo C; 11 · DOC-13).
   - `odoo/configuracion/base_contable.py`: base contable (19 §6 paso 1, hecho el 13/11/2026; 11 · DOC-5).
   - `odoo/pruebas/prueba_base_contable.py`: prueba con datos ficticios.
   - `odoo/configuracion/recepcion.py`: sedes y usuarios de demostración para Recepción (19 §6 paso 2; 11 · DOC-8).
   - `odoo/pruebas/prueba_recepcion.py`: escenario de Recepción y cajas con datos ficticios.
   - `odoo/pruebas/prueba_devoluciones.py`: escenario de una devolución completa con datos ficticios (11 · DOC-10).
-  - `odoo/addons/`: módulos propios `sp_*` (19 §5). Primero: `odoo/addons/sp_recepcion/` (Recepción, cajas y devoluciones).
+  - `odoo/pruebas/prueba_facturas_proveedor.py`: escenario de una factura de proveedor leída y registrada con datos
+    ficticios (11 · DOC-13).
+  - `odoo/addons/`: módulos propios `sp_*` (19 §5): `odoo/addons/sp_recepcion/` (Recepción, cajas y devoluciones) y
+    `odoo/addons/sp_contabilidad/` (facturas de proveedores: lectura en el servidor, cuadre y aviso de repetidas;
+    19 §3.4).
 - `herramientas/odoo_dev.sh`: levanta Odoo 20 de pruebas en Linux o en el entorno en la nube (09 · Anexo C).
 - `documentacion/odoo20_base_contable/`: capturas de la prueba de la base contable (datos ficticios).
 - `documentacion/odoo20_recepcion/`: capturas de Recepción y cajas en Odoo 20 (cobros, cobro con justificante,
   cierre de caja, justificante y devolución; datos ficticios).
+- `documentacion/odoo20_contabilidad/`: capturas de las facturas de proveedores en Odoo 20 (factura leída; datos
+  ficticios).
 - `documentacion/cuestionarios/`: cuestionario para la gestoría sobre el plan de cuentas
   (`Cuestionario_gestoria_plan_de_cuentas.docx`; T-40 y 18 · AL-06/AL-13; 11 · DOC-6).
 

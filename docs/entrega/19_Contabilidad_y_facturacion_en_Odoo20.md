@@ -128,7 +128,7 @@ numeración y el registro en Verifactu son los del estándar (§1.3, 01 §4). Fa
 ### 3.2 Gastos de empresa
 | Función | Tabla | Odoo 20 de serie | OCA | Módulo propio | Charter |
 |---|---|---|---|---|---|
-| Ticket subido por la persona → propuesta de datos → confirma → Contabilidad aprueba o devuelve | `expense`, `expense_event` | `hr_expense` (borrador → enviado → aprobado → contabilizado) | — | Lectura del ticket en el servidor (OCR local de `services/receipts.py`), en lugar del OCR de pago de Enterprise | 4.13 |
+| Ticket subido por la persona → propuesta de datos → confirma → Contabilidad aprueba o devuelve | `expense`, `expense_event` | `hr_expense` (borrador → enviado → aprobado → contabilizado) | — | Lectura del ticket en el servidor (OCR local de `services/receipts.py`), en lugar del OCR de pago de Enterprise. La extracción de texto y el OCR ya están en `sp_contabilidad/lectura/extraer.py` y en la imagen `despacho/odoo:20` (11 · DOC-13) | 4.13 |
 | Gasto en efectivo que mueve la caja de su sede | `cash_movement` | Pago del gasto con el diario de caja | — | Elegir la caja según la sede de la persona | 4.14 |
 | **Tarjetas de empresa** (cada titular ve la suya; cargos sin justificante señalados) | `company_card`, `card_transaction` | — | — | Modelo `sp.company.card` e importación del extracto de la tarjeta | — |
 | Resumen mensual por persona, sede, concepto y forma de pago | — | Análisis de gastos | `mis_builder` | Exportación registrada en la auditoría | — |
@@ -144,14 +144,19 @@ numeración y el registro en Verifactu son los del estándar (§1.3, 01 §4). Fa
 | Exportación CSV para la gestoría | — | Exportar desde las listas | — | — | 4.10 |
 
 ### 3.4 Facturas de proveedores
-| Función | Tabla | Odoo 20 de serie | OCA | Módulo propio | Charter |
-|---|---|---|---|---|---|
-| Subir varias facturas y **leerlas** (número, CIF, fechas, base, IVA, retención, total, IBAN; descarta el CIF propio) | `supplier_invoice.extracted` | Factura de proveedor (`in_invoice`); la lectura automática es de pago | — | `sp_lectura`: servicio con `accounting/invoices.py` (lectura v2) que rellena el borrador | 4.17 |
-| **El IVA es el de la factura**, nunca se calcula; solo se registra si base + IVA − retención = total | check en BD | Odoo calcula el impuesto desde el tipo, pero permite **ajustar el importe del impuesto** en la factura de proveedor | `account_move_line_tax_editable` (**sí en 20.0**) | Comprobación del cuadre al publicar | 4.17 |
-| **Duplicados** (mismo archivo, o mismo proveedor, importe y fecha) | — | Aviso por referencia repetida (de serie) | — | Ampliar a archivo e importe+fecha; motivo obligatorio para seguir | — |
-| Estados recibida → validada → programada (en remesa) → pagada (al conciliar el cargo) | `supplier_invoice.status` | Borrador → publicada → pagada | — | Paso «validada» con permiso propio | — |
-| Proveedor con actividad, sede, plazo de pago, recurrente | `supplier` | Contacto proveedor, plazos de pago | — | Campos actividad y sede por defecto para la analítica | 4.11 |
-| Imputación a **actividad** (laboral, extranjería, compartida) y **sede** | `activity`, `branch_id` | **Analítica con dos planes**: Actividad y Sede | — | Rellenar la analítica desde el proveedor | 4.11 |
+**Estado (13/11/2026):** `sp_contabilidad` versión 20.0.1.0.0, primera parte hecha y probada (11 · DOC-13; código en
+`odoo/addons/sp_contabilidad/`; 5 pruebas automáticas sin fallos y escenario `odoo/pruebas/prueba_facturas_proveedor.py`
+correcto). Captura: `documentacion/odoo20_contabilidad/1_factura_proveedor_leida.png`. La lectura se hace en el
+propio servidor (imagen `despacho/odoo:20`, `odoo/Dockerfile`), sin servicios externos.
+
+| Función | Tabla | Odoo 20 de serie | OCA | Módulo propio | Charter | Estado |
+|---|---|---|---|---|---|---|
+| Subir varias facturas y **leerlas** (número, CIF, fechas, base, IVA, retención, total, IBAN; descarta el CIF propio) | `supplier_invoice.extracted` | Factura de proveedor (`in_invoice`) y botón **Subir**; la lectura automática es de pago | — | `sp_contabilidad`: `lectura/facturas.py` (lector v2 de Sistema Propio) con `pdftotext` y OCR Tesseract. Se lee al **Subir** (`_extend_with_attachments`) o con **Leer factura**. Solo rellena campos vacíos: proveedor por CIF, `ref`, fecha, vencimiento, `sp_total_documento` y una línea con la base y los impuestos. Descarta el CIF de la compañía y los de `sp_contabilidad.cif_propios`. Resumen y confianza en el historial | 4.17 | **Hecho en parte.** Falta comprobar varias a la vez (Subir admite varios archivos). El IBAN se lee pero no se pasa al proveedor |
+| **El IVA es el de la factura**, nunca se calcula; solo se registra si base + IVA − retención = total | check en BD | Odoo calcula el impuesto desde el tipo, pero permite **ajustar el importe del impuesto** en la factura de proveedor | `account_move_line_tax_editable` (**sí en 20.0**) | Se elige el impuesto cuyo tipo reproduce la cifra impresa (IVA 21/10/5/4 % de servicios; IRPF 15/7/19/1/2 %). `action_post` exige «Total que figura en la factura» igual al total de Odoo | 4.17 | **Hecho** (en Python, no en la base de datos) |
+| **Duplicados** (mismo archivo, o mismo proveedor, importe y fecha) | — | Aviso por referencia repetida (de serie) | — | `_sp_posibles_duplicados()`: mismo proveedor y número (sin distinguir mayúsculas), mismo proveedor, importe y fecha, o mismo archivo (checksum). Motivo `sp_motivo_duplicado` ≥ 10 caracteres | — | **Hecho** |
+| Estados recibida → validada → programada (en remesa) → pagada (al conciliar el cargo) | `supplier_invoice.status` | Borrador → publicada → pagada | — | Paso «validada» con permiso propio | — | **Pendiente.** De momento, los estados de Odoo; «programada» llegará con las remesas (§6 paso 5) |
+| Proveedor con actividad, sede, plazo de pago, recurrente | `supplier` | Contacto proveedor, plazos de pago | — | Alta automática del proveedor leído (avisada en el historial). Falta el alta rápida con revisión y los campos actividad y sede por defecto | 4.11 | **Hecho en parte** |
+| Imputación a **actividad** (laboral, extranjería, compartida) y **sede** | `activity`, `branch_id` | **Analítica con dos planes**: Actividad y Sede; modelos de distribución analítica | — | Sin código propio: modelos de distribución analítica de Odoo o a mano en la línea (el escenario lo hace a mano) | 4.11, 4.17 | **Hecho con el estándar** |
 
 **Facturas del autónomo del titular y de la filial de Colombia (18 · AL-06, decidido provisionalmente el
 13/11/2026):** el autónomo no es compañía en Odoo; sus facturas a la S.L. se registran en la S.L. como **facturas de
@@ -233,7 +238,7 @@ rama 20.0. Para esas piezas se puede partir del código de la OCA 19.0 portado (
 | `sp_recepcion` · **hecho en parte (13/11/2026, 11 · DOC-8 y DOC-10; versión 20.0.1.1.0)** | `account` (de momento; las sedes viven en este módulo hasta que exista `sp_base`) | Hecho: sedes y sedes por persona, cobros con confirmación, aviso de repetidos, justificante por sede, anulación con motivo, cierre de caja con doble persona (también en BD), protección de apuntes de caja de días validados y devoluciones con su flujo. Pendiente: informe por sede y vínculo con expedientes (§3.1) | — | `reception/`, `routers/economy.py`, `routers/reception.py` |
 | `sp_gastos` | `sp_base`, `hr_expense` | Lectura del ticket, tarjetas de empresa | — | `routers/expenses.py`, `services/receipts.py` |
 | `sp_banco` | `sp_base`, `account` | Importación de extractos y conciliación con propuestas | `account_statement_import_camt`, `account_statement_import_sheet_file`, `l10n_es_account_statement_import_n43`, `account_reconcile_oca` | `bank/parsers.py`, `bank/matcher.py`, `bank/service.py` |
-| `sp_contabilidad` | `sp_banco` | Facturas de proveedor con lectura y cuadre, remesas con doble firma y SEPA, previsión | `account_payment_order`, `account_banking_sepa_credit_transfer`, `base_tier_validation` | `accounting/invoices.py`, `accounting/treasury.py` |
+| `sp_contabilidad` · **hecho en parte (13/11/2026, 11 · DOC-13; versión 20.0.1.0.0)** | `account`, `l10n_es` (de momento; `sp_banco` cuando lleguen las remesas) | Hecho: facturas de proveedor con lectura en el servidor (`lectura/`), cuadre con el total de la factura y aviso de repetidas (§3.4). Pendiente: estado «validada», alta rápida del proveedor, remesas con doble firma y SEPA, previsión | `account_payment_order`, `account_banking_sepa_credit_transfer`, `base_tier_validation` | `accounting/invoices.py`, `accounting/treasury.py` |
 | `sp_contabilidad_rutina` | `sp_contabilidad`, `mis_builder` | Cierre del mes, rutina comprobada e informes | `account_financial_report`, `l10n_es_aeat_mod303`, `mod111`, `mod347` (y demás `l10n_es_aeat_*`) | `accounting/close.py`, `routine.py`, `reports.py` |
 | `sp_facturacion` (decidido, AL-03) | `account`, `l10n_es_edi_verifactu` | Prepara facturas: cuota litis, suplidos, factura global de extranjería. **No toca** el registro, el encadenamiento, la numeración ni el envío de Verifactu (§1.3) | — | — |
 
@@ -258,7 +263,14 @@ Quedan sin asignar a un `sp_*` concreto `l10n_es_aeat_sii_oca` (Odoo 20 Communit
    en `documentacion/odoo20_recepcion/`. **Pendiente:** informe diario y semanal por sede en PDF, vínculo con
    expedientes (y con él la regla «cobro sin expediente solo si es consulta»). Quién aprueba las devoluciones ya está
    decidido: Contabilidad, como en Sistema Propio (18 · AL-14, 13/11/2026).
-3. **Proveedores y gastos** (`sp_contabilidad` sin remesas, `sp_gastos`).
+3. **Proveedores y gastos** (`sp_contabilidad` sin remesas, `sp_gastos`). **Hecho en parte · 13/11/2026**
+   (11 · DOC-13): facturas de proveedores en `sp_contabilidad` 20.0.1.0.0. Se leen en el servidor al subirlas (PDF
+   con texto o escaneado, OCR en español), se registran solo si cuadran con el total de la factura y avisan de
+   posibles repetidas; 5 pruebas automáticas sin fallos y escenario `odoo/pruebas/prueba_facturas_proveedor.py`
+   correcto. Cómo instalarlo: `odoo/LEEME.md` («Facturas de proveedores», pasos 10 y 11). **Pendiente:** estado
+   «validada» y «programada» (esta con las remesas), alta rápida y revisión del proveedor nuevo, comprobar la subida
+   de varias facturas a la vez y **gastos de empleados** (siguiente iteración: `hr_expense`, lectura del ticket con
+   el mismo lector local y tarjetas de empresa; §3.2).
 4. **Banco y conciliación** (`sp_banco`): la pieza más grande en Odoo 20 (decidido, 18 · AL-02).
 5. **Remesas SEPA con doble firma.**
 6. **Cierre, rutina e informes.**

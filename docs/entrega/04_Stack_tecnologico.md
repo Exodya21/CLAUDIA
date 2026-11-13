@@ -41,9 +41,9 @@ Lo que **no** se usa, de forma deliberada:
 | Módulos de la comunidad | OCA (GitHub `OCA/*`), en la **misma rama** que Odoo | Ver la lista en 02 · Arquitectura, 8.1 |
 | Tareas programadas | `ir.cron`, `base_automation`; `queue_job` (OCA) si hace falta | Sustituye al contenedor `avisos` |
 | Informes | QWeb PDF; `mis_builder` (OCA) | — |
-| OCR | Tesseract + Poppler en el servidor | Llamados desde `sp_lectura` |
+| OCR | Tesseract (español) + Poppler (`pdftotext`, `pdftoppm`) en el servidor, dentro de la imagen `despacho/odoo:20` | Hoy los llama `sp_contabilidad` (`lectura/extraer.py`) para las facturas de proveedor; se reutilizarán para los tickets de gastos. Sin servicios externos (11 · DOC-13) |
 | Proxy | Nginx o Caddy | TLS, *websocket* o *longpolling* |
-| Despliegue | Docker (imagen oficial `odoo:17`/`odoo:18`) o paquete nativo | Con `addons_path` que incluya OCA y `sp_*` |
+| Despliegue | Docker con la imagen propia **`despacho/odoo:20`** (`odoo/Dockerfile`: oficial `odoo:20` + `poppler-utils`, `tesseract-ocr`, `tesseract-ocr-spa`) o paquete nativo | Con `addons_path` que incluya OCA y `sp_*`. Se construye con `docker compose up -d --build` (09 · Anexo C) |
 | Pruebas | `odoo-bin --test-enable` (`TransactionCase`, `HttpCase`) | Reescribir los casos de `apps/api/tests` |
 
 ## 3. Equivalencias técnicas

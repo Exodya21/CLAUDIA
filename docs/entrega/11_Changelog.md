@@ -3,6 +3,66 @@
 Sistema Propio · 12/11/2026. Formato inspirado en *Keep a Changelog*. Las versiones siguen los incrementos del plan
 (F0.1 … F5.6). Los cambios de base de datos se indican con su migración.
 
+## [DOC-13] · 13/11/2026 — Odoo 20: sp_contabilidad · facturas de proveedores
+Módulo nuevo `odoo/addons/sp_contabilidad` (versión **20.0.1.0.0**; depende de `account` y `l10n_es`). Es la primera
+parte del paso 3 de 19 §6 (19 §3.4; charter 4.17). Referencia: Sistema Propio F5.4/F5.5, lector v2 de
+`accounting/invoices.py`. Todo con datos ficticios.
+### Añadido
+- **Lectura de la factura en el propio servidor**, sin servicios externos (`lectura/extraer.py`): `pdftotext -layout`
+  y, si el PDF es escaneado o es una foto, OCR con Tesseract en español a 300 ppp.
+  - `lectura/facturas.py`: lector v2 de Sistema Propio, copiado sin cambios de lógica salvo lo marcado en el código.
+  - `lectura/identificadores.py`: validación de DNI, NIE y CIF, copiada de Sistema Propio.
+- **Cuándo se lee** (`models/account_move.py`): al pulsar **Subir** en *Facturas de proveedor* (método
+  `_extend_with_attachments`) o con el botón **Leer factura** en un borrador que tenga el PDF o la foto adjuntos
+  (`views/account_move_views.xml`).
+- **Qué propone** (solo rellena los campos **vacíos**; si no lee un dato, no lo inventa):
+  - Proveedor por su CIF. Si no existe, lo da de alta y lo avisa en el historial para que se revise.
+  - Número (`ref`), fecha, vencimiento y el campo nuevo **«Total que figura en la factura»** (`sp_total_documento`).
+  - Una línea con la base y los impuestos cuyo tipo reproduce la cifra de la factura: IVA 21, 10, 5 o 4 % de
+    servicios y retención IRPF 15, 7, 19, 1 o 2 % (impuestos de `l10n_es` buscados por su xmlid). El IVA no se
+    calcula: se reconoce a partir del importe impreso.
+  - Descarta el CIF de la propia compañía y los de la clave `sp_contabilidad.cif_propios` (`ir.config_parameter`,
+    separados por comas).
+  - Deja en el historial un resumen de lo leído y la **confianza** (alta, media o baja; campo
+    `sp_lectura_confianza`). Lo leído se guarda en `sp_lectura` (JSON).
+- **Al registrar** (`action_post` de facturas y abonos de proveedor):
+  - Exige el «Total que figura en la factura» y que coincida con el total de Odoo. Si no, pide ajustar el impuesto o
+    la retención: el IVA es el de la factura.
+  - **Aviso de posible factura repetida:** mismo proveedor y número (sin distinguir mayúsculas), mismo proveedor,
+    importe y fecha, o el mismo archivo (checksum del adjunto) en otra factura. Solo se registra con un motivo de
+    10 caracteres o más en «Motivo (posible factura repetida)» (`sp_motivo_duplicado`).
+- **Imputación por Actividad y Sede:** con los modelos de distribución analítica estándar de Odoo o a mano en la
+  línea. No hay código propio para esto.
+- **Imagen propia `despacho/odoo:20`** (`odoo/Dockerfile`): la oficial `odoo:20` más `poppler-utils`, `tesseract-ocr`
+  y `tesseract-ocr-spa`.
+- Pruebas `tests/test_facturas_proveedor.py` (5) y escenario `odoo/pruebas/prueba_facturas_proveedor.py`.
+- `odoo/LEEME.md`: pasos 10 (instalar y probar el módulo) y 11 (escenario).
+- Captura `documentacion/odoo20_contabilidad/1_factura_proveedor_leida.png`.
+### Cambiado
+- `odoo/docker-compose.yml`: el servicio `odoo` se construye con `build: .` (imagen `despacho/odoo:20`). El paso 1 de
+  `odoo/LEEME.md` es ahora `docker compose up -d --build`.
+- `herramientas/odoo_dev.sh`: construye la imagen si falta (pasa el proxy como argumento de construcción).
+- **Cambio en el lector respecto a Sistema Propio:** reconoce «N.º», «Nº» y «N°» como «número» (marcado en el código
+  de `lectura/facturas.py`).
+### Comprobado
+- **5 pruebas automáticas, 0 fallos:**
+  - Lectura y cuadre con un PDF ficticio con IVA 21 % y retención 15 %.
+  - Sin total, o con descuadre, no se registra.
+  - Repetida por número o por importe y fecha: exige motivo.
+  - El mismo archivo en otra factura: posible repetida.
+  - Un documento sin datos no rellena nada.
+- **Escenario:** se sube un PDF ficticio. Se lee con confianza alta y total 106 € (100 + 21 − 15). Se registra como
+  `FACTURA/2026/11/0001`. Pantalla revisada sin errores.
+### Pendiente
+- Estados «validada» y «programada» de Sistema Propio. En Odoo: borrador → registrada → pagada; «programada» llegará
+  con las remesas (19 §6 paso 5).
+- Alta rápida y revisión del proveedor nuevo (ahora se crea solo y se avisa en el historial).
+- Varias facturas a la vez: el botón **Subir** de Odoo ya admite varios archivos. **Sin comprobar.**
+- El IBAN leído se guarda en «Datos leídos», pero no se pasa a la cuenta bancaria del proveedor (comprobado en el
+  código).
+- Gastos de empleados (siguiente iteración): `hr_expense`, lectura del ticket y tarjetas de empresa (19 §3.2).
+- Incidencias de este trabajo: 12 · INC-76 a INC-80.
+
 ## [DOC-12] · 13/11/2026 — AL-14: devoluciones con el circuito de Sistema Propio
 ### Cambiado
 - **Decisión** (persona responsable del proyecto): las devoluciones siguen el circuito de Sistema Propio. Atención al

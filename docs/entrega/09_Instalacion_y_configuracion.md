@@ -195,12 +195,21 @@ bancos, cajas, analítica, cuentas propias provisionales y Verifactu en el entor
 [`odoo/LEEME.md`](../../odoo/LEEME.md). Resumen:
 - Usa `odoo/docker-compose.yml` (Odoo 20 + PostgreSQL 16). Odoo solo se abre desde el propio ordenador
   (http://localhost:8069). No hace falta crear la red ni los contenedores a mano como en el primer anexo.
-- Son cinco pasos en PowerShell, dentro de la carpeta `odoo`: arrancar, crear la base `sp_contable` con los módulos,
+- **Imagen propia `despacho/odoo:20`** (desde el 13/11/2026; 11 · DOC-13): es la oficial `odoo:20` más
+  `poppler-utils` (`pdftotext`, `pdftoppm`) y Tesseract con español (`tesseract-ocr`, `tesseract-ocr-spa`), que
+  `sp_contabilidad` usa para leer facturas en el propio servidor. Se define en `odoo/Dockerfile` y el compose la
+  construye (`build: .`). Por eso el primer paso es `docker compose up -d --build`: la primera vez y cada vez que
+  cambie el `Dockerfile` (12 · INC-76).
+- Son cinco pasos en PowerShell, dentro de la carpeta `odoo`: arrancar (con `--build`), crear la base `sp_contable` con los módulos,
   ejecutar `configuracion/base_contable.py`, pasar (opcional) `pruebas/prueba_base_contable.py` y entrar.
 - Cambie la contraseña de `admin` al entrar. Para empezar de cero: `docker compose down -v`.
 - **Nunca** se carga aquí un certificado real ni datos reales. Qué monta exactamente y qué resultado dio la prueba:
   11 · DOC-5 y 19 §6.
 - **Linux o entorno en la nube:** `bash herramientas/odoo_dev.sh [módulos]` arranca Docker si hace falta, levanta los
   contenedores, crea y configura la base `sp_contable` si no existe y, si se indican módulos, los instala o
-  actualiza (p. ej. `bash herramientas/odoo_dev.sh sp_recepcion`). Recepción y cajas: `odoo/LEEME.md`, apartado
-  «Recepción y cajas» (11 · DOC-8).
+  actualiza (p. ej. `bash herramientas/odoo_dev.sh sp_recepcion`). Si falta la imagen `despacho/odoo:20`, la
+  construye antes, pasando el proxy del entorno como argumento de construcción. Recepción y cajas: `odoo/LEEME.md`,
+  apartado «Recepción y cajas» (11 · DOC-8).
+- **Facturas de proveedores** (`sp_contabilidad`): `odoo/LEEME.md`, pasos 10 (instalar y pasar las pruebas) y 11
+  (escenario con una factura ficticia) (11 · DOC-13). Si al instalar con `-i` salen «0 tests», páselas con
+  `-u sp_contabilidad` (12 · INC-80).
