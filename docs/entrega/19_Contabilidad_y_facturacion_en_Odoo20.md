@@ -103,22 +103,27 @@ Columnas:
 - **Charter:** la necesidad del charter de QUBIQ con la que se relaciona.
 
 ### 3.1 Economía y Recepción (cobros no fiscales, cajas y devoluciones)
-**Estado (13/11/2026):** primera versión de `sp_recepcion` hecha y probada (11 · DOC-8; código en
-`odoo/addons/sp_recepcion/`). La columna «Estado» indica qué está hecho y con qué modelo o campo real.
+**Estado (13/11/2026):** `sp_recepcion` versión 20.0.1.1.0 hecha y probada (11 · DOC-8 y DOC-10; código en
+`odoo/addons/sp_recepcion/`; 26 pruebas automáticas sin fallos). La columna «Estado» indica qué está hecho y con qué modelo o campo real.
 
 | Función en Sistema Propio | Tabla | Odoo 20 de serie | OCA | Módulo propio `sp_*` | Charter | Estado |
 |---|---|---|---|---|---|---|
 | Importe pactado por expediente (lo introduce una persona; anular exige motivo) | `charge` | Presupuesto de venta (`sale.order`) o factura en borrador ligada al proyecto y a su cuenta analítica | — | `sp_recepcion`: motivo obligatorio al anular; solo lo ven Contabilidad, Dirección y quien tiene acceso completo al expediente | 2.7, 6.21 | **Pendiente:** necesita el módulo de expedientes |
-| Sedes con su caja y su numeración | `branch` | Diario de efectivo por sede | — | Modelo `sp.sede` (código, `journal_id`, `receipt_sequence_id`); sede habitual del usuario `res.users.sp_sede_id` | 4.14 | **Hecho** |
+| Sedes con su caja y su numeración | `branch` | Diario de efectivo por sede | — | Modelo `sp.sede` (código, `journal_id`, `receipt_sequence_id` con `no_gap`); sede habitual del usuario `res.users.sp_sede_id` y sedes en las que trabaja `res.users.sp_sede_ids` (la habitual se añade sola) | 4.14 | **Hecho** |
 | Cobro registrado por Recepción y **confirmado por Contabilidad** | `payment` | `account.payment` (cobro de cliente) | — | Campos `sp_sede_id`, `sp_tipo` (consulta, provisión, servicio, otro) y `sp_estado` (registrado → confirmado / anulado). Recepción registra con «Confirmar» de Odoo; Contabilidad confirma con `action_sp_confirmar` (`sp_confirmado_por`, `sp_confirmado_fecha`). Pendiente el campo «nº de factura del programa homologado» | 4.3 | **Hecho en parte** (falta el nº de factura externa) |
 | Anular un cobro con motivo, sin borrar | `payment` | Cancelar pago | — | Asistente `sp.anular.cobro` → `sp_anulado_motivo` (≥ 10 caracteres), `sp_anulado_por`; no si la caja de ese día o posterior está validada; bloquea «Restablecer a borrador», «Cancelar» y borrar en cobros con justificante | 4.3 | **Hecho** |
 | Cobro sin expediente solo si es una consulta | `payment` (check) | — | — | Restricción en `account.payment` | 2.6 | **Pendiente:** necesita el módulo de expedientes |
 | **Aviso de cobro repetido** (seguir solo con motivo; avisa a Contabilidad) | `payment.duplicate_reason` | — | — | `_sp_posibles_duplicados()` en `action_post` (mismo cliente, importe y diario ±2 días, o misma referencia `memo` en 90 días); motivo `sp_motivo_duplicado` ≥ 10 caracteres; actividad para el grupo responsable | — | **Hecho** |
 | **Justificante numerado por sede, no fiscal, inmutable** | `payment_receipt`, `receipt_counter` | Secuencias (`ir.sequence` con rango por año) e informes PDF | — | `sp_justificante_numero` (único por compañía, `REC-BCN-2026-000001`); informe `action_report_justificante` con `save_as_attachment` y `attachment_use`: el PDF se genera una vez y se reutiliza. Dice «NO ES UNA FACTURA». En Sistema Propio además iba cifrado | 4.18 | **Hecho** |
-| **Caja por sede** con movimientos solo de inserción | `cash_movement` | Diario de efectivo por sede (Caja Barcelona, Madrid, Valencia) | — | Los cobros con justificante no se borran ni vuelven a borrador. Falta proteger los demás apuntes de caja publicados y limitar a cada persona de Recepción a la caja de **su** sede (hoy solo hay reglas por compañía) | 4.14 | **Hecho en parte** |
-| **Cierre de caja diario** contado por una persona y **validado por otra** | `cash_closing` | — | — | Modelo **`sp.cierre.caja`** (`esperado`, `contado`, `diferencia`, `notas`, `contado_por`, `validado_por`, `ajuste_move_id`): saldo según los apuntes de la cuenta de la caja hasta el final del día; quien valida ≠ quien cuenta; ajuste a las cuentas de diferencias de la caja; uno por sede y día salvo rechazados; validado = inmutable | 4.14 | **Hecho** (la regla «otra persona» está en Python, no en la base de datos) |
-| **Devoluciones** con estados (registrada → en revisión → escalada a letrado → aprobada o rechazada → pagada) y permisos distintos | `refund`, `refund_event` | Factura rectificativa y pago de salida | — | Modelo `sp.refund` con su flujo y permisos (`refund.request`, `review`, `legal_opinion`, `decide`); nunca aprueba quien solicita. Sustituye al Helpdesk (Enterprise) del charter | 3.9, 4.4 | **Pendiente** (siguiente iteración) |
+| **Caja por sede** con movimientos solo de inserción | `cash_movement` | Diario de efectivo por sede (Caja Barcelona, Madrid, Valencia) | — | Los cobros con justificante no se borran ni vuelven a borrador. Los apuntes publicados de una caja con fecha de un día validado no vuelven a borrador ni se cancelan (`account.move.button_draft` y `button_cancel`); los movimientos nuevos sí se registran y cuentan en el siguiente cierre (saldo acumulado). Cada persona de Recepción solo ve y registra cobros y cierres de **sus** sedes (`sp_sede_ids` + sede habitual; regla `sp_payment_sede_rule` y permiso por sede en `sp.cierre.caja`); Contabilidad, todas (08 §10) | 4.14 | **Hecho** (11 · DOC-10) |
+| **Cierre de caja diario** contado por una persona y **validado por otra** | `cash_closing` | — | — | Modelo **`sp.cierre.caja`** (`esperado`, `contado`, `diferencia`, `notas`, `contado_por`, `validado_por`, `ajuste_move_id`): saldo según los apuntes de la cuenta de la caja hasta el final del día; quien valida ≠ quien cuenta; ajuste a las cuentas de diferencias de la caja; uno por sede y día salvo rechazados; validado = inmutable. En la base de datos, como en Sistema Propio: CHECK «quien valida o rechaza ≠ quien contó» y trigger `sp_cierre_caja_proteger` (no se modifica un cierre validado o rechazado ni se borra uno contado o validado) | 4.14 | **Hecho** (Python y base de datos; 11 · DOC-10) |
+| **Devoluciones** con estados (registrada → en revisión → escalada a letrado → aprobada o rechazada → pagada) y permisos distintos | `refund`, `refund_event` | Factura rectificativa y pago de salida | — | Modelo **`sp.devolucion`** (`DEV/año/nnnn`, `no_gap`): registrada → en revisión → [escalada al letrado → informe → en revisión] → aprobada o rechazada → pagada; rechazada se reabre con motivo; el estado solo cambia con los botones y no se borra. Grupos: Recepción (solicita, ve las suyas), «Atención al cliente · revisar devoluciones» (`refund.review`), «Letrado · informe de devoluciones» (`refund.legal_opinion`) y responsable de Contabilidad (`refund.decide`); nunca decide quien solicita (Python y CHECK en BD). Pago (`action_pagar`): factura cobrada del todo e importe total → rectificativa automática y pago conciliado; parcial → rectificativa vinculada a mano; factura sin cobrar → no se paga; sin factura → pago de salida. TPV/Redsys fuera de Odoo. Tareas que se cierran en cada paso. Sustituye al Helpdesk (Enterprise) del charter | 3.9, 4.4 | **Hecho** (11 · DOC-10). Quién aprueba: 18 · AL-14 (abierto) |
 | Informe diario y semanal de Recepción por sede | — | Análisis de pagos (pivote); la lista de cobros ya agrupa por sede | `mis_builder` (sí en 20.0) | Informe QWeb por sede en PDF | — | **Pendiente** (siguiente iteración) |
+
+**Rectificativas de las devoluciones (comprobado en `models/devolucion.py`):** `sp_recepcion` no emite ni numera la
+rectificativa por su cuenta. Usa el método estándar de Odoo (`_reverse_moves` y `action_post`), así que la serie, la
+numeración y el registro en Verifactu son los del estándar (§1.3, 01 §4). Falta comprobarlo contra la AEAT
+(12 · ABI-04).
 
 ### 3.2 Gastos de empresa
 | Función | Tabla | Odoo 20 de serie | OCA | Módulo propio | Charter |
@@ -225,7 +230,7 @@ rama 20.0. Para esas piezas se puede partir del código de la OCA 19.0 portado (
 | Módulo | Depende de | Contenido | Sustituye a (OCA no en 20.0) | Código de referencia |
 |---|---|---|---|---|
 | `sp_base` | `account`, `hr`, `mail` | Sedes, actividad, roles y separación de funciones, auditoría | `auditlog` (en parte) | `security/`, `audit.py` |
-| `sp_recepcion` · **hecho en parte (13/11/2026, 11 · DOC-8)** | `account` (de momento; las sedes viven en este módulo hasta que exista `sp_base`) | Hecho: sedes, cobros con confirmación, aviso de repetidos, justificante por sede, anulación con motivo, cierre de caja con doble persona. Pendiente: devoluciones, informe por sede, vínculo con expedientes y restricción por sede (§3.1) | — | `reception/`, `routers/economy.py`, `routers/reception.py` |
+| `sp_recepcion` · **hecho en parte (13/11/2026, 11 · DOC-8 y DOC-10; versión 20.0.1.1.0)** | `account` (de momento; las sedes viven en este módulo hasta que exista `sp_base`) | Hecho: sedes y sedes por persona, cobros con confirmación, aviso de repetidos, justificante por sede, anulación con motivo, cierre de caja con doble persona (también en BD), protección de apuntes de caja de días validados y devoluciones con su flujo. Pendiente: informe por sede y vínculo con expedientes (§3.1) | — | `reception/`, `routers/economy.py`, `routers/reception.py` |
 | `sp_gastos` | `sp_base`, `hr_expense` | Lectura del ticket, tarjetas de empresa | — | `routers/expenses.py`, `services/receipts.py` |
 | `sp_banco` | `sp_base`, `account` | Importación de extractos y conciliación con propuestas | `account_statement_import_camt`, `account_statement_import_sheet_file`, `l10n_es_account_statement_import_n43`, `account_reconcile_oca` | `bank/parsers.py`, `bank/matcher.py`, `bank/service.py` |
 | `sp_contabilidad` | `sp_banco` | Facturas de proveedor con lectura y cuadre, remesas con doble firma y SEPA, previsión | `account_payment_order`, `account_banking_sepa_credit_transfer`, `base_tier_validation` | `accounting/invoices.py`, `accounting/treasury.py` |
@@ -245,12 +250,14 @@ Quedan sin asignar a un `sp_*` concreto `l10n_es_aeat_sii_oca` (Odoo 20 Communit
    la filial de Colombia). Para cerrarlos se ha preparado el cuestionario para la gestoría
    (`documentacion/cuestionarios/Cuestionario_gestoria_plan_de_cuentas.docx`, 13/11/2026; 11 · DOC-6).
 2. **Recepción y cajas** (`sp_recepcion`): es lo que más usan las sedes cada día. **Hecho en parte · 13/11/2026**
-   (11 · DOC-8): sedes, cobros con justificante, aviso de repetidos, confirmación y anulación por Contabilidad y
-   cierre de caja validado por otra persona; 12 pruebas automáticas sin fallos y escenario
-   `odoo/pruebas/prueba_recepcion.py` correcto. Cómo instalarlo: `odoo/LEEME.md` («Recepción y cajas»); capturas en
-   `documentacion/odoo20_recepcion/`. **Pendiente:** devoluciones con su flujo, informe diario y semanal por sede en
-   PDF, vínculo con expedientes (y con él la regla «cobro sin expediente solo si es consulta») y limitar a cada
-   persona de Recepción a la caja de su sede (§3.1).
+   (11 · DOC-8 y DOC-10): sedes, cobros con justificante, aviso de repetidos, confirmación y anulación por
+   Contabilidad, cierre de caja validado por otra persona (con CHECK y trigger en la base de datos), cada persona de
+   Recepción limitada a sus sedes, apuntes de caja de días validados protegidos y **devoluciones** con revisión,
+   letrado, aprobación y pago; 26 pruebas automáticas sin fallos y escenarios `odoo/pruebas/prueba_recepcion.py` y
+   `odoo/pruebas/prueba_devoluciones.py` correctos. Cómo instalarlo: `odoo/LEEME.md` («Recepción y cajas»); capturas
+   en `documentacion/odoo20_recepcion/`. **Pendiente:** informe diario y semanal por sede en PDF, vínculo con
+   expedientes (y con él la regla «cobro sin expediente solo si es consulta») y decidir quién aprueba las
+   devoluciones (18 · AL-14).
 3. **Proveedores y gastos** (`sp_contabilidad` sin remesas, `sp_gastos`).
 4. **Banco y conciliación** (`sp_banco`): la pieza más grande en Odoo 20 (decidido, 18 · AL-02).
 5. **Remesas SEPA con doble firma.**

@@ -3,6 +3,74 @@
 Sistema Propio · 12/11/2026. Formato inspirado en *Keep a Changelog*. Las versiones siguen los incrementos del plan
 (F0.1 … F5.6). Los cambios de base de datos se indican con su migración.
 
+## [DOC-10] · 13/11/2026 — sp_recepcion: sedes por persona, refuerzos en BD y devoluciones
+Segunda iteración de `odoo/addons/sp_recepcion` (versión **20.0.1.1.0**). Corrige las dos diferencias con Sistema
+Propio anotadas en DOC-8 y añade las **devoluciones** (charter 3.9 y 4.4; referencia Sistema Propio F5.0,
+REFUND_FLOW). Todo con datos ficticios.
+### Añadido
+- **Sedes por persona:** campo `sp_sede_ids` («Sedes en las que trabaja») en el usuario (`models/res_users.py`). La
+  sede habitual (`sp_sede_id`) se añade sola a la lista al crear o modificar el usuario.
+- **Devoluciones** (`models/devolucion.py`, modelo `sp.devolucion`, con historial y tareas):
+  - Número `DEV/año/nnnn` (`data/sp_devolucion_data.xml`, secuencia `no_gap`). Motivo obligatorio (≥ 10 caracteres).
+    Importe > 0 (CHECK en BD).
+  - Estados: registrada → en revisión → [escalada al letrado → informe → en revisión] → aprobada o rechazada →
+    pagada. Una rechazada se reabre con motivo. El estado solo cambia con los botones y nada se borra.
+  - **Separación de funciones:** aprueba o rechaza solo Contabilidad (grupo responsable), **nunca quien la
+    solicitó** (en Python y con CHECK `decidido_por <> solicitado_por` en BD). Rechazar y reabrir exigen motivo.
+  - **Pago** (`action_pagar`, solo Contabilidad), desde la caja de la sede o un banco: con factura cobrada por
+    completo e importe igual al total → rectificativa automática (método estándar de Odoo) y pago conciliado con
+    ella; devolución parcial → hay que vincular la rectificativa hecha a mano desde la factura; factura no cobrada del
+    todo → no se paga; sin factura → pago de salida al cliente. Las devoluciones por TPV/Redsys se hacen fuera de
+    Odoo (charter 4.4) y aquí se registra su salida por el banco.
+  - **Tareas:** cada paso cierra las del paso anterior (quedan como hechas en el historial) y crea las del
+    siguiente: revisión → Atención al cliente (si no hay nadie, Contabilidad); escalado → letrado; informe del
+    letrado → Contabilidad. Máximo 5 personas por tarea.
+  - Vistas `views/devolucion_views.xml` (lista, formulario con pestañas Revisión, Informe del letrado y Decisión y
+    pago; filtros Abiertas, Por decidir, Escaladas, Aprobadas sin pagar) y menú *Recepción → Devoluciones*
+    (`views/menus.xml`).
+- **Grupos nuevos** (`security/sp_recepcion_security.xml`): «Atención al cliente · revisar devoluciones» (implica
+  Facturación) y «Letrado · informe de devoluciones» (implica Usuario interno). El grupo responsable implica también
+  el de revisión. Detalle en 08 §10.
+- **Refuerzos en la base de datos** en `sp.cierre.caja` (`models/cierre_caja.py`): restricción CHECK «quien valida o
+  rechaza ≠ quien contó» y trigger PostgreSQL `sp_cierre_caja_proteger` (creado en `init()`) que impide modificar un
+  cierre validado o rechazado y borrar uno contado o validado.
+- **Apuntes de caja de días validados** (`models/account_move.py`): un apunte publicado en una caja con fecha igual o
+  anterior a un cierre validado no vuelve a borrador ni se cancela. Sí se pueden registrar movimientos nuevos: cuentan
+  en el siguiente cierre, porque el saldo es acumulado.
+- Pruebas `tests/test_sedes_y_protecciones.py` (6) y `tests/test_devoluciones.py` (8); datos comunes en
+  `tests/common.py` (dos sedes, Recepción de cada sede, dos de Contabilidad, Atención al cliente y letrado).
+- `odoo/configuracion/recepcion.py`: usuarios de demostración `atc.demo` y `letrado.demo`.
+- `odoo/pruebas/prueba_devoluciones.py`: escenario completo de una devolución con datos ficticios.
+- Captura `documentacion/odoo20_recepcion/5_devolucion.png`.
+### Cambiado
+- **Cada persona de Recepción solo ve y registra cobros y cierres de sus sedes** (`security/ir.access.csv`): regla
+  sin grupo `sp_payment_sede_rule` sobre `account.payment` (solo afecta a quien es Recepción y no responsable; los
+  pagos sin sede siguen visibles) y permiso de Recepción en `sp.cierre.caja` limitado a sus sedes. Contabilidad los
+  ve todos.
+- **Numeración sin huecos:** las secuencias de justificantes (`models/sede.py`) y de devoluciones usan
+  `implementation = no_gap`. En la base de pruebas actual la secuencia de devoluciones ya existía (dato `noupdate`) y
+  conserva huecos de las pruebas (la captura muestra `DEV/2026/0037`); en una instalación nueva no (12 · INC-75).
+- `odoo/LEEME.md`: usuarios de demostración nuevos y escenario de devoluciones.
+- Documentación: 19 §3.1, §5 y §6; 08 §10; 15 §8b; 05 §7; 18 §1 (AL-14) y §3; 00 · Índice; 12 §4d.
+### Corregido
+- Las dos diferencias con Sistema Propio pendientes de **DOC-8** quedan **resueltas**: 1) cada persona de Recepción
+  solo ve la caja de su sede; 2) la regla «otra persona valida» y la inmutabilidad del cierre tienen también
+  restricción en la base de datos.
+- Las tareas de aviso de devoluciones ya no se acumulan (12 · INC-74).
+### Comprobado
+- **26 pruebas automáticas, 0 fallos** (12 de recepción, 6 de sedes y protecciones, 8 de devoluciones), según la
+  ejecución de quien hizo el trabajo. El número de pruebas coincide con el código de `tests/`.
+- **Escenario** `prueba_devoluciones.py`: `recepcion.bcn` solicita 50 € para CLIENTE_03, `atc.demo` revisa y escala,
+  `letrado.demo` informa, `contabilidad.1` aprueba y paga desde Caja Barcelona. Resultado: devolución pagada.
+- Revisado en el navegador, sin errores.
+### Pendiente
+- Informe diario y semanal de Recepción por sede en PDF.
+- Vínculo con expedientes (y la regla «cobro sin expediente solo si es consulta», charter 2.6). Cuando exista, el
+  informe jurídico debería limitarse a quien tiene acceso completo al expediente, como en Sistema Propio (08 §10).
+- **18 · AL-14** (abierto): el charter deja la aprobación de la devolución en Atención al cliente; el módulo sigue a
+  Sistema Propio (aprueba Contabilidad).
+- Comprobar con Verifactu (12 · ABI-04) la rectificativa que crea `action_pagar`.
+
 ## [DOC-9] · 13/11/2026 — Plantilla en Odoo: 46 personas
 ### Cambiado
 - **18 · AL-06:** respuesta de la persona responsable del proyecto: las **47 personas** del charter incluyen al
@@ -66,6 +134,9 @@ con datos ficticios. Referencia funcional: Sistema Propio F5.2.
   expediente solo si es consulta» (charter 2.6).
 - Restringir a cada persona de Recepción a la caja de **su** sede (en Sistema Propio, Recepción de Madrid no ve la
   caja de Barcelona; 08 §Recepción F5.2). Hoy solo hay reglas por compañía (comprobado en `ir.access.csv`).
+  **Resuelto en DOC-10.**
+- (Diferencia anotada en 08 §10) La regla «quien valida ≠ quien cuenta» solo estaba en Python, sin restricción en la
+  base de datos. **Resuelto en DOC-10** (CHECK y trigger). Las devoluciones también se hicieron en DOC-10.
 
 ## [DOC-7] · 13/11/2026 — AL-06: el autónomo queda fuera de Odoo
 ### Cambiado
