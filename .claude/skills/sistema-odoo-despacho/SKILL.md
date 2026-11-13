@@ -127,6 +127,8 @@ El charter da por hecho funciones que **no están en Odoo 20 Community**. Lo he 
 |---|---|
 | CRM, Email Marketing, Encuestas, Sitio web, Proyectos, Partes de horas, Asistencias, Ausencias, Gastos, Reclutamiento, Contabilidad básica y facturación, Multicompañía, **Verifactu** (`l10n_es_edi_verifactu`), SII, **Redsys** (`payment_redsys`), plan contable de Colombia (`l10n_co`), sincronización con el calendario de Outlook, plugin de correo, Fidelización y cupones (`loyalty`), Venta con proyecto | **Citas** (Appointments), **Firma** (Sign), **Documentos**, **Helpdesk**, **WhatsApp**, **VoIP**, Marketing social, **Facturación intercompañía automática**, **tipos de cambio automáticos**, **Activos fijos**, **Sincronización bancaria**, Pagos SEPA/ISO 20022, Evaluaciones, Nóminas |
 
+La tabla completa, necesidad por necesidad y con su fase, está en `referencias/community_enterprise.md`.
+
 Si una necesidad depende de una app Enterprise y se está trabajando o probando en Community, avísalo. Propón una alternativa: un módulo de OCA o de terceros, un desarrollo propio o pasar a Enterprise. No lo des por disponible.
 
 ## Relación con este repositorio
