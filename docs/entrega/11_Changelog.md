@@ -3,6 +3,16 @@
 Sistema Propio · 12/11/2026. Formato inspirado en *Keep a Changelog*. Las versiones siguen los incrementos del plan
 (F0.1 … F5.6). Los cambios de base de datos se indican con su migración.
 
+## [DOC-9] · 13/11/2026 — Plantilla en Odoo: 46 personas
+### Cambiado
+- **18 · AL-06:** respuesta de la persona responsable del proyecto: las **47 personas** del charter incluyen al
+  empleado del autónomo del titular. Como el autónomo y su empleado quedan fuera de Odoo, la plantilla que se
+  gestiona en Odoo (permisos, usuarios y RRHH del despacho) es de **46 personas**.
+- **01 §2:** nota con la cifra de 46 personas en Odoo. Skill `sistema-odoo-despacho`: «47 según el charter, 46 en
+  Odoo». `referencias/necesidades.md` no cambia (es el texto del charter).
+- **Pendiente:** el reparto por departamentos del charter no indica en qué departamento está ese empleado; queda por
+  saber cuál, si hace falta.
+
 ## [DOC-8] · 13/11/2026 — Odoo 20: módulo sp_recepcion (Recepción y cajas)
 Primer módulo propio en Odoo 20 Community: **Recepción y cajas** (19 §6 paso 2; 19 §3.1; charter 4.3 y 4.14). Todo
 con datos ficticios. Referencia funcional: Sistema Propio F5.2.

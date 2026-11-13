@@ -28,7 +28,8 @@ El detalle de las 77 necesidades (bloques 1 a 6) está en `referencias/necesidad
      Odoo.** No es compañía (sin series, Verifactu ni certificado en Odoo); sus pocas facturas a clientes siguen en su
      programa actual hasta que se acaben; sus facturas a la S.L. se registran en la S.L. como facturas de proveedor; su
      empleado no entra en RRHH del despacho. La intercompañía (1.1, 4.16) queda solo entre Colombia y la S.L.
-- **Plantilla: 47 personas.**
+- **Plantilla: 47 personas según el charter, incluido el empleado del autónomo; 46 en Odoo** (el autónomo y su
+  empleado quedan fuera; `docs/entrega/18_…` AL-06). El reparto del charter no indica en qué área está ese empleado.
 
   | Área | Personas |
   |---|---|

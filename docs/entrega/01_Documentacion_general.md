@@ -21,6 +21,9 @@ Reúne en un solo sistema, con un único registro de cada persona:
 47 personas usuarias aproximadamente, en varias sedes, repartidas en 12 roles (ver 08 · Seguridad). Los clientes
 entran por un portal separado.
 
+> **Nota (13/11/2026):** la cifra de 47 es la del charter e incluye al empleado del autónomo del titular, que queda
+> fuera de Odoo (18 · AL-06). En Odoo se gestionan **46 personas**.
+
 | Departamento | Uso principal |
 |---|---|
 | Dirección | Visión global, aprobaciones, informes, administración |
