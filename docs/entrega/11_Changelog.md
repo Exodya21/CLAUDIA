@@ -3,6 +3,60 @@
 Sistema Propio · 12/11/2026. Formato inspirado en *Keep a Changelog*. Las versiones siguen los incrementos del plan
 (F0.1 … F5.6). Los cambios de base de datos se indican con su migración.
 
+## [DOC-8] · 13/11/2026 — Odoo 20: módulo sp_recepcion (Recepción y cajas)
+Primer módulo propio en Odoo 20 Community: **Recepción y cajas** (19 §6 paso 2; 19 §3.1; charter 4.3 y 4.14). Todo
+con datos ficticios. Referencia funcional: Sistema Propio F5.2.
+### Añadido
+- **`odoo/addons/sp_recepcion/`** (versión 20.0.1.0.0, LGPL-3, depende solo de `account`):
+  - **Sedes** (`sp.sede`): código, caja (diario de efectivo) y numeración de justificantes por sede y año
+    (`REC-BCN-2026-000001`). Campo `sp_sede_id` («Sede habitual») en el usuario.
+  - **Cobro de recepción** = pago de cliente de Odoo (`account.payment`) con sede (`sp_sede_id`) y tipo (`sp_tipo`:
+    consulta, provisión de fondos, servicio, otro). Al «Confirmar» de Odoo: comprueba tipo y cliente; busca posibles
+    repetidos (mismo cliente, importe y diario en ±2 días, o la misma referencia en 90 días); si los hay, exige un
+    motivo de al menos 10 caracteres (`sp_motivo_duplicado`) y crea una actividad para Contabilidad. Asigna el número
+    de justificante y genera el PDF **una sola vez** (adjunto guardado y reutilizado). El justificante dice «NO ES
+    UNA FACTURA».
+  - **Confirmar** (`action_sp_confirmar`) y **anular** (asistente `sp.anular.cobro`): solo el grupo responsable;
+    anular exige motivo de al menos 10 caracteres, no se permite si hay un cierre validado de esa caja en la fecha
+    del cobro o posterior, conserva el número y nunca borra. «Restablecer a borrador» y «Cancelar» de Odoo no sirven
+    para cobros con justificante, y no se pueden borrar.
+  - **Cierre de caja** (`sp.cierre.caja`): Recepción registra el recuento; el sistema calcula el saldo con los
+    apuntes publicados de la cuenta de la caja hasta el final del día; la diferencia exige notas; valida o rechaza
+    un responsable **distinto** de quien contó; al validar con diferencia crea el asiento de ajuste contra las
+    cuentas de diferencias de la caja; no se valida si hubo movimientos tras el recuento; un cierre por sede y día
+    (salvo rechazados); validado o rechazado no se modifica.
+  - **Grupos:** «Recepción» (implica Facturación) y «Responsable de caja y cobros (Contabilidad)» (implica
+    Recepción). Permisos en `security/ir.access.csv` con reglas multicompañía (08 §10).
+  - Menú Contabilidad → Recepción (Cobros, Cierres de caja, Sedes) e informe `report/justificante.xml`.
+  - 12 pruebas automáticas en `tests/test_recepcion.py`.
+- `odoo/configuracion/recepcion.py`: crea las sedes Barcelona (BCN), Madrid (MAD) y Valencia (VLC) sobre las cajas
+  de la S.L. y **usuarios de demostración** (`recepcion.bcn`, `recepcion.mad`, `recepcion.vlc`, `contabilidad.1`,
+  `contabilidad.2`). Solo para la base de pruebas.
+- `odoo/pruebas/prueba_recepcion.py`: escenario completo con datos ficticios.
+- `herramientas/odoo_dev.sh`: levanta Docker, Odoo 20 y la base `sp_contable` en Linux (entorno en la nube) y,
+  opcionalmente, instala o actualiza módulos (`bash herramientas/odoo_dev.sh sp_recepcion`).
+- Capturas en `documentacion/odoo20_recepcion/` (`1_cobros.png`, `2_cobro_con_justificante.png`,
+  `3_cierre_caja.png`, `4_justificante.png`).
+### Cambiado
+- `odoo/configuracion/base_contable.py`: los métodos de pago de las cajas usan la **cuenta de la caja (570…)** como
+  cuenta de cobros y pagos, para que el saldo sea real en cuanto se registra un cobro (12 · INC-68).
+- `odoo/LEEME.md`: apartado «Recepción y cajas».
+- Documentación: 19 §3.1, §5 y §6 paso 2; 05 §7; 08 §10; 15 §8b; 09 Anexo C; 18 §3; 00 · Índice; 12 §4d.
+### Comprobado
+- **12 pruebas automáticas** (`TransactionCase` sobre `AccountTestInvoicingCommon`): 0 fallos.
+- **Escenario** `prueba_recepcion.py` con usuarios ficticios: `recepcion.bcn` cobra 50 € y 200 €; un tercer cobro
+  parecido avisa de repetido y se registra con motivo; `contabilidad.1` confirma; recuento de 295 € frente a 300 €
+  registrados (diferencia −5 €); `contabilidad.2` valida y se crea el ajuste `CBAR/2026/00001`. Resultado: «todo
+  correcto».
+- Revisado en el navegador, sin errores.
+### Pendiente (siguiente iteración)
+- Devoluciones con su flujo (registrada → en revisión → escalada al letrado → aprobada o rechazada → pagada).
+- Informe diario y semanal de Recepción por sede en PDF.
+- Vínculo con expedientes (aún no hay módulo de expedientes): por eso no se aplica todavía la regla «cobro sin
+  expediente solo si es consulta» (charter 2.6).
+- Restringir a cada persona de Recepción a la caja de **su** sede (en Sistema Propio, Recepción de Madrid no ve la
+  caja de Barcelona; 08 §Recepción F5.2). Hoy solo hay reglas por compañía (comprobado en `ir.access.csv`).
+
 ## [DOC-7] · 13/11/2026 — AL-06: el autónomo queda fuera de Odoo
 ### Cambiado
 - **18 · AL-06:** «Decidido provisionalmente · 13/11/2026 · persona responsable del proyecto (respuestas del abogado);

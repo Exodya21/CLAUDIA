@@ -593,3 +593,33 @@ guardan cifrados (Fernet) y nunca se borran: se retiran con motivo.
 
 **Advertencia:** en Odoo, cualquier código Python que use `sudo()` se salta las reglas. Revisión obligatoria de cada
 `sudo()` en el código propio; la auditoría externa de seguridad debe incluirlo.
+
+**Nota Odoo 20 (13/11/2026):** en Odoo 20, `ir.model.access` e `ir.rule` se sustituyen por un único modelo,
+**`ir.access`** (archivo `security/ir.access.csv`; una fila sin grupo y con dominio es una regla global), y los grupos
+se agrupan con `res.groups.privilege` (12 · INC-65 e INC-67). La tabla anterior sigue valiendo en lo conceptual.
+
+## 10. Odoo 20 · grupos de Recepción y cajas (`sp_recepcion`)
+Comprobado en `odoo/addons/sp_recepcion/security/` y en el código del módulo (11 · DOC-8). Los dos grupos están bajo el
+privilegio «Recepción y cajas» de Contabilidad.
+
+| Acción | Recepción | Responsable de caja y cobros (Contabilidad) |
+|---|---|---|
+| Incluye | Facturación (`account.group_account_invoice`) | Todo lo de Recepción |
+| Registrar un cobro de recepción con justificante | Sí | Sí |
+| Imprimir el justificante | Sí | Sí |
+| Confirmar un cobro | No | Sí |
+| Anular un cobro (asistente, con motivo) | No | Sí, si la caja de ese día no está validada |
+| Crear el cierre de caja y registrar el recuento | Sí (crear, leer, modificar; no borrar) | Sí |
+| Validar o rechazar un cierre | No | Sí, **nunca el que ha contado él mismo** |
+| Ver sedes | Sí (lectura, todos los usuarios internos) | Sí (lectura) |
+| Crear y modificar sedes | No | No (solo el grupo Administrador de Contabilidad, `account.group_account_manager`) |
+
+- **Ámbito:** sedes y cierres de caja se filtran por compañía (reglas globales multicompañía en `ir.access.csv`).
+  **Aún no** se limita a cada persona de Recepción a la caja de su sede, como hacía Sistema Propio (§Recepción F5.2):
+  pendiente (19 §3.1).
+- **Separación de funciones:** «quien valida ≠ quien cuenta» y «solo el responsable confirma o anula» se comprueban
+  en el servidor (Python), no solo ocultando botones. A diferencia de Sistema Propio, no hay restricción en la base de
+  datos (trigger).
+- **`sudo()` en el módulo** (para revisar en la auditoría): crear la numeración de cada sede, obtener el número del
+  justificante, generar el PDF, leer los usuarios del grupo responsable para enviarles el aviso de posible repetido, buscar cierres validados al anular, sumar los apuntes de la caja y crear el asiento de
+  ajuste al validar.

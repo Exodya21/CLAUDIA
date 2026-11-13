@@ -77,6 +77,20 @@ entorno en la nube (sin Docker) y en Docker con la imagen oficial `odoo:20`.
 | INC-63 | 13/11 | La cuenta de ingresos por defecto no está en la categoría de producto, donde estaba en versiones anteriores | En Odoo 20 la cuenta de ingresos por defecto está en la compañía (`income_account_id`), no en la categoría | Poner 705000 en `income_account_id` de la compañía y como cuenta por defecto de los diarios CIT y EXP | La prueba comprueba que los honorarios van a 705000 |
 | INC-64 | 13/11 | Verifactu: Odoo calcula la huella pero el documento no se completa («Error de red»); la rectificativa no genera documento | El entorno en la nube no resuelve `prewww2.aeat.es` (entorno de pruebas de la AEAT). La rectificativa depende del documento de la factura original | **Pendiente:** repetir la prueba en un equipo con Internet (p. ej. el PC del despacho con Docker) | La prueba avisa cuando no hay conexión con la AEAT. Estado: **abierta** (19 §3.8 paso a) |
 
+## 4d. Odoo 20 · sp_recepcion
+Al desarrollar el primer módulo propio, `odoo/addons/sp_recepcion` (11 · DOC-8). Entorno: Docker con la imagen
+oficial `odoo:20`, en el entorno en la nube.
+
+| ID | Fecha | Síntoma | Causa | Solución | Prevención |
+|---|---|---|---|---|---|
+| INC-65 | 13/11 | Los permisos escritos como en versiones anteriores (`ir.model.access.csv` e `ir.rule`) no son válidos en Odoo 20 | Odoo 20 sustituye `ir.model.access` e `ir.rule` por un único modelo, **`ir.access`** | Archivo `security/ir.access.csv` con columnas `id,name,model_id,group_id/id,operation,domain`. Una fila **sin grupo y con dominio** es una regla global (p. ej. multicompañía) | Usar este formato en todos los `sp_*`. 08 §9 y §10 |
+| INC-66 | 13/11 | El campo `report_file` de los informes no existe en Odoo 20; sin él, el justificante no queda guardado como adjunto | En `ir.actions.report` de Odoo 20 ya no existe `report_file`; guardar el PDF exige `save_as_attachment` | `attachment` + `save_as_attachment=True` + `attachment_use=True` (se reutiliza el adjunto y el PDF no se regenera) | Igual en todo informe que deba ser inmutable |
+| INC-67 | 13/11 | Los grupos no se pueden declarar con la categoría como en versiones anteriores | En Odoo 20 los grupos se agrupan con **`res.groups.privilege`** (campo `privilege_id`), no con la categoría | Registro `res.groups.privilege` «Recepción y cajas» y `privilege_id` en los dos grupos | Usar `privilege_id` en los grupos de los `sp_*` |
+| INC-68 | 13/11 | El saldo de la cuenta de la caja no incluía los cobros en efectivo recién registrados | En Odoo 20 un cobro en un diario de efectivo va por defecto a una cuenta de **cobros pendientes** (572…), no a la cuenta de la caja | `odoo/configuracion/base_contable.py`: los métodos de pago de entrada y salida de cada caja usan la cuenta de la caja (570…) | Lo comprueba el escenario `odoo/pruebas/prueba_recepcion.py` (saldo esperado 300 €) |
+| INC-69 | 13/11 | Tras añadir `sp_recepcion`, Odoo no encuentra el módulo; el registro dice «invalid addons directory» | El servidor arrancó con la carpeta `addons` vacía y la descartó | `docker compose restart odoo` | Reiniciar el contenedor después de añadir el primer módulo (`odoo/LEEME.md`) |
+| INC-70 | 13/11 | Las pruebas automáticas fallan al crear usuarios (login duplicado) | Los logins de los usuarios de prueba coincidían con los usuarios de demostración creados por `configuracion/recepcion.py` | Logins propios de los tests (`test.sp.*`) | En los tests de los `sp_*`, logins con prefijo `test.` |
+| INC-71 | 13/11 | Tras un rato, Docker y PostgreSQL ya no están en marcha en el entorno en la nube | El entorno en la nube se reinicia a veces y pierde los procesos (sin comprobar más) | `bash herramientas/odoo_dev.sh` vuelve a levantar Docker, los contenedores y la base | Usar siempre ese script al empezar a trabajar en el entorno en la nube |
+
 ## 5. Incidencias abiertas o conocidas
 | ID | Tema | Estado |
 |---|---|---|

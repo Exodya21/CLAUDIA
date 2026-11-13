@@ -49,7 +49,7 @@ AEAT, evaluaciones…) pasan a los pasos 2 a 4. La lista por necesidad está en
 | Convenios colectivos | `convenios/`, skills `convenio-*` | Apoyo a la ficha B y a la papeleta |
 | Prueba de Odoo 20 Community con Facturación | `documentacion/odoo20_facturacion_demo/` | Capturas con datos ficticios: series, IVA y retención de IRPF |
 | Versión de referencia de Sistema Propio (F5.6c) | `referencia/SistemaPropio/` | Código y documentación interna de lo construido; base para implantarlo en Odoo 20 (ver 19) |
-| Implantación en Odoo 20 Community | `odoo/` (ver `odoo/LEEME.md`) | Docker Compose de pruebas, script de la base contable (19 §6 paso 1) y su prueba con datos ficticios. Capturas en `documentacion/odoo20_base_contable/`. Los `sp_*` irán en `odoo/addons/` |
+| Implantación en Odoo 20 Community | `odoo/` (ver `odoo/LEEME.md`) | Docker Compose de pruebas, script de la base contable (19 §6 paso 1) y su prueba con datos ficticios. Capturas en `documentacion/odoo20_base_contable/`. Módulos `sp_*` en `odoo/addons/`: el primero es `sp_recepcion` (19 §6 paso 2, hecho en parte; charter 4.3 y 4.14; capturas en `documentacion/odoo20_recepcion/`) |
 | Comparativa Community/Enterprise | `documentacion/Odoo 20 - Community vs Enterprise por fase.xlsx` | Base de la decisión de AL-01 (13/11/2026) y del criterio de §2 |
 
 ## 4. Cómo se cierra un punto

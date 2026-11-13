@@ -126,6 +126,11 @@ Las fases jurídicas (resoluciones, recurso, cierre) solo las registra quien tie
 **Qué hace.** Registro de cargos y cobros por expediente o por consulta, justificante no fiscal, caja por sede,
 devoluciones e informe de recepción.
 
+> **En Odoo 20 (13/11/2026):** implementado en parte en el módulo `sp_recepcion` (`odoo/addons/sp_recepcion/`):
+> sedes, cobros con justificante, aviso de repetidos, confirmación y anulación por Contabilidad y cierre de caja
+> validado por otra persona. Faltan las devoluciones, el informe por sede y el vínculo con expedientes. Detalle,
+> modelos y campos en 19 §3.1; cambios en 11 · DOC-8.
+
 **Reglas**
 - Importes en céntimos enteros.
 - Un cobro sin expediente solo es posible si es una consulta (check en la base de datos).

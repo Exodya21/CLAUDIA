@@ -200,3 +200,7 @@ bancos, cajas, analítica, cuentas propias provisionales y Verifactu en el entor
 - Cambie la contraseña de `admin` al entrar. Para empezar de cero: `docker compose down -v`.
 - **Nunca** se carga aquí un certificado real ni datos reales. Qué monta exactamente y qué resultado dio la prueba:
   11 · DOC-5 y 19 §6.
+- **Linux o entorno en la nube:** `bash herramientas/odoo_dev.sh [módulos]` arranca Docker si hace falta, levanta los
+  contenedores, crea y configura la base `sp_contable` si no existe y, si se indican módulos, los instala o
+  actualiza (p. ej. `bash herramientas/odoo_dev.sh sp_recepcion`). Recepción y cajas: `odoo/LEEME.md`, apartado
+  «Recepción y cajas» (11 · DOC-8).

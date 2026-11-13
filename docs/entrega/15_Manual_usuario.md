@@ -72,6 +72,25 @@ Contabilidad, RRHH, Administración y Ajustes.
 3. **Cierre de caja** al final del día: cuente el efectivo. Lo valida **otra** persona.
 4. **Devoluciones:** regístrelas con el motivo. Las aprueba Contabilidad.
 
+## 8b. Recepción en Odoo 20
+Menú **Contabilidad → Recepción** (módulo `sp_recepcion`; 19 §3.1). Ejemplos con datos ficticios.
+1. **Cobrar:** *Cobros → Nuevo*. Indique el cliente (p. ej. CLIENTE_01), el importe, la caja de su sede, el **tipo**
+   (consulta, provisión de fondos, servicio u otro) y, si la hay, una referencia. Pulse **Confirmar**.
+   - Si se parece a otro cobro reciente, el sistema lo indica y no lo registra. Si no es repetido, explique el motivo
+     (mínimo 10 caracteres) en «Motivo (posible cobro repetido)» y vuelva a pulsar **Confirmar**. Contabilidad
+     recibirá un aviso para revisarlo.
+2. **Imprimir el justificante:** botón **Justificante**. Tiene un número de su sede (p. ej. `REC-BCN-2026-000001`).
+   Se genera una sola vez y siempre se imprime igual. **No es una factura.**
+3. **Confirmar (Contabilidad):** el responsable revisa los cobros «Pendientes de confirmar» y pulsa **Confirmar
+   (Contabilidad)**. Si hay que anular un cobro, lo hace el responsable con **Anular cobro**, explicando el motivo. No
+   se puede anular si la caja de ese día ya está validada, y un cobro nunca se borra.
+4. **Cerrar la caja:** al final del día, *Cierres de caja → Nuevo*. Elija la sede y el día, escriba el **efectivo
+   contado** y pulse **Registrar recuento**. El sistema calcula lo que debería haber; si no coincide, explique la
+   diferencia en «Notas del recuento».
+5. **Validar el cierre (Contabilidad):** **otra persona**, responsable de caja, abre el cierre y pulsa **Validar
+   cierre** o **Rechazar** (con una nota). Si hay diferencia, al validar se registra el ajuste. Un cierre validado no
+   se modifica. Si se rechaza, se puede contar de nuevo.
+
 ## 9. Gastos
 1. «Nuevo gasto» → suba la foto o el PDF del ticket.
 2. El sistema propone importe, fecha y comercio. Compruébelos.
