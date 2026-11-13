@@ -63,6 +63,7 @@ escribe con un documento ficticio de la misma forma.
 | INC-51 | 12/11 | `psycopg2` no compila al instalar Odoo 20 desde el código con Python 3.13 | Faltan las cabeceras de PostgreSQL para compilar | Usar `psycopg2-binary` en el entorno de pruebas | En el servidor, usar la imagen Docker oficial `odoo:20` |
 | INC-52 | 12/11 | El navegador automático no abre `localhost:8069` en el entorno en la nube | El proxy del entorno intercepta también `localhost` | Lanzar Chromium con `--no-proxy-server` | Solo afecta a las pruebas automáticas |
 | INC-53 | 12/11 | «No tienes acceso al tablero de Contabilidad» con el usuario de demostración | Sin comprobar (probablemente el tablero de Contabilidad está restringido en Community) | Trabajar desde Facturación → Facturas | Comprobarlo dentro de AL-01 |
+| INC-54 | 13/11 | El enlace público de la demo de Sistema Propio (túnel `trycloudflare`) no abre desde el entorno en la nube | El proxy del entorno no responde para ese dominio (sin comprobar más) | Trabajar con la copia local de `referencia/SistemaPropio/` (09 §Anexo B) | No publicar nunca en Internet una instalación con datos reales; el túnel, solo con la demo de datos ficticios |
 
 ## 5. Incidencias abiertas o conocidas
 | ID | Tema | Estado |

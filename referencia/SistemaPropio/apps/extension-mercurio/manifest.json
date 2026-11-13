@@ -1,0 +1,46 @@
+{
+  "manifest_version": 3,
+  "name": "SISTEMA PROPIO · Rellenar Mercurio",
+  "version": "0.2.0",
+  "description": "Rellena las pantallas de Mercurio con la ficha confirmada de un expediente de SISTEMA PROPIO. No firma ni presenta: lo hace el profesional.",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://mercurio.delegaciondelgobierno.gob.es/*",
+    "http://localhost:3000/*",
+    "http://127.0.0.1:3000/*"
+  ],
+  "optional_host_permissions": [
+    "https://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Rellenar Mercurio con SISTEMA PROPIO",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://mercurio.delegaciondelgobierno.gob.es/*"
+      ],
+      "js": [
+        "matcher.js",
+        "content.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}

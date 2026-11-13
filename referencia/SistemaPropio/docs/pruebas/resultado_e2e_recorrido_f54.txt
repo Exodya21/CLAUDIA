@@ -1,0 +1,13 @@
+OK  Lectura de factura: propone número, fechas, base, IVA de la factura y total; alta rápida del proveedor con su IBAN
+OK  Base + IVA − retención debe dar el total para registrar; el sistema nunca calcula el IVA
+OK  Subir el mismo archivo otra vez: aviso de factura ya registrada
+OK  Factura validada con actividad y oficina (centro de coste)
+OK  Previsión de pagos (vencido, 7, 30, 60, 90 días) y remesa REM-2026-0002 propuesta; quien la propone no puede firmarla
+OK  Primera firma de Dirección desde «Pendientes de decidir»
+OK  Quien ya firmó no puede dar la segunda firma
+OK  Segunda firma de otra persona de Dirección: remesa autorizada
+OK  Contabilidad descarga el fichero SEPA pain.001 y lo marca como subido al banco (lo sube una persona, nunca el sistema)
+OK  Cierre preparado, recalculado (la revisión anterior queda sustituida, nunca se borra) y revisado con nota
+OK  Dirección aprueba el cierre: cifras congeladas con huella, exportación CSV; asientos «No disponible aún» (T-40)
+OK  Sin permiso: Contabilidad no aparece y la API deniega (registrado en auditoría)
+Recorrido F5.4 completado.

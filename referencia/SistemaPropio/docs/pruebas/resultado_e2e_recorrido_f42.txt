@@ -1,0 +1,11 @@
+OK  La ficha del EX-10 llega con propuestas (cliente, pasaporte leído, despacho) pendientes de confirmar
+OK  La persona confirma la ficha y marca el supuesto (el sistema no lo elige)
+OK  Vista previa interna del EX-10 rellenado (no sustituye al que emite Mercurio)
+OK  Código temporal generado (MKU6-…), caduca a los 15 minutos
+OK  La extensión trae la ficha con el código (sin sesión ni contraseña)
+OK  Reconocimiento por los identificadores reales de Mercurio: un clic rellena extranjero/a, presentador y notificación
+OK  Formatos de Mercurio: N.I.E. sin guiones, fecha dd/mm/aaaa, móvil de 9 cifras; no sobrescribe ni toca contraseña ni «Persona tutelada»
+OK  Domicilio de notificación: espera a que se carguen municipio y localidad tras la provincia
+OK  No marca «NO CONSIENTO» ni elige el supuesto; ningún botón pulsado (Continuar, Concluir, Firmar y registrar, Presentación electrónica)
+OK  «Olvidar datos» borra la ficha de la extensión
+RECORRIDO F4.2 COMPLETO

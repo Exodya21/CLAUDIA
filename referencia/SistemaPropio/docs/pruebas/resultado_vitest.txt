@@ -1,0 +1,11 @@
+
+ RUN  v3.2.4 /home/claude/sistema-propio/apps/web
+
+ ✓ tests/extension_mercurio.test.ts (3 tests) 11ms
+ ✓ tests/web.test.ts (16 tests) 9ms
+
+ Test Files  2 passed (2)
+      Tests  19 passed (19)
+   Start at  13:00:15
+   Duration  710ms (transform 152ms, setup 0ms, collect 210ms, tests 19ms, environment 0ms, prepare 162ms)
+

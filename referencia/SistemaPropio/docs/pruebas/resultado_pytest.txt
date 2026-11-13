@@ -1,0 +1,5 @@
+All checks passed!
+......................................                                   [100%]
+254 passed in 253.38s (0:04:13)
+
+[exited with code 0]

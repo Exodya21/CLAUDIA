@@ -1,0 +1,376 @@
+{
+ "fields": {
+  "Texto1": {
+   "key": "ext.pasaporte"
+  },
+  "Texto2": {
+   "key": "ext.nie",
+   "part": "1"
+  },
+  "Texto3": {
+   "key": "ext.nie",
+   "part": "2"
+  },
+  "Texto4": {
+   "key": "ext.nie",
+   "part": "3"
+  },
+  "Texto5": {
+   "key": "ext.apellido1"
+  },
+  "Texto6": {
+   "key": "ext.apellido2"
+  },
+  "Texto7": {
+   "key": "ext.nombre"
+  },
+  "Casilla de verificación73": {
+   "key": "ext.sexo",
+   "part": "X",
+   "on": "Yes"
+  },
+  "Texto8": {
+   "key": "ext.fecha_nacimiento",
+   "part": "d"
+  },
+  "Texto9": {
+   "key": "ext.fecha_nacimiento",
+   "part": "m"
+  },
+  "Texto10": {
+   "key": "ext.fecha_nacimiento",
+   "part": "y"
+  },
+  "Texto11": {
+   "key": "ext.lugar_nacimiento"
+  },
+  "Texto12": {
+   "key": "ext.pais_nacimiento"
+  },
+  "Texto13": {
+   "key": "ext.nacionalidad"
+  },
+  "Casilla de verificación76": {
+   "key": "ext.estado_civil",
+   "part": "S",
+   "on": "Yes"
+  },
+  "Casilla de verificación77": {
+   "key": "ext.estado_civil",
+   "part": "C",
+   "on": "Yes"
+  },
+  "Casilla de verificación78": {
+   "key": "ext.estado_civil",
+   "part": "V",
+   "on": "Yes"
+  },
+  "Casilla de verificación79": {
+   "key": "ext.estado_civil",
+   "part": "D",
+   "on": "Yes"
+  },
+  "Casilla de verificación80": {
+   "key": "ext.estado_civil",
+   "part": "Sp",
+   "on": "Yes"
+  },
+  "Texto14": {
+   "key": "ext.padre"
+  },
+  "Texto15": {
+   "key": "ext.madre"
+  },
+  "Texto16": {
+   "key": "ext.domicilio"
+  },
+  "Texto17": {
+   "key": "ext.numero"
+  },
+  "Texto18": {
+   "key": "ext.piso"
+  },
+  "Texto19": {
+   "key": "ext.localidad"
+  },
+  "Texto20": {
+   "key": "ext.cp"
+  },
+  "Texto21": {
+   "key": "ext.provincia"
+  },
+  "Texto22": {
+   "key": "ext.telefono"
+  },
+  "Texto23": {
+   "key": "ext.email"
+  },
+  "Texto24": {
+   "key": "ext.rl_nombre"
+  },
+  "Texto25": {
+   "key": "ext.rl_doc"
+  },
+  "Texto26": {
+   "key": "ext.rl_titulo"
+  },
+  "Texto27": {
+   "key": "ent.nombre"
+  },
+  "Texto28": {
+   "key": "ent.doc"
+  },
+  "Texto29": {
+   "key": "ent.actividad"
+  },
+  "Texto31": {
+   "key": "ent.domicilio"
+  },
+  "Texto32": {
+   "key": "ent.numero"
+  },
+  "Texto33": {
+   "key": "ent.piso"
+  },
+  "Texto34": {
+   "key": "ent.localidad"
+  },
+  "Texto35": {
+   "key": "ent.cp"
+  },
+  "Texto36": {
+   "key": "ent.provincia"
+  },
+  "Texto37": {
+   "key": "ent.telefono"
+  },
+  "Texto38": {
+   "key": "ent.email"
+  },
+  "Texto39": {
+   "key": "ent.rl_nombre"
+  },
+  "Texto40": {
+   "key": "ent.rl_doc"
+  },
+  "Texto41": {
+   "key": "ent.rl_titulo"
+  },
+  "Texto42": {
+   "key": "rep.nombre"
+  },
+  "Texto43": {
+   "key": "rep.doc"
+  },
+  "Texto44": {
+   "key": "rep.domicilio"
+  },
+  "Texto45": {
+   "key": "rep.numero"
+  },
+  "Texto46": {
+   "key": "rep.piso"
+  },
+  "Texto47": {
+   "key": "rep.localidad"
+  },
+  "Texto48": {
+   "key": "rep.cp"
+  },
+  "Texto49": {
+   "key": "rep.provincia"
+  },
+  "Texto50": {
+   "key": "rep.telefono"
+  },
+  "Texto51": {
+   "key": "rep.email"
+  },
+  "Texto52": {
+   "key": "rep.rl_nombre"
+  },
+  "Texto53": {
+   "key": "rep.rl_doc"
+  },
+  "Texto54": {
+   "key": "rep.rl_titulo"
+  },
+  "Texto55": {
+   "key": "notif.nombre"
+  },
+  "Texto56": {
+   "key": "notif.doc"
+  },
+  "Texto57": {
+   "key": "notif.domicilio"
+  },
+  "Texto58": {
+   "key": "notif.numero"
+  },
+  "Texto59": {
+   "key": "notif.piso"
+  },
+  "Texto60": {
+   "key": "notif.localidad"
+  },
+  "Texto61": {
+   "key": "notif.cp"
+  },
+  "Texto62": {
+   "key": "notif.provincia"
+  },
+  "Texto63": {
+   "key": "notif.telefono"
+  },
+  "Texto64": {
+   "key": "notif.email"
+  },
+  "Casilla de verificación81": {
+   "key": "notif.consiento_dehu",
+   "part": "si",
+   "on": "Yes"
+  },
+  "Texto65": {
+   "key": "sol.firma_lugar"
+  },
+  "Texto66": {
+   "key": "sol.firma_dia"
+  },
+  "Texto67": {
+   "key": "sol.firma_mes"
+  },
+  "Texto68": {
+   "key": "sol.firma_anio"
+  },
+  "Texto70": {
+   "key": "sol.dirigida_a"
+  },
+  "Texto71": {
+   "key": "sol.dir3"
+  },
+  "Texto72": {
+   "key": "sol.dirigida_provincia"
+  }
+ },
+ "options": [
+  {
+   "field": "Casilla de verificación74",
+   "label": "M",
+   "section": "1) DATOS DE LA PERSONA EXTRANJERA",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación75",
+   "label": "X * H M",
+   "section": "1) DATOS DE LA PERSONA EXTRANJERA",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación82",
+   "label": "",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación83",
+   "label": "Autorización de residencia para prácticas encontrándose la persona extranjera en el exterior de España",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación84",
+   "label": "Prácticas en base a convenio □ Prácticas en base a contrato de trabajo",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación85",
+   "label": "Prácticas en base a contrato de trabajo",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación86",
+   "label": "Autorización de residencia para prácticas encontrándose la persona extranjera en España",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación87",
+   "label": "Prácticas en base a convenio □ Prácticas en base a contrato de trabajo",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación88",
+   "label": "Prácticas en base a contrato de trabajo",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación89",
+   "label": "",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación90",
+   "label": "Autorización de residencia para prácticas",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación91",
+   "label": "Prácticas en base a convenio □ Prácticas en base a contrato de trabajo",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación92",
+   "label": "Prácticas en base a contrato de trabajo",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación93",
+   "label": "",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación94",
+   "label": "Autorización de residencia inicial de familiar del titular de autorización de residencia para prácticas, que previamente era titular de",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación95",
+   "label": "Autorización de residencia renovada de familiar del titular de autorización de residencia para prácticas.",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación96",
+   "label": "Representante legal de la ENTIDAD DE ACOGIDA",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "page": 2
+  }
+ ],
+ "unmapped": [
+  {
+   "field": "Texto30",
+   "section": "2) DATOS DE LA ENTIDAD DE ACOGIDA",
+   "label": "Ocupación(6)",
+   "right": ""
+  },
+  {
+   "field": "Texto69",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "label": "",
+   "right": ""
+  }
+ ],
+ "title": "",
+ "model": "EX-04",
+ "source": "Modelo oficial editable (Ministerio de Inclusión, Seguridad Social y Migraciones), aportado por el despacho"
+}

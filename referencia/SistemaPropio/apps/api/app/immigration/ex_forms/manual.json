@@ -1,0 +1,662 @@
+{
+ "EX10": {
+  "title": "Solicitud de autorización de residencia por circunstancias excepcionales",
+  "fields": {
+   "Texto1": {
+    "key": "ext.pasaporte"
+   },
+   "Texto2": {
+    "key": "ext.nie",
+    "part": "1"
+   },
+   "Texto3": {
+    "key": "ext.nie",
+    "part": "2"
+   },
+   "Texto4": {
+    "key": "ext.nie",
+    "part": "3"
+   },
+   "Texto5": {
+    "key": "ext.apellido1"
+   },
+   "Texto6": {
+    "key": "ext.apellido2"
+   },
+   "Texto7": {
+    "key": "ext.nombre"
+   },
+   "Texto8": {
+    "key": "ext.fecha_nacimiento",
+    "part": "d"
+   },
+   "Texto9": {
+    "key": "ext.fecha_nacimiento",
+    "part": "m"
+   },
+   "Texto10": {
+    "key": "ext.fecha_nacimiento",
+    "part": "y"
+   },
+   "Texto11": {
+    "key": "ext.lugar_nacimiento"
+   },
+   "Texto12": {
+    "key": "ext.pais_nacimiento"
+   },
+   "Texto13": {
+    "key": "ext.nacionalidad"
+   },
+   "Texto14": {
+    "key": "ext.padre"
+   },
+   "Texto15": {
+    "key": "ext.madre"
+   },
+   "Texto16": {
+    "key": "ext.domicilio"
+   },
+   "Texto17": {
+    "key": "ext.numero"
+   },
+   "Texto18": {
+    "key": "ext.piso"
+   },
+   "Texto19": {
+    "key": "ext.localidad"
+   },
+   "Texto20": {
+    "key": "ext.cp"
+   },
+   "Texto21": {
+    "key": "ext.provincia"
+   },
+   "Texto22": {
+    "key": "ext.telefono"
+   },
+   "Texto23": {
+    "key": "ext.email"
+   },
+   "Texto24": {
+    "key": "ext.rl_nombre"
+   },
+   "Texto25": {
+    "key": "ext.rl_doc"
+   },
+   "Texto26": {
+    "key": "ext.rl_titulo"
+   },
+   "Texto27": {
+    "key": "fam.pasaporte"
+   },
+   "Texto28": {
+    "key": "fam.nie",
+    "part": "1"
+   },
+   "Texto29": {
+    "key": "fam.nie",
+    "part": "2"
+   },
+   "Texto30": {
+    "key": "fam.nie",
+    "part": "3"
+   },
+   "Texto31": {
+    "key": "fam.apellido1"
+   },
+   "Texto32": {
+    "key": "fam.apellido2"
+   },
+   "Texto33": {
+    "key": "fam.nombre"
+   },
+   "Texto34": {
+    "key": "fam.fecha_nacimiento",
+    "part": "d"
+   },
+   "Texto35": {
+    "key": "fam.fecha_nacimiento",
+    "part": "m"
+   },
+   "Texto36": {
+    "key": "fam.fecha_nacimiento",
+    "part": "y"
+   },
+   "Texto37": {
+    "key": "fam.pais_nacimiento"
+   },
+   "Texto38": {
+    "key": "fam.nacionalidad"
+   },
+   "Texto39": {
+    "key": "fam.padre"
+   },
+   "Texto40": {
+    "key": "fam.madre"
+   },
+   "Texto41": {
+    "key": "fam.domicilio"
+   },
+   "Texto42": {
+    "key": "fam.numero"
+   },
+   "Texto43": {
+    "key": "fam.piso"
+   },
+   "Texto44": {
+    "key": "fam.localidad"
+   },
+   "Texto45": {
+    "key": "fam.cp"
+   },
+   "Texto46": {
+    "key": "fam.provincia"
+   },
+   "Texto47": {
+    "key": "fam.vinculo"
+   },
+   "Texto48": {
+    "key": "rep.nombre"
+   },
+   "Texto49": {
+    "key": "rep.doc"
+   },
+   "Texto50": {
+    "key": "rep.domicilio"
+   },
+   "Texto51": {
+    "key": "rep.numero"
+   },
+   "Texto52": {
+    "key": "rep.piso"
+   },
+   "Texto53": {
+    "key": "rep.localidad"
+   },
+   "Texto54": {
+    "key": "rep.cp"
+   },
+   "Texto55": {
+    "key": "rep.provincia"
+   },
+   "Texto56": {
+    "key": "rep.telefono"
+   },
+   "Texto57": {
+    "key": "rep.email"
+   },
+   "Texto58": {
+    "key": "rep.rl_nombre"
+   },
+   "Texto59": {
+    "key": "rep.rl_doc"
+   },
+   "Texto60": {
+    "key": "rep.rl_titulo"
+   },
+   "Texto61": {
+    "key": "notif.nombre"
+   },
+   "Texto62": {
+    "key": "notif.doc"
+   },
+   "Texto63": {
+    "key": "notif.domicilio"
+   },
+   "Texto64": {
+    "key": "notif.numero"
+   },
+   "Texto65": {
+    "key": "notif.piso"
+   },
+   "Texto66": {
+    "key": "notif.localidad"
+   },
+   "Texto67": {
+    "key": "notif.cp"
+   },
+   "Texto68": {
+    "key": "notif.provincia"
+   },
+   "Texto69": {
+    "key": "notif.telefono"
+   },
+   "Texto70": {
+    "key": "notif.email"
+   },
+   "Texto71": {
+    "key": "emp.nombre"
+   },
+   "Texto72": {
+    "key": "emp.doc"
+   },
+   "Texto73": {
+    "key": "emp.actividad"
+   },
+   "Texto74": {
+    "key": "emp.cnae"
+   },
+   "Texto75": {
+    "key": "emp.cno"
+   },
+   "Texto76": {
+    "key": "emp.domicilio"
+   },
+   "Texto77": {
+    "key": "emp.numero"
+   },
+   "Texto78": {
+    "key": "emp.piso"
+   },
+   "Texto79": {
+    "key": "emp.localidad"
+   },
+   "Texto80": {
+    "key": "emp.cp"
+   },
+   "Texto81": {
+    "key": "emp.provincia"
+   },
+   "Texto82": {
+    "key": "emp.telefono"
+   },
+   "Texto83": {
+    "key": "emp.email"
+   },
+   "Texto84": {
+    "key": "emp.rl_nombre"
+   },
+   "Texto85": {
+    "key": "emp.rl_doc"
+   },
+   "Texto86": {
+    "key": "emp.rl_titulo"
+   },
+   "Texto149": {
+    "key": "sol.firma_lugar"
+   },
+   "Texto150": {
+    "key": "sol.firma_dia"
+   },
+   "Texto151": {
+    "key": "sol.firma_mes"
+   },
+   "Texto152": {
+    "key": "sol.firma_anio"
+   },
+   "Texto154": {
+    "key": "sol.dirigida_a"
+   },
+   "Texto155": {
+    "key": "sol.dir3"
+   },
+   "Texto156": {
+    "key": "sol.dirigida_provincia"
+   },
+   "Casilla de verificación96": {
+    "key": "ext.sexo",
+    "part": "X",
+    "on": "Yes"
+   },
+   "Casilla de verificación97": {
+    "key": "ext.sexo",
+    "part": "H",
+    "on": "Yes"
+   },
+   "Casilla de verificación98": {
+    "key": "ext.sexo",
+    "part": "M",
+    "on": "Yes"
+   },
+   "Casilla de verificación99": {
+    "key": "ext.estado_civil",
+    "part": "S",
+    "on": "Yes"
+   },
+   "Casilla de verificación100": {
+    "key": "ext.estado_civil",
+    "part": "C",
+    "on": "Yes"
+   },
+   "Casilla de verificación101": {
+    "key": "ext.estado_civil",
+    "part": "V",
+    "on": "Yes"
+   },
+   "Casilla de verificación102": {
+    "key": "ext.estado_civil",
+    "part": "D",
+    "on": "Yes"
+   },
+   "Casilla de verificación103": {
+    "key": "ext.estado_civil",
+    "part": "Sp",
+    "on": "Yes"
+   },
+   "Casilla de verificación104": {
+    "key": "fam.sexo",
+    "part": "X",
+    "on": "Yes"
+   },
+   "Casilla de verificación105": {
+    "key": "fam.sexo",
+    "part": "H",
+    "on": "Yes"
+   },
+   "Casilla de verificación106": {
+    "key": "fam.sexo",
+    "part": "M",
+    "on": "Yes"
+   },
+   "Casilla de verificación107": {
+    "key": "fam.estado_civil",
+    "part": "S",
+    "on": "Yes"
+   },
+   "Casilla de verificación108": {
+    "key": "fam.estado_civil",
+    "part": "C",
+    "on": "Yes"
+   },
+   "Casilla de verificación109": {
+    "key": "fam.estado_civil",
+    "part": "V",
+    "on": "Yes"
+   },
+   "Casilla de verificación110": {
+    "key": "fam.estado_civil",
+    "part": "D",
+    "on": "Yes"
+   },
+   "Casilla de verificación111": {
+    "key": "fam.estado_civil",
+    "part": "Sp",
+    "on": "Yes"
+   },
+   "Casilla de verificación261": {
+    "key": "notif.consiento_dehu",
+    "part": "si",
+    "on": "Yes"
+   }
+  },
+  "options": [
+   {
+    "field": "Casilla de verificación112",
+    "label": "Formación: Educación secundaria postobligatoria",
+    "section": "6) CENTRO DE FORMACIÓN",
+    "page": 2
+   },
+   {
+    "field": "Casilla de verificación113",
+    "label": "Formación: Obtención de certificado profesional",
+    "section": "6) CENTRO DE FORMACIÓN",
+    "page": 2
+   },
+   {
+    "field": "Casilla de verificación114",
+    "label": "Formación: Oferta presencial de enseñanzas obligatorias para personas adultas",
+    "section": "6) CENTRO DE FORMACIÓN",
+    "page": 2
+   },
+   {
+    "field": "Casilla de verificación115",
+    "label": "Formación: Promovida por los Servicios Públicos de Empleo",
+    "section": "6) CENTRO DE FORMACIÓN",
+    "page": 2
+   },
+   {
+    "field": "Casilla de verificación116",
+    "label": "Modalidad: Presencial",
+    "section": "6) CENTRO DE FORMACIÓN",
+    "page": 2
+   },
+   {
+    "field": "Casilla de verificación117",
+    "label": "Modalidad: A distancia",
+    "section": "6) CENTRO DE FORMACIÓN",
+    "page": 2
+   },
+   {
+    "field": "Casilla de verificación118",
+    "label": "Modalidad: Mixta",
+    "section": "6) CENTRO DE FORMACIÓN",
+    "page": 2
+   },
+   {
+    "field": "Casilla de verificación119",
+    "label": "TIPO DE SOLICITUD",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación120",
+    "label": "Residencia inicial",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación121",
+    "label": "Prórroga",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación122",
+    "label": "Provisional",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación123",
+    "label": "TIPO DE AUTORIZACIÓN",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación124",
+    "label": "Arraigo de segunda oportunidad (art. 127.a)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación125",
+    "label": "Arraigo sociolaboral (art. 127.b)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación126",
+    "label": "Arraigo social (art. 127.c)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación127",
+    "label": "Arraigo socioformativo (art. 127.d)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación128",
+    "label": "Arraigo familiar (art. 127.e)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación129",
+    "label": "Razones humanitarias – Víctimas de determinados delitos (art. 128.2)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación130",
+    "label": "Razones humanitarias – Enfermedad sobrevenida de carácter grave (art. 128.3.1º)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación131",
+    "label": "Razones humanitarias – Progenitor de menor con enfermedad sobrevenida grave (art. 128.3.2º)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación132",
+    "label": "Razones humanitarias – Peligro para su seguridad o la de su familia (art. 128.4)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación133",
+    "label": "Colaboración con autoridades – ajenas a redes organizadas (art. 129.1)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación134",
+    "label": "Razones de interés público o seguridad nacional (art. 129.1)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación135",
+    "label": "Colaboración con autoridad laboral/judicial – trabajo en situación irregular (art. 129.2)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación136",
+    "label": "Mujer extranjera víctima de violencia de género (art. 133.1)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación137",
+    "label": "Hijo menor o discapacitado o menor tutelado de víctima de violencia de género (art. 134.2)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación138",
+    "label": "Padre/madre de víctima de violencia de género (art. 134.2)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación139",
+    "label": "Víctimas extranjeras de violencia sexual (art. 137.2)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación140",
+    "label": "Hijo menor o discapacitado o menor tutelado de víctima de violencia sexual (art. 138.2)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación141",
+    "label": "Padre/madre de víctima de violencia sexual (art. 138.2)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación142",
+    "label": "Adulto responsable de víctima de violencia sexual menor de edad (art. 141.2)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación143",
+    "label": "Colaboración contra redes organizadas – víctima, perjudicada o testigo (art. 143)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación144",
+    "label": "Víctima de trata – colaboración en la investigación (art. 152.1)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación145",
+    "label": "Víctima de trata – situación personal (art. 152.1)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación146",
+    "label": "Hijo menor o discapacitado, tutelado o padre/madre de víctima de trata (art. 152.1)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación147",
+    "label": "Circunstancias excepcionales no previstas en el RD 1155/2024 (DA 2ª)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   },
+   {
+    "field": "Casilla de verificación148",
+    "label": "Circunstancias excepcionales DANA 2024 (Prórroga)",
+    "section": "7) TIPO DE AUTORIZACIÓN SOLICITADA",
+    "page": 3
+   }
+  ],
+  "extra_text": [
+   {
+    "field": "Texto87",
+    "label": "Denominación de la entidad que imparte la formación",
+    "section": "6) CENTRO DE FORMACIÓN (arraigo socioformativo)"
+   },
+   {
+    "field": "Texto88",
+    "label": "Denominación de la formación",
+    "section": "6) CENTRO DE FORMACIÓN (arraigo socioformativo)"
+   },
+   {
+    "field": "Texto89",
+    "label": "Código del curso",
+    "section": "6) CENTRO DE FORMACIÓN (arraigo socioformativo)"
+   },
+   {
+    "field": "Texto90",
+    "label": "NIF/CIF de la entidad que la imparte",
+    "section": "6) CENTRO DE FORMACIÓN (arraigo socioformativo)"
+   },
+   {
+    "field": "Texto91",
+    "label": "Dirección completa de la entidad",
+    "section": "6) CENTRO DE FORMACIÓN (arraigo socioformativo)"
+   },
+   {
+    "field": "Texto92",
+    "label": "Provincia",
+    "section": "6) CENTRO DE FORMACIÓN (arraigo socioformativo)"
+   },
+   {
+    "field": "Texto93",
+    "label": "Duración (horas)",
+    "section": "6) CENTRO DE FORMACIÓN (arraigo socioformativo)"
+   },
+   {
+    "field": "Texto94",
+    "label": "Fecha inicio",
+    "section": "6) CENTRO DE FORMACIÓN (arraigo socioformativo)"
+   },
+   {
+    "field": "Texto95",
+    "label": "Fecha fin",
+    "section": "6) CENTRO DE FORMACIÓN (arraigo socioformativo)"
+   }
+  ],
+  "unmapped": [
+   {
+    "field": "Texto153",
+    "section": "Firma",
+    "label": "Firma del solicitante (se deja en blanco)",
+    "right": ""
+   }
+  ]
+ }
+}

@@ -1,0 +1,10 @@
+OK  Bandeja del equipo: conversación del expediente, estado del portal y nota interna visible solo para el equipo
+OK  Solicitud de documentos con plantilla (trato de usted, lista del trámite) y nota interna
+OK  Cliente: acceso con código de un solo uso, condiciones aceptadas, sus asuntos con mensajes nuevos y documentos que faltan
+OK  Cliente: no ve notas internas; envía el contrato pedido en la lista y un mensaje
+OK  Equipo: mensaje del cliente sin leer en la bandeja; el adjunto pasa al expediente con su lectura automática
+OK  Avisos urgentes solo con plantilla y fecha de una tarea; un plazo legal sin validar no se comunica
+OK  Aviso urgente de señalamiento enviado con la fecha y el lugar de la agenda; queda pendiente de confirmar
+OK  Cliente confirma el aviso urgente; el equipo ve la confirmación con fecha y hora
+OK  Exportación PDF con huella; en la ficha, el acceso al portal y los correos (sin contenido; aquí sin servidor de correo)
+OK  La sesión del cliente no da acceso a nada del equipo

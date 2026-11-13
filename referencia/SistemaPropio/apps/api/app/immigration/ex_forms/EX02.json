@@ -1,0 +1,538 @@
+{
+ "fields": {
+  "Texto1": {
+   "key": "fam.pasaporte"
+  },
+  "Texto2": {
+   "key": "fam.nie",
+   "part": "1"
+  },
+  "Texto3": {
+   "key": "fam.nie",
+   "part": "2"
+  },
+  "Texto4": {
+   "key": "fam.nie",
+   "part": "3"
+  },
+  "Texto5": {
+   "key": "fam.apellido1"
+  },
+  "Texto6": {
+   "key": "fam.apellido2"
+  },
+  "Texto7": {
+   "key": "fam.nombre"
+  },
+  "Casilla de verificación82": {
+   "key": "fam.sexo",
+   "part": "X",
+   "on": "Yes"
+  },
+  "Casilla de verificación83": {
+   "key": "fam.sexo",
+   "part": "H",
+   "on": "Yes"
+  },
+  "Casilla de verificación84": {
+   "key": "fam.sexo",
+   "part": "M",
+   "on": "Yes"
+  },
+  "Texto8": {
+   "key": "fam.fecha_nacimiento",
+   "part": "d"
+  },
+  "Texto9": {
+   "key": "fam.fecha_nacimiento",
+   "part": "m"
+  },
+  "Texto10": {
+   "key": "fam.fecha_nacimiento",
+   "part": "y"
+  },
+  "Texto11": {
+   "key": "fam.lugar_nacimiento"
+  },
+  "Texto12": {
+   "key": "fam.pais_nacimiento"
+  },
+  "Texto13": {
+   "key": "fam.nacionalidad"
+  },
+  "Casilla de verificación85": {
+   "key": "fam.estado_civil",
+   "part": "S",
+   "on": "Yes"
+  },
+  "Casilla de verificación86": {
+   "key": "fam.estado_civil",
+   "part": "C",
+   "on": "Yes"
+  },
+  "Casilla de verificación87": {
+   "key": "fam.estado_civil",
+   "part": "V",
+   "on": "Yes"
+  },
+  "Casilla de verificación88": {
+   "key": "fam.estado_civil",
+   "part": "D",
+   "on": "Yes"
+  },
+  "Casilla de verificación89": {
+   "key": "fam.estado_civil",
+   "part": "Sp",
+   "on": "Yes"
+  },
+  "Texto14": {
+   "key": "fam.padre"
+  },
+  "Texto15": {
+   "key": "fam.madre"
+  },
+  "Texto16": {
+   "key": "fam.domicilio"
+  },
+  "Texto17": {
+   "key": "fam.numero"
+  },
+  "Texto18": {
+   "key": "fam.piso"
+  },
+  "Texto19": {
+   "key": "fam.localidad"
+  },
+  "Texto20": {
+   "key": "fam.cp"
+  },
+  "Texto21": {
+   "key": "fam.provincia"
+  },
+  "Texto22": {
+   "key": "fam.telefono"
+  },
+  "Texto23": {
+   "key": "fam.email"
+  },
+  "Texto24": {
+   "key": "fam.autorizacion_titular"
+  },
+  "Texto25": {
+   "key": "fam.autorizacion_doc"
+  },
+  "Texto26": {
+   "key": "fam.autorizacion_titulo"
+  },
+  "Casilla de verificación90": {
+   "key": "fam.hijos_escolarizacion",
+   "part": "si",
+   "on": "Yes"
+  },
+  "Casilla de verificación91": {
+   "key": "fam.hijos_escolarizacion",
+   "part": "no",
+   "on": "Yes"
+  },
+  "Texto27": {
+   "key": "fam.rl_nombre"
+  },
+  "Texto28": {
+   "key": "fam.rl_doc"
+  },
+  "Texto29": {
+   "key": "fam.rl_titulo"
+  },
+  "Texto30": {
+   "key": "ext.pasaporte"
+  },
+  "Texto31": {
+   "key": "ext.nie",
+   "part": "1"
+  },
+  "Texto32": {
+   "key": "ext.nie",
+   "part": "2"
+  },
+  "Texto33": {
+   "key": "ext.nie",
+   "part": "3"
+  },
+  "Texto34": {
+   "key": "ext.apellido1"
+  },
+  "Texto35": {
+   "key": "ext.apellido2"
+  },
+  "Texto36": {
+   "key": "ext.nombre"
+  },
+  "Casilla de verificación92": {
+   "key": "ext.sexo",
+   "part": "X",
+   "on": "Yes"
+  },
+  "Casilla de verificación93": {
+   "key": "ext.sexo",
+   "part": "H",
+   "on": "Yes"
+  },
+  "Casilla de verificación94": {
+   "key": "ext.sexo",
+   "part": "M",
+   "on": "Yes"
+  },
+  "Texto37": {
+   "key": "ext.fecha_nacimiento",
+   "part": "d"
+  },
+  "Texto38": {
+   "key": "ext.fecha_nacimiento",
+   "part": "m"
+  },
+  "Texto39": {
+   "key": "ext.fecha_nacimiento",
+   "part": "y"
+  },
+  "Texto40": {
+   "key": "ext.lugar_nacimiento"
+  },
+  "Texto41": {
+   "key": "ext.pais_nacimiento"
+  },
+  "Texto42": {
+   "key": "ext.nacionalidad"
+  },
+  "Casilla de verificación95": {
+   "key": "ext.estado_civil",
+   "part": "S",
+   "on": "Yes"
+  },
+  "Casilla de verificación96": {
+   "key": "ext.estado_civil",
+   "part": "C",
+   "on": "Yes"
+  },
+  "Casilla de verificación97": {
+   "key": "ext.estado_civil",
+   "part": "V",
+   "on": "Yes"
+  },
+  "Casilla de verificación98": {
+   "key": "ext.estado_civil",
+   "part": "D",
+   "on": "Yes"
+  },
+  "Casilla de verificación99": {
+   "key": "ext.estado_civil",
+   "part": "Sp",
+   "on": "Yes"
+  },
+  "Texto43": {
+   "key": "ext.padre"
+  },
+  "Texto44": {
+   "key": "ext.madre"
+  },
+  "Texto45": {
+   "key": "ext.domicilio"
+  },
+  "Texto46": {
+   "key": "ext.numero"
+  },
+  "Texto47": {
+   "key": "ext.piso"
+  },
+  "Texto48": {
+   "key": "ext.localidad"
+  },
+  "Texto49": {
+   "key": "ext.cp"
+  },
+  "Texto50": {
+   "key": "ext.provincia"
+  },
+  "Texto51": {
+   "key": "rep.nombre"
+  },
+  "Texto52": {
+   "key": "rep.doc"
+  },
+  "Texto53": {
+   "key": "rep.domicilio"
+  },
+  "Texto54": {
+   "key": "rep.numero"
+  },
+  "Texto55": {
+   "key": "rep.piso"
+  },
+  "Texto56": {
+   "key": "rep.localidad"
+  },
+  "Texto57": {
+   "key": "rep.cp"
+  },
+  "Texto58": {
+   "key": "rep.provincia"
+  },
+  "Texto59": {
+   "key": "rep.telefono"
+  },
+  "Texto60": {
+   "key": "rep.email"
+  },
+  "Texto61": {
+   "key": "rep.rl_nombre"
+  },
+  "Texto62": {
+   "key": "rep.rl_doc"
+  },
+  "Texto63": {
+   "key": "rep.rl_titulo"
+  },
+  "Texto64": {
+   "key": "notif.nombre"
+  },
+  "Texto65": {
+   "key": "notif.doc"
+  },
+  "Texto66": {
+   "key": "notif.domicilio"
+  },
+  "Texto67": {
+   "key": "notif.numero"
+  },
+  "Texto68": {
+   "key": "notif.piso"
+  },
+  "Texto69": {
+   "key": "notif.localidad"
+  },
+  "Texto70": {
+   "key": "notif.cp"
+  },
+  "Texto71": {
+   "key": "notif.provincia"
+  },
+  "Texto72": {
+   "key": "notif.telefono"
+  },
+  "Texto73": {
+   "key": "notif.email"
+  },
+  "Casilla de verificación129": {
+   "key": "notif.consiento_dehu",
+   "part": "si",
+   "on": "Yes"
+  },
+  "Texto74": {
+   "key": "sol.firma_lugar"
+  },
+  "Texto75": {
+   "key": "sol.firma_dia"
+  },
+  "Texto76": {
+   "key": "sol.firma_mes"
+  },
+  "Texto77": {
+   "key": "sol.firma_anio"
+  },
+  "Texto79": {
+   "key": "sol.dirigida_a"
+  },
+  "Texto80": {
+   "key": "sol.dir3"
+  },
+  "Texto81": {
+   "key": "sol.dirigida_provincia"
+  }
+ },
+ "options": [
+  {
+   "field": "Casilla de verificación100",
+   "label": "cónyuge",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación105",
+   "label": "Hijo/a menor 18 años",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación101",
+   "label": "Pareja registrada",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación106",
+   "label": "Hijo/amayor de 18 años con discapacidad",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación102",
+   "label": "Pareja no registrada",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación107",
+   "label": "Menor de 18 años representada legalmente por el reagrupante",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación103",
+   "label": "Ascendiente mayor de 65 años □ Mayor de 18 años discapacitada representada legalmente por el reagrupante",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación108",
+   "label": "Mayor de 18 años discapacitada representada legalmente por el reagrupante",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación104",
+   "label": "Ascendiente menor de 65 años □ Hijo/a mayor 18 años, cuidador",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación109",
+   "label": "Hijo/a mayor 18 años, cuidador",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación110",
+   "label": "Hijo/a mayor 18 años (sólo en caso de renovación)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación111",
+   "label": "REAGRUPACIÓN FAMILIAR INICIAL. Art. 65",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación112",
+   "label": "REAGRUPACIÓN FAMILIAR INICIAL COMO FAMILIAR DE RESIDENTE DE LARGA DURACIÓN-UE EN OTRO ESTADO",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación113",
+   "label": "REAGRUPACIÓN FAMILIAR RENOVACIÓN. Art. 71",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación114",
+   "label": "REAGRUPACIÓN FAMILIAR DE HIJOS E HIJAS en aplicación del Capítulo IV del Título VII. (Art. 147)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación115",
+   "label": "REAGRUPACIÓN FAMILIAR DE HIJOS E HIJAS en aplicación del Capítulo V del Título VII. (Art. 155)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación116",
+   "label": "RESIDENCIA INDEPENDIENTE DE LA PERSONA REAGRUPANTE",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación117",
+   "label": "Con medios económicos independientes de la persona reagrupante (art. 69.1)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación118",
+   "label": "Por ruptura del vínculo de cónyuge o pareja con la persona reagrupante (art. 69.2.a)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación119",
+   "label": "Por ser víctima de los delitos del art. 69.2.b",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación120",
+   "label": "Por fallecimiento de la persona reagrupante (art. 69.2.c)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación121",
+   "label": "Por cumplimiento mayoría de edad o dejar de ser representado legalmente por la persona reagrupante (art. 69.4)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación122",
+   "label": "Por residencia en país de la UE siendo titular de residencia por reagrupación de una persona titular de una Tarjeta azul-UE (art. 69.5)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación123",
+   "label": "Ascendiente con autorización de trabajo (art. 69.6)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación124",
+   "label": "AUTORIZACIÓN DE TRABAJO PARA PERSONA ASCENDIENTE REAGRUPADA",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación125",
+   "label": "Cuenta ajena",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación126",
+   "label": "Cuenta propia",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación127",
+   "label": "NO □ SE HALLAN EN TRÁMITE O PRESENTAN SIMULTÁNEAMENTE OTRAS SOLICITUDES POR REAGRUPACIÓN FAMILIAR",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación128",
+   "label": "SE HALLAN EN TRÁMITE O PRESENTAN SIMULTÁNEAMENTE OTRAS SOLICITUDES POR REAGRUPACIÓN FAMILIAR",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  }
+ ],
+ "unmapped": [
+  {
+   "field": "Texto78",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "label": "",
+   "right": ""
+  }
+ ],
+ "title": "Solicitud de autorización de residencia temporal por reagrupación familiar Espacios para sellos de registro",
+ "model": "EX-02",
+ "source": "Modelo oficial editable (Ministerio de Inclusión, Seguridad Social y Migraciones), aportado por el despacho"
+}

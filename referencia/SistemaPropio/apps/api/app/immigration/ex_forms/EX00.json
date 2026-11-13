@@ -1,0 +1,586 @@
+{
+ "fields": {
+  "Texto1": {
+   "key": "ext.pasaporte"
+  },
+  "Texto2": {
+   "key": "ext.nie",
+   "part": "1"
+  },
+  "Texto3": {
+   "key": "ext.nie",
+   "part": "2"
+  },
+  "Texto4": {
+   "key": "ext.nie",
+   "part": "3"
+  },
+  "Texto5": {
+   "key": "ext.apellido1"
+  },
+  "Texto6": {
+   "key": "ext.apellido2"
+  },
+  "Texto7": {
+   "key": "ext.nombre"
+  },
+  "Casilla de verificación2": {
+   "key": "ext.sexo",
+   "part": "X",
+   "on": "Yes"
+  },
+  "Texto8": {
+   "key": "ext.fecha_nacimiento",
+   "part": "d"
+  },
+  "Texto9": {
+   "key": "ext.fecha_nacimiento",
+   "part": "m"
+  },
+  "Texto10": {
+   "key": "ext.fecha_nacimiento",
+   "part": "y"
+  },
+  "Texto11": {
+   "key": "ext.lugar_nacimiento"
+  },
+  "Texto12": {
+   "key": "ext.pais_nacimiento"
+  },
+  "Texto13": {
+   "key": "ext.nacionalidad"
+  },
+  "Casilla de verificación5": {
+   "key": "ext.estado_civil",
+   "part": "S",
+   "on": "Yes"
+  },
+  "Casilla de verificación6": {
+   "key": "ext.estado_civil",
+   "part": "C",
+   "on": "Yes"
+  },
+  "Casilla de verificación7": {
+   "key": "ext.estado_civil",
+   "part": "V",
+   "on": "Yes"
+  },
+  "Casilla de verificación8": {
+   "key": "ext.estado_civil",
+   "part": "D",
+   "on": "Yes"
+  },
+  "Casilla de verificación9": {
+   "key": "ext.estado_civil",
+   "part": "Sp",
+   "on": "Yes"
+  },
+  "Texto14": {
+   "key": "ext.padre"
+  },
+  "Texto15": {
+   "key": "ext.madre"
+  },
+  "Texto16": {
+   "key": "ext.domicilio"
+  },
+  "Texto17": {
+   "key": "ext.numero"
+  },
+  "Texto18": {
+   "key": "ext.piso"
+  },
+  "Texto19": {
+   "key": "ext.localidad"
+  },
+  "Texto20": {
+   "key": "ext.cp"
+  },
+  "Texto21": {
+   "key": "ext.provincia"
+  },
+  "Texto22": {
+   "key": "ext.telefono"
+  },
+  "Texto23": {
+   "key": "ext.email"
+  },
+  "Texto24": {
+   "key": "ext.rl_nombre"
+  },
+  "Texto25": {
+   "key": "ext.rl_doc"
+  },
+  "Texto26": {
+   "key": "ext.rl_titulo"
+  },
+  "Texto27": {
+   "key": "ent.nombre"
+  },
+  "Texto33": {
+   "key": "ent.domicilio"
+  },
+  "Texto34": {
+   "key": "ent.numero"
+  },
+  "Texto35": {
+   "key": "ent.piso"
+  },
+  "Texto36": {
+   "key": "ent.localidad"
+  },
+  "Texto37": {
+   "key": "ent.cp"
+  },
+  "Texto38": {
+   "key": "ent.provincia"
+  },
+  "Texto39": {
+   "key": "ent.rl_nombre"
+  },
+  "Texto46": {
+   "key": "fam.nombre"
+  },
+  "Texto49": {
+   "key": "fam.vinculo"
+  },
+  "Texto50": {
+   "key": "emp.nombre"
+  },
+  "Texto51": {
+   "key": "emp.doc"
+  },
+  "Texto54": {
+   "key": "emp.domicilio"
+  },
+  "Texto55": {
+   "key": "emp.numero"
+  },
+  "Texto56": {
+   "key": "emp.piso"
+  },
+  "Texto57": {
+   "key": "emp.localidad"
+  },
+  "Texto58": {
+   "key": "emp.cp"
+  },
+  "Texto59": {
+   "key": "emp.provincia"
+  },
+  "Texto60": {
+   "key": "emp.telefono"
+  },
+  "Texto61": {
+   "key": "emp.email"
+  },
+  "Texto62": {
+   "key": "emp.rl_nombre"
+  },
+  "Texto63": {
+   "key": "emp.rl_doc"
+  },
+  "Texto64": {
+   "key": "rep.nombre"
+  },
+  "Texto65": {
+   "key": "rep.doc"
+  },
+  "Texto66": {
+   "key": "rep.domicilio"
+  },
+  "Texto67": {
+   "key": "rep.numero"
+  },
+  "Texto68": {
+   "key": "rep.piso"
+  },
+  "Texto69": {
+   "key": "rep.localidad"
+  },
+  "Texto70": {
+   "key": "rep.cp"
+  },
+  "Texto71": {
+   "key": "rep.provincia"
+  },
+  "Texto72": {
+   "key": "rep.telefono"
+  },
+  "Texto73": {
+   "key": "rep.email"
+  },
+  "Texto74": {
+   "key": "rep.rl_nombre"
+  },
+  "Texto75": {
+   "key": "rep.rl_doc"
+  },
+  "Texto76": {
+   "key": "rep.rl_titulo"
+  },
+  "Texto77": {
+   "key": "notif.nombre"
+  },
+  "Texto78": {
+   "key": "notif.doc"
+  },
+  "Texto79": {
+   "key": "notif.domicilio"
+  },
+  "Texto80": {
+   "key": "notif.numero"
+  },
+  "Texto81": {
+   "key": "notif.piso"
+  },
+  "Texto82": {
+   "key": "notif.localidad"
+  },
+  "Texto83": {
+   "key": "notif.cp"
+  },
+  "Texto84": {
+   "key": "notif.provincia"
+  },
+  "Texto85": {
+   "key": "notif.telefono"
+  },
+  "Texto86": {
+   "key": "notif.email"
+  },
+  "Casilla de verificación17": {
+   "key": "notif.consiento_dehu",
+   "part": "si",
+   "on": "Yes"
+  },
+  "Texto87": {
+   "key": "sol.firma_lugar"
+  },
+  "Texto88": {
+   "key": "sol.firma_dia"
+  },
+  "Texto89": {
+   "key": "sol.firma_mes"
+  },
+  "Texto90": {
+   "key": "sol.firma_anio"
+  },
+  "Texto92": {
+   "key": "sol.dirigida_a"
+  },
+  "Texto93": {
+   "key": "sol.dir3"
+  },
+  "Texto94": {
+   "key": "sol.dirigida_provincia"
+  }
+ },
+ "options": [
+  {
+   "field": "Casilla de verificación3",
+   "label": "M",
+   "section": "1) DATOS DE LA PERSONA EXTRANJERA",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación4",
+   "label": "X * H M",
+   "section": "1) DATOS DE LA PERSONA EXTRANJERA",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación10",
+   "label": "RUCT",
+   "section": "2) DATOS DE INSTITUCIÓN/CENTRO DE ESTUDIOS, FORMACIÓN O VOLUNTARIADO",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación11",
+   "label": "RCD",
+   "section": "2) DATOS DE INSTITUCIÓN/CENTRO DE ESTUDIOS, FORMACIÓN O VOLUNTARIADO",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación12",
+   "label": "OTRO (indicar cuál) ……………………………………………………………………………………………",
+   "section": "2) DATOS DE INSTITUCIÓN/CENTRO DE ESTUDIOS, FORMACIÓN O VOLUNTARIADO",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación13",
+   "label": "Adscripción a Universidad (indicar a cuál) …………………………………………………………………..",
+   "section": "2) DATOS DE INSTITUCIÓN/CENTRO DE ESTUDIOS, FORMACIÓN O VOLUNTARIADO",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación14",
+   "label": "Otro reconocimiento oficial (DT única) (indicar cuál) ……………………………………………………….",
+   "section": "2) DATOS DE INSTITUCIÓN/CENTRO DE ESTUDIOS, FORMACIÓN O VOLUNTARIADO",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación15",
+   "label": "Modalidad Presencial",
+   "section": "3) DATOS DEL PROGRAMA DE ESTUDIOS O FORMACIÓN",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación16",
+   "label": "Híbrida/Semipresencial",
+   "section": "3) DATOS DEL PROGRAMA DE ESTUDIOS O FORMACIÓN",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación18",
+   "label": "INICIAL",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación19",
+   "label": "Estudios superiores (art. 52.1.a)",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación20",
+   "label": "Situación regular en España □ Solicitada por institución",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación21",
+   "label": "Solicitada por institución",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación22",
+   "label": "Educación secundaria postobligatoria (art. 52.1.b). Titular de autorización de residencia en España",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación23",
+   "label": "Programa de movilidad de alumnos de secundaria (art. 52.1.c). Titular de autorización de residencia en España",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación24",
+   "label": "Voluntariado (art. 52.1.d). Titular de autorización de residencia en España",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación25",
+   "label": "Actividades formativas (art. 52.1.e).",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación26",
+   "label": "Auxiliar de conversación (art. 52.1.e.1º) Titular de autorización de residencia en España",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación27",
+   "label": "Estudios idiomáticos de castellano o lengua cooficial (art. 52.1.e.2º) Titular de autorización de residencia en España",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación28",
+   "label": "Cursos preparatorios para las pruebas selectivas de formación sanitaria especializada (art. 52.1.e.3º) Titular de autorización de",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación29",
+   "label": "Certificación de aptitud técnica o habilitación profesional (art. 52.1.e.4º) Situación regular",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación30",
+   "label": "Certificado profesional (art. 52.1.e.5º) Titular de autorización de residencia en España",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación31",
+   "label": "Formación sanitaria especializada (art. 58). Situación regular en España",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación32",
+   "label": "Comunicación de movilidad en programa UE o multilateral (art. 59.2)",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación33",
+   "label": "Movilidad sin programa UE o multilateral (art. 59.3)",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación34",
+   "label": "Estudios Convenio con Andorra.",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación35",
+   "label": "Familiar de titular autorización de estancia para estudios superiores (art. 56). Situación regular en España",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación36",
+   "label": "Familiar de titular autorización de estancia para formación sanitaria especializada (art. 56). Situación regular en España",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación37",
+   "label": "Familiar de titular autorización de estancia por estudios convenio con Andorra",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación38",
+   "label": "Hijo/a nacido/a en España de titular de estancia de larga duración (art. 56.7)",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación39",
+   "label": "PRÓRROGA (de acuerdo con el art. 55.4, deberá solicitarse por medios electrónicos)",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación40",
+   "label": "AUTORIZACIÓN PARA TRABAJAR para titular de estancia de larga duración (art. 57.1)",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación41",
+   "label": "Cuenta ajena",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  },
+  {
+   "field": "Casilla de verificación42",
+   "label": "Cuenta propia",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "page": 3
+  }
+ ],
+ "unmapped": [
+  {
+   "field": "Texto28",
+   "section": "2) DATOS DE INSTITUCIÓN/CENTRO DE ESTUDIOS, FORMACIÓN O VOLU",
+   "label": "…………………………………………………………………………………………………………………………………………………………….",
+   "right": ""
+  },
+  {
+   "field": "Texto29",
+   "section": "2) DATOS DE INSTITUCIÓN/CENTRO DE ESTUDIOS, FORMACIÓN O VOLU",
+   "label": "Registro reconocimiento o □ OTRO (indicar cuál)",
+   "right": ""
+  },
+  {
+   "field": "Texto30",
+   "section": "2) DATOS DE INSTITUCIÓN/CENTRO DE ESTUDIOS, FORMACIÓN O VOLU",
+   "label": "oficial (5) □ Adscripción a Universidad (indicar a cuál)",
+   "right": ""
+  },
+  {
+   "field": "Texto31",
+   "section": "2) DATOS DE INSTITUCIÓN/CENTRO DE ESTUDIOS, FORMACIÓN O VOLU",
+   "label": "□ Otro reconocimiento oficial (DT única) (indicar cuál)",
+   "right": ""
+  },
+  {
+   "field": "Texto32",
+   "section": "2) DATOS DE INSTITUCIÓN/CENTRO DE ESTUDIOS, FORMACIÓN O VOLU",
+   "label": "Código",
+   "right": ""
+  },
+  {
+   "field": "Texto40",
+   "section": "2) DATOS DE INSTITUCIÓN/CENTRO DE ESTUDIOS, FORMACIÓN O VOLU",
+   "label": "……………………………………………………………………………………………………………………………. DNI/NIE/PAS",
+   "right": "repetido: ent.rl_nombre"
+  },
+  {
+   "field": "Texto41",
+   "section": "2) DATOS DE INSTITUCIÓN/CENTRO DE ESTUDIOS, FORMACIÓN O VOLU",
+   "label": "………………. DNI/NIE/PAS ………………………………………………………………………... Título(4)",
+   "right": "repetido: ent.rl_nombre"
+  },
+  {
+   "field": "Texto42",
+   "section": "3) DATOS DEL PROGRAMA DE ESTUDIOS O FORMACIÓN",
+   "label": "Denominación",
+   "right": "Código"
+  },
+  {
+   "field": "Texto43",
+   "section": "3) DATOS DEL PROGRAMA DE ESTUDIOS O FORMACIÓN",
+   "label": "Código",
+   "right": ""
+  },
+  {
+   "field": "Texto44",
+   "section": "3) DATOS DEL PROGRAMA DE ESTUDIOS O FORMACIÓN",
+   "label": "Fecha de inicio(2)",
+   "right": "finalización(2)"
+  },
+  {
+   "field": "Texto45",
+   "section": "3) DATOS DEL PROGRAMA DE ESTUDIOS O FORMACIÓN",
+   "label": "finalización(2)",
+   "right": ""
+  },
+  {
+   "field": "Texto47",
+   "section": "4) DATOS DEL FAMILIAR ESTUDIANTE AL QUE ACOMPAÑA",
+   "label": "NIE/PAS",
+   "right": ""
+  },
+  {
+   "field": "Texto48",
+   "section": "4) DATOS DEL FAMILIAR ESTUDIANTE AL QUE ACOMPAÑA",
+   "label": "Apellidos",
+   "right": "Parentesco"
+  },
+  {
+   "field": "Texto52",
+   "section": "5) DATOS DEL EMPLEADOR/A (en caso de autorización para traba",
+   "label": "",
+   "right": "Ocupación"
+  },
+  {
+   "field": "Texto53",
+   "section": "5) DATOS DEL EMPLEADOR/A (en caso de autorización para traba",
+   "label": "Ocupación",
+   "right": ""
+  },
+  {
+   "field": "Texto91",
+   "section": "8) TIPO DE AUTORIZACIÓN DE ESTANCIA SOLICITADA(9)",
+   "label": "",
+   "right": ""
+  }
+ ],
+ "title": "Solicitud de autorización de estancia de larga duración Espacios para sellos",
+ "model": "EX-00",
+ "source": "Modelo oficial editable (Ministerio de Inclusión, Seguridad Social y Migraciones), aportado por el despacho"
+}

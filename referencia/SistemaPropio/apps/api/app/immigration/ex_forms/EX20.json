@@ -1,0 +1,466 @@
+{
+ "fields": {
+  "Texto1": {
+   "key": "ext.pasaporte"
+  },
+  "Texto2": {
+   "key": "ext.nie",
+   "part": "1"
+  },
+  "Texto3": {
+   "key": "ext.nie",
+   "part": "2"
+  },
+  "Texto4": {
+   "key": "ext.nie",
+   "part": "3"
+  },
+  "Texto5": {
+   "key": "ext.apellido1"
+  },
+  "Texto6": {
+   "key": "ext.apellido2"
+  },
+  "Texto7": {
+   "key": "ext.nombre"
+  },
+  "Casilla de verificación27": {
+   "key": "ext.sexo",
+   "part": "X",
+   "on": "Yes"
+  },
+  "Texto8": {
+   "key": "ext.fecha_nacimiento",
+   "part": "d"
+  },
+  "Texto9": {
+   "key": "ext.fecha_nacimiento",
+   "part": "m"
+  },
+  "Texto10": {
+   "key": "ext.fecha_nacimiento",
+   "part": "y"
+  },
+  "Texto11": {
+   "key": "ext.lugar_nacimiento"
+  },
+  "Texto12": {
+   "key": "ext.pais_nacimiento"
+  },
+  "Texto13": {
+   "key": "ext.nacionalidad"
+  },
+  "Casilla de verificación30": {
+   "key": "ext.estado_civil",
+   "part": "S",
+   "on": "Yes"
+  },
+  "Casilla de verificación31": {
+   "key": "ext.estado_civil",
+   "part": "C",
+   "on": "Yes"
+  },
+  "Casilla de verificación32": {
+   "key": "ext.estado_civil",
+   "part": "V",
+   "on": "Yes"
+  },
+  "Casilla de verificación33": {
+   "key": "ext.estado_civil",
+   "part": "D",
+   "on": "Yes"
+  },
+  "Casilla de verificación34": {
+   "key": "ext.estado_civil",
+   "part": "Sp",
+   "on": "Yes"
+  },
+  "Texto14": {
+   "key": "ext.padre"
+  },
+  "Texto15": {
+   "key": "ext.madre"
+  },
+  "Texto16": {
+   "key": "ext.domicilio"
+  },
+  "Texto17": {
+   "key": "ext.numero"
+  },
+  "Texto18": {
+   "key": "ext.piso"
+  },
+  "Texto19": {
+   "key": "ext.localidad"
+  },
+  "Texto20": {
+   "key": "ext.cp"
+  },
+  "Texto21": {
+   "key": "ext.provincia"
+  },
+  "Texto22": {
+   "key": "ext.telefono"
+  },
+  "Texto23": {
+   "key": "ext.email"
+  },
+  "Texto24": {
+   "key": "ext.rl_nombre"
+  },
+  "Texto25": {
+   "key": "ext.rl_doc"
+  },
+  "Texto26": {
+   "key": "ext.rl_titulo"
+  },
+  "Texto35": {
+   "key": "rep.nombre"
+  },
+  "Texto36": {
+   "key": "rep.doc"
+  },
+  "Texto37": {
+   "key": "rep.domicilio"
+  },
+  "Texto38": {
+   "key": "rep.numero"
+  },
+  "Texto39": {
+   "key": "rep.piso"
+  },
+  "Texto40": {
+   "key": "rep.localidad"
+  },
+  "Texto41": {
+   "key": "rep.cp"
+  },
+  "Texto42": {
+   "key": "rep.provincia"
+  },
+  "Texto43": {
+   "key": "rep.telefono"
+  },
+  "Texto44": {
+   "key": "rep.email"
+  },
+  "Texto45": {
+   "key": "rep.rl_nombre"
+  },
+  "Texto46": {
+   "key": "rep.rl_doc"
+  },
+  "Texto47": {
+   "key": "rep.rl_titulo"
+  },
+  "Texto48": {
+   "key": "notif.nombre"
+  },
+  "Texto49": {
+   "key": "notif.doc"
+  },
+  "Texto50": {
+   "key": "notif.domicilio"
+  },
+  "Texto51": {
+   "key": "notif.numero"
+  },
+  "Texto52": {
+   "key": "notif.piso"
+  },
+  "Texto53": {
+   "key": "notif.localidad"
+  },
+  "Texto54": {
+   "key": "notif.cp"
+  },
+  "Texto55": {
+   "key": "notif.provincia"
+  },
+  "Texto56": {
+   "key": "notif.telefono"
+  },
+  "Texto57": {
+   "key": "notif.email"
+  },
+  "Casilla de verificación76": {
+   "key": "notif.consiento_dehu",
+   "part": "si",
+   "on": "Yes"
+  },
+  "Texto67": {
+   "key": "sol.firma_lugar"
+  },
+  "Texto68": {
+   "key": "sol.firma_dia"
+  },
+  "Texto69": {
+   "key": "sol.firma_mes"
+  },
+  "Texto70": {
+   "key": "sol.firma_anio"
+  },
+  "Texto73": {
+   "key": "sol.dirigida_a"
+  },
+  "Texto74": {
+   "key": "sol.dir3"
+  },
+  "Texto75": {
+   "key": "sol.dirigida_provincia"
+  }
+ },
+ "options": [
+  {
+   "field": "Casilla de verificación28",
+   "label": "M",
+   "section": "1) DATOS DE LA PERSONA SOLICITANTE",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación29",
+   "label": "X * H M",
+   "section": "1) DATOS DE LA PERSONA SOLICITANTE",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación77",
+   "label": "",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación78",
+   "label": "Trabajador por cuenta ajena",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación79",
+   "label": "Trabajador por cuenta propia",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación80",
+   "label": "No activo con recursos suficientes y seguro de enfermedad",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación81",
+   "label": "Estudiante con recursos suficientes y seguro de enfermedad",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación82",
+   "label": "Nacional de Reino Unido, familiar del otro nacional incluido en los apartados anteriores",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación83",
+   "label": "",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación84",
+   "label": "Residencia continuada en España durante 5 años",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación85",
+   "label": "Trabajador en edad de jubilación y derecho a pensión con actividad en España durante 12 meses y residencia de 3 años",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación86",
+   "label": "Trabajador en edad de jubilación y derecho a pensión con actividad en España durante 12 meses y cónyuge/pareja español",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación87",
+   "label": "Trabajador en edad de jubilación y derecho a pensión con actividad en España durante 12 meses y cuyo cónyuge/pareja perdió la nacionalidad española por su",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación88",
+   "label": "Trabajador en jubilación anticipada con actividad en España durante 12 meses y residencia de 3 años",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación89",
+   "label": "Trabajador en jubilación anticipada con actividad en España durante 12 meses y cuyo cónyuge/pareja es español",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación90",
+   "label": "Trabajador en jubilación anticipada con actividad en España durante 12 meses y cuyo cónyuge/pareja perdió la nacionalidad española por su matrimonio/inscripción",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación91",
+   "label": "Trabajador en incapacidad permanente habiendo residido en España durante más de 2 años continuados",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación92",
+   "label": "Trabajador en incapacidad permanente consecuencia de accidente de trabajo o enfermedad profesional",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación93",
+   "label": "Trabajador en incapacidad permanente con cónyuge/pareja español",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación94",
+   "label": "Trabajador en incapacidad permanente y cuyo cónyuge/pareja perdió la nacionalidad española por su matrimonio/inscripción",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación95",
+   "label": "Trabajador que después de 3 años consecutivos de actividad y residencia en España desempeña su actividad en otro EM manteniendo la residencia en España",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación96",
+   "label": "Otros………………………..…..……………………………………………….………………..(especificar)",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación97",
+   "label": "",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación98",
+   "label": "De datos personales",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación99",
+   "label": "Por cambio de domicilio",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación100",
+   "label": "Por cambio de Documento de Identidad/Pasaporte",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación101",
+   "label": "Otros………………..…………………………………………………..……………..(especificar)",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación102",
+   "label": "BAJA POR CESE",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación103",
+   "label": "Especificar la causa ………………………………………………………………………………………………………………………………………..…………………………",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación104",
+   "label": "Las personas abajo firmantes se hacen responsables de la veracidad de los datos consignados y de la documentación que se acompaña.",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "page": 2
+  }
+ ],
+ "unmapped": [
+  {
+   "field": "Texto58",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "label": "FECHA DE INICIO DE LA RESIDENCIA EN ESPAÑA (8)",
+   "right": ""
+  },
+  {
+   "field": "Texto59",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "label": "FECHA DE INICIO DE LA RESIDENCIA EN ESPAÑA (8)",
+   "right": ""
+  },
+  {
+   "field": "Texto60",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "label": "",
+   "right": ""
+  },
+  {
+   "field": "Texto61",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "label": "IARES QUE ACOMPAÑAN O SE REÚNEN CON EL SOLICITANTE EN ESPAÑA",
+   "right": ""
+  },
+  {
+   "field": "Texto62",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "label": "- PASAPORTE/DNI/NIE del nacional de Reino Unido da derecho",
+   "right": ""
+  },
+  {
+   "field": "Texto63",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "label": "- Vínculo con el nacional de Reino Unido que da derecho",
+   "right": ""
+  },
+  {
+   "field": "Texto64",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "label": "□",
+   "right": ""
+  },
+  {
+   "field": "Texto65",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "label": "□",
+   "right": ""
+  },
+  {
+   "field": "Texto66",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "label": "□ Especificar la causa",
+   "right": ""
+  },
+  {
+   "field": "Texto71",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "label": "",
+   "right": ""
+  },
+  {
+   "field": "Texto72",
+   "section": "4) SITUACIÓN EN ESPAÑA (7)",
+   "label": "",
+   "right": ""
+  }
+ ],
+ "title": "",
+ "model": "EX-20",
+ "source": "Modelo oficial editable (Ministerio de Inclusión, Seguridad Social y Migraciones), aportado por el despacho"
+}

@@ -1,0 +1,209 @@
+﻿id;fuente;titulo;modulo;fase;prioridad;cobertura;motivo_cobertura;relaciones;decisiones
+I-001;Informe 120;Apertura automática de fichas;M01;F1;P1;complementario;"Relacionado con Q-2.9, Q-6.1; aporta alcance propio.";Q-2.9, Q-6.1;
+I-002;Informe 120;Lectura automática de DNI, NIE, pasaporte y documentos;M01;F1;P1;complementario;"Relacionado con Q-4.13, Q-5.5; aporta alcance propio.";Q-4.13, Q-5.5;
+I-003;Informe 120;Detección de clientes duplicados;M01;F1;P0;nuevo;Aportación exclusiva de su fuente.;;
+I-004;Informe 120;Superficha laboral estructurada;M04;F2;P1;equivalente;"Misma necesidad que Q-2.9, Q-6.1; se implementa una vez y se enlazan ambos IDs.";Q-2.9, Q-6.1;
+I-005;Informe 120;Dictado por voz y transcripción;M04;F2;P1;complementario;"Relacionado con Q-3.5; aporta alcance propio.";Q-3.5;
+I-006;Informe 120;Detección de datos incompletos;M04;F2;P1;equivalente;"Misma necesidad que Q-2.9, Q-6.1; se implementa una vez y se enlazan ambos IDs.";Q-2.9, Q-6.1;
+I-007;Informe 120;Apertura automática de expedientes;M05;F2;P0;equivalente;"Misma necesidad que Q-6.2; se implementa una vez y se enlazan ambos IDs.";Q-6.2;
+I-008;Informe 120;Asignación de responsables;M05;F2;P0;equivalente;"Misma necesidad que Q-6.2; se implementa una vez y se enlazan ambos IDs.";Q-1.2, Q-6.2;
+I-009;Informe 120;Actualización automática de expedientes;M05;F2;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-010;Informe 120;Clasificación por materia, fase y prioridad;M05;F2;P0;equivalente;"Misma necesidad que Q-6.2; se implementa una vez y se enlazan ambos IDs.";Q-6.2;
+I-011;Informe 120;Cálculo de finiquitos;M06;F3;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-012;Informe 120;Indemnización por despido improcedente;M06;F3;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-013;Informe 120;Indemnización por despido objetivo;M06;F3;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-014;Informe 120;Diferencias salariales según convenio;M06;F3;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-015;Informe 120;Cálculo de horas extraordinarias;M06;F3;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-016;Informe 120;Vacaciones pendientes;M06;F3;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-017;Informe 120;Pagas extraordinarias pendientes;M06;F3;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-018;Informe 120;Complementos salariales;M06;F3;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-019;Informe 120;Actualización de cantidades reclamadas;M06;F3;P1;complementario;"Relacionado con Q-4.7, Q-6.19; aporta alcance propio.";Q-4.7, Q-6.19;
+I-020;Informe 120;Informe económico laboral;M06;F3;P1;complementario;"Relacionado con Q-4.7, Q-4.8, Q-6.19, Q-6.21; aporta alcance propio.";Q-4.7, Q-4.8, Q-6.19, Q-6.21;
+I-021;Informe 120;Generación de papeletas desde la superficha;M08;F3;P1;equivalente;"Misma necesidad que Q-6.8; se implementa una vez y se enlazan ambos IDs.";Q-6.8;
+I-022;Informe 120;Redacción de hechos;M08;F3;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-023;Informe 120;Detección de conceptos reclamables;M08;F3;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-024;Informe 120;Papeletas por despido;M08;F3;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-025;Informe 120;Papeletas de reclamación de cantidad;M08;F3;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-026;Informe 120;Papeletas con despido y cantidad cuando proceda;M08;F3;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-027;Informe 120;Comprobación de plazos;M08;F3;P1;contradictorio;"Afectado por D-04; no programar como regla hasta resolver.";Q-6.9;D-04
+I-028;Informe 120;Generación en Word y PDF;M08;F3;P1;equivalente;"Misma necesidad que Q-6.8; se implementa una vez y se enlazan ambos IDs.";Q-3.10, Q-6.6, Q-6.8, Q-6.22;
+I-029;Informe 120;Preparación de anexos;M08;F3;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-030;Informe 120;Presentación telemática por vías autorizadas;M10;F6;P1;sin_definicion;Bloqueado por D-09.;;D-09
+I-031;Informe 120;Descarga de justificantes;M10;F6;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-032;Informe 120;Seguimiento de conciliaciones;M08;F3;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-033;Informe 120;Conversión de papeletas en demandas;M08;F3;P2;equivalente;"Misma necesidad que Q-6.8; se implementa una vez y se enlazan ambos IDs.";Q-6.8;
+I-034;Informe 120;Demandas por despido improcedente;M08;F3;P2;nuevo;Aportación exclusiva de su fuente.;;
+I-035;Informe 120;Demandas por despido nulo;M08;F3;P2;nuevo;Aportación exclusiva de su fuente.;;
+I-036;Informe 120;Demandas de reclamación de cantidad;M08;F3;P2;nuevo;Aportación exclusiva de su fuente.;;
+I-037;Informe 120;Separación de demandas cuando proceda;M08;F3;P2;nuevo;Aportación exclusiva de su fuente.;;
+I-038;Informe 120;Demandas por despido verbal;M08;F3;P2;nuevo;Aportación exclusiva de su fuente.;;
+I-039;Informe 120;Demandas de trabajadores en situación administrativa irregular;M08;F3;P2;nuevo;Aportación exclusiva de su fuente.;;
+I-040;Informe 120;Demandas por diferencias salariales;M08;F3;P2;nuevo;Aportación exclusiva de su fuente.;;
+I-041;Informe 120;Demandas por vacaciones;M08;F3;P2;nuevo;Aportación exclusiva de su fuente.;;
+I-042;Informe 120;Demandas por modificación sustancial;M08;F3;P2;nuevo;Aportación exclusiva de su fuente.;;
+I-043;Informe 120;Demandas por extinción contractual;M08;F3;P2;nuevo;Aportación exclusiva de su fuente.;;
+I-044;Informe 120;Búsqueda y propuesta de jurisprudencia verificable;M08;F3;P2;sin_definicion;Bloqueado por D-24.;;D-24
+I-045;Informe 120;Revisión de omisiones, fechas y cantidades;M08;F3;P1;sin_definicion;Bloqueado por D-24.;Q-6.1;D-24
+I-046;Informe 120;Generación de borrador definitivo para revisión letrada;M08;F3;P1;sin_definicion;Bloqueado por D-24.;Q-6.8;D-24
+I-047;Informe 120;Preparación de presentaciones en LexNET;M10;F6;P3;sin_definicion;Bloqueado por D-09.;;D-09
+I-048;Informe 120;Presentaciones en e-Justícia.cat;M10;F6;P3;sin_definicion;Bloqueado por D-09.;;D-09
+I-049;Informe 120;Propuesta de órgano judicial con validación;M10;F6;P3;sin_definicion;Bloqueado por D-09.;;D-09
+I-050;Informe 120;Incorporación de anexos;M10;F6;P3;sin_definicion;Bloqueado por D-09.;;D-09
+I-051;Informe 120;Comprobación de documentos obligatorios;M10;F6;P3;sin_definicion;Bloqueado por D-09.;;D-09
+I-052;Informe 120;Validación de formatos, firmas y datos;M10;F6;P3;sin_definicion;Bloqueado por D-09.;Q-3.10, Q-5.6, Q-6.6, Q-6.7;D-09
+I-053;Informe 120;Descarga de justificantes;M10;F6;P3;sin_definicion;Bloqueado por D-09.;;D-09
+I-054;Informe 120;Archivo de escritos presentados;M10;F6;P3;sin_definicion;Bloqueado por D-09.;;D-09
+I-055;Informe 120;Descarga de LexNET;M10;F6;P3;sin_definicion;Bloqueado por D-09.;;D-09
+I-056;Informe 120;Descarga de e-Justícia.cat;M10;F6;P3;sin_definicion;Bloqueado por D-09.;;D-09
+I-057;Informe 120;Descarga de DEHú;M10;F6;P3;sin_definicion;Bloqueado por D-09.;;D-09
+I-058;Informe 120;Descarga de resoluciones de extranjería;M10;F6;P3;sin_definicion;Bloqueado por D-09.;;D-09
+I-059;Informe 120;Identificación del expediente;M10;F6;P3;sin_definicion;Bloqueado por D-09.;;D-09
+I-060;Informe 120;Incorporación a MN Program;M10;F6;P3;sin_definicion;"Incorporar a MN Program contradice la sustitución progresiva; depende del plan de convivencia D-15.";;D-09
+I-061;Informe 120;Clasificación por tipo de notificación;M10;F6;P3;sin_definicion;Bloqueado por D-09.;;D-09
+I-062;Informe 120;Extracción de plazos para validación;M10;F6;P1;sin_definicion;Bloqueado por D-09.;;D-09
+I-063;Informe 120;Asignación al responsable;M10;F6;P1;sin_definicion;Bloqueado por D-09.;;D-09
+I-064;Informe 120;Alertas urgentes;M10;F6;P1;sin_definicion;Bloqueado por D-09.;;D-09
+I-065;Informe 120;Preparación de comunicaciones al cliente;M10;F6;P3;sin_definicion;Bloqueado por D-09.;;D-09
+I-066;Informe 120;Control de pendientes;M10;F6;P1;sin_definicion;Bloqueado por D-09.;;D-09
+I-067;Informe 120;Registro de señalamientos judiciales;M09;F2;P1;equivalente;"Misma necesidad que Q-6.15; se implementa una vez y se enlazan ambos IDs.";Q-6.15;
+I-068;Informe 120;Registro de conciliaciones;M09;F2;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-069;Informe 120;Calendario centralizado;M09;F2;P1;complementario;"Relacionado con Q-2.4, Q-2.5, Q-3.7; aporta alcance propio.";Q-2.4, Q-2.5, Q-3.7;
+I-070;Informe 120;Avisos anticipados de juicios;M09;F2;P1;equivalente;"Misma necesidad que Q-6.10, Q-6.16; se implementa una vez y se enlazan ambos IDs.";Q-6.10, Q-6.16;
+I-071;Informe 120;Recordatorios a clientes;M09;F2;P1;equivalente;"Misma necesidad que Q-6.10; se implementa una vez y se enlazan ambos IDs.";Q-3.2, Q-3.7, Q-6.10;
+I-072;Informe 120;Recordatorios a abogados;M09;F2;P1;equivalente;"Misma necesidad que Q-6.10; se implementa una vez y se enlazan ambos IDs.";Q-6.10;
+I-073;Informe 120;Control de vencimientos;M09;F2;P1;contradictorio;"Afectado por D-04; no programar como regla hasta resolver.";Q-6.9, Q-6.10, Q-6.11, Q-6.12, Q-6.20, Q-6.20B;D-04
+I-074;Informe 120;Detección de solapamientos;M09;F2;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-075;Informe 120;Asignación de sustituciones;M09;F2;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-076;Informe 120;Agendas diarias y semanales;M09;F2;P1;equivalente;"Misma necesidad que Q-6.15, Q-6.20, Q-6.20B; se implementa una vez y se enlazan ambos IDs.";Q-2.5, Q-5.2, Q-5.3, Q-6.15, Q-6.20, Q-6.20B;
+I-077;Informe 120;Informes de actuaciones;M09;F2;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-078;Informe 120;Clasificación documental;M07;F2;P1;equivalente;"Misma necesidad que Q-6.6, Q-6.7, Q-6.13, Q-6.14, Q-6.22; se implementa una vez y se enlazan ambos IDs.";Q-5.6, Q-6.6, Q-6.7, Q-6.13, Q-6.14, Q-6.22;
+I-079;Informe 120;Extracción de datos de documentos;M07;F2;P1;complementario;"Relacionado con Q-4.13, Q-5.5; aporta alcance propio.";Q-4.13, Q-5.5;
+I-080;Informe 120;Detección de documentos faltantes;M07;F2;P1;complementario;"Relacionado con Q-2.9, Q-6.5; aporta alcance propio.";Q-2.9, Q-6.5;
+I-081;Informe 120;Solicitud de documentos al cliente;M07;F2;P2;equivalente;"Misma necesidad que Q-6.13; se implementa una vez y se enlazan ambos IDs.";Q-6.3, Q-6.5, Q-6.13;
+I-082;Informe 120;Preparación de carpetas de prueba;M07;F2;P2;equivalente;"Misma necesidad que Q-6.13, Q-6.14; se implementa una vez y se enlazan ambos IDs.";Q-6.13, Q-6.14, Q-6.16;
+I-083;Informe 120;Índices documentales;M07;F2;P2;equivalente;"Misma necesidad que Q-6.14; se implementa una vez y se enlazan ambos IDs.";Q-6.14;
+I-084;Informe 120;Instructas para juicios;M07;F2;P2;complementario;"Relacionado con Q-6.16; aporta alcance propio.";Q-6.16;
+I-085;Informe 120;Resumen de hechos controvertidos;M07;F2;P2;nuevo;Aportación exclusiva de su fuente.;;
+I-086;Informe 120;Clasificación de jurisprudencia favorable y desfavorable;M07;F2;P2;nuevo;Aportación exclusiva de su fuente.;;
+I-087;Informe 120;Archivo de sentencias y resultados;M07;F2;P2;complementario;"Relacionado con Q-6.11, Q-6.12, Q-6.19; aporta alcance propio.";Q-6.11, Q-6.12, Q-6.19;
+I-088;Informe 120;Asignación de gestor personal;M05;F2;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-089;Informe 120;Panel de tareas por gestor;M05;F2;P1;equivalente;"Misma necesidad que Q-6.4; se implementa una vez y se enlazan ambos IDs.";Q-3.1, Q-3.8, Q-5.9, Q-6.4, Q-6.23;
+I-090;Informe 120;Aviso de apertura de expediente;M05;F2;P1;complementario;"Relacionado con Q-3.10, Q-6.3; aporta alcance propio.";Q-3.10, Q-6.3;
+I-091;Informe 120;Mensaje de bienvenida;M12;F4;P1;equivalente;"Misma necesidad que Q-6.3; se implementa una vez y se enlazan ambos IDs.";Q-6.3;
+I-092;Informe 120;Seguimiento de expedientes;M05;F2;P1;equivalente;"Misma necesidad que Q-6.4; se implementa una vez y se enlazan ambos IDs.";Q-6.4;
+I-093;Informe 120;Mensajes mediante WhatsApp;M12;F4;P1;equivalente;"Misma necesidad que Q-2.3, Q-3.3, Q-3.4; se implementa una vez y se enlazan ambos IDs.";Q-2.3, Q-3.3, Q-3.4, Q-4.3;
+I-094;Informe 120;Correos electrónicos automáticos;M12;F4;P1;complementario;"Relacionado con Q-2.2, Q-3.2; aporta alcance propio.";Q-2.2, Q-3.2;
+I-095;Informe 120;Recordatorios documentales;M12;F4;P1;equivalente;"Misma necesidad que Q-6.3; se implementa una vez y se enlazan ambos IDs.";Q-6.3;
+I-096;Informe 120;Avisos de cambio de estado;M12;F4;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-097;Informe 120;Registro de comunicaciones;M12;F4;P1;equivalente;"Misma necesidad que Q-2.3, Q-3.3, Q-3.4, Q-3.5, Q-3.6, Q-6.18; se implementa una vez y se enlazan ambos IDs.";Q-2.3, Q-3.3, Q-3.4, Q-3.5, Q-3.6, Q-3.9, Q-4.4, Q-6.17, Q-6.18;
+I-098;Informe 120;Detección de clientes sin seguimiento;M05;F2;P1;equivalente;"Misma necesidad que Q-6.4; se implementa una vez y se enlazan ambos IDs.";Q-2.8, Q-3.1, Q-3.2, Q-3.8, Q-6.4;
+I-099;Informe 120;Consultas atendidas;M16;F4;P1;complementario;"Relacionado con Q-2.1, Q-2.4, Q-2.6, Q-2.7, Q-2.8, Q-3.6; aporta alcance propio.";Q-2.1, Q-2.4, Q-2.6, Q-2.7, Q-2.8, Q-3.6;
+I-100;Informe 120;Fichas abiertas;M16;F4;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-101;Informe 120;Expedientes contratados;M16;F4;P1;complementario;"Relacionado con Q-2.6, Q-2.7, Q-4.1, Q-4.3; aporta alcance propio.";Q-2.6, Q-2.7, Q-4.1, Q-4.3;
+I-102;Informe 120;Conversión de consultas;M16;F4;P1;complementario;"Relacionado con Q-2.1, Q-2.7; aporta alcance propio.";Q-2.1, Q-2.7;
+I-103;Informe 120;Cálculos realizados;M16;F4;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-104;Informe 120;Papeletas preparadas;M16;F4;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-105;Informe 120;Conciliaciones presentadas;M16;F4;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-106;Informe 120;Demandas preparadas y presentadas;M16;F4;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-107;Informe 120;Notificaciones recibidas y gestionadas;M16;F4;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-108;Informe 120;Carga de expedientes por gestor;M16;F4;P1;nuevo;Aportación exclusiva de su fuente.;;
+I-109;Informe 120;Tiempos de ejecución;M16;F4;P1;complementario;"Relacionado con Q-5.1, Q-5.8; aporta alcance propio.";Q-5.1, Q-5.8;
+I-110;Informe 120;Cuadro de mando por sede;M16;F4;P1;complementario;"Relacionado con Q-1.1, Q-4.1, Q-4.5, Q-4.6, Q-4.10, Q-4.11, Q-4.14; aporta alcance propio.";Q-1.1, Q-4.1, Q-4.5, Q-4.6, Q-4.10, Q-4.11, Q-4.14;
+I-111;Informe 120;Superficha con MN Program;M17;F6;P2;sin_definicion;Integración con MN Program: depende de D-15 (migración y convivencia).;;
+I-112;Informe 120;Importación y exportación Excel;M17;F6;P2;complementario;"Relacionado con Q-2.1, Q-4.10, Q-4.12, Q-5.4; aporta alcance propio.";Q-2.1, Q-4.10, Q-4.12, Q-5.4;
+I-113;Informe 120;Plantillas documentales MN Program;M17;F6;P2;sin_definicion;"Plantillas MN Program: inventariar y migrar a plantillas propias; depende de D-15.";;
+I-114;Informe 120;Microsoft 365 y Teams;M17;F6;P2;complementario;"Relacionado con Q-6.18; aporta alcance propio.";Q-6.18;
+I-115;Informe 120;WhatsApp Business API y Callbell;M17;F6;P2;complementario;"Relacionado con Q-3.3; aporta alcance propio.";Q-3.3;
+I-116;Informe 120;Correo electrónico;M17;F6;P2;complementario;"Relacionado con Q-2.2, Q-6.18; aporta alcance propio.";Q-2.2, Q-6.18;
+I-117;Informe 120;IA para redactar, clasificar y comprobar;M17;F6;P2;sin_definicion;Bloqueado por D-24.;;D-24
+I-118;Informe 120;Plataformas judiciales por interfaces autorizadas;M17;F6;P3;sin_definicion;Bloqueado por D-09.;;D-09
+I-119;Informe 120;DEHú, Mercurio y plataformas administrativas;M17;F6;P3;sin_definicion;Bloqueado por D-09.;;D-09
+I-120;Informe 120;Orquestación, registro de errores y control de accesos;M17;F6;P0;complementario;"Relacionado con Q-1.1, Q-1.2, Q-3.9, Q-4.2, Q-4.4, Q-4.9, Q-4.15, Q-4.16, Q-5.7, Q-6.17, Q-6.23; aporta alcance propio.";Q-1.1, Q-1.2, Q-3.9, Q-4.2, Q-4.4, Q-4.9, Q-4.15, Q-4.16, Q-5.7, Q-6.17, Q-6.23;
+Q-1.1;Qubiq 70;Configuración Multicompañía e Integración Intercompany;M00;F0;P0;complementario;"Relacionado con I-110, I-120; aporta alcance propio.";I-110, I-120;
+Q-1.2;Qubiq 70;Control de accesos, reglas de registro y seguridad de contactos;M00;F0;P0;contradictorio;"Afectado por D-13; no programar como regla hasta resolver.";I-008, I-120;D-13
+Q-2.1;Qubiq 70;"Captación Multicanal Centralizada de Leads con Campo ""Origen"" Obligatorio";M02;F1;P1;complementario;"Relacionado con I-099, I-102, I-112; aporta alcance propio.";I-099, I-102, I-112;
+Q-2.2;Qubiq 70;Email Marketing Masivo mediante Servidor Dedicado (Brevo) y Segmentación por Etiquetas;M02;F1;P1;complementario;"Relacionado con I-094, I-116; aporta alcance propio.";I-094, I-116;
+Q-2.3;Qubiq 70;Centralización de Mensajería en Redes Sociales (Facebook, Instagram, TikTok);M12;F4;P3;equivalente;"Misma necesidad que I-093, I-097; se implementa una vez y se enlazan ambos IDs.";I-093, I-097;
+Q-2.4;Qubiq 70;Sustitucion de Bookitic por la Agenda Virtual de Odoo Integrada en Web;M03;F1;P1;complementario;"Relacionado con I-069, I-099; aporta alcance propio.";I-069, I-099;
+Q-2.5;Qubiq 70;Filtrado Jerárquico Estricto de Citas (Rama > Ubicación/Modalidad > Asesor > Horario);M03;F1;P1;complementario;"Relacionado con I-069, I-076; aporta alcance propio.";I-069, I-076;D-19
+Q-2.6;Qubiq 70;Cobro Previo Obligatorio de Citas mediante Pasarela de Pago;M03;F1;P1;complementario;"Relacionado con I-099, I-101; aporta alcance propio.";I-099, I-101;
+Q-2.7;Qubiq 70;Trazabilidad Comercial del Embudo (Lead -> Cita Pagada -> Expediente Abierto);M02;F1;P1;complementario;"Relacionado con I-099, I-101, I-102; aporta alcance propio.";I-099, I-101, I-102;
+Q-2.8;Qubiq 70;"Trazabilidad y Control de Leads de TikTok Live (""Teléfono Rojo"")";M02;F1;P1;complementario;"Relacionado con I-098, I-099; aporta alcance propio.";I-098, I-099;
+Q-2.9;Qubiq 70;Automatización de Recolección de Información Pre-Cita según la Rama (Planilla / Encuestas y Recordatorios);M04;F2;P1;equivalente;"Misma necesidad que I-004, I-006; se implementa una vez y se enlazan ambos IDs.";I-001, I-004, I-006, I-080;D-12
+Q-3.1;Qubiq 70;Alertas de Oportunidades Estancadas, SLA y Flujos Reversibles;M02;F1;P1;complementario;"Relacionado con I-089, I-098; aporta alcance propio.";I-089, I-098;
+Q-3.10;Qubiq 70;Recepción Presencial, Eliminación de Papel y Firma Digital en Tabletas/PDF;M07;F2;P1;complementario;"Relacionado con I-028, I-052, I-090; aporta alcance propio.";I-028, I-052, I-090;
+Q-3.2;Qubiq 70;Acciones Automatizadas para Recordatorios de Renovación de Residencia y Nacionalidad;M11;F4;P1;contradictorio;"Afectado por D-01; no programar como regla hasta resolver.";I-071, I-094, I-098;D-01
+Q-3.3;Qubiq 70;Integración de WhatsApp API / Callbell con Botones de Enrutamiento Interactivo;M12;F4;P1;equivalente;"Misma necesidad que I-093, I-097; se implementa una vez y se enlazan ambos IDs.";I-093, I-097, I-115;
+Q-3.4;Qubiq 70;Filtro y Bloqueo de Contactos Spam o Impertinentes en WhatsApp (Lista Negra);M12;F4;P3;sin_definicion;Bloqueado por D-20.;I-093, I-097;D-20
+Q-3.5;Qubiq 70;Integración de Centralita Telefónica VoIP, Grabación y Transcripción Automática;M12;F4;P3;equivalente;"Misma necesidad que I-097; se implementa una vez y se enlazan ambos IDs.";I-005, I-097;
+Q-3.6;Qubiq 70;Integración con Secretaría Virtual Externa mediante Alias de Correo;M12;F4;P1;equivalente;"Misma necesidad que I-097; se implementa una vez y se enlazan ambos IDs.";I-099, I-097;
+Q-3.7;Qubiq 70;Integración de Videollamadas en la Cita Virtual;M03;F1;P3;contradictorio;"Afectado por D-11; no programar como regla hasta resolver.";I-069, I-071;D-11
+Q-3.8;Qubiq 70;Gestión de Consultas e Incidencias Mediante Servicio de Asistencia (Helpdesk) y SLA;M13;F4;P1;complementario;"Relacionado con I-089, I-098; aporta alcance propio.";I-089, I-098;
+Q-3.9;Qubiq 70;Flujo Integrado de Reclamaciones y Devoluciones de Dinero con Contabilidad;M13;F4;P1;complementario;"Relacionado con I-097, I-120; aporta alcance propio.";I-097, I-120;
+Q-4.1;Qubiq 70;Centralización de Facturación Unificada, Sustitución de Bookitic y MN Program, y Diarios Contables Diferenciados;M14;F5;P2;sin_definicion;Bloqueado por D-16, D-25.;I-101, I-110;D-16, D-25
+Q-4.10;Qubiq 70;Intrastat por Servicios y Coordinación con Gestoría Externa mediante Usuario Directo;M14;F5;P1;contradictorio;"Afectado por D-06; no programar como regla hasta resolver.";I-110, I-112;D-06, D-25
+Q-4.11;Qubiq 70;Contabilidad Analítica por Departamentos y Clasificación de Gastos;M14;F5;P2;sin_definicion;Bloqueado por D-25.;I-110;D-25
+Q-4.12;Qubiq 70;Migración Contable mediante Asiento de Apertura y Efectos Pendientes;M14;F5;P3;sin_definicion;Bloqueado por D-25.;I-112;D-25
+Q-4.13;Qubiq 70;Digitalización de Gastos de Personal y Viáticos mediante Lector OCR;M14;F5;P2;sin_definicion;Bloqueado por D-25.;I-002, I-079;D-25
+Q-4.14;Qubiq 70;Control de Cajas Chicas en Efectivo por Sede (Diarios de Caja Barcelona, Madrid y Valencia);M14;F5;P2;sin_definicion;Bloqueado por D-25.;I-110;D-25
+Q-4.15;Qubiq 70;Configuración Multimoneda y Plan Contable de Colombia con Facturación Intercompany;M14;F5;P2;sin_definicion;Bloqueado por D-25.;I-120;D-25
+Q-4.16;Qubiq 70;Facturación Intercompany y Asignación de Costes entre Entidades;M14;F5;P3;sin_definicion;Bloqueado por D-25.;I-120;D-25
+Q-4.2;Qubiq 70;Adaptación a la Normativa Veri*factu (S.L. y Autónomo);M14;F5;P1;contradictorio;"Afectado por D-07; no programar como regla hasta resolver.";I-120;D-07, D-25
+Q-4.3;Qubiq 70;Cobro Multicanal, Pasarela de Pago y Generación de Enlaces de Pago (Links de Tarjeta);M14;F5;P2;sin_definicion;Bloqueado por D-25.;I-093, I-101;D-25
+Q-4.4;Qubiq 70;Registro y Gestión Automática de Devoluciones y Facturas de Abono;M14;F5;P2;sin_definicion;Bloqueado por D-25.;I-097, I-120;D-25
+Q-4.5;Qubiq 70;Conciliación Bancaria Automatizada para Múltiples Cuentas y Bancos;M14;F5;P2;sin_definicion;Bloqueado por D-25.;I-110;D-25
+Q-4.6;Qubiq 70;Registro y Amortización de Activos Fijos;M14;F5;P3;sin_definicion;Bloqueado por D-25.;I-110;D-25
+Q-4.7;Qubiq 70;Campo Digital del Total del Acuerdo Ganado y Cálculo de Honorarios;M14;F5;P1;contradictorio;"Afectado por D-05; no programar como regla hasta resolver.";I-019, I-020;D-05, D-25
+Q-4.8;Qubiq 70;Tratamiento Contable de Suplidos e Ingresos Parciales en Extranjería;M14;F5;P1;contradictorio;"Afectado por D-18; no programar como regla hasta resolver.";I-020;D-16, D-18, D-25
+Q-4.9;Qubiq 70;Emision de Ficheros Bancarios SEPA (Nacional e Internacional) para Nóminas y Colaboradores;M14;F5;P3;sin_definicion;Bloqueado por D-25.;I-120;D-25
+Q-5.1;Qubiq 70;Control de Asistencia, Fichajes y Gestión de Horarios Estacionales (Verano / Invierno);M15;F5;P2;complementario;"Relacionado con I-109; aporta alcance propio.";I-109;
+Q-5.2;Qubiq 70;Gestión de Vacaciones con Doble Aprobación y Asignación Anual de Días;M15;F5;P2;complementario;"Relacionado con I-076; aporta alcance propio.";I-076;
+Q-5.3;Qubiq 70;Calendario Unificado de Ausencias y Gestión de Permisos (Retribuidos y No Retribuidos);M15;F5;P2;complementario;"Relacionado con I-076; aporta alcance propio.";I-076;
+Q-5.4;Qubiq 70;Exportación de Datos de Plantilla e Informes de Personal a Excel;M15;F5;P2;complementario;"Relacionado con I-112; aporta alcance propio.";I-112;
+Q-5.5;Qubiq 70;Importación y Carga Masiva de Nóminas en PDF por Empleado;M15;F5;P2;complementario;"Relacionado con I-002, I-079; aporta alcance propio.";I-002, I-079;
+Q-5.6;Qubiq 70;Firma Digital de Documentación de Personal (Contratos, Acuerdos y Certificados);M15;F5;P2;complementario;"Relacionado con I-052, I-078; aporta alcance propio.";I-052, I-078;
+Q-5.7;Qubiq 70;Módulo de Reclutamiento, Selección y Gestión de Candidatos;M15;F5;P3;complementario;"Relacionado con I-120; aporta alcance propio.";I-120;
+Q-5.8;Qubiq 70;Evaluaciones de Desempeño y Feedback Bidireccional;M15;F5;P3;complementario;"Relacionado con I-109; aporta alcance propio.";I-109;
+Q-5.9;Qubiq 70;Gestión de Incidencias Internas y Tickets de Empleados (Helpdesk Interno);M15;F5;P2;complementario;"Relacionado con I-089; aporta alcance propio.";I-089;
+Q-6.1;Qubiq 70;Análisis de Viabilidad Previa, Ficha de Preguntas (Word / Formulario) y Filtrado de Casos;M04;F2;P1;equivalente;"Misma necesidad que I-004, I-006; se implementa una vez y se enlazan ambos IDs.";I-001, I-004, I-006, I-045;D-12
+Q-6.10;Qubiq 70;Gestión de Fechas de Juicio, Alerta de Aportación de Pruebas (12 Días Hábiles) y Recordatorios por WhatsApp;M09;F2;P1;contradictorio;"Afectado por D-03; no programar como regla hasta resolver.";I-070, I-071, I-072, I-073;D-03
+Q-6.11;Qubiq 70;Control de Sentencias, Ejecuciones Judiciales y Alertas Programadas a 2 y 9 Meses;M09;F2;P1;contradictorio;"Afectado por D-21; no programar como regla hasta resolver.";I-073, I-087;D-21
+Q-6.12;Qubiq 70;Control de Decreto de Insolvencia y Alertas Escaladas a 3, 6, 9 y 11 Meses ante el FOGASA;M09;F2;P1;contradictorio;"Afectado por D-02; no programar como regla hasta resolver.";I-073, I-087;D-02
+Q-6.13;Qubiq 70;Enlace / Portal del Cliente para Carga de Pruebas y Archivos Pesados (Fotos, Audios y Vídeos);M07;F2;P1;equivalente;"Misma necesidad que I-078, I-081, I-082; se implementa una vez y se enlazan ambos IDs.";I-078, I-081, I-082;
+Q-6.14;Qubiq 70;Repositorio Estructurado y Envío Seguro de Pruebas a Letrados Sustitutos (Cumplimiento RGPD);M07;F2;P1;equivalente;"Misma necesidad que I-078, I-082, I-083; se implementa una vez y se enlazan ambos IDs.";I-078, I-082, I-083;
+Q-6.15;Qubiq 70;Tipificación de Actuaciones por Código de Colores, Subgrupos y Tareas Predeterminadas/Manuales;M09;F2;P1;equivalente;"Misma necesidad que I-067, I-076; se implementa una vez y se enlazan ambos IDs.";I-067, I-076;
+Q-6.16;Qubiq 70;Control de Preparación de Juicios con Doble Validación y Filtrado en Agenda (Pendiente vs. Preparado);M09;F2;P1;equivalente;"Misma necesidad que I-070; se implementa una vez y se enlazan ambos IDs.";I-070, I-082, I-084;
+Q-6.17;Qubiq 70;Historial de Descripciones, Control de Autoría (Audit Trail) y Trazabilidad de Cambios;M00;F0;P0;complementario;"Relacionado con I-097, I-120; aporta alcance propio.";I-097, I-120;
+Q-6.18;Qubiq 70;Integración de Outlook (Plugin) e Historial Unificado de Correos y WhatsApp en el Chatter;M12;F4;P3;equivalente;"Misma necesidad que I-097; se implementa una vez y se enlazan ambos IDs.";I-097, I-114, I-116;
+Q-6.19;Qubiq 70;Coordinación Automatizada entre el Departamento Legal y Facturación/Contabilidad tras Resolución Estimatoria;M14;F5;P2;contradictorio;"Afectado por D-05; no programar como regla hasta resolver.";I-019, I-020, I-087;D-05
+Q-6.2;Qubiq 70;Alta y Estructura del Expediente (Campos Obligatorios, Secuencia Consecutiva y Selección de Especialidad);M05;F2;P0;equivalente;"Misma necesidad que I-007, I-008, I-010; se implementa una vez y se enlazan ambos IDs.";I-007, I-008, I-010;
+Q-6.20;Qubiq 70;Código de Colores de Agendas por Urgencia en Extranjería;M09;F2;P1;equivalente;"Misma necesidad que I-073, I-076; se implementa una vez y se enlazan ambos IDs.";I-073, I-076;
+Q-6.20B;Qubiq 70;Control de vencimiento de plazos en tareas y ordenacion prioritaria por fecha límite;M09;F2;P1;equivalente;"Misma necesidad que I-073, I-076; se implementa una vez y se enlazan ambos IDs.";I-073, I-076;
+Q-6.21;Qubiq 70;Esquema de Pagos Escalados en Extranjería (Pago Inicial y Pago Final);M14;F5;P2;sin_definicion;Bloqueado por D-16.;I-020;D-16
+Q-6.22;Qubiq 70;Descarga y Firma de Documentación Específica por Trámite;M07;F2;P1;equivalente;"Misma necesidad que I-078; se implementa una vez y se enlazan ambos IDs.";I-028, I-078;
+Q-6.23;Qubiq 70;Restricción de Edición y Eliminación en Agendas y Tareas Ajenas;M00;F0;P0;complementario;"Relacionado con I-089, I-120; aporta alcance propio.";I-089, I-120;
+Q-6.3;Qubiq 70;Mensaje Automático de Bienvenida por WhatsApp y Solicitud Inicial de Pruebas;M12;F4;P1;contradictorio;"Afectado por D-10; no programar como regla hasta resolver.";I-081, I-090, I-091, I-095;D-10
+Q-6.4;Qubiq 70;Fases del Expediente e Indicador Visual de Inactividad (Control de Expedientes Estancados);M05;F2;P1;equivalente;"Misma necesidad que I-089, I-092, I-098; se implementa una vez y se enlazan ambos IDs.";I-089, I-092, I-098;
+Q-6.5;Qubiq 70;Estado de Preapertura y Requisitos por Trámite en Extranjería;M11;F4;P1;complementario;"Relacionado con I-080, I-081; aporta alcance propio.";I-080, I-081;
+Q-6.6;Qubiq 70;Firma Digital Unificada del Paquete Documental Inicial mediante Un Único Enlace (Multi-document Sign);M07;F2;P1;contradictorio;"Afectado por D-08, D-22; no programar como regla hasta resolver.";I-028, I-052, I-078;D-08, D-22
+Q-6.7;Qubiq 70;Certificación Legal de Firma Digital (Audit Trail: IP, Sello de Tiempo y Hash) para Validez Procesal;M07;F2;P1;contradictorio;"Afectado por D-08; no programar como regla hasta resolver.";I-052, I-078;D-08
+Q-6.8;Qubiq 70;Automatización e Integración de Plantillas Editables (Word/PDF) para Papeleta de Conciliación y Demanda;M08;F3;P1;equivalente;"Misma necesidad que I-021, I-028, I-033, I-046; se implementa una vez y se enlazan ambos IDs.";I-021, I-028, I-033, I-046;
+Q-6.9;Qubiq 70;Control y Cálculo Automatizado de Plazos Procesales Pre- Juicio (Burofax, CMAC/Conciliación y Demanda);M09;F2;P1;contradictorio;"Afectado por D-04; no programar como regla hasta resolver.";I-027, I-073;D-04
+U-01;Acuerdos 18;Tres fichas diferenciadas;M04;F2;P1;complementario;"Relacionado con Q-2.9, Q-6.1, I-004; aporta alcance propio.";Q-2.9, Q-6.1, I-004;
+U-02;Acuerdos 18;Carga inteligente de nóminas;M04;F2;P1;complementario;"Relacionado con I-002, I-079, Q-5.5; aporta alcance propio.";I-002, I-079, Q-5.5;
+U-03;Acuerdos 18;Lenguaje simple para asesores;M04;F2;P1;complementario;"Relacionado con I-004, Q-6.1; aporta alcance propio.";I-004, Q-6.1;
+U-04;Acuerdos 18;Orden de ficha;M04;F2;P1;complementario;"Relacionado con I-004, Q-6.1; aporta alcance propio.";I-004, Q-6.1;
+U-05;Acuerdos 18;Datos de empadronamiento;M04;F2;P1;complementario;"Relacionado con I-004; aporta alcance propio.";I-004;
+U-06;Acuerdos 18;Períodos con y sin papeles;M04;F2;P1;complementario;"Relacionado con I-004; aporta alcance propio.";I-004;
+U-07;Acuerdos 18;Varios centros de trabajo;M04;F2;P1;complementario;"Relacionado con I-004; aporta alcance propio.";I-004;
+U-08;Acuerdos 18;Hogar: desglose de tareas;M04;F2;P1;complementario;"Relacionado con I-004; aporta alcance propio.";I-004;
+U-09;Acuerdos 18;Jornada real detallada;M04;F2;P1;complementario;"Relacionado con I-004, I-015; aporta alcance propio.";I-004, I-015;
+U-10;Acuerdos 18;Preguntas de hechos accesibles;M04;F2;P1;complementario;"Relacionado con I-004, Q-6.1; aporta alcance propio.";I-004, Q-6.1;
+U-11;Acuerdos 18;Conciliacion previa y otro letrado;M04;F2;P1;complementario;"Relacionado con I-004, Q-6.1; aporta alcance propio.";I-004, Q-6.1;
+U-12;Acuerdos 18;Eliminaciones en formulario;M04;F2;P1;complementario;"Relacionado con I-004, Q-6.1; aporta alcance propio.";I-004, Q-6.1;
+U-13;Acuerdos 18;Control de ATC;M13;F0;P0;contradictorio;"Afectado por D-13; no programar como regla hasta resolver.";Q-3.8, Q-3.9;D-13
+U-14;Acuerdos 18;Política de videollamada;M03;F1;P1;contradictorio;"Afectado por D-11; no programar como regla hasta resolver.";Q-3.7;D-11
+U-15;Acuerdos 18;Comunicación al cliente;M12;F4;P1;complementario;"Relacionado con Q-6.3, I-091; aporta alcance propio.";Q-6.3, I-091;
+U-16;Acuerdos 18;Control de tareas y motivacion;M09;F2;P1;complementario;"Relacionado con I-089, Q-6.20B; aporta alcance propio.";I-089, Q-6.20B;
+U-17;Acuerdos 18;Restriccion operacional;M00;F0;P1;nuevo;Aportación exclusiva de su fuente.;;
+U-18;Acuerdos 18;Atención telematica multisedes;M00;F0;P0;complementario;"Relacionado con Q-1.1; aporta alcance propio.";Q-1.1;

@@ -1,0 +1,11 @@
+OK  Recepción entra en modo demo y ve su panel
+OK  Recepción no puede listar el directorio sin criterio
+OK  Búsqueda por teléfono compartido devuelve 2 personas distintas con datos enmascarados
+OK  Recepción ve ficha mínima y solo metadatos de los dos expedientes
+OK  Alta de cliente con NIE válido
+OK  Validación de letra de control en el formulario
+OK  Documento repetido: aviso previo y bloqueo hasta confirmar con motivo
+OK  El listado del asesor laboral no contiene Extranjería
+OK  Forzar la URL de un expediente de Extranjería devuelve 403 y lo muestra
+OK  Dirección ve las denegaciones registradas y verifica la cadena de auditoría
+OK  Módulo futuro: 'Pendiente de desarrollar', sin datos simulados

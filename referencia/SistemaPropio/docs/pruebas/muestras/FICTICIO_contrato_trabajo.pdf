@@ -1,0 +1,53 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 1289 >>
+stream
+BT /F1 10 Tf 50 800 Td (DOCUMENTO FICTICIO - SIN VALOR) Tj ET
+BT /F2 14 Tf 50 781 Td (CONTRATO DE TRABAJO INDEFINIDO) Tj ET
+BT /F1 11 Tf 50 758 Td (Código de contrato: 100) Tj ET
+BT /F2 12 Tf 50 738 Td (DATOS DE LA EMPRESA) Tj ET
+BT /F1 11 Tf 50 717 Td (NIF/CIF: B12345674) Tj ET
+BT /F1 11 Tf 50 697 Td (Nombre o razón social: Construcciones Ficticias Demo SL) Tj ET
+BT /F1 11 Tf 50 677 Td (Domicilio social: C/ Inventada 10, 2º A, 28001 Madrid) Tj ET
+BT /F1 11 Tf 50 657 Td (Cuenta de cotización: 28 1234567 89) Tj ET
+BT /F1 11 Tf 50 637 Td (Actividad económica: Construcción de edificios) Tj ET
+BT /F1 11 Tf 50 617 Td (CNAE: 4121) Tj ET
+BT /F1 11 Tf 50 597 Td (Centro de trabajo: Avenida Demo 5, 28002 Madrid) Tj ET
+BT /F2 12 Tf 50 577 Td (REUNIDOS) Tj ET
+BT /F1 10 Tf 50 556 Td (De una parte D. Juan Prueba Ejemplo, con DNI 12345678Z, en representación de la empresa.) Tj ET
+BT /F1 10 Tf 50 537 Td (De otra parte D./Dña. Carla Ferrer Demo, con NIE Y7654321G, como trabajador.) Tj ET
+BT /F2 12 Tf 50 518 Td (CLÁUSULAS) Tj ET
+BT /F1 11 Tf 50 497 Td (Puesto de trabajo: Peón de la construcción) Tj ET
+BT /F1 10 Tf 50 477 Td (La jornada de trabajo será a tiempo completo, de lunes a viernes.) Tj ET
+BT /F1 10 Tf 50 458 Td (La retribución total será de 18.000,00 euros brutos anuales.) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000001592 00000 n 
+0000001689 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+1791
+%%EOF

@@ -1,0 +1,344 @@
+{
+ "fields": {
+  "Texto1": {
+   "key": "ext.pasaporte"
+  },
+  "Texto2": {
+   "key": "ext.nie",
+   "part": "1"
+  },
+  "Texto3": {
+   "key": "ext.nie",
+   "part": "2"
+  },
+  "Texto4": {
+   "key": "ext.nie",
+   "part": "3"
+  },
+  "Texto5": {
+   "key": "ext.apellido1"
+  },
+  "Texto6": {
+   "key": "ext.apellido2"
+  },
+  "Texto7": {
+   "key": "ext.nombre"
+  },
+  "Casilla de verificación27": {
+   "key": "ext.sexo",
+   "part": "X",
+   "on": "Yes"
+  },
+  "Texto8": {
+   "key": "ext.fecha_nacimiento",
+   "part": "d"
+  },
+  "Texto9": {
+   "key": "ext.fecha_nacimiento",
+   "part": "m"
+  },
+  "Texto10": {
+   "key": "ext.fecha_nacimiento",
+   "part": "y"
+  },
+  "Texto11": {
+   "key": "ext.lugar_nacimiento"
+  },
+  "Texto12": {
+   "key": "ext.pais_nacimiento"
+  },
+  "Texto13": {
+   "key": "ext.nacionalidad"
+  },
+  "Casilla de verificación30": {
+   "key": "ext.estado_civil",
+   "part": "S",
+   "on": "Yes"
+  },
+  "Casilla de verificación31": {
+   "key": "ext.estado_civil",
+   "part": "C",
+   "on": "Yes"
+  },
+  "Casilla de verificación32": {
+   "key": "ext.estado_civil",
+   "part": "V",
+   "on": "Yes"
+  },
+  "Casilla de verificación33": {
+   "key": "ext.estado_civil",
+   "part": "D",
+   "on": "Yes"
+  },
+  "Casilla de verificación34": {
+   "key": "ext.estado_civil",
+   "part": "Sp",
+   "on": "Yes"
+  },
+  "Texto14": {
+   "key": "ext.padre"
+  },
+  "Texto15": {
+   "key": "ext.madre"
+  },
+  "Texto16": {
+   "key": "ext.domicilio"
+  },
+  "Texto17": {
+   "key": "ext.numero"
+  },
+  "Texto18": {
+   "key": "ext.piso"
+  },
+  "Texto19": {
+   "key": "ext.localidad"
+  },
+  "Texto20": {
+   "key": "ext.cp"
+  },
+  "Texto21": {
+   "key": "ext.provincia"
+  },
+  "Texto22": {
+   "key": "ext.telefono"
+  },
+  "Texto23": {
+   "key": "ext.email"
+  },
+  "Texto24": {
+   "key": "ext.rl_nombre"
+  },
+  "Texto25": {
+   "key": "ext.rl_doc"
+  },
+  "Texto26": {
+   "key": "ext.rl_titulo"
+  },
+  "Casilla de verificación35": {
+   "key": "ext.hijos_escolarizacion",
+   "part": "si",
+   "on": "Yes"
+  },
+  "Casilla de verificación36": {
+   "key": "ext.hijos_escolarizacion",
+   "part": "no",
+   "on": "Yes"
+  },
+  "Texto54": {
+   "key": "rep.nombre"
+  },
+  "Texto55": {
+   "key": "rep.doc"
+  },
+  "Texto56": {
+   "key": "rep.domicilio"
+  },
+  "Texto57": {
+   "key": "rep.numero"
+  },
+  "Texto58": {
+   "key": "rep.piso"
+  },
+  "Texto59": {
+   "key": "rep.localidad"
+  },
+  "Texto60": {
+   "key": "rep.cp"
+  },
+  "Texto61": {
+   "key": "rep.provincia"
+  },
+  "Texto62": {
+   "key": "rep.telefono"
+  },
+  "Texto63": {
+   "key": "rep.email"
+  },
+  "Texto64": {
+   "key": "rep.rl_nombre"
+  },
+  "Texto65": {
+   "key": "rep.rl_doc"
+  },
+  "Texto66": {
+   "key": "rep.rl_titulo"
+  },
+  "Texto67": {
+   "key": "notif.nombre"
+  },
+  "Texto68": {
+   "key": "notif.doc"
+  },
+  "Texto69": {
+   "key": "notif.domicilio"
+  },
+  "Texto70": {
+   "key": "notif.numero"
+  },
+  "Texto71": {
+   "key": "notif.piso"
+  },
+  "Texto72": {
+   "key": "notif.localidad"
+  },
+  "Texto73": {
+   "key": "notif.cp"
+  },
+  "Texto74": {
+   "key": "notif.provincia"
+  },
+  "Texto75": {
+   "key": "notif.telefono"
+  },
+  "Texto76": {
+   "key": "notif.email"
+  },
+  "Casilla de verificación37": {
+   "key": "notif.consiento_dehu",
+   "part": "si",
+   "on": "Yes"
+  },
+  "Texto77": {
+   "key": "sol.firma_lugar"
+  },
+  "Texto78": {
+   "key": "sol.firma_dia"
+  },
+  "Texto79": {
+   "key": "sol.firma_mes"
+  },
+  "Texto80": {
+   "key": "sol.firma_anio"
+  },
+  "Texto82": {
+   "key": "sol.dirigida_a"
+  },
+  "Texto83": {
+   "key": "sol.dir3"
+  },
+  "Texto84": {
+   "key": "sol.dirigida_provincia"
+  }
+ },
+ "options": [
+  {
+   "field": "Casilla de verificación28",
+   "label": "M",
+   "section": "1) DATOS DE LA PERSONA EXTRANJERA",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación29",
+   "label": "X * H M",
+   "section": "1) DATOS DE LA PERSONA EXTRANJERA",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación38",
+   "label": "RESIDENCIA LARGA DURACIÓN",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación39",
+   "label": "Supuesto general 5 años de residencia continuada en España (art. 183.1)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación40",
+   "label": "Residente beneficiario de pensión contributiva de jubilación o beneficiario de incapacidad permanente absoluta o gran invalidez (art. 183.3)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación41",
+   "label": "Residente en los tres años inmediatamente anteriores a la solicitud, >18 años y nacido en España (art. 183.3.c)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación42",
+   "label": "Español de origen que haya perdido la nacionalidad española (art. 183.3.d)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación43",
+   "label": "Residente tutelado por entidad pública 5 años consecutivos inmediatamente anteriores a la mayoría de edad (art. 148.3.e)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación44",
+   "label": "Apátridas o refugiados en territorio español reconocido el respectivo estatuto (art.183.3.f)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación45",
+   "label": "Titular de autorización de residencia por reagrupación familiar cuando el reagrupante es titular o accede a residencia larga duración o larga",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación46",
+   "label": "Titular de autorización de residencia de larga duración-UE en otro Estado miembro (art. 179)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación47",
+   "label": "Titular de autorización de residencia de larga duración que ha cesado en tal condición (Recuperación)(art. 188)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación48",
+   "label": "RESIDENCIA LARGA DURACIÓN-UE",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación49",
+   "label": "Supuesto general 5 años de residencia continuada en España, con recursos económicos y seguro de enfermedad (art. 176.1.a)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación50",
+   "label": "Residente en España con autorización anterior de estancia por estudios, intercambio o prácticas no laborales que computa al 50% (art. 176.a)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación51",
+   "label": "Residente en España en los 2 años inmediatamente anteriores y 3 ó más en otro EM, con tarjeta azul-UE (art. 176.a)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación52",
+   "label": "Titular de residencia de larga duración-UE en otro Estado miembro que renuncia a la misma (art. 181)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación53",
+   "label": "Titular de autorización de residencia de larga duración-UE que ha cesado en tal condición (Recuperación) (art. 186)",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  }
+ ],
+ "unmapped": [
+  {
+   "field": "Texto81",
+   "section": "4) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "label": "",
+   "right": ""
+  }
+ ],
+ "title": "Solicitud de autorización de Espacios para sellos residencia de larga duración de registro o de larga duración-UE",
+ "model": "EX-11",
+ "source": "Modelo oficial editable (Ministerio de Inclusión, Seguridad Social y Migraciones), aportado por el despacho"
+}

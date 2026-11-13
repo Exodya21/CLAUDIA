@@ -1,0 +1,331 @@
+{
+ "fields": {
+  "Texto1": {
+   "key": "ext.pasaporte"
+  },
+  "Texto3": {
+   "key": "ext.nie",
+   "part": "1"
+  },
+  "Texto4": {
+   "key": "ext.nie",
+   "part": "2"
+  },
+  "Texto5": {
+   "key": "ext.nie",
+   "part": "3"
+  },
+  "Texto6": {
+   "key": "ext.apellido1"
+  },
+  "Texto7": {
+   "key": "ext.apellido2"
+  },
+  "Texto8": {
+   "key": "ext.nombre"
+  },
+  "Casilla de verificación9": {
+   "key": "ext.sexo",
+   "part": "X",
+   "on": "Yes"
+  },
+  "Texto12": {
+   "key": "ext.fecha_nacimiento",
+   "part": "d"
+  },
+  "Texto13": {
+   "key": "ext.fecha_nacimiento",
+   "part": "m"
+  },
+  "Texto14": {
+   "key": "ext.fecha_nacimiento",
+   "part": "y"
+  },
+  "Texto15": {
+   "key": "ext.lugar_nacimiento"
+  },
+  "Texto16": {
+   "key": "ext.pais_nacimiento"
+  },
+  "Texto17": {
+   "key": "ext.nacionalidad"
+  },
+  "Casilla de verificación18": {
+   "key": "ext.estado_civil",
+   "part": "S",
+   "on": "Yes"
+  },
+  "Casilla de verificación19": {
+   "key": "ext.estado_civil",
+   "part": "C",
+   "on": "Yes"
+  },
+  "Casilla de verificación20": {
+   "key": "ext.estado_civil",
+   "part": "V",
+   "on": "Yes"
+  },
+  "Casilla de verificación21": {
+   "key": "ext.estado_civil",
+   "part": "D",
+   "on": "Yes"
+  },
+  "Casilla de verificación22": {
+   "key": "ext.estado_civil",
+   "part": "Sp",
+   "on": "Yes"
+  },
+  "Texto23": {
+   "key": "ext.padre"
+  },
+  "Texto24": {
+   "key": "ext.madre"
+  },
+  "Texto25": {
+   "key": "ext.domicilio"
+  },
+  "Texto26": {
+   "key": "ext.numero"
+  },
+  "Texto27": {
+   "key": "ext.piso"
+  },
+  "Texto28": {
+   "key": "ext.localidad"
+  },
+  "Texto29": {
+   "key": "ext.cp"
+  },
+  "Texto30": {
+   "key": "ext.provincia"
+  },
+  "Texto31": {
+   "key": "ext.telefono"
+  },
+  "Texto32": {
+   "key": "ext.email"
+  },
+  "Texto33": {
+   "key": "ext.rl_nombre"
+  },
+  "Texto34": {
+   "key": "ext.rl_doc"
+  },
+  "Texto35": {
+   "key": "ext.rl_titulo"
+  },
+  "Texto36": {
+   "key": "emp.nombre"
+  },
+  "Texto37": {
+   "key": "emp.doc"
+  },
+  "Texto38": {
+   "key": "emp.actividad"
+  },
+  "Texto40": {
+   "key": "emp.domicilio"
+  },
+  "Texto41": {
+   "key": "emp.numero"
+  },
+  "Texto42": {
+   "key": "emp.piso"
+  },
+  "Texto43": {
+   "key": "emp.localidad"
+  },
+  "Texto44": {
+   "key": "emp.cp"
+  },
+  "Texto45": {
+   "key": "emp.provincia"
+  },
+  "Texto46": {
+   "key": "emp.telefono"
+  },
+  "Texto47": {
+   "key": "emp.email"
+  },
+  "Texto48": {
+   "key": "emp.rl_nombre"
+  },
+  "Texto49": {
+   "key": "emp.rl_doc"
+  },
+  "Texto50": {
+   "key": "rep.nombre"
+  },
+  "Texto51": {
+   "key": "rep.doc"
+  },
+  "Texto52": {
+   "key": "rep.domicilio"
+  },
+  "Texto53": {
+   "key": "rep.numero"
+  },
+  "Texto54": {
+   "key": "rep.piso"
+  },
+  "Texto55": {
+   "key": "rep.localidad"
+  },
+  "Texto56": {
+   "key": "rep.cp"
+  },
+  "Texto57": {
+   "key": "rep.provincia"
+  },
+  "Texto58": {
+   "key": "rep.telefono"
+  },
+  "Texto59": {
+   "key": "rep.email"
+  },
+  "Texto60": {
+   "key": "rep.rl_nombre"
+  },
+  "Texto61": {
+   "key": "rep.rl_doc"
+  },
+  "Texto62": {
+   "key": "rep.rl_titulo"
+  },
+  "Texto63": {
+   "key": "notif.nombre"
+  },
+  "Texto64": {
+   "key": "notif.doc"
+  },
+  "Texto65": {
+   "key": "notif.domicilio"
+  },
+  "Texto66": {
+   "key": "notif.numero"
+  },
+  "Texto67": {
+   "key": "notif.piso"
+  },
+  "Texto68": {
+   "key": "notif.localidad"
+  },
+  "Texto69": {
+   "key": "notif.cp"
+  },
+  "Texto70": {
+   "key": "notif.provincia"
+  },
+  "Texto71": {
+   "key": "notif.telefono"
+  },
+  "Texto72": {
+   "key": "notif.email"
+  },
+  "Casilla de verificación73": {
+   "key": "notif.consiento_dehu",
+   "part": "si",
+   "on": "Yes"
+  },
+  "Texto82": {
+   "key": "sol.firma_lugar"
+  },
+  "Texto83": {
+   "key": "sol.firma_dia"
+  },
+  "Texto84": {
+   "key": "sol.firma_mes"
+  },
+  "Texto85": {
+   "key": "sol.firma_anio"
+  },
+  "Texto87": {
+   "key": "sol.dirigida_a"
+  },
+  "Texto88": {
+   "key": "sol.dir3"
+  },
+  "Texto89": {
+   "key": "sol.dirigida_provincia"
+  }
+ },
+ "options": [
+  {
+   "field": "Casilla de verificación10",
+   "label": "M",
+   "section": "1) DATOS DE LA PERSONA EXTRANJERA",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación11",
+   "label": "X * H M",
+   "section": "1) DATOS DE LA PERSONA EXTRANJERA",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación74",
+   "label": "RESIDENCIA INICIAL",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación75",
+   "label": "1º LLAMAMIENTO",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación76",
+   "label": "2º LLAMAMIENTO",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación77",
+   "label": "3º LLAMAMIENTO",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación78",
+   "label": "CAMBIO DE EMPLEADOR",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación79",
+   "label": "PÓRROGA DE LA ACTIVIDAD LABORAL/CONCATENACIÓN",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación80",
+   "label": "RENOVACIÓN DE LA AUTORIZACIÓN PLURIANUAL",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación81",
+   "label": "Laspersonasabajofirmantessehacenresponsablesdelaveracidaddelosdatosconsignadosydeladocumentaciónqueseacompaña.(9)",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "page": 2
+  }
+ ],
+ "unmapped": [
+  {
+   "field": "Texto39",
+   "section": "2) DATOS DEL EMPLEADOR/A",
+   "label": "Ocupación",
+   "right": ""
+  },
+  {
+   "field": "Texto86",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA(8)",
+   "label": "",
+   "right": ""
+  }
+ ],
+ "title": "Solicitud de residencia y trabajo para Espacios para sellos actividades de temporada de registro",
+ "model": "EX-06",
+ "source": "Modelo oficial editable (Ministerio de Inclusión, Seguridad Social y Migraciones), aportado por el despacho"
+}

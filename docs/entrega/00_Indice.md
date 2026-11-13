@@ -27,16 +27,19 @@ que coinciden con lo entregado.
 | 16 | [Integraciones y APIs](16_Integraciones_y_APIs.md) | Todas las rutas de la API, formatos de intercambio, conectores externos |
 | 17 | [Auditoría y trazabilidad](17_Auditoria_y_trazabilidad.md) | Registro inmutable, qué se audita, trazabilidad de los 208 requisitos |
 | 18 | [Alineación con el charter de QUBIQ](18_Alineacion_con_el_charter.md) | Diferencias con el *Project Charter* y decisiones pendientes (AL-01…AL-13) |
+| 19 | [Contabilidad y facturación en Odoo 20](19_Contabilidad_y_facturacion_en_Odoo20.md) | Correspondencia función por función de economía, banco y contabilidad con Odoo 20 Community, OCA y módulos `sp_*` |
 
 Cada documento se entrega en dos formatos: **Word (.docx)**, para leer y compartir, y **Markdown (.md)**, que vive
 en el repositorio (`docs/entrega/`) junto al código y se actualiza con él. Se adjunta además `openapi.json` (especificación completa de la API, importable en Postman o Swagger).
 
 ## Material de referencia dentro del repositorio
-- `docs/producto/decisiones.md`: decisiones T-01…T-60 tomadas y abiertas.
-- `docs/producto/trazabilidad_codigo.md` y `mapa_cobertura.md`: requisito → código.
-- `docs/adr/`: decisiones de arquitectura ADR-0001…0010.
-- `docs/pruebas/evidencias_*.md`: evidencias de cada incremento con capturas.
-- `docs/fuentes/02_Matriz_Maestra_208_Requisitos.xlsx`: matriz original.
+- `referencia/SistemaPropio/`: código de la versión de referencia F5.6c (`apps/api`, `apps/web`,
+  `apps/extension-mercurio`) y su documentación interna. Es una copia congelada: no se edita.
+- `referencia/SistemaPropio/docs/producto/decisiones.md`: decisiones T-01…T-60 tomadas y abiertas.
+- `referencia/SistemaPropio/docs/producto/trazabilidad_codigo.md` y `mapa_cobertura.md`: requisito → código.
+- `referencia/SistemaPropio/docs/adr/`: decisiones de arquitectura ADR-0001…0010.
+- `referencia/SistemaPropio/docs/pruebas/evidencias_*.md`: evidencias de cada incremento con capturas.
+- `referencia/SistemaPropio/docs/fuentes/02_Matriz_Maestra_208_Requisitos.xlsx`: matriz original.
 
 ## Datos
 Todos los ejemplos, pruebas y capturas usan **datos ficticios**. Ningún documento contiene datos de clientes, del

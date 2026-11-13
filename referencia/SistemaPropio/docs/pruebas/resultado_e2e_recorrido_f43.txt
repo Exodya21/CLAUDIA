@@ -1,0 +1,11 @@
+OK  Cuatro documentos leídos: tipo propuesto para cada uno (contrato, padrón, tasa, TIE con MRZ)
+OK  Se ve qué se ha leído de cada documento (empresa, CIF, cuenta de cotización… y el NRC de la tasa)
+OK  Mientras el documento no esté validado, la ficha no lo usa
+OK  La persona confirma los tres documentos como válidos
+OK  Pestaña Empleador: empresa, CIF, domicilio y representante propuestos desde el contrato
+OK  Pestaña Contrato: cuenta de cotización, puesto, código de contrato y centro de trabajo
+OK  Pestaña Extranjero/a: N.I.E. de la TIE y domicilio del padrón, cada uno con su origen
+OK  Diagnóstico de la lectura sin datos (etiquetas visibles, valores como XXX/999) y «Volver a leer»
+OK  El mismo archivo subido dos veces no se duplica
+OK  Revisión automática: por cada documento qué se ha leído, qué falta o se ha descartado; informe para Claude sin datos
+OK  La persona guarda la ficha: ya puede generar el código para la extensión de Mercurio

@@ -1,0 +1,256 @@
+{
+ "fields": {
+  "Texto1": {
+   "key": "ext.pasaporte"
+  },
+  "Texto2": {
+   "key": "ext.nie",
+   "part": "1"
+  },
+  "Texto3": {
+   "key": "ext.nie",
+   "part": "2"
+  },
+  "Texto4": {
+   "key": "ext.nie",
+   "part": "3"
+  },
+  "Texto5": {
+   "key": "ext.apellido1"
+  },
+  "Texto6": {
+   "key": "ext.apellido2"
+  },
+  "Texto7": {
+   "key": "ext.nombre"
+  },
+  "Casilla de verificación1": {
+   "key": "ext.sexo",
+   "part": "X",
+   "on": "Yes"
+  },
+  "Texto8": {
+   "key": "ext.fecha_nacimiento",
+   "part": "d"
+  },
+  "Texto9": {
+   "key": "ext.fecha_nacimiento",
+   "part": "m"
+  },
+  "Texto10": {
+   "key": "ext.fecha_nacimiento",
+   "part": "y"
+  },
+  "Texto11": {
+   "key": "ext.lugar_nacimiento"
+  },
+  "Texto12": {
+   "key": "ext.pais_nacimiento"
+  },
+  "Texto13": {
+   "key": "ext.nacionalidad"
+  },
+  "Casilla de verificación4": {
+   "key": "ext.estado_civil",
+   "part": "S",
+   "on": "Yes"
+  },
+  "Casilla de verificación5": {
+   "key": "ext.estado_civil",
+   "part": "C",
+   "on": "Yes"
+  },
+  "Casilla de verificación6": {
+   "key": "ext.estado_civil",
+   "part": "V",
+   "on": "Yes"
+  },
+  "Casilla de verificación7": {
+   "key": "ext.estado_civil",
+   "part": "D",
+   "on": "Yes"
+  },
+  "Casilla de verificación8": {
+   "key": "ext.estado_civil",
+   "part": "Sp",
+   "on": "Yes"
+  },
+  "Texto14": {
+   "key": "ext.padre"
+  },
+  "Texto15": {
+   "key": "ext.madre"
+  },
+  "Texto16": {
+   "key": "ext.domicilio"
+  },
+  "Texto17": {
+   "key": "ext.numero"
+  },
+  "Texto18": {
+   "key": "ext.piso"
+  },
+  "Texto19": {
+   "key": "ext.localidad"
+  },
+  "Texto20": {
+   "key": "ext.cp"
+  },
+  "Texto21": {
+   "key": "ext.provincia"
+  },
+  "Texto22": {
+   "key": "ext.telefono"
+  },
+  "Texto23": {
+   "key": "ext.email"
+  },
+  "Texto24": {
+   "key": "ext.rl_nombre"
+  },
+  "Texto25": {
+   "key": "ext.rl_doc"
+  },
+  "Texto26": {
+   "key": "ext.rl_titulo"
+  },
+  "Texto27": {
+   "key": "rep.nombre"
+  },
+  "Texto28": {
+   "key": "rep.doc"
+  },
+  "Texto29": {
+   "key": "rep.domicilio"
+  },
+  "Texto30": {
+   "key": "rep.numero"
+  },
+  "Texto31": {
+   "key": "rep.piso"
+  },
+  "Texto32": {
+   "key": "rep.localidad"
+  },
+  "Texto33": {
+   "key": "rep.cp"
+  },
+  "Texto34": {
+   "key": "rep.provincia"
+  },
+  "Texto35": {
+   "key": "rep.telefono"
+  },
+  "Texto36": {
+   "key": "rep.email"
+  },
+  "Texto37": {
+   "key": "rep.rl_nombre"
+  },
+  "Texto38": {
+   "key": "rep.rl_doc"
+  },
+  "Texto39": {
+   "key": "rep.rl_titulo"
+  },
+  "Texto40": {
+   "key": "notif.nombre"
+  },
+  "Texto41": {
+   "key": "notif.doc"
+  },
+  "Texto42": {
+   "key": "notif.domicilio"
+  },
+  "Texto43": {
+   "key": "notif.numero"
+  },
+  "Texto44": {
+   "key": "notif.piso"
+  },
+  "Texto45": {
+   "key": "notif.localidad"
+  },
+  "Texto46": {
+   "key": "notif.cp"
+  },
+  "Texto47": {
+   "key": "notif.provincia"
+  },
+  "Texto48": {
+   "key": "notif.telefono"
+  },
+  "Texto49": {
+   "key": "notif.email"
+  },
+  "Casilla de verificación9": {
+   "key": "notif.consiento_dehu",
+   "part": "si",
+   "on": "Yes"
+  },
+  "Texto50": {
+   "key": "sol.firma_lugar"
+  },
+  "Texto51": {
+   "key": "sol.firma_dia"
+  },
+  "Texto52": {
+   "key": "sol.firma_mes"
+  },
+  "Texto53": {
+   "key": "sol.firma_anio"
+  },
+  "Texto55": {
+   "key": "sol.dirigida_a"
+  },
+  "Texto56": {
+   "key": "sol.dir3"
+  },
+  "Texto57": {
+   "key": "sol.dirigida_provincia"
+  }
+ },
+ "options": [
+  {
+   "field": "Casilla de verificación2",
+   "label": "M",
+   "section": "1) DATOS DE LA PERSONA EXTRANJERA",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación3",
+   "label": "X * H M",
+   "section": "1) DATOS DE LA PERSONA EXTRANJERA",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación10",
+   "label": "TARJETA INICIAL",
+   "section": "4) DATOS RELATIVOS A LA SOLICITUD(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación11",
+   "label": "RENOVACIÓN DE TARJETA",
+   "section": "4) DATOS RELATIVOS A LA SOLICITUD(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación12",
+   "label": "DUPLICADO POR PÉRDIDA, SUSTRACCIÓN, DETERIORO O CAMBIO DE DATOS",
+   "section": "4) DATOS RELATIVOS A LA SOLICITUD(7)",
+   "page": 2
+  }
+ ],
+ "unmapped": [
+  {
+   "field": "Texto54",
+   "section": "4) DATOS RELATIVOS A LA SOLICITUD(7)",
+   "label": "",
+   "right": ""
+  }
+ ],
+ "title": "",
+ "model": "EX-17",
+ "source": "Modelo oficial editable (Ministerio de Inclusión, Seguridad Social y Migraciones), aportado por el despacho"
+}

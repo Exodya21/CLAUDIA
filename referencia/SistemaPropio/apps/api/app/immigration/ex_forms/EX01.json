@@ -1,0 +1,378 @@
+{
+ "fields": {
+  "Texto1": {
+   "key": "ext.pasaporte"
+  },
+  "Texto2": {
+   "key": "ext.nie",
+   "part": "1"
+  },
+  "Texto3": {
+   "key": "ext.nie",
+   "part": "2"
+  },
+  "Texto4": {
+   "key": "ext.nie",
+   "part": "3"
+  },
+  "Texto5": {
+   "key": "ext.apellido1"
+  },
+  "Texto6": {
+   "key": "ext.apellido2"
+  },
+  "Texto7": {
+   "key": "ext.nombre"
+  },
+  "Casilla de verificación2": {
+   "key": "ext.sexo",
+   "part": "X",
+   "on": "Yes"
+  },
+  "Texto8": {
+   "key": "ext.fecha_nacimiento",
+   "part": "d"
+  },
+  "Texto9": {
+   "key": "ext.fecha_nacimiento",
+   "part": "m"
+  },
+  "Texto10": {
+   "key": "ext.fecha_nacimiento",
+   "part": "y"
+  },
+  "Texto11": {
+   "key": "ext.lugar_nacimiento"
+  },
+  "Texto12": {
+   "key": "ext.pais_nacimiento"
+  },
+  "Texto13": {
+   "key": "ext.nacionalidad"
+  },
+  "Casilla de verificación5": {
+   "key": "ext.estado_civil",
+   "part": "S",
+   "on": "Yes"
+  },
+  "Casilla de verificación6": {
+   "key": "ext.estado_civil",
+   "part": "C",
+   "on": "Yes"
+  },
+  "Casilla de verificación7": {
+   "key": "ext.estado_civil",
+   "part": "V",
+   "on": "Yes"
+  },
+  "Casilla de verificación8": {
+   "key": "ext.estado_civil",
+   "part": "D",
+   "on": "Yes"
+  },
+  "Casilla de verificación9": {
+   "key": "ext.estado_civil",
+   "part": "Sp",
+   "on": "Yes"
+  },
+  "Texto14": {
+   "key": "ext.padre"
+  },
+  "Texto15": {
+   "key": "ext.madre"
+  },
+  "Texto16": {
+   "key": "ext.domicilio"
+  },
+  "Texto17": {
+   "key": "ext.numero"
+  },
+  "Texto18": {
+   "key": "ext.piso"
+  },
+  "Texto19": {
+   "key": "ext.localidad"
+  },
+  "Texto20": {
+   "key": "ext.cp"
+  },
+  "Texto21": {
+   "key": "ext.provincia"
+  },
+  "Texto22": {
+   "key": "ext.telefono"
+  },
+  "Texto23": {
+   "key": "ext.email"
+  },
+  "Texto24": {
+   "key": "ext.rl_nombre"
+  },
+  "Texto25": {
+   "key": "ext.rl_doc"
+  },
+  "Texto26": {
+   "key": "ext.rl_titulo"
+  },
+  "Casilla de verificación10": {
+   "key": "ext.hijos_escolarizacion",
+   "part": "si",
+   "on": "Yes"
+  },
+  "Casilla de verificación11": {
+   "key": "ext.hijos_escolarizacion",
+   "part": "no",
+   "on": "Yes"
+  },
+  "Texto27": {
+   "key": "fam.pasaporte"
+  },
+  "Texto31": {
+   "key": "fam.apellido1"
+  },
+  "Texto32": {
+   "key": "fam.apellido2"
+  },
+  "Texto33": {
+   "key": "fam.nombre"
+  },
+  "Casilla de verificación12": {
+   "key": "fam.sexo",
+   "part": "X",
+   "on": "Yes"
+  },
+  "Casilla de verificación13": {
+   "key": "fam.sexo",
+   "part": "H",
+   "on": "Yes"
+  },
+  "Casilla de verificación14": {
+   "key": "fam.sexo",
+   "part": "M",
+   "on": "Yes"
+  },
+  "Casilla de verificación15": {
+   "key": "fam.estado_civil",
+   "part": "S",
+   "on": "Yes"
+  },
+  "Casilla de verificación16": {
+   "key": "fam.estado_civil",
+   "part": "C",
+   "on": "Yes"
+  },
+  "Casilla de verificación17": {
+   "key": "fam.estado_civil",
+   "part": "V",
+   "on": "Yes"
+  },
+  "Casilla de verificación18": {
+   "key": "fam.estado_civil",
+   "part": "D",
+   "on": "Yes"
+  },
+  "Casilla de verificación19": {
+   "key": "fam.estado_civil",
+   "part": "Sp",
+   "on": "Yes"
+  },
+  "Texto34": {
+   "key": "fam.fecha_nacimiento",
+   "part": "d"
+  },
+  "Texto35": {
+   "key": "fam.fecha_nacimiento",
+   "part": "m"
+  },
+  "Texto36": {
+   "key": "fam.fecha_nacimiento",
+   "part": "y"
+  },
+  "Texto37": {
+   "key": "fam.pais_nacimiento"
+  },
+  "Texto38": {
+   "key": "fam.padre"
+  },
+  "Texto39": {
+   "key": "fam.madre"
+  },
+  "Texto40": {
+   "key": "fam.vinculo"
+  },
+  "Texto41": {
+   "key": "rep.nombre"
+  },
+  "Texto42": {
+   "key": "rep.doc"
+  },
+  "Texto43": {
+   "key": "rep.domicilio"
+  },
+  "Texto44": {
+   "key": "rep.numero"
+  },
+  "Texto45": {
+   "key": "rep.piso"
+  },
+  "Texto46": {
+   "key": "rep.localidad"
+  },
+  "Texto47": {
+   "key": "rep.cp"
+  },
+  "Texto48": {
+   "key": "rep.provincia"
+  },
+  "Texto49": {
+   "key": "rep.telefono"
+  },
+  "Texto50": {
+   "key": "rep.email"
+  },
+  "Texto51": {
+   "key": "rep.rl_nombre"
+  },
+  "Texto52": {
+   "key": "rep.rl_doc"
+  },
+  "Texto53": {
+   "key": "rep.rl_titulo"
+  },
+  "Texto54": {
+   "key": "notif.nombre"
+  },
+  "Texto55": {
+   "key": "notif.doc"
+  },
+  "Texto56": {
+   "key": "notif.domicilio"
+  },
+  "Texto57": {
+   "key": "notif.numero"
+  },
+  "Texto58": {
+   "key": "notif.piso"
+  },
+  "Texto59": {
+   "key": "notif.localidad"
+  },
+  "Texto60": {
+   "key": "notif.cp"
+  },
+  "Texto61": {
+   "key": "notif.provincia"
+  },
+  "Texto62": {
+   "key": "notif.telefono"
+  },
+  "Texto63": {
+   "key": "notif.email"
+  },
+  "Casilla de verificación20": {
+   "key": "notif.consiento_dehu",
+   "part": "si",
+   "on": "Yes"
+  },
+  "Texto64": {
+   "key": "sol.firma_lugar"
+  },
+  "Texto65": {
+   "key": "sol.firma_dia"
+  },
+  "Texto66": {
+   "key": "sol.firma_mes"
+  },
+  "Texto67": {
+   "key": "sol.firma_anio"
+  },
+  "Texto69": {
+   "key": "sol.dirigida_a"
+  },
+  "Texto70": {
+   "key": "sol.dir3"
+  },
+  "Texto71": {
+   "key": "sol.dirigida_provincia"
+  }
+ },
+ "options": [
+  {
+   "field": "Casilla de verificación3",
+   "label": "M",
+   "section": "1) DATOS DE LA PERSONA EXTRANJERA SOLICITANTE",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación4",
+   "label": "X * H M",
+   "section": "1) DATOS DE LA PERSONA EXTRANJERA SOLICITANTE",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación21",
+   "label": "RESIDENCIA INICIAL",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación22",
+   "label": "Titular de los recursos económicos",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación23",
+   "label": "Familiar del titular de los recursos económicos",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación24",
+   "label": "RENOVACIÓN",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación25",
+   "label": "Titular de los recursos económicos",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación26",
+   "label": "Familiar del titular de los recursos económicos",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "page": 2
+  }
+ ],
+ "unmapped": [
+  {
+   "field": "Texto28",
+   "section": "2) DATOS DEL FAMILIAR TITULAR DE LOS RECURSOS ECONÓMICOS (EN",
+   "label": "N.I.E..",
+   "right": ""
+  },
+  {
+   "field": "Texto29",
+   "section": "2) DATOS DEL FAMILIAR TITULAR DE LOS RECURSOS ECONÓMICOS (EN",
+   "label": "N.I.E..",
+   "right": "-"
+  },
+  {
+   "field": "Texto30",
+   "section": "2) DATOS DEL FAMILIAR TITULAR DE LOS RECURSOS ECONÓMICOS (EN",
+   "label": "-",
+   "right": ""
+  },
+  {
+   "field": "Texto68",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA(7)",
+   "label": "",
+   "right": ""
+  }
+ ],
+ "title": "Solicitud de autorización de residencia Espacios para sellos temporal no lucrativa de registro",
+ "model": "EX-01",
+ "source": "Modelo oficial editable (Ministerio de Inclusión, Seguridad Social y Migraciones), aportado por el despacho"
+}

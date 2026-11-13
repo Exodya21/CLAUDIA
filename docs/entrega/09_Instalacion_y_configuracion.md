@@ -178,3 +178,13 @@ accesos controlados.
 Monedas: la moneda principal (EUR) solo se cambia antes de que haya asientos. Para facturar en otra moneda, actívela
 en Facturación → Configuración → Ajustes → Monedas e introduzca el tipo de cambio **a mano**, porque la
 actualización automática es Enterprise.
+
+## Anexo B · Versión de referencia de Sistema Propio (datos ficticios)
+El código completo de la versión F5.6c está en `referencia/SistemaPropio/`. Se usa como **referencia** para
+implantar en Odoo 20 lo que ya está construido y probado (ver 19). Para arrancarla:
+- **Windows:** dentro de `referencia/SistemaPropio`, `INICIAR.bat` (con Docker Desktop). Ver su `README.md`.
+- **Linux sin Docker** (p. ej. el entorno de Claude): `bash herramientas/arrancar_sistema_propio.sh`. Crea las bases
+  de datos, aplica las migraciones, carga los datos ficticios y abre la API en el puerto 8000 y la web en el 3000.
+  En la pantalla de acceso se elige un usuario de demostración (p. ej. `contabilidad.demo` o `direccion.demo`).
+
+Nunca se cargan datos reales en esta instalación.

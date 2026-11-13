@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Rellenar Mercurio</title>
+<style>
+  :root { --ink:#1f2a2e; --muted:#5d6b70; --line:#d9dfe1; --ok:#1e7a46; --okbg:#e5f4ea; --bad:#a3271c; --badbg:#fbe9e7; --acc:#1c5a8a; }
+  body { width: 360px; margin: 0; font: 13px/1.45 system-ui, "Segoe UI", sans-serif; color: var(--ink); background: #fff; }
+  header { background: var(--acc); color: #fff; padding: 10px 14px; }
+  header strong { display:block; font-size: 14px; }
+  main { padding: 12px 14px; display: grid; gap: 10px; }
+  label { display: grid; gap: 4px; font-weight: 600; }
+  input { font: inherit; padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; }
+  #code { font: 600 16px ui-monospace, Consolas, monospace; letter-spacing: 1px; text-transform: uppercase; }
+  button { font: inherit; padding: 7px 10px; border-radius: 6px; border: 1px solid var(--line); background: #fff; cursor: pointer; }
+  button.primary { background: var(--acc); color: #fff; border-color: var(--acc); }
+  button:disabled { opacity: .5; cursor: default; }
+  .row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .box { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+  .ok { background: var(--okbg); color: var(--ok); border-color: transparent; }
+  .bad { background: var(--badbg); color: var(--bad); border-color: transparent; }
+  .muted { color: var(--muted); font-size: 12px; }
+  ul { margin: 4px 0 0; padding-left: 18px; }
+  details summary { cursor: pointer; color: var(--muted); }
+</style>
+</head>
+<body>
+<header><strong>SISTEMA PROPIO · Rellenar Mercurio</strong><span>Rellena; usted revisa, firma y presenta.</span></header>
+<main>
+  <section id="sin-datos">
+    <label>Código del expediente
+      <input id="code" placeholder="XXXX-XXXX-XXXX" maxlength="14" autocomplete="off"></label>
+    <p class="muted">Se genera en SISTEMA PROPIO → expediente → «Rellenar en Mercurio». Caduca a los 15 minutos.</p>
+    <button id="fetch" class="primary">Traer datos</button>
+  </section>
+  <section id="con-datos" hidden>
+    <div class="box" id="summary"></div>
+    <div class="row">
+      <button id="fill" class="primary">Rellenar esta página</button>
+      <button id="forget">Olvidar datos</button>
+    </div>
+    <label style="font-weight:400;display:flex;gap:6px;align-items:center" class="muted"><input type="checkbox" id="overwrite"> Sustituir lo que ya esté escrito en Mercurio</label>
+  </section>
+  <div id="msg" class="box" hidden role="status"></div>
+  <details>
+    <summary>Ajustes y diagnóstico</summary>
+    <div style="display:grid;gap:8px;margin-top:8px">
+      <label>Dirección de SISTEMA PROPIO <input id="server"></label>
+      <button id="save-server">Guardar dirección</button>
+      <button id="diagnose">Copiar estructura de esta página (sin datos)</button>
+      <p class="muted">El diagnóstico copia solo las etiquetas y tipos de los campos de Mercurio, nunca lo escrito en ellos. Sirve para enviarlo al equipo y mejorar el reconocimiento.</p>
+    </div>
+  </details>
+</main>
+<script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sistema-propio-api"
+version = "0.4.0"
+description = "SISTEMA PROPIO - API (F0.1, F0.2, F1.2, F2.1, F2.2)"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.115",
+  "uvicorn[standard]>=0.30",
+  "sqlalchemy>=2.0.30",
+  "alembic>=1.13",
+  "psycopg[binary]>=3.2",
+  "pydantic>=2.8",
+  "pydantic-settings>=2.4",
+  "email-validator>=2.2",
+  "pyjwt>=2.9",
+  "phonenumbers>=8.13",
+  "tzdata>=2024.1",  # zonas horarias propias: la imagen Docker ligera no las trae
+  # F0.2 acceso seguro
+  "argon2-cffi>=23.1",   # hash de contraseñas Argon2id
+  "pyotp>=2.9",          # segundo factor TOTP (RFC 6238)
+  "cryptography>=43",    # cifrado de secretos TOTP en BD y verificación de firmas OIDC
+  "segno>=1.6",          # código QR generado en el servidor (sin servicios externos)
+  "httpx>=0.27",         # cliente OIDC
+  # F5.0 gastos
+  "python-multipart>=0.0.9",  # subida de justificantes y extractos
+  # F4.1 extranjería
+  "pypdf>=5",    # relleno de los modelos oficiales EX (F4.2)
+  "pillow>=10",  # conversión de imágenes al formato de Mercurio y documentos ficticios de la semilla
+  # Extractos bancarios en Excel (F5.4b)
+  "openpyxl>=3.1",  # .xlsx
+  "xlrd>=2.0",      # .xls (Excel 97-2003)
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "httpx>=0.27", "ruff>=0.6", "pdfplumber>=0.11", "xlwt>=1.3"]  # xlwt: .xls ficticios en pruebas
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-p no:cacheprovider"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501", "B008", "UP046"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+known-third-party = ["alembic"]

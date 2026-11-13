@@ -1,0 +1,10 @@
+OK  Cobro de consulta sin expediente con justificante numerado por sede (documento interno, no es factura)
+OK  Cobro que parece repetido: aviso con los anteriores y solo se guarda con explicación (va a Contabilidad)
+OK  Caja del día: cobros, saldo según registros y cierre con diferencia explicada, pendiente de validar
+OK  Recepción de Madrid trabaja solo con su sede (la caja de Barcelona no le aparece)
+OK  Contabilidad valida el cierre (nunca quien contó) y anula el cobro repetido con motivo
+OK  Informe diario por sede: cobros por concepto y forma de pago, anulados, repetidos y estado del cierre
+OK  Plantilla con avisos; nómina leída (periodo, devengado, deducciones, líquido que cuadran) y confirmada por RRHH
+OK  Avisos: vencimiento de contrato, fin del periodo de prueba y diferencia de nómina; uno pasa a tarea en la agenda
+OK  Resumen de nóminas: confirmadas, por revisar y variación del +18 % señalada (sin calcular nóminas)
+OK  Vacaciones: el asesor las pide con su saldo a la vista y su líder las aprueba

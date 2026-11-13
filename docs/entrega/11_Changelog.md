@@ -3,6 +3,35 @@
 Sistema Propio · 12/11/2026. Formato inspirado en *Keep a Changelog*. Las versiones siguen los incrementos del plan
 (F0.1 … F5.6). Los cambios de base de datos se indican con su migración.
 
+## [DOC-2] · 13/11/2026 — Versión de referencia en el repositorio y contabilidad en Odoo 20
+Trabajo de documentación y evaluación; no cambia el código de Sistema Propio.
+### Añadido
+- **Versión de referencia F5.6c** de Sistema Propio en `referencia/SistemaPropio/`: código (`apps/api` con FastAPI,
+  `apps/web` con Next.js, `apps/extension-mercurio`) y documentación interna (`docs/producto` con `decisiones.md`,
+  `docs/adr` ADR-0001…0010, `docs/seguridad`, `docs/operacion`, `docs/fuentes` con la matriz de 208 requisitos y
+  `docs/pruebas` con evidencias y capturas). Es una copia congelada.
+- `herramientas/arrancar_sistema_propio.sh`: arranca la referencia en Linux sin Docker (PostgreSQL 16, Python,
+  Node 22) con datos ficticios; API en el puerto 8000 y web en el 3000. Ver 09 §Anexo B.
+- **19 · Contabilidad y facturación en Odoo 20**: correspondencia función por función de economía, recepción,
+  gastos, banco, proveedores, tesorería, cierre, rutina e informes con Odoo 20 Community, OCA y módulos `sp_*`.
+- `herramientas/paquete_documentacion.py`: crea en `documentacion/entregas/` un zip (Markdown, Word y
+  `openapi.json`) y un solo Word con todos los documentos.
+- Agente `.claude/agents/documentador.md`: registra cada trabajo en la documentación y prepara los paquetes de entrega.
+### Cambiado
+- 00 · Índice: fila del documento 19; las rutas del material de referencia apuntan ahora a `referencia/SistemaPropio/`.
+- 18 · AL-02: añadida la disponibilidad de los módulos contables de la OCA por versión (sin decidir).
+- Skill `documentacion-proyecto`: mapa con 19 y `referencia/SistemaPropio/`; menciona el agente y el paquete.
+### Comprobado
+- Antes de incorporarla, la referencia no contiene claves (solo `.env.example` con valores vacíos) ni datos
+  personales reales (solo ficticios: dominios `.invalid`, NIE de ejemplo). Los documentos 00–17 que traía son
+  idénticos a los de `docs/entrega/`.
+- La referencia arranca en el entorno en la nube sin Docker: acceso como `contabilidad.demo` y pantalla Contabilidad
+  correctos. El script se probó de principio a fin.
+- 13/11/2026, en GitHub: los módulos contables de la OCA (extractos, Norma 43, conciliación, remesas SEPA, modelos de
+  la AEAT, SII, informes, activos, `auditlog`) **no** están publicados en la rama 20.0; sí en 19.0 (salvo
+  `base_tier_validation`) y en 18.0. En el código de Odoo 20 Community no hay pantalla de conciliación bancaria ni
+  importación de extractos. Detalle en 18 (AL-02) y 19 §1.
+
 ## [DOC-1] · 13/11/2026 — Documentación en el repositorio y evaluación de Odoo 20
 Trabajo de documentación y evaluación; no cambia el código de Sistema Propio.
 ### Añadido

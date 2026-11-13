@@ -1,0 +1,13 @@
+OK  Ticket leído en el servidor: total 14,00 € e IVA 2,43 € propuestos (confianza visible)
+OK  La persona revisa, completa y envía a Contabilidad
+OK  Recepción registra un cobro en efectivo sin ver la economía del expediente
+OK  Arqueo: si no cuadra exige motivo y deja el ajuste registrado
+OK  ATC registra y revisa la devolución; no tiene botón de aprobar (A-09)
+OK  Contabilidad confirma el cobro y anota el nº de factura del programa homologado
+OK  Contabilidad aprueba con motivo y registra el pago de la devolución
+OK  Contabilidad ve el justificante y aprueba el gasto
+OK  Extracto importado: el cargo con ticket se concilia y el que no tiene justificante queda señalado
+OK  Resumen mensual por persona, sede, concepto y forma de pago (descargable)
+OK  Ficha del expediente: pactado, cobrado y pendiente
+OK  Marketing no ve el módulo de Economía
+RECORRIDO F5.0 COMPLETO

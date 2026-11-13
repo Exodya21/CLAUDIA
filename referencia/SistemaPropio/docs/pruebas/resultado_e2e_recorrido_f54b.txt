@@ -1,0 +1,10 @@
+OK  La rutina abre Contabilidad: pasos de hoy, de la semana y del cierre (días 1–5) con responsable y lo que el sistema ha comprobado
+OK  Validar la factura basta: el sistema comprueba y da el paso por hecho (con evidencia); no se marca a mano
+OK  «No aplica» solo con motivo (queda quién y por qué)
+OK  Extracto en Excel (.xlsx con titular, cuenta y periodo antes de la cabecera) importado y comprobado
+OK  Informe semanal: cifras por oficina y actividad, comparación, pendientes, pagos y cumplimiento de la rutina; PDF y CSV
+OK  Los pasos semanales y mensuales están en la Agenda de su responsable
+OK  La rutina genera el quincenal (y el semanal y mensual que tocan); Dirección lo revisa desde sus pendientes de Contabilidad
+OK  Dirección asigna el responsable de cada paso (solo personas con permiso para ese paso)
+OK  Recepción no ve la rutina ni los informes (403 auditado)
+Recorrido F5.4b completado.

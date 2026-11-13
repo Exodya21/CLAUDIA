@@ -1,0 +1,87 @@
+# Dos instalaciones con el MISMO código y bases de datos SEPARADAS:
+#  - Demostración (datos ficticios): INICIAR.bat → proyecto «sistemapropio», archivo .env
+#  - Real del despacho (sin datos ficticios, acceso con contraseña + código): INICIAR_REAL.bat → proyecto
+#    «sistemapropio_real», archivo .env.real, copias en ./copias_real. Nunca comparten base de datos ni documentos.
+# Windows: doble clic en INICIAR.bat (crea .env con claves aleatorias y arranca).
+# Otros: cp .env.example .env (rellenar POSTGRES_PASSWORD y SESSION_SECRET) → docker compose up --build
+name: sistemapropio   # nombre fijo: la base de datos es la misma aunque cambie la carpeta
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-sistema}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Defina POSTGRES_PASSWORD en .env}
+      POSTGRES_DB: ${POSTGRES_DB:-sistema_propio}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ${COPIAS_DIR:-./copias}:/copias          # copias de seguridad (COPIA_SEGURIDAD.bat)
+      - ./ops:/ops:ro
+      - justificantes:/justificantes:ro
+      - documentos:/documentos:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-sistema} -d ${POSTGRES_DB:-sistema_propio}"]
+      interval: 3s
+      retries: 20
+
+  api:
+    build: ./apps/api
+    environment:
+      APP_ENV: ${APP_ENV:-development}
+      AUTH_MODE: ${AUTH_MODE:-demo,local}
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-sistema}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-sistema_propio}
+      RESTORE_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-sistema}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-sistema_propio}_comprobacion
+      SESSION_SECRET: ${SESSION_SECRET:?Defina SESSION_SECRET en .env (>=32 caracteres)}
+      FIELD_ENCRYPTION_KEY: ${FIELD_ENCRYPTION_KEY:-}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      TRUST_PROXY: "true"            # la IP real llega de la web (Next.js) en X-Forwarded-For
+      OIDC_ISSUER: ${OIDC_ISSUER:-}
+      OIDC_CLIENT_ID: ${OIDC_CLIENT_ID:-}
+      OIDC_CLIENT_SECRET: ${OIDC_CLIENT_SECRET:-}
+      # F2.3 correo saliente del portal (proveedor con contrato de encargo en la UE, T-33). Vacío = no se envía.
+      WEB_ORIGIN: ${WEB_ORIGIN:-http://localhost:3000}
+      SMTP_HOST: ${SMTP_HOST:-}
+      OWN_TAX_IDS: ${OWN_TAX_IDS:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM: ${SMTP_FROM:-Despacho <no-responder@despacho.invalid>}
+    volumes:
+      - ${COPIAS_DIR:-./copias}:/copias:ro
+      - justificantes:/datos/justificantes   # tickets y facturas de gasto, cifrados
+      - documentos:/datos/documentos         # documentos de expedientes (pasaportes, certificados…), cifrados
+    depends_on:
+      db: {condition: service_healthy}
+    # Los datos ficticios solo se cargan en la instalación de DEMOSTRACIÓN (APP_ENV=development); nunca en la real.
+    command: sh -c "alembic upgrade head && python -m app.security.catalog_sync && { [ \"$$APP_ENV\" != development ] || python -m app.seed; } && uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    ports: ["127.0.0.1:8000:8000"]
+
+  # Cada 5 minutos: agentes (eventos y calendario), cola de envíos y escalado de avisos urgentes sin confirmar.
+  avisos:
+    build: ./apps/api
+    environment:
+      APP_ENV: ${APP_ENV:-development}
+      AUTH_MODE: ${AUTH_MODE:-demo,local}
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-sistema}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-sistema_propio}
+      SESSION_SECRET: ${SESSION_SECRET:?Defina SESSION_SECRET en .env (>=32 caracteres)}
+      FIELD_ENCRYPTION_KEY: ${FIELD_ENCRYPTION_KEY:-}
+      WEB_ORIGIN: ${WEB_ORIGIN:-http://localhost:3000}
+      SMTP_HOST: ${SMTP_HOST:-}
+      OWN_TAX_IDS: ${OWN_TAX_IDS:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM: ${SMTP_FROM:-Despacho <no-responder@despacho.invalid>}
+    depends_on: [api]
+    command: sh -c "sleep 30; while true; do python -m app.ops.agents; python -m app.ops.outbox; sleep 300; done"
+
+  web:
+    build:
+      context: ./apps/web
+      args: {API_URL: "http://api:8000"}
+    depends_on: [api]
+    ports: ["127.0.0.1:3000:3000"]
+
+volumes:
+  pgdata:
+  justificantes:
+  documentos:

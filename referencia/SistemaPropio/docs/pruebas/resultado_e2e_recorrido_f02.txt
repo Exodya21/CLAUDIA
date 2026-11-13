@@ -1,0 +1,14 @@
+OK  Alta de usuario con contraseña provisional mostrada una sola vez (recepcion.f027nqax)
+OK  Código incorrecto al activar la doble verificación: rechazado
+OK  Primer acceso completado: contraseña definitiva + doble verificación
+OK  Ajustes → Seguridad muestra la sesión y el método de acceso
+OK  Acceso con contraseña + código del móvil
+OK  Dirección cierra la sesión con motivo
+OK  La persona pierde el acceso al instante y ve el motivo
+OK  Bloqueo tras 5 intentos fallidos (también con la contraseña correcta)
+OK  Cambio de rol: se añade el nuevo y se retira el anterior; el historial se conserva
+OK  Restablecimiento: nueva contraseña provisional y doble verificación a configurar de nuevo
+OK  Autorización puntual concedida desde Ajustes, con motivo y caducidad
+OK  Administración muestra la última copia comprobada (AT-29)
+OK  Líder Laboral: sin menú de Administración y 403 en la API
+RECORRIDO F0.2 COMPLETO

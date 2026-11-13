@@ -32,6 +32,10 @@ La documentación del sistema del despacho vive en `docs/entrega/`.
 | Rutas de la API e integraciones | 16, `openapi.json` |
 | Auditoría y trazabilidad de requisitos (I-, Q-, U-) | 17 |
 | Diferencias con el charter de QUBIQ y decisiones pendientes (AL-nn) | 18 |
+| Contabilidad y facturación en Odoo 20 (Sistema Propio → Odoo, OCA, `sp_*`) | 19 |
+| Código de la referencia (F5.6c) y su documentación interna (decisiones, ADR, pruebas, matriz) | `referencia/SistemaPropio/` |
+
+`referencia/SistemaPropio/` es una copia congelada: se consulta, no se edita.
 
 Para consultar, busca con Grep en `docs/entrega/*.md` y cita el documento y el apartado (p. ej. «01 §4 regla 11»).
 Si algo no está documentado, dilo; no lo supongas.
@@ -45,7 +49,8 @@ canales judiciales · sin borrado físico · no se emiten facturas hasta que se 
 Si una petición choca con una de estas reglas o con un punto abierto del documento 18, avisa antes de hacerla.
 
 ## Cómo actualizar al terminar un trabajo
-Haz esto en el mismo trabajo, no después:
+El agente **documentador** (`.claude/agents/documentador.md`) hace este trabajo: pásale qué se hizo, con qué
+resultado y qué archivos cambiaron. Si lo haces tú, haz esto en el mismo trabajo, no después:
 
 1. **11 · Changelog:** añade una entrada **arriba**, con el formato `## [ID] · dd/mm/aaaa — título` y los apartados
    `### Añadido`, `### Cambiado`, `### Corregido` o `### Comprobado`. Usa `F…` para las versiones de Sistema Propio y
@@ -59,7 +64,9 @@ Haz esto en el mismo trabajo, no después:
 5. **00 · Índice:** solo si se añade un documento.
 6. **Regenera los Word** de los documentos tocados:
    `python3 herramientas/docs_a_word.py 11 12 18` (prefijos) o, sin argumentos, todos.
-7. Guarda los cambios en git (commit) con un mensaje que diga qué se documentó.
+7. Para **entregar** la documentación: `python3 herramientas/paquete_documentacion.py [prefijos]` crea en
+   `documentacion/entregas/` un zip (Markdown, Word y `openapi.json`) y un solo Word con todos los documentos.
+8. Guarda los cambios en git (commit) con un mensaje que diga qué se documentó.
 
 ## Estilo
 - Español claro, frases cortas y tablas cuando haya más de dos elementos que comparar.

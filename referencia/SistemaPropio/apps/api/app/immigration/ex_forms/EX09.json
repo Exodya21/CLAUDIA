@@ -1,0 +1,323 @@
+{
+ "fields": {
+  "Texto1": {
+   "key": "ext.pasaporte"
+  },
+  "Texto2": {
+   "key": "ext.nie",
+   "part": "1"
+  },
+  "Texto3": {
+   "key": "ext.nie",
+   "part": "2"
+  },
+  "Texto4": {
+   "key": "ext.nie",
+   "part": "3"
+  },
+  "Texto5": {
+   "key": "ext.apellido1"
+  },
+  "Texto6": {
+   "key": "ext.apellido2"
+  },
+  "Texto7": {
+   "key": "ext.nombre"
+  },
+  "Casilla de verificación79": {
+   "key": "ext.sexo",
+   "part": "X",
+   "on": "Yes"
+  },
+  "Texto8": {
+   "key": "ext.fecha_nacimiento",
+   "part": "d"
+  },
+  "Texto9": {
+   "key": "ext.fecha_nacimiento",
+   "part": "m"
+  },
+  "Texto10": {
+   "key": "ext.fecha_nacimiento",
+   "part": "y"
+  },
+  "Texto11": {
+   "key": "ext.lugar_nacimiento"
+  },
+  "Texto12": {
+   "key": "ext.pais_nacimiento"
+  },
+  "Texto13": {
+   "key": "ext.nacionalidad"
+  },
+  "Casilla de verificación71": {
+   "key": "ext.estado_civil",
+   "part": "S",
+   "on": "Yes"
+  },
+  "Casilla de verificación72": {
+   "key": "ext.estado_civil",
+   "part": "C",
+   "on": "Yes"
+  },
+  "Casilla de verificación73": {
+   "key": "ext.estado_civil",
+   "part": "V",
+   "on": "Yes"
+  },
+  "Casilla de verificación74": {
+   "key": "ext.estado_civil",
+   "part": "D",
+   "on": "Yes"
+  },
+  "Casilla de verificación75": {
+   "key": "ext.estado_civil",
+   "part": "Sp",
+   "on": "Yes"
+  },
+  "Texto14": {
+   "key": "ext.padre"
+  },
+  "Texto15": {
+   "key": "ext.madre"
+  },
+  "Texto16": {
+   "key": "ext.domicilio"
+  },
+  "Texto17": {
+   "key": "ext.numero"
+  },
+  "Texto18": {
+   "key": "ext.piso"
+  },
+  "Texto19": {
+   "key": "ext.localidad"
+  },
+  "Texto20": {
+   "key": "ext.cp"
+  },
+  "Texto21": {
+   "key": "ext.provincia"
+  },
+  "Texto22": {
+   "key": "ext.telefono"
+  },
+  "Texto23": {
+   "key": "ext.email"
+  },
+  "Casilla de verificación76": {
+   "key": "ext.hijos_escolarizacion",
+   "part": "si",
+   "on": "Yes"
+  },
+  "Casilla de verificación77": {
+   "key": "ext.hijos_escolarizacion",
+   "part": "no",
+   "on": "Yes"
+  },
+  "Texto24": {
+   "key": "ent.nombre"
+  },
+  "Texto25": {
+   "key": "ent.doc"
+  },
+  "Texto26": {
+   "key": "ent.actividad"
+  },
+  "Texto28": {
+   "key": "ent.domicilio"
+  },
+  "Texto29": {
+   "key": "ent.numero"
+  },
+  "Texto30": {
+   "key": "ent.piso"
+  },
+  "Texto31": {
+   "key": "ent.localidad"
+  },
+  "Texto32": {
+   "key": "ent.cp"
+  },
+  "Texto33": {
+   "key": "ent.provincia"
+  },
+  "Texto34": {
+   "key": "ent.telefono"
+  },
+  "Texto35": {
+   "key": "ent.email"
+  },
+  "Texto36": {
+   "key": "ent.rl_nombre"
+  },
+  "Texto37": {
+   "key": "ent.rl_doc"
+  },
+  "Texto38": {
+   "key": "ent.rl_titulo"
+  },
+  "Texto39": {
+   "key": "rep.nombre"
+  },
+  "Texto40": {
+   "key": "rep.doc"
+  },
+  "Texto41": {
+   "key": "rep.domicilio"
+  },
+  "Texto42": {
+   "key": "rep.numero"
+  },
+  "Texto43": {
+   "key": "rep.piso"
+  },
+  "Texto44": {
+   "key": "rep.localidad"
+  },
+  "Texto45": {
+   "key": "rep.cp"
+  },
+  "Texto46": {
+   "key": "rep.provincia"
+  },
+  "Texto47": {
+   "key": "rep.telefono"
+  },
+  "Texto48": {
+   "key": "rep.email"
+  },
+  "Texto49": {
+   "key": "rep.rl_nombre"
+  },
+  "Texto50": {
+   "key": "rep.rl_doc"
+  },
+  "Texto51": {
+   "key": "rep.rl_titulo"
+  },
+  "Texto52": {
+   "key": "notif.nombre"
+  },
+  "Texto53": {
+   "key": "notif.doc"
+  },
+  "Texto54": {
+   "key": "notif.domicilio"
+  },
+  "Texto55": {
+   "key": "notif.numero"
+  },
+  "Texto56": {
+   "key": "notif.piso"
+  },
+  "Texto57": {
+   "key": "notif.localidad"
+  },
+  "Texto58": {
+   "key": "notif.cp"
+  },
+  "Texto59": {
+   "key": "notif.provincia"
+  },
+  "Texto60": {
+   "key": "notif.telefono"
+  },
+  "Texto61": {
+   "key": "notif.email"
+  },
+  "Casilla de verificación78": {
+   "key": "notif.consiento_dehu",
+   "part": "si",
+   "on": "Yes"
+  },
+  "Texto63": {
+   "key": "sol.firma_lugar"
+  },
+  "Texto64": {
+   "key": "sol.firma_dia"
+  },
+  "Texto65": {
+   "key": "sol.firma_mes"
+  },
+  "Texto66": {
+   "key": "sol.firma_anio"
+  },
+  "Texto68": {
+   "key": "sol.dirigida_a"
+  },
+  "Texto69": {
+   "key": "sol.dir3"
+  },
+  "Texto70": {
+   "key": "sol.dirigida_provincia"
+  }
+ },
+ "options": [
+  {
+   "field": "Casilla de verificación80",
+   "label": "M",
+   "section": "1) DATOS DE LA PERSONA EXTRANJERA",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación81",
+   "label": "X * H M",
+   "section": "1) DATOS DE LA PERSONA EXTRANJERA",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación82",
+   "label": "",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación83",
+   "label": "Religioso o miembro de confesiones y comunidades religiosas",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación84",
+   "label": "Otros supuestos ………………………………………………………………………………………..(especificar)",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación85",
+   "label": "",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación86",
+   "label": "Titular de autorización de residencia temporal con excepción de la autorización de trabajo Inicial",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "page": 2
+  }
+ ],
+ "unmapped": [
+  {
+   "field": "Texto27",
+   "section": "2) DATOS DE LA ENTIDAD QUE INVITA, CONTRATA O DESPLAZA",
+   "label": "Ocupación (6)",
+   "right": ""
+  },
+  {
+   "field": "Texto62",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "label": "□ Otros supuestos",
+   "right": ""
+  },
+  {
+   "field": "Texto67",
+   "section": "5) TIPO DE AUTORIZACIÓN SOLICITADA (9)",
+   "label": "",
+   "right": ""
+  }
+ ],
+ "title": "Solicitud de autorización de Espacios para sellos residencia temporal con excepción de de registro la autorización de trabajo",
+ "model": "EX-09",
+ "source": "Modelo oficial editable (Ministerio de Inclusión, Seguridad Social y Migraciones), aportado por el despacho"
+}

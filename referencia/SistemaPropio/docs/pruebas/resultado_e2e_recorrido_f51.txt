@@ -1,0 +1,9 @@
+OK  Extracto importado: saldo inicial + movimientos = saldo final; resumen importados / conciliados / pendientes / errores
+OK  El mismo extracto otra vez se rechaza: no se duplican movimientos
+OK  Referencia del expediente: propuesta explicada, validada por Contabilidad y cobro confirmado
+OK  TPV con comisión: la liquidación neta cuadra con los cobros con tarjeta y la comisión se concilia a la vez
+OK  Ingreso sin identificar: excepción para Contabilidad; la conciliación manual exige cuadre exacto
+OK  Pendientes de Contabilidad: excepción del banco (TGSS) aprobada y justificada con su categoría
+OK  Traspaso entre cuentas propias conciliado en las dos cuentas; pestaña de errores vacía
+OK  Bienvenida (DR-PLT-1) propuesta al abrir el expediente, aprobada por la asesora y publicada en su conversación
+OK  Dirección: agentes (en Administración) con sus límites y medición semanal; ve el banco sin poder conciliar (separación de funciones)

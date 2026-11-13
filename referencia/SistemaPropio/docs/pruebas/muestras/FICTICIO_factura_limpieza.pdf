@@ -1,0 +1,48 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 887 >>
+stream
+BT /F2 14 Tf 50 792 Td (FACTURA Nº LF-2026-118) Tj ET
+BT /F1 10 Tf 50 774 Td (Emisor: Limpiezas Ficticias SL · CIF B66666660) Tj ET
+BT /F1 10 Tf 50 760 Td (Cliente: Despacho Demo España S.L. \(ficticia\) · CIF B00000000) Tj ET
+BT /F1 10 Tf 50 746 Td (Fecha de factura: 08/11/2026) Tj ET
+BT /F1 10 Tf 50 732 Td (Vencimiento: 08/12/2026) Tj ET
+BT /F1 10 Tf 50 718 Td () Tj ET
+BT /F1 10 Tf 50 704 Td (Concepto: Limpieza de oficinas, noviembre \(ficticio\)) Tj ET
+BT /F1 10 Tf 50 690 Td (Base imponible  200,00) Tj ET
+BT /F1 10 Tf 50 676 Td (IVA \(21%\)  42,00) Tj ET
+BT /F2 10 Tf 50 662 Td (TOTAL FACTURA  242,00) Tj ET
+BT /F1 10 Tf 50 648 Td (Pago por transferencia a ES93 9999 0007 1100 0000 0066) Tj ET
+BT /F1 8 Tf 50 634 Td (Documento de prueba generado por SISTEMA PROPIO. Emisor y cliente ficticios.) Tj ET
+BT /F1 7 Tf 50 25 Td (Factura LF-2026-118 \(ficticia\) · página 1 de 1) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000001189 00000 n 
+0000001286 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+1388
+%%EOF

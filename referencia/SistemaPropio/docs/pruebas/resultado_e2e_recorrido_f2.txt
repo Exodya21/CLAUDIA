@@ -1,0 +1,11 @@
+OK  Lead de TikTok Live sin campaña: rechazado (AT-05)
+OK  Lead registrado con origen y campaña, y marcado como contactado
+OK  Bandeja de seguimiento 24 h / 72 h / 7 días
+OK  Lead → expediente en preapertura con código consecutivo (AT-06)
+OK  Apertura exige encargo confirmado; el asesor no ve fases jurídicas (AT-16)
+OK  Tarea con plazo legal propuesto: queda SIN VALIDAR (AT-19)
+OK  Aplazar exige motivo; la fecha anterior queda en el historial (AT-20)
+OK  Agenda semanal con solapamientos y vencidas
+OK  Otro letrado valida el plazo legal propuesto (doble control)
+OK  Fase jurídica «Resuelto» solo por perfil autorizado y con motivo
+OK  Marketing ve el embudo y recibe 403 en expedientes

@@ -1,0 +1,488 @@
+{
+ "fields": {
+  "Texto1": {
+   "key": "ext.pasaporte"
+  },
+  "Texto2": {
+   "key": "ext.nie",
+   "part": "1"
+  },
+  "Texto3": {
+   "key": "ext.nie",
+   "part": "2"
+  },
+  "Texto4": {
+   "key": "ext.nie",
+   "part": "3"
+  },
+  "Texto5": {
+   "key": "ext.apellido1"
+  },
+  "Texto6": {
+   "key": "ext.apellido2"
+  },
+  "Texto7": {
+   "key": "ext.nombre"
+  },
+  "Casilla de verificación27": {
+   "key": "ext.sexo",
+   "part": "X",
+   "on": "Yes"
+  },
+  "Texto8": {
+   "key": "ext.fecha_nacimiento",
+   "part": "d"
+  },
+  "Texto9": {
+   "key": "ext.fecha_nacimiento",
+   "part": "m"
+  },
+  "Texto10": {
+   "key": "ext.fecha_nacimiento",
+   "part": "y"
+  },
+  "Texto11": {
+   "key": "ext.lugar_nacimiento"
+  },
+  "Texto12": {
+   "key": "ext.pais_nacimiento"
+  },
+  "Texto13": {
+   "key": "ext.nacionalidad"
+  },
+  "Casilla de verificación30": {
+   "key": "ext.estado_civil",
+   "part": "S",
+   "on": "Yes"
+  },
+  "Casilla de verificación31": {
+   "key": "ext.estado_civil",
+   "part": "C",
+   "on": "Yes"
+  },
+  "Casilla de verificación32": {
+   "key": "ext.estado_civil",
+   "part": "V",
+   "on": "Yes"
+  },
+  "Casilla de verificación33": {
+   "key": "ext.estado_civil",
+   "part": "D",
+   "on": "Yes"
+  },
+  "Casilla de verificación34": {
+   "key": "ext.estado_civil",
+   "part": "Sp",
+   "on": "Yes"
+  },
+  "Texto14": {
+   "key": "ext.padre"
+  },
+  "Texto15": {
+   "key": "ext.madre"
+  },
+  "Texto16": {
+   "key": "ext.domicilio"
+  },
+  "Texto17": {
+   "key": "ext.numero"
+  },
+  "Texto18": {
+   "key": "ext.piso"
+  },
+  "Texto19": {
+   "key": "ext.localidad"
+  },
+  "Texto20": {
+   "key": "ext.cp"
+  },
+  "Texto21": {
+   "key": "ext.provincia"
+  },
+  "Texto22": {
+   "key": "ext.telefono"
+  },
+  "Texto23": {
+   "key": "ext.email"
+  },
+  "Texto24": {
+   "key": "ext.rl_nombre"
+  },
+  "Texto25": {
+   "key": "ext.rl_doc"
+  },
+  "Texto26": {
+   "key": "ext.rl_titulo"
+  },
+  "Casilla de verificación35": {
+   "key": "ext.hijos_escolarizacion",
+   "part": "si",
+   "on": "Yes"
+  },
+  "Casilla de verificación36": {
+   "key": "ext.hijos_escolarizacion",
+   "part": "no",
+   "on": "Yes"
+  },
+  "Texto37": {
+   "key": "emp.nombre"
+  },
+  "Texto38": {
+   "key": "emp.doc"
+  },
+  "Texto39": {
+   "key": "emp.actividad"
+  },
+  "Texto40": {
+   "key": "emp.cnae"
+  },
+  "Texto41": {
+   "key": "emp.domicilio"
+  },
+  "Texto42": {
+   "key": "emp.numero"
+  },
+  "Texto43": {
+   "key": "emp.piso"
+  },
+  "Texto44": {
+   "key": "emp.localidad"
+  },
+  "Texto45": {
+   "key": "emp.cp"
+  },
+  "Texto46": {
+   "key": "emp.provincia"
+  },
+  "Texto47": {
+   "key": "emp.telefono"
+  },
+  "Texto48": {
+   "key": "emp.email"
+  },
+  "Texto49": {
+   "key": "emp.rl_nombre"
+  },
+  "Texto50": {
+   "key": "emp.rl_doc"
+  },
+  "Texto51": {
+   "key": "emp.rl_titulo"
+  },
+  "Texto52": {
+   "key": "con.puesto"
+  },
+  "Texto53": {
+   "key": "con.grupo_cotizacion"
+  },
+  "Texto54": {
+   "key": "con.cno"
+  },
+  "Texto55": {
+   "key": "con.convenio_codigo"
+  },
+  "Texto56": {
+   "key": "con.convenio_nombre"
+  },
+  "Texto57": {
+   "key": "con.contrato_codigo"
+  },
+  "Texto58": {
+   "key": "con.contrato_nombre"
+  },
+  "Texto59": {
+   "key": "con.ccc"
+  },
+  "Texto60": {
+   "key": "con.retribucion"
+  },
+  "Texto61": {
+   "key": "con.centro_domicilio"
+  },
+  "Texto62": {
+   "key": "con.centro_numero"
+  },
+  "Texto63": {
+   "key": "con.centro_piso"
+  },
+  "Texto64": {
+   "key": "con.centro_localidad"
+  },
+  "Texto65": {
+   "key": "con.centro_cp"
+  },
+  "Texto66": {
+   "key": "con.centro_provincia"
+  },
+  "Texto67": {
+   "key": "rep.nombre"
+  },
+  "Texto68": {
+   "key": "rep.doc"
+  },
+  "Texto69": {
+   "key": "rep.domicilio"
+  },
+  "Texto70": {
+   "key": "rep.numero"
+  },
+  "Texto71": {
+   "key": "rep.piso"
+  },
+  "Texto72": {
+   "key": "rep.localidad"
+  },
+  "Texto73": {
+   "key": "rep.cp"
+  },
+  "Texto74": {
+   "key": "rep.provincia"
+  },
+  "Texto75": {
+   "key": "rep.telefono"
+  },
+  "Texto76": {
+   "key": "rep.email"
+  },
+  "Texto77": {
+   "key": "rep.rl_nombre"
+  },
+  "Texto78": {
+   "key": "rep.rl_doc"
+  },
+  "Texto79": {
+   "key": "rep.rl_titulo"
+  },
+  "Texto80": {
+   "key": "notif.nombre"
+  },
+  "Texto81": {
+   "key": "notif.doc"
+  },
+  "Texto82": {
+   "key": "notif.domicilio"
+  },
+  "Texto83": {
+   "key": "notif.numero"
+  },
+  "Texto84": {
+   "key": "notif.piso"
+  },
+  "Texto85": {
+   "key": "notif.localidad"
+  },
+  "Texto86": {
+   "key": "notif.cp"
+  },
+  "Texto87": {
+   "key": "notif.provincia"
+  },
+  "Texto88": {
+   "key": "notif.telefono"
+  },
+  "Texto89": {
+   "key": "notif.email"
+  },
+  "Casilla de verificación90": {
+   "key": "notif.consiento_dehu",
+   "part": "si",
+   "on": "Yes"
+  },
+  "Texto113": {
+   "key": "sol.firma_lugar"
+  },
+  "Texto114": {
+   "key": "sol.firma_dia"
+  },
+  "Texto115": {
+   "key": "sol.firma_mes"
+  },
+  "Texto116": {
+   "key": "sol.firma_anio"
+  },
+  "Texto118": {
+   "key": "sol.dirigida_a"
+  },
+  "Texto119": {
+   "key": "sol.dir3"
+  },
+  "Texto120": {
+   "key": "sol.dirigida_provincia"
+  }
+ },
+ "options": [
+  {
+   "field": "Casilla de verificación28",
+   "label": "M",
+   "section": "1) DATOS DE LA PERSONA EXTRANJERA",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación29",
+   "label": "X * H M",
+   "section": "1) DATOS DE LA PERSONA EXTRANJERA",
+   "page": 1
+  },
+  {
+   "field": "Casilla de verificación93",
+   "label": "",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación91",
+   "label": "",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación92",
+   "label": "",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación94",
+   "label": "Exención de la situación nacional de empleo del art. 40 LO 4/2000(14)",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación95",
+   "label": "Exención de la situación nacional de empleo por nacionales convenios internacionales (Chile y Perú) del art. 74.2 RD 1155/2025",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación96",
+   "label": "Ocupación calificada de difícil cobertura según el catálogo trimestral de profesiones de difícil cobertura por el Servicios Públicos de Empleo.",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación97",
+   "label": "Oferta gestionada en Servicio Público de Empleo",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación98",
+   "label": "Personas extranjeras acogidas a Instrucciones dictadas por Consejo de Ministros (DA 2ª.1):",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación99",
+   "label": "Deportistas profesionales ciertas modalidades deportivas (Acuerdo Cº Mº 2005)",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación100",
+   "label": "Enrolado en buque español Marina Mercante (Acuerdo Cº Mº 2007)",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación101",
+   "label": "Enrolado en buque español sin acuerdo internacional pesca (Acuerdo Cº Mº 2019)",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación102",
+   "label": "Autorización para trabajar Cuenta AJENA penados en tercer grado/libertad condicional (Acuerdo Cº Mº 2005)",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación103",
+   "label": "Personas extranjeras acogidos a Convenios/Acuerdos internacionales (Andorra)",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación104",
+   "label": "Autorización para trabajar Cuenta AJENA como trabajador transfronterizo (art.157)",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación105",
+   "label": "Cambio de empleador por incumplimiento grave de las obligaciones establecidas en el contrato de trabajo (art.79.2)",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación106",
+   "label": "Cambio de empleador por circunstancias sobrevenidas, ajenas a la voluntad de la persona empleadora (art.79.3)",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación107",
+   "label": "",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación108",
+   "label": "Titular de autorización de residencia temporal y trabajo cuenta ajena inicial/renovada (art. 80):",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación109",
+   "label": "Supuesto general artículo 81.1.",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación110",
+   "label": "Beneficiario de prestación contributiva por desempleo o asistencial.",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación111",
+   "label": "",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación112",
+   "label": "Autorización para trabajar Cuenta AJENA penados en tercer grado/libertad condicional (Acuerdo Cº Mº 2005)",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación121",
+   "label": "La persona extranjera trabajadora",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación122",
+   "label": "Empleador/a",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  },
+  {
+   "field": "Casilla de verificación123",
+   "label": "Representante legal/del empleador o persona extranjera",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "page": 2
+  }
+ ],
+ "unmapped": [
+  {
+   "field": "Texto117",
+   "section": "6) TIPO DE AUTORIZACIÓN SOLICITADA(13)",
+   "label": "",
+   "right": ""
+  }
+ ],
+ "title": "Solicitud de autorización de residencia temporal y trabajo por cuenta ajena o Espacios para sellos autorización de trabajo por cuenta ajena de registro",
+ "model": "EX-03",
+ "source": "Modelo oficial editable (Ministerio de Inclusión, Seguridad Social y Migraciones), aportado por el despacho"
+}

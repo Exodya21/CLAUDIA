@@ -1,0 +1,11 @@
+OK  Bandeja de trámites por fase, con documentos por revisar y caducidades
+OK  Pasaporte leído en el servidor: MRZ correcta, tipo propuesto con confianza alta
+OK  La persona confirma; la lista de documentación exigida se actualiza
+OK  Aviso de pasaporte que caduca en menos de 90 días
+OK  Paquete: indica lo que falta y permite un borrador registrado (.zip con índice y ficha de datos)
+OK  Presentado con número de registro; si faltan documentos se exige y guarda el motivo
+OK  Requerimiento registrado: tarea de plazo para el letrado, sin fecha legal inventada
+OK  Legal Extranjería valida la lista de documentos del trámite (con fuente oficial)
+OK  Resolución favorable registrada por el letrado, con fecha
+OK  Laboral no ve el módulo ni ningún trámite de extranjería (comprobado en el servidor)
+RECORRIDO F4.1 COMPLETO

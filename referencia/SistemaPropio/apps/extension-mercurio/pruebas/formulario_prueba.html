@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PÁGINA DE PRUEBA — NO ES MERCURIO</title>
+<!-- Página INVENTADA para probar la extensión. Imita la disposición observada en capturas de Mercurio y los
+     identificadores de campo de su diagnóstico (05/11/2026):
+     pestañas, etiquetas «* Campo:» en una columna y el campo en otra, subapartados en mayúsculas y listas
+     dependientes provincia → municipio → localidad. No es una copia del código de Mercurio. -->
+<style>
+  body { font: 14px system-ui, sans-serif; margin: 20px; }
+  .aviso { background: #a3271c; color: #fff; padding: 10px; font-weight: 700; }
+  ul.nav-tabs { display: flex; gap: 4px; list-style: none; padding: 0; margin: 12px 0 0; }
+  ul.nav-tabs li a { display: block; padding: 6px 10px; border: 1px solid #ccc; text-decoration: none; color: #777; }
+  ul.nav-tabs li.active a { background: #b33; color: #fff; }
+  .panel { border: 1px solid #333; padding: 12px; display: none; }
+  .panel.activo { display: block; }
+  .titulo { font-weight: 700; margin-bottom: 8px; }
+  h4 { color: #b33; margin: 14px 0 6px; }
+  .fila { display: grid; grid-template-columns: 180px 260px 160px 260px; gap: 8px; margin: 6px 0; align-items: center; }
+</style>
+</head>
+<body>
+<p class="aviso">PÁGINA DE PRUEBA INVENTADA PARA LA EXTENSIÓN — NO ES MERCURIO</p>
+<p><strong>SOLICITUD INICIAL: EX10 - Solicitud de prueba</strong></p>
+<ul class="nav-tabs">
+  <li><a href="#" data-p="p0">TIPO DE AUTORIZACIÓN</a></li>
+  <li class="active"><a href="#" data-p="p1">DATOS DEL EXTRANJERO/A</a></li>
+  <li><a href="#" data-p="p2">DATOS DEL PRESENTADOR</a></li>
+  <li><a href="#" data-p="p3">DOMICILIO DE NOTIFICACIÓN</a></li>
+</ul>
+
+<div class="panel" id="p0">
+  <div class="titulo">TIPO DE AUTORIZACIÓN SOLICITADA</div>
+  <p><label><input type="radio" name="datosForAut" id="EX-10-1-02" value="a"> A autorización de residencia y trabajo por cuenta ajena</label></p>
+  <p><label><input type="radio" name="datosForAut" id="EX-10-1-03" value="b"> A autorización de residencia no lucrativa</label></p>
+  <p><label><input type="checkbox" id="chkConsientoConsultaDocumentos"> <b>NO CONSIENTO</b> la consulta sobre mis datos y documentos que se hallen en poder de la Administración</label></p>
+</div>
+
+<div class="panel activo" id="p1">
+  <div class="titulo">DATOS DEL EXTRANJERO/A</div>
+  <div class="fila"><div>* Pasaporte:</div><div><input id="extPasaporte" name="extPasaporte"></div><div>* N.I.E.:</div><div><input id="extNie" maxlength="9"></div></div>
+  <div class="fila"><div>* 1º Apellido:</div><div><input id="extApellido1"></div><div>2º Apellido:</div><div><input id="extApellido2" value="YA ESCRITO"></div></div>
+  <div class="fila"><div>* Nombre:</div><div><input id="extNombre"></div><div>* Sexo:</div><div><select id="extSexo"><option value="">-----</option><option value="H">HOMBRE</option><option value="M">MUJER</option></select></div></div>
+  <div class="fila"><div>* Fecha de nacimiento:</div><div><input id="extFechaNacimiento" maxlength="10"></div><div>* Estado civil:</div><div><select id="extEstadoCivil"><option value="">-----</option><option value="S">SOLTERO/A</option><option value="C">CASADO/A</option></select></div></div>
+  <div class="fila"><div>* Lugar de nacimiento:</div><div><input id="lnac"></div></div>
+  <div class="fila"><div>* País de nacimiento:</div><div><select id="extCodigoPaisNacimiento"><option value="">Seleccione un país...</option><option value="170">COLOMBIA</option><option value="999">UTOPÍA (FICTICIO)</option></select></div>
+    <div>* Nacionalidad:</div><div><select id="extCodigoNacionalidad"><option value="">Seleccione un país...</option><option value="170">COLOMBIA</option><option value="999">UTOPÍA (FICTICIO)</option></select></div></div>
+  <div class="fila"><div>Nombre del padre:</div><div><input id="extPadre"></div><div>Nombre de la madre:</div><div><input id="extMadre"></div></div>
+  <p><label><input type="checkbox" id="tutelada"> <b>Persona tutelada</b></label></p>
+  <h4>DOMICILIO EN ESPAÑA</h4>
+  <div class="fila"><div>* Tipo de vía:</div><div><select id="extTipoVia"><option value="">Seleccione via...</option><option value="CL">CALLE</option><option value="AV">AVENIDA</option></select></div>
+    <div>* Domicilio:</div><div><input id="extDomicilio"></div></div>
+  <div class="fila"><div>* Numero:</div><div><input id="extNumero" maxlength="5"></div><div>Piso:</div><div><select id="extPiso"><option value="">Seleccione piso...</option><option value="1">1º</option><option value="8">8º</option></select></div></div>
+  <div class="fila"><div>* Provincia:</div><div><select id="extCodigoProvincia" disabled><option value="08">BARCELONA</option></select></div>
+    <div>* Código Postal:</div><div><input id="extCodigoPostal"></div></div>
+  <div class="fila"><div>Teléfono:</div><div><input id="extTelefono" maxlength="9"></div><div>Teléfono móvil:</div><div><input id="extTelefonoMovil" maxlength="9"></div></div>
+  <div class="fila"><div>E-mail:</div><div><input id="extEmail"></div><div>Contraseña (no debe tocarse):</div><div><input id="pwd" type="password"></div></div>
+  <h4>REPRESENTANTE LEGAL, EN SU CASO</h4>
+  <div class="fila"><div>Representante legal :</div><div><input id="extNombreRepresentante"></div></div>
+  <div class="fila"><div>DNI/NIE/PAS:</div><div><select id="extTipodocumentoRepresentante"><option value="D">DNI</option><option value="N">NIE</option><option value="P">PASAPORTE</option></select></div>
+    <div>Numero:</div><div><input id="extNieRepresentante"></div></div>
+  <p><label><input type="checkbox" id="hijos"> <b>SI</b> Hijas/os a cargo en edad de escolarización en España :</label></p>
+  <input type="hidden" name="nombre" id="oculto">
+</div>
+
+<div class="panel" id="p2">
+  <div class="titulo">DATOS DEL PRESENTADOR</div>
+  <div class="fila"><div>* Nombre/Razón social:</div><div><input id="preNombrePresentador"></div></div>
+  <div class="fila"><div>* DNI/NIE/PAS:</div><div><select id="preTipodocumentoPresentador"><option value="">--</option><option value="D">DNI</option><option value="N">NIE</option></select></div>
+    <div>* Numero:</div><div><input id="preNiePresentador"></div></div>
+  <div class="fila"><div>E-mail:</div><div><input id="preEmailPresentador"></div></div>
+</div>
+
+<div class="panel" id="p3">
+  <div class="titulo">DOMICILIO DE NOTIFICACIÓN</div>
+  <div class="fila"><div>* Nombre/Razón Social:</div><div><input id="notNombreNotificacion"></div></div>
+  <div class="fila"><div>* Tipo de vía:</div><div><select id="notTipoViaNotificacion"><option value="">Seleccione via...</option><option value="CL">CALLE</option></select></div>
+    <div>* Domicilio:</div><div><input id="notDomicilioNotificacion"></div></div>
+  <div class="fila"><div>* Provincia:</div><div><select id="notCodigoProvinciaNotificacion"><option value="">--</option><option value="08">BARCELONA</option><option value="28">MADRID</option></select></div>
+    <div>* Municipio:</div><div><select id="notCodigoMunicipioNotificacion"><option value="">--</option></select></div></div>
+  <div class="fila"><div>* Localidad:</div><div><select id="notCodigoLocalidadNotificacion"><option value="">--</option></select></div>
+    <div>* Código Postal:</div><div><input id="notCodigoPostalNotificacion"></div></div>
+  <p><label><input type="checkbox" id="chkConsentimientoNotificacion"> CONSIENTO que las comunicaciones y notificaciones se realicen por medios electrónicos</label></p>
+</div>
+
+<p><button type="button" id="continuar">CONTINUAR</button>
+   <button type="button" onclick="window.__pulsado = 'concluir'">CONCLUIR</button>
+   <button type="button" onclick="window.__pulsado = 'firmar'">FIRMAR Y REGISTRAR</button></p>
+<form onsubmit="window.__pulsado = 'enviado'; return false;"><button type="submit">PRESENTACIÓN ELECTRÓNICA</button></form>
+<script>
+  document.querySelectorAll("ul.nav-tabs a").forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      e.preventDefault();
+      document.querySelectorAll("ul.nav-tabs li").forEach(function (li) { li.classList.remove("active"); });
+      a.parentElement.classList.add("active");
+      document.querySelectorAll(".panel").forEach(function (p) { p.classList.toggle("activo", p.id === a.dataset.p); });
+    });
+  });
+  document.getElementById("continuar").addEventListener("click", function () { window.__pulsado = "continuar"; });
+  // Listas dependientes que se cargan con retraso, como en Mercurio
+  var MUN = { "28": ["MADRID", "GETAFE"], "08": ["BARCELONA", "BADALONA"] };
+  document.getElementById("notCodigoProvinciaNotificacion").addEventListener("change", function (e) {
+    var mun = document.getElementById("notCodigoMunicipioNotificacion"); mun.innerHTML = '<option value="">--</option>';
+    setTimeout(function () { (MUN[e.target.value] || []).forEach(function (m, i) { mun.add(new Option(m, e.target.value + i)); }); }, 700);
+  });
+  document.getElementById("notCodigoMunicipioNotificacion").addEventListener("change", function (e) {
+    var loc = document.getElementById("notCodigoLocalidadNotificacion"); loc.innerHTML = '<option value="">--</option>';
+    var t = e.target.options[e.target.selectedIndex].text;
+    setTimeout(function () { loc.add(new Option(t, "L" + e.target.value)); }, 500);
+  });
+</script>
+</body>
+</html>
