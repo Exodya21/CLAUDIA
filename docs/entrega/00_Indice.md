@@ -41,6 +41,14 @@ en el repositorio (`docs/entrega/`) junto al código y se actualiza con él. Se 
 - `referencia/SistemaPropio/docs/pruebas/evidencias_*.md`: evidencias de cada incremento con capturas.
 - `referencia/SistemaPropio/docs/fuentes/02_Matriz_Maestra_208_Requisitos.xlsx`: matriz original.
 
+## Implantación en Odoo 20
+- `odoo/`: lo que se construye sobre Odoo 20 Community. Cómo montarlo en [`odoo/LEEME.md`](../../odoo/LEEME.md).
+  - `odoo/docker-compose.yml`: Odoo 20 + PostgreSQL 16 para pruebas (solo accesible desde el propio ordenador).
+  - `odoo/configuracion/base_contable.py`: base contable (19 §6 paso 1, hecho el 13/11/2026; 11 · DOC-5).
+  - `odoo/pruebas/prueba_base_contable.py`: prueba con datos ficticios.
+  - `odoo/addons/`: módulos propios `sp_*` (19 §5), por ahora vacía.
+- `documentacion/odoo20_base_contable/`: capturas de la prueba de la base contable (datos ficticios).
+
 ## Datos
 Todos los ejemplos, pruebas y capturas usan **datos ficticios**. Ningún documento contiene datos de clientes, del
 personal ni claves reales.

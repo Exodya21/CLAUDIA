@@ -183,8 +183,8 @@ Plan acordado el 13/11/2026 (18 · AL-03). Ningún paso se da por hecho hasta qu
 
 | Paso | Qué se hace | Quién | Estado |
 |---|---|---|---|
-| a | Probar con el **entorno de pruebas de la AEAT** (el de defecto del módulo) y **datos ficticios** (CLIENTE_01, EXPEDIENTE_01) | Equipo del proyecto | Pendiente |
-| b | Definir los **diarios y series** de venta: `CIT/…` (citas) y `EXP/…` (expedientes), correlativas y sin saltos, en cada compañía que facture | Contabilidad y equipo del proyecto | Pendiente |
+| a | Probar con el **entorno de pruebas de la AEAT** (el de defecto del módulo) y **datos ficticios** (CLIENTE_01, EXPEDIENTE_01) | Equipo del proyecto | **En curso · 13/11/2026:** entorno de pruebas configurado en las dos compañías españolas (`odoo/configuracion/base_contable.py`). Con el certificado de pruebas público de la AEAT que trae Odoo, la huella se calcula, pero el documento no se completa: el entorno en la nube no llega a `prewww2.aeat.es` (12 · INC-64). **Pendiente:** repetir la prueba en un equipo con Internet |
+| b | Definir los **diarios y series** de venta: `CIT/…` (citas) y `EXP/…` (expedientes), correlativas y sin saltos, en cada compañía que facture | Contabilidad y equipo del proyecto | **Hecho en la base de prueba · 13/11/2026:** diarios CIT y EXP con rectificativas RCIT y REXP (11 · DOC-5). Se validan en el paso d |
 | c | Cargar el **certificado electrónico** de cada compañía en Odoo | La persona autorizada del despacho, directamente en Odoo | Pendiente |
 | d | **Validar con la gestoría** (series, IVA, suplidos, cuota litis y la precaución de §1.3) | Gestoría y Dirección | Pendiente |
 | e | **Pasar a producción**, con la fecha de inicio anotada en 11 · Changelog y en 18 · AL-03 | Persona responsable del proyecto | Pendiente |
@@ -224,7 +224,11 @@ Quedan sin asignar a un `sp_*` concreto `l10n_es_aeat_sii_oca` (Odoo 20 Communit
 
 ## 6. Orden de implantación recomendado
 1. **Base contable:** compañías, `l10n_es`, diarios (ventas por serie, bancos, cajas por sede), planes analíticos
-   Actividad y Sede, grupos y permisos. *Todo de serie.*
+   Actividad y Sede, grupos y permisos. *Todo de serie.* **Hecho · 13/11/2026** con datos ficticios (11 · DOC-5):
+   cómo montarlo en [`odoo/LEEME.md`](../../odoo/LEEME.md); script `odoo/configuracion/base_contable.py` y prueba
+   `odoo/pruebas/prueba_base_contable.py`. Quedan pendientes: los **grupos y permisos** (no se han configurado aún),
+   las cuentas 555001 y 555002, que son provisionales (T-40, 18 · AL-13), y la compañía del autónomo, que depende de
+   18 · AL-06.
 2. **Recepción y cajas** (`sp_recepcion`): es lo que más usan las sedes cada día.
 3. **Proveedores y gastos** (`sp_contabilidad` sin remesas, `sp_gastos`).
 4. **Banco y conciliación** (`sp_banco`): la pieza más grande en Odoo 20 (decidido, 18 · AL-02).

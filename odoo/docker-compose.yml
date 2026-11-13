@@ -1,0 +1,33 @@
+# Odoo 20 Community para DESARROLLO Y PRUEBAS del despacho (datos ficticios).
+# Uso (desde esta carpeta «odoo»):  docker compose up -d   →  http://localhost:8069
+# Ver odoo/LEEME.md para crear la base de datos y montar la base contable.
+name: despacho_odoo20
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo          # solo para pruebas locales; en el servidor real, una clave del gestor de secretos
+      POSTGRES_DB: postgres
+    volumes:
+      - odoo20-db:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  odoo:
+    image: odoo:20
+    depends_on: [db]
+    environment:
+      HOST: db
+      USER: odoo
+      PASSWORD: odoo
+    ports: ["127.0.0.1:8069:8069"]     # solo accesible desde este ordenador
+    volumes:
+      - odoo20-data:/var/lib/odoo
+      - ./addons:/mnt/extra-addons     # módulos propios sp_* (cuando existan)
+      - ./configuracion:/configuracion:ro
+      - ./pruebas:/pruebas:ro
+    restart: unless-stopped
+
+volumes:
+  odoo20-db:
+  odoo20-data:

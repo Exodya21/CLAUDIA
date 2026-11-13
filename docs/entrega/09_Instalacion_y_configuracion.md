@@ -188,3 +188,15 @@ implantar en Odoo 20 lo que ya está construido y probado (ver 19). Para arranca
   En la pantalla de acceso se elige un usuario de demostración (p. ej. `contabilidad.demo` o `direccion.demo`).
 
 Nunca se cargan datos reales en esta instalación.
+
+## Anexo C · Odoo 20 con la base contable del despacho (datos ficticios)
+Para montar Odoo 20 Community **con la base contable ya configurada** (compañías, plan contable, diarios CIT y EXP,
+bancos, cajas, analítica, cuentas propias provisionales y Verifactu en el entorno de pruebas), siga
+[`odoo/LEEME.md`](../../odoo/LEEME.md). Resumen:
+- Usa `odoo/docker-compose.yml` (Odoo 20 + PostgreSQL 16). Odoo solo se abre desde el propio ordenador
+  (http://localhost:8069). No hace falta crear la red ni los contenedores a mano como en el primer anexo.
+- Son cinco pasos en PowerShell, dentro de la carpeta `odoo`: arrancar, crear la base `sp_contable` con los módulos,
+  ejecutar `configuracion/base_contable.py`, pasar (opcional) `pruebas/prueba_base_contable.py` y entrar.
+- Cambie la contraseña de `admin` al entrar. Para empezar de cero: `docker compose down -v`.
+- **Nunca** se carga aquí un certificado real ni datos reales. Qué monta exactamente y qué resultado dio la prueba:
+  11 · DOC-5 y 19 §6.

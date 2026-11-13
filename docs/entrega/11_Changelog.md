@@ -3,6 +3,64 @@
 Sistema Propio · 12/11/2026. Formato inspirado en *Keep a Changelog*. Las versiones siguen los incrementos del plan
 (F0.1 … F5.6). Los cambios de base de datos se indican con su migración.
 
+## [DOC-5] · 13/11/2026 — Odoo 20: base contable montada y probada
+Primer paso de la implantación en Odoo 20 Community: la **base contable** (19 §6, paso 1). Todo con datos ficticios.
+### Añadido
+- **Carpeta `odoo/`** (ver `odoo/LEEME.md`):
+  - `odoo/docker-compose.yml`: Odoo 20 + PostgreSQL 16, con el puerto 8069 abierto **solo en el propio ordenador**
+    (`127.0.0.1`) y las carpetas `addons/`, `configuracion/` y `pruebas/` montadas en el contenedor.
+  - `odoo/configuracion/base_contable.py`: script para `odoo shell` que monta la base contable. Es **idempotente**
+    (busca antes de crear; se puede repetir sin duplicar).
+  - `odoo/pruebas/prueba_base_contable.py`: prueba con datos ficticios (CLIENTE_01, EMPRESA_01 S.L., EXPEDIENTE_01).
+  - `odoo/addons/`: carpeta vacía para los módulos propios `sp_*` (19 §5).
+  - `odoo/LEEME.md`: cómo montarlo en Windows con Docker Desktop, paso a paso.
+- **Capturas** con datos ficticios en `documentacion/odoo20_base_contable/` (`1_facturas.png`,
+  `2_factura_expediente_suplido.png`, `3_diarios.png`).
+- **Qué monta el script:**
+
+| Elemento | Despacho S.L. (demo) | Autónomo del titular (demo) | Filial Colombia (demo) |
+|---|---|---|---|
+| Plan contable y moneda | `es_pymes` · EUR | `es_pymes` · EUR (AL-06 abierto) | `co` · COP |
+| Diarios de venta | CIT (citas web) y EXP (expedientes); rectificativas en serie propia (RCIT, REXP) | Igual | — |
+| Cuenta de ingresos por defecto | 705000 «Prestaciones de servicios» (diarios y `income_account_id` de la compañía, en lugar de 700000 mercaderías) | Igual | — |
+| Diario genérico INV | Archivado (solo se factura con CIT y EXP) | Igual | — |
+| Bancos | Banco A · Laboral (BCA), Banco B · Extranjería (BCB), Banco C · Tesorería (BCC) | Banco A (BCA) | Los del plan |
+| Cajas | CBAR, CMAD, CVAL | CBAR | — |
+| Cuentas propias (**provisionales**, T-40) | 555001 «Suplidos por cuenta de clientes» y 555002 «Fondos de clientes en mediación (80 % cuota litis)» | Igual | — |
+| Verifactu | Activado en **entorno de pruebas** | Igual | — |
+
+Comunes a todo el grupo: analítica con los planes **Actividad** (Laboral, Extranjería, Compartida) y **Sede**
+(Barcelona, Madrid, Valencia, Colombia); productos de ejemplo (consultas de 50 € y 40 € con IVA 21 % S, honorarios
+de expediente, honorarios cuota litis y suplido sin IVA a la 555001).
+
+- **12 §4c (nuevo):** INC-60…INC-64; **12 §5:** ABI-04 (Verifactu sin probar contra la AEAT). **09 · Anexo C:** remite a `odoo/LEEME.md`. **00 · Índice:** nueva sección «Implantación en Odoo 20». **18 §3:** fila
+  de la carpeta `odoo/`.
+### Cambiado
+- **19 §6:** paso 1 (base contable) marcado como hecho, con enlace a `odoo/LEEME.md`; quedan pendientes los grupos y
+  permisos. **19 §3.8:** paso a en curso (entorno de pruebas configurado; falta la prueba con conexión a la AEAT) y
+  paso b hecho en la base de prueba (se valida en el paso d).
+- **18 · AL-06 y AL-13:** siguen abiertos; se anota cómo los refleja la base contable de prueba.
+### Comprobado
+- 13/11/2026, **ejecutado de cero con los pasos de `odoo/LEEME.md` en Docker**, resultado «todo correcto»:
+
+| Prueba | Resultado |
+|---|---|
+| Cita web (serie CIT) | CIT/2026/00001: consulta 40 € + IVA = 48,40 € |
+| Expediente con suplido (serie EXP) | EXP/2026/00001: 400 € + IVA 84 € + suplido 38,28 € = 522,28 €. Suplido a 555001, honorarios a 705000 |
+| Cobro parcial | 200 € por Banco B → «pagado parcialmente», pendiente 322,28 € |
+| Empresa con retención | EXP/2026/00002: 1.200 € + IVA 252 € − IRPF 15 % 180 € = 1.272 € |
+| Rectificativa | RCIT/2026/00001 (serie propia) |
+
+**Pendiente (no comprobado):**
+- **Verifactu:** con el certificado de **pruebas** público de la AEAT que trae Odoo (entidad ficticia «ENTIDAD
+  PRUEBAS», solo para el entorno de pruebas) Odoo calcula la huella, pero el documento no se completa porque el
+  entorno en la nube no resuelve `prewww2.aeat.es` (12 · INC-64). La rectificativa no genera documento porque la factura
+  original no lo tiene (consecuencia del mismo problema). **Hay que repetir la prueba en un equipo con Internet** (p.
+  ej. el PC del despacho con Docker).
+- Cuentas 555001 y 555002: provisionales hasta cerrar el plan de cuentas con la gestoría (T-40, 18 · AL-13).
+- Compañía del autónomo: de prueba; se quita si AL-06 se decide en contra.
+- Grupos y permisos de la base contable (parte del paso 1 de 19 §6): no se han tocado en este trabajo.
+
 ## [DOC-4] · 13/11/2026 — Decisión: Odoo emite las facturas con Verifactu
 Decisión del proyecto, tomada por la persona responsable del proyecto. No cambia el código de Sistema Propio ni hay
 incidencias asociadas (12 sin cambios).

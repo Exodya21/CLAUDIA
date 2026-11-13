@@ -65,12 +65,25 @@ escribe con un documento ficticio de la misma forma.
 | INC-53 | 12/11 | «No tienes acceso al tablero de Contabilidad» con el usuario de demostración | Sin comprobar (probablemente el tablero de Contabilidad está restringido en Community) | Trabajar desde Facturación → Facturas | Comprobarlo dentro de AL-01 |
 | INC-54 | 13/11 | El enlace público de la demo de Sistema Propio (túnel `trycloudflare`) no abre desde el entorno en la nube | El proxy del entorno no responde para ese dominio (sin comprobar más) | Trabajar con la copia local de `referencia/SistemaPropio/` (09 §Anexo B) | No publicar nunca en Internet una instalación con datos reales; el túnel, solo con la demo de datos ficticios |
 
+## 4c. Odoo 20 · base contable
+Al montar la base contable con `odoo/configuracion/base_contable.py` (11 · DOC-5). Entorno: Odoo 20.0 Community en el
+entorno en la nube (sin Docker) y en Docker con la imagen oficial `odoo:20`.
+
+| ID | Fecha | Síntoma | Causa | Solución | Prevención |
+|---|---|---|---|---|---|
+| INC-60 | 13/11 | El script falla al crear una compañía con país: primero por la dependencia `phonenumbers` y después con la transacción rota | Al crear una compañía con país, Odoo 20 instala solo módulos de localización (p. ej. `account_peppol`) a mitad del script y recarga el registro. En el entorno sin Docker no estaba instalada `phonenumbers` (la imagen Docker oficial sí la trae) | Crear la compañía con el contexto `install_mode=True` y cargar el plan contable con `try_loading` | Instalar los módulos de localización al crear la base (`-i account,l10n_es,l10n_co,l10n_es_edi_verifactu`, `odoo/LEEME.md` paso 2) y usar la imagen Docker oficial |
+| INC-61 | 13/11 | No encuentra las cuentas del autónomo al buscarlas por código | En Odoo 20 el código de la cuenta depende de la compañía (`code_store`); sin `with_company(co)` se busca con el código de otra compañía | Búsquedas con `with_company(co)` y contexto con todas las compañías permitidas (`allowed_company_ids`) | En los `sp_*`, buscar siempre cuentas por código con `with_company` |
+| INC-62 | 13/11 | Error al crear el certificado de Verifactu de pruebas | En Odoo 20 los campos binarios exigen `BinaryValue`/`BinaryBytes`, no `bytes` | Crear el contenido con `BinaryBytes(...)` | Tenerlo en cuenta en los `sp_*` que guarden archivos |
+| INC-63 | 13/11 | La cuenta de ingresos por defecto no está en la categoría de producto, donde estaba en versiones anteriores | En Odoo 20 la cuenta de ingresos por defecto está en la compañía (`income_account_id`), no en la categoría | Poner 705000 en `income_account_id` de la compañía y como cuenta por defecto de los diarios CIT y EXP | La prueba comprueba que los honorarios van a 705000 |
+| INC-64 | 13/11 | Verifactu: Odoo calcula la huella pero el documento no se completa («Error de red»); la rectificativa no genera documento | El entorno en la nube no resuelve `prewww2.aeat.es` (entorno de pruebas de la AEAT). La rectificativa depende del documento de la factura original | **Pendiente:** repetir la prueba en un equipo con Internet (p. ej. el PC del despacho con Docker) | La prueba avisa cuando no hay conexión con la AEAT. Estado: **abierta** (19 §3.8 paso a) |
+
 ## 5. Incidencias abiertas o conocidas
 | ID | Tema | Estado |
 |---|---|---|
 | ABI-01 | Secreto TOTP del primer administrador mostrado en una captura compartida | **Restablecer el TOTP** de esa cuenta desde Administración y volver a enrolarlo |
 | ABI-02 | En la carpeta real quedaron `ops\DIAGNOSTICO_REAL.bat`, `ops\_diag_iniciar.bat` y `ops\diag_real.txt` (diagnóstico, sin secretos) | Se pueden borrar |
 | ABI-03 | Si un banco cambia el formato de su Excel | «Comprobar sin importar» indica las columnas que no reconoce. Enviar **solo la fila de cabecera** |
+| ABI-04 | Verifactu sin probar contra la AEAT: el entorno en la nube no llega a `prewww2.aeat.es` (INC-64) | Repetir `odoo/pruebas/prueba_base_contable.py` en un equipo con Internet (19 §3.8 paso a) |
 
 ## 6. Procedimiento de soporte
 1. Reproducir con **datos ficticios**.
