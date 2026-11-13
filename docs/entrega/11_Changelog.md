@@ -3,6 +3,35 @@
 Sistema Propio · 12/11/2026. Formato inspirado en *Keep a Changelog*. Las versiones siguen los incrementos del plan
 (F0.1 … F5.6). Los cambios de base de datos se indican con su migración.
 
+## [DOC-4] · 13/11/2026 — Decisión: Odoo emite las facturas con Verifactu
+Decisión del proyecto, tomada por la persona responsable del proyecto. No cambia el código de Sistema Propio ni hay
+incidencias asociadas (12 sin cambios).
+### Cambiado
+- **18 · AL-03** (facturación a clientes): **Decidido · 13/11/2026**. Odoo 20 Community emite las facturas a clientes
+  con Verifactu (`l10n_es_edi_verifactu`). Incluye la precaución sobre los módulos propios.
+- **01 §4 regla 11:** se mantiene para Sistema Propio; se anota que en Odoo aplica la decisión AL-03 (Odoo calcula el
+  IVA de sus facturas; las recibidas, el que figura en ellas). **01 §3:** nota en la fila «Facturación a clientes».
+- **05 §13:** fila «IVA, honorarios, facturación» con la decisión.
+- **19 §1.3** reescrito («decidido»), con lo comprobado del módulo y la precaución. **19 §3.7** deja de ser
+  condicional. **19 §3.8 (nuevo):** plan de puesta en marcha (pruebas en el entorno de la AEAT con datos ficticios,
+  diarios y series CIT y EXP, certificado de cada compañía cargado por la persona autorizada, validación con la
+  gestoría, paso a producción con fecha anotada en 11 y 18). **19 §4 regla 5, §5 (`sp_facturacion`) y §6 paso 7**
+  actualizados.
+- **02 §8:** fila «Facturación a clientes» con el módulo estándar y la decisión.
+- Skills `sistema-odoo-despacho` (regla 5 de series y puntos abiertos 4.1, 6.19, 6.21) y `documentacion-proyecto`
+  (lista de reglas): decisión AL-03 y regla de diseño.
+### Comprobado
+- 13/11/2026, en el código de Odoo 20.0 Community (`addons/l10n_es_edi_verifactu`): módulo de Odoo S.A., LGPL-3;
+  depende de `l10n_es` y `certificate`; se activa por compañía («Enable Veri*Factu») con un certificado electrónico
+  por compañía (`certificate.certificate`); entorno de pruebas de la AEAT activado por defecto y entorno de
+  producción; envío por tarea programada, encadenamiento de registros, QR en el PDF, panel en el diario y asistente de
+  renumeración; enlace «Access Declaración Responsable» en los ajustes (la emite Odoo S.A. para su módulo estándar).
+
+**Pendiente de confirmar (no comprobado):**
+- Con la gestoría o un asesor fiscal: que los módulos propios que solo preparan facturas no alteran la cobertura de la
+  declaración responsable de Odoo (19 §1.3).
+- AL-06 sigue abierto: si el autónomo es una compañía aparte (Verifactu se activa por compañía).
+
 ## [DOC-3] · 13/11/2026 — Decisión: Odoo 20 Community para todo el proyecto
 Decisión del proyecto, tomada por la persona responsable del proyecto en la sesión de trabajo. No cambia el código de
 Sistema Propio.

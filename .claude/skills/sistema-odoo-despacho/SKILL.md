@@ -72,6 +72,8 @@ El detalle de las 77 necesidades (bloques 1 a 6) está en `referencias/necesidad
 3. **Citas web: filtrado en cascada.** Rama → Modalidad/ubicación (Presencial BCN/MAD/VLC, Llamada o Videollamada) → por día o por asesor → franja fija. La cita **solo se confirma con el pago** hecho.
 4. **Numeración de expedientes:** consecutiva y sin saltos, por rama, con el formato `EXP-LAB-2026-001` / `EXP-EXT-2026-001`.
 5. **Series de factura:** correlativas, sin saltos y compatibles con **Verifactu**. Por ejemplo, `CIT/2026/00001` para las citas web y `EXP/2026/00001` para los expedientes.
+   - **Decisión AL-03 (13/11/2026, persona responsable del proyecto):** Odoo 20 Community **emite las facturas a clientes con Verifactu** (módulo estándar `l10n_es_edi_verifactu`, de Odoo S.A.), por compañía y con el certificado de cada una cargado en Odoo por la persona autorizada (nunca por chat, correo ni repositorio). Odoo calcula el IVA de sus facturas; las recibidas conservan el IVA que figura en ellas.
+   - **Regla de diseño:** los módulos propios **no alteran** el registro, el encadenamiento, la numeración ni el envío de Verifactu. `sp_facturacion` solo **prepara** facturas (cuota litis, suplidos, factura global de extranjería) y deja la emisión y el envío al estándar. Motivo (precaución por confirmar con la gestoría o un asesor fiscal): la declaración responsable de Odoo cubre su módulo estándar; si un desarrollo propio tocara esa parte, el despacho podría pasar a considerarse productor del software. Detalle y plan de puesta en marcha: `docs/entrega/19_Contabilidad_y_facturacion_en_Odoo20.md` §1.3 y §3.8.
 6. **Plazos procesales en días hábiles** (sin fines de semana ni festivos):
    - **Despido:** caduca a los **20 días hábiles**. Se calculan los límites de la papeleta (CMAC) a 15 y 20 días hábiles desde la fecha fin laboral.
    - **Alertas:** se crean tareas **5 días y 2 días** antes de cada vencimiento.
@@ -117,6 +119,7 @@ El detalle de las 77 necesidades (bloques 1 a 6) está en `referencias/necesidad
 - **4.1:** ¿la cuenta analítica va ligada al expediente o al contacto? ¿Cómo se controla qué está pagado y en qué estado? Propuesta anotada, pendiente de que la evalúe Dirección: una factura por el coste total y cobros a medida que avanza el proceso.
 - **6.19:** el aviso a Contabilidad después de una sentencia está pendiente de revisar con ellos. En Laboral no es un aviso manual: el dinero entra al despacho y se devuelve el 80 %.
 - **6.21:** cómo se avisa del pago final en Extranjería. Se prefiere una factura global con varios cobros.
+- **4.1, 6.19 y 6.21** siguen abiertos solo en cuanto al **flujo**. **Quién factura ya está decidido** (AL-03, 13/11/2026): Odoo con Verifactu.
 - **1.4:** alojamiento en la nube. QUBIQ presentará un presupuesto y el cliente decide.
 
 ## Community o Enterprise: compruébalo antes de prometer nada

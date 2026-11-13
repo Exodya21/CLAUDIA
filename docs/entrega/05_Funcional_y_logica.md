@@ -247,6 +247,6 @@ Los gastos en efectivo mueven la caja de su sede.
 | Plazos legales, festivos, días por convenio | Letrado o RRHH con fuente; el sistema solo guarda la fecha validada |
 | Resultado de un expediente | Persona con `case.transition.legal` |
 | Presentación en Mercurio, LexNET, DEHú | La persona habilitada, manualmente |
-| IVA, honorarios, facturación | Programa de facturación certificado (D-07, D-25) |
+| IVA, honorarios, facturación | Programa de facturación certificado (D-07, D-25). En Odoo: el estándar de Odoo 20 con Verifactu emite las facturas de venta y calcula su IVA; los honorarios los fija una persona; el IVA de las facturas recibidas es el que figura en ellas (18 · AL-03, 19 §1.3) |
 | Conciliación, pagos | Contabilidad y Dirección (doble firma) |
 | Fusión de contactos | Una persona, revisando el aviso |

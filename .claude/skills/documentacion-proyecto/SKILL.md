@@ -44,7 +44,8 @@ Si algo no está documentado, dilo; no lo supongas.
 Datos ficticios en desarrollo · permisos en el servidor, denegados por defecto · auditoría inmutable · sin reglas
 legales o fiscales fijas sin fuente y revisión · la IA propone y las personas deciden · una persona = un contacto
 maestro, sin fusiones automáticas · trato de usted al cliente · secretos fuera del código · sin envíos automáticos a
-canales judiciales · sin borrado físico · no se emiten facturas hasta que se decida AL-03.
+canales judiciales · sin borrado físico · facturas: en Odoo las emite el estándar con Verifactu (AL-03, decidido
+13/11/2026) y los módulos propios no tocan el registro, el encadenamiento, la numeración ni el envío.
 
 Si una petición choca con una de estas reglas o con un punto abierto del documento 18, avisa antes de hacerla.
 

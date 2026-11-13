@@ -55,11 +55,31 @@ si algo no se puede desarrollar se estudia externalizarlo (criterio en 18 §2).
 - **No trae:** la pantalla de conciliación bancaria, la importación de extractos, las remesas SEPA ni los informes
   contables (balance, pérdidas y ganancias, modelos de la AEAT). Todo eso es Enterprise o de la OCA.
 
-### 1.3 Facturación a clientes: depende de una decisión
-Sistema Propio **no emite facturas ni calcula el IVA**. Registra el número de la factura que emite un programa
-homologado (D-07, D-25; ver AL-03). En Odoo, **Odoo puede ser ese programa**, porque Verifactu está en Community 20.
-Si la Dirección lo aprueba, la facturación a clientes se monta con lo estándar de Odoo (apartado 3.7). Si no, Odoo
-solo registra cobros y el número de la factura externa, como hace hoy Sistema Propio.
+### 1.3 Facturación a clientes: decidido, Odoo emite con Verifactu
+Sistema Propio **no emite facturas ni calcula el IVA**: registra el número de la factura que emite un programa
+homologado (D-07, D-25). **Decidido el 13/11/2026 por la persona responsable del proyecto (18 · AL-03):** en el
+sistema en Odoo, **Odoo 20 Community emite las facturas a clientes, con Verifactu** (módulo estándar
+`l10n_es_edi_verifactu`). Odoo calcula el IVA de **sus** facturas de venta. Las **facturas recibidas** siguen con el IVA
+que figura en ellas (01 §4 regla 11 y §4 regla 4 de este documento).
+
+**Comprobado el 13/11/2026 en el código de Odoo 20.0 Community** (`addons/l10n_es_edi_verifactu`):
+
+| Aspecto | Qué hay |
+|---|---|
+| Autor y licencia | Odoo S.A., LGPL-3 |
+| Dependencias | `l10n_es` y `certificate` |
+| Activación | Por compañía («Enable Veri*Factu»). Habrá que activarlo en la S.L. y en el autónomo (AL-06 sigue abierto) |
+| Certificado | Cada compañía necesita su certificado electrónico cargado en Odoo (modelo `certificate.certificate`) |
+| Entornos de la AEAT | Pruebas (prewww1/prewww2.aeat.es), **activado por defecto**, y producción (www1/www2.agenciatributaria.gob.es) |
+| Funcionamiento | Envío por tarea programada (`ir_cron`), encadenamiento de registros, QR en el PDF de la factura, panel en el diario y asistente de renumeración |
+| Declaración responsable | En los ajustes hay un enlace «Access Declaración Responsable» a la documentación de Odoo: la emite Odoo S.A. para su módulo estándar |
+
+**Precaución (por confirmar con la gestoría o un asesor fiscal; no comprobado):** la declaración responsable de Odoo
+cubre su módulo estándar. Los módulos propios **no deben alterar** el registro, el encadenamiento, la numeración ni el
+envío de Verifactu. Si un desarrollo propio tocara esa parte, el despacho podría pasar a considerarse productor del
+software, con sus obligaciones. **Regla de diseño:** `sp_facturacion` solo **prepara** facturas (cuota litis, suplidos,
+factura global de extranjería) y deja la emisión y el envío al estándar. La facturación se monta como se indica en
+§3.7 y se pone en marcha según §3.8.
 
 ## 2. Principio de diseño
 1. **Lo contable va en el modelo contable de Odoo** (`account.move`, `account.payment`, `account.bank.statement.line`,
@@ -140,7 +160,11 @@ Columnas:
 | Asientos con el plan de cuentas de la gestoría | pendiente (T-40) | Asientos de Odoo con `l10n_es` | — | Cuentas de la gestoría; suplidos 554/555 y cuenta de mediación del 80 % | 4.7, 4.8 |
 | Modelos de la AEAT (303, 111, 347…) para la gestoría | — | ❌ | `l10n_es_aeat_*`: no en 20.0 | Mientras tanto: exportación para la gestoría | 4.10 |
 
-### 3.7 Facturación a clientes (solo si se aprueba AL-03)
+### 3.7 Facturación a clientes (decidido, 18 · AL-03)
+Odoo emite las facturas de venta con Verifactu (§1.3). Los suplidos, la cuota litis y la factura global de extranjería
+siguen como en esta tabla. Los puntos 4.1, 6.19 y 6.21 del charter siguen abiertos **en cuanto al flujo** (no en
+cuanto a quién factura).
+
 | Función | Odoo 20 de serie | Módulo propio | Charter |
 |---|---|---|---|
 | Series separadas: citas `CIT/…` y expedientes `EXP/…` | Un diario de ventas por serie (secuencias sin saltos) | — | 4.1 |
@@ -151,6 +175,23 @@ Columnas:
 | Cobro con tarjeta a distancia | Enlace de pago con Redsys | — | 4.3 |
 | Rectificativas | Nota de crédito de serie | Enlazarla con `sp.refund` | 4.4 |
 
+`sp_facturacion` solo prepara el borrador de la factura. La validación, la numeración, el registro, el encadenamiento y
+el envío a la AEAT los hace siempre el estándar (`account` y `l10n_es_edi_verifactu`), sin modificarlos (§1.3).
+
+### 3.8 Puesta en marcha de Verifactu
+Plan acordado el 13/11/2026 (18 · AL-03). Ningún paso se da por hecho hasta que se anote en 11 · Changelog.
+
+| Paso | Qué se hace | Quién | Estado |
+|---|---|---|---|
+| a | Probar con el **entorno de pruebas de la AEAT** (el de defecto del módulo) y **datos ficticios** (CLIENTE_01, EXPEDIENTE_01) | Equipo del proyecto | Pendiente |
+| b | Definir los **diarios y series** de venta: `CIT/…` (citas) y `EXP/…` (expedientes), correlativas y sin saltos, en cada compañía que facture | Contabilidad y equipo del proyecto | Pendiente |
+| c | Cargar el **certificado electrónico** de cada compañía en Odoo | La persona autorizada del despacho, directamente en Odoo | Pendiente |
+| d | **Validar con la gestoría** (series, IVA, suplidos, cuota litis y la precaución de §1.3) | Gestoría y Dirección | Pendiente |
+| e | **Pasar a producción**, con la fecha de inicio anotada en 11 · Changelog y en 18 · AL-03 | Persona responsable del proyecto | Pendiente |
+
+**El certificado nunca se comparte** por chat, correo ni repositorio, ni se pasa al equipo de desarrollo: lo carga
+directamente en Odoo la persona autorizada (01 §4 regla 8).
+
 ## 4. Reglas de Sistema Propio que hay que mantener en Odoo
 1. **Separación de funciones:** quien registra un cobro no lo confirma; quien cuenta la caja no la valida; quien
    solicita una devolución no la aprueba; quien propone una remesa no la firma, y las dos firmas son de personas
@@ -158,7 +199,8 @@ Columnas:
 2. **Nada contable se borra.** Se anula o se rectifica con motivo, y queda el historial.
 3. **El sistema propone y una persona decide:** conciliación, cobros, devoluciones y pagos.
 4. **El IVA de una factura recibida es el que figura en ella.** Solo se registra si cuadra.
-5. **Ningún envío al banco ni a la AEAT** sin una persona, salvo el envío de Verifactu si se aprueba AL-03.
+5. **Ningún envío al banco ni a la AEAT** sin una persona, salvo el envío de Verifactu de las facturas emitidas
+   (decidido, 18 · AL-03), que hace el módulo estándar.
 6. **Los correos no llevan cifras.**
 7. **Importes en céntimos enteros** en la lógica propia, para evitar redondeos.
 8. **Permisos en el servidor** (grupos y reglas de registro), no solo ocultando botones; revisar cada `sudo()`.
@@ -175,7 +217,7 @@ rama 20.0. Para esas piezas se puede partir del código de la OCA 19.0 portado (
 | `sp_banco` | `sp_base`, `account` | Importación de extractos y conciliación con propuestas | `account_statement_import_camt`, `account_statement_import_sheet_file`, `l10n_es_account_statement_import_n43`, `account_reconcile_oca` | `bank/parsers.py`, `bank/matcher.py`, `bank/service.py` |
 | `sp_contabilidad` | `sp_banco` | Facturas de proveedor con lectura y cuadre, remesas con doble firma y SEPA, previsión | `account_payment_order`, `account_banking_sepa_credit_transfer`, `base_tier_validation` | `accounting/invoices.py`, `accounting/treasury.py` |
 | `sp_contabilidad_rutina` | `sp_contabilidad`, `mis_builder` | Cierre del mes, rutina comprobada e informes | `account_financial_report`, `l10n_es_aeat_mod303`, `mod111`, `mod347` (y demás `l10n_es_aeat_*`) | `accounting/close.py`, `routine.py`, `reports.py` |
-| `sp_facturacion` (si AL-03) | `account`, `l10n_es_edi_verifactu` | Cuota litis, suplidos, factura global de extranjería | — | — |
+| `sp_facturacion` (decidido, AL-03) | `account`, `l10n_es_edi_verifactu` | Prepara facturas: cuota litis, suplidos, factura global de extranjería. **No toca** el registro, el encadenamiento, la numeración ni el envío de Verifactu (§1.3) | — | — |
 
 Quedan sin asignar a un `sp_*` concreto `l10n_es_aeat_sii_oca` (Odoo 20 Community trae `l10n_es_edi_sii`) y
 `account_asset_management` (activos): se decidirá con el criterio de 18 §2 cuando se aborden.
@@ -188,7 +230,8 @@ Quedan sin asignar a un `sp_*` concreto `l10n_es_aeat_sii_oca` (Odoo 20 Communit
 4. **Banco y conciliación** (`sp_banco`): la pieza más grande en Odoo 20 (decidido, 18 · AL-02).
 5. **Remesas SEPA con doble firma.**
 6. **Cierre, rutina e informes.**
-7. **Facturación a clientes**, cuando se decida AL-03.
+7. **Facturación a clientes** con Verifactu (decidido, 18 · AL-03), siguiendo el plan de §3.8. Las pruebas en el
+   entorno de la AEAT (paso a) pueden empezar antes, en paralelo.
 
 ## 7. Cómo consultar la referencia
 - **Código:** `referencia/SistemaPropio/apps/api/app/` (modelos `models_*.py`, lógica en `bank/`, `accounting/`,

@@ -185,7 +185,7 @@ La Dirección ha decidido montar el servidor definitivo sobre **Odoo Community**
 | Remesas SEPA con doble firma | — | `account_payment_order`, `account_banking_sepa_credit_transfer`, `account_payment_order_tier_validation` / `base_tier_validation` | Dos firmas de personas distintas, ninguna de quien propone |
 | Cierre del mes, rutina, informes | — | `mis_builder` (informes) | **`sp_contabilidad_rutina`**: pasos comprobados, informes inmutables |
 | Contabilidad general (asientos, modelos AEAT) | `account`, `l10n_es` | `l10n-spain` (modelos 303, 111, 347…), `account-financial-reporting` | Plan de cuentas de la gestoría (T-40) |
-| Facturación a clientes | `account` | `l10n_es_verifactu` / `l10n_es_aeat_sii_oca` (**comprobar certificación VeriFactu**) | D-07: solo con un sistema certificado |
+| Facturación a clientes | `account` + `l10n_es_edi_verifactu` (estándar de Odoo 20 Community) | — | Decidido el 13/11/2026 (18 · AL-03): Odoo emite con Verifactu; los `sp_*` no alteran el registro ni el envío (19 §1.3) |
 | RRHH | `hr`, `hr_holidays`, `hr_attendance`, `hr_expense` | `payroll` (si hiciera falta) | Salario visible solo con permiso; la nómina se lee, no se calcula (T-50) |
 | Agentes | `base_automation`, `ir.cron` | `queue_job` | Modelo `sp.proposal` (bandeja de propuestas con permiso y `dedupe_key`) |
 | Correo saliente | `mail` (cola `mail.mail`) | — | Correos sin contenido sensible |

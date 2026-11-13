@@ -47,7 +47,7 @@ entran por un portal separado.
 | RRHH | En curso | Control horario (T-41), formación, cuadro de mando |
 | Citas, Dirección (cuadro de mando), Documentos (gestor general) | Pendiente | Se pueden construir ya |
 | Fichas laborales (superficha, 3 rutas) | Pendiente | Validación U-01…U-18 |
-| Facturación a clientes | Pendiente | **D-07 VeriFactu**: el programa que emite facturas debe estar certificado |
+| Facturación a clientes | Pendiente | **D-07 VeriFactu**: el programa que emite facturas debe estar certificado. En Odoo, decidido el 13/11/2026: emite Odoo con Verifactu (18 · AL-03, 19 §1.3) |
 
 «Operativo» quiere decir que el módulo tiene base de datos, API, permisos, pantallas, pruebas automáticas y auditoría.
 Los módulos pendientes aparecen en el menú como **«No disponible aún»**: no hay pantallas simuladas.
@@ -72,6 +72,10 @@ debe mantenerlas.
 10. **Sin borrado físico** de expedientes, contactos ni registros con valor de prueba: se anulan o se sustituyen.
 11. **No se emiten facturas ni se calcula IVA** (D-05, D-07, D-16, D-18, D-25). El IVA de una factura recibida es
     siempre el que figura en ella.
+    **En el sistema en Odoo aplica la decisión 18 · AL-03 (13/11/2026):** Odoo 20 Community emite las facturas de
+    venta con Verifactu (`l10n_es_edi_verifactu`) y calcula el IVA de **sus** facturas. Las facturas recibidas siguen
+    con el IVA que figura en ellas. Los módulos propios no alteran el registro, el encadenamiento, la numeración ni el
+    envío de Verifactu (19 §1.3). Esta regla 11 sigue vigente tal cual para Sistema Propio.
 
 ## 5. Requisitos de origen
 El alcance procede de cinco fuentes, con trazabilidad individual (ver 17 · Auditoría y trazabilidad):
