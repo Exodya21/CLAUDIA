@@ -23,7 +23,11 @@ El detalle de las 77 necesidades (bloques 1 a 6) está en `referencias/necesidad
 - **Entidades (multicompañía en una sola base de datos):**
   1. **S.L. principal**: sede en Barcelona, con delegaciones en Madrid y Valencia.
   2. **Filial de Colombia**: soporte administrativo; crea leads y oportunidades y da asesoría laboral. Trabaja en COP y factura cada mes a la S.L. en EUR.
-  3. **Autónomo del titular** (Barcelona): tiene 2 empleados y factura a la S.L.
+  3. **Autónomo del titular** (Barcelona): factura a la S.L. El charter dice que tiene 2 empleados; **corregido: tiene 1**.
+     **Decisión (13/11/2026, provisional hasta que la confirme la gestoría; `docs/entrega/18_…` AL-06): queda FUERA de
+     Odoo.** No es compañía (sin series, Verifactu ni certificado en Odoo); sus pocas facturas a clientes siguen en su
+     programa actual hasta que se acaben; sus facturas a la S.L. se registran en la S.L. como facturas de proveedor; su
+     empleado no entra en RRHH del despacho. La intercompañía (1.1, 4.16) queda solo entre Colombia y la S.L.
 - **Plantilla: 47 personas.**
 
   | Área | Personas |

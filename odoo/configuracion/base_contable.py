@@ -10,7 +10,9 @@
 # datos reales al repositorio.
 #
 # Qué monta:
-#   - Compañías: S.L. principal (España), autónomo del titular (España; pendiente de AL-06) y filial de Colombia.
+#   - Compañías: S.L. principal (España) y filial de Colombia. El autónomo del titular queda FUERA de Odoo
+#     (AL-06, 13/11/2026): factura casi solo a la S.L., su contabilidad la lleva la gestoría y sus cuentas son
+#     privadas. Sus facturas a la S.L. se registran en la S.L. como facturas de proveedor.
 #   - Plan contable: PGC pymes (es_pymes) en España y plan colombiano (co) en Colombia. Monedas EUR y COP.
 #   - Diarios de venta con series sin saltos: CIT (citas web) y EXP (expedientes), con rectificativas propias.
 #   - Bancos A (Laboral), B (Extranjería) y C (Tesorería); cajas por sede (Barcelona, Madrid, Valencia).
@@ -25,8 +27,9 @@
 COMPANIAS = [
     {"clave": "SL", "nombre": "Despacho S.L. (demo)", "pais": "ES", "plan": "es_pymes", "nif": "ESB12345674",
      "ciudad": "Barcelona", "sedes": ["Barcelona", "Madrid", "Valencia"], "factura": True},
-    # AL-06 sigue abierto: si el autónomo no va como compañía aparte, se quita esta entrada.
-    {"clave": "AUT", "nombre": "Autónomo del titular (demo)", "pais": "ES", "plan": "es_pymes", "nif": "ES00000000T",
+    # AL-06 (13/11/2026): el autónomo NO va en Odoo. Se deja la entrada desactivada por si se decidiera lo contrario
+    # («incluir»: True la vuelve a crear con sus series CIT/EXP y su Verifactu).
+    {"incluir": False, "clave": "AUT", "nombre": "Autónomo del titular (demo)", "pais": "ES", "plan": "es_pymes", "nif": "ES00000000T",
      "ciudad": "Barcelona", "sedes": ["Barcelona"], "factura": True},
     {"clave": "CO", "nombre": "Filial Colombia (demo)", "pais": "CO", "plan": "co", "nif": False,
      "ciudad": "Bogotá", "sedes": [], "factura": False},
@@ -51,6 +54,7 @@ PRODUCTOS = [
     ("Suplido · tasa oficial", 0.0, False, "555001"),
 ]
 # ----------------------------------------------------------------------------------------------------------------
+COMPANIAS = [c for c in COMPANIAS if c.get("incluir", True)]
 
 Company = env["res.company"].sudo()
 log = []

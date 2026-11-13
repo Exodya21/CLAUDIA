@@ -87,6 +87,9 @@ El alcance procede de cinco fuentes, con trazabilidad individual (ver 17 · Audi
 
 ## 6. Entidades y sedes
 - Dos entidades legales separadas: **España** y **Colombia**. Un usuario de una no ve nada de la otra.
+- **Nota (13/11/2026):** el charter de QUBIQ cita una tercera entidad, el **autónomo del titular**. Queda **fuera de
+  Odoo**: no es compañía, no emite con Verifactu en Odoo y sus facturas a la S.L. se registran como facturas de
+  proveedor. Decidido provisionalmente; falta que lo confirme la gestoría (18 · AL-06).
 - Las sedes (por ejemplo Barcelona, Madrid, Valencia) se configuran en la instalación.
 
 ## 7. Cómo se ha construido

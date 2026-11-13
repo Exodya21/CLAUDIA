@@ -51,7 +51,9 @@ si algo no se puede desarrollar se estudia externalizarlo (criterio en 18 §2).
 - **Redsys** (`payment_redsys`) y enlaces de pago (`account_payment`).
 - **Gastos de empleados** (`hr_expense`), sin lectura automática del ticket.
 - **Pagos intercompañía** (`account_payment_interco`): concilia pagos entre empresas del grupo. La facturación
-  intercompañía automática **no** está en Community.
+  intercompañía automática **no** está en Community. En este proyecto la intercompañía queda **solo entre la filial de
+  Colombia y la S.L.**: el autónomo del titular queda fuera de Odoo (18 · AL-06, decidido provisionalmente el
+  13/11/2026).
 - **No trae:** la pantalla de conciliación bancaria, la importación de extractos, las remesas SEPA ni los informes
   contables (balance, pérdidas y ganancias, modelos de la AEAT). Todo eso es Enterprise o de la OCA.
 
@@ -68,8 +70,8 @@ que figura en ellas (01 §4 regla 11 y §4 regla 4 de este documento).
 |---|---|
 | Autor y licencia | Odoo S.A., LGPL-3 |
 | Dependencias | `l10n_es` y `certificate` |
-| Activación | Por compañía («Enable Veri*Factu»). Habrá que activarlo en la S.L. y en el autónomo (AL-06 sigue abierto) |
-| Certificado | Cada compañía necesita su certificado electrónico cargado en Odoo (modelo `certificate.certificate`) |
+| Activación | Por compañía («Enable Veri*Factu»). Se activa **solo en la S.L.**: el autónomo queda fuera de Odoo y sus pocas facturas a clientes siguen en su programa actual (18 · AL-06, decidido provisionalmente el 13/11/2026) |
+| Certificado | Cada compañía que emite necesita su certificado electrónico cargado en Odoo (modelo `certificate.certificate`); en este proyecto, solo el de la S.L. |
 | Entornos de la AEAT | Pruebas (prewww1/prewww2.aeat.es), **activado por defecto**, y producción (www1/www2.agenciatributaria.gob.es) |
 | Funcionamiento | Envío por tarea programada (`ir_cron`), encadenamiento de registros, QR en el PDF de la factura, panel en el diario y asistente de renumeración |
 | Declaración responsable | En los ajustes hay un enlace «Access Declaración Responsable» a la documentación de Odoo: la emite Odoo S.A. para su módulo estándar |
@@ -141,6 +143,12 @@ Columnas:
 | Proveedor con actividad, sede, plazo de pago, recurrente | `supplier` | Contacto proveedor, plazos de pago | — | Campos actividad y sede por defecto para la analítica | 4.11 |
 | Imputación a **actividad** (laboral, extranjería, compartida) y **sede** | `activity`, `branch_id` | **Analítica con dos planes**: Actividad y Sede | — | Rellenar la analítica desde el proveedor | 4.11 |
 
+**Facturas del autónomo del titular y de la filial de Colombia (18 · AL-06, decidido provisionalmente el
+13/11/2026):** el autónomo no es compañía en Odoo; sus facturas a la S.L. se registran en la S.L. como **facturas de
+proveedor** normales, con el IVA y la retención que figuren en ellas. La intercompañía (charter 1.1 y 4.16) queda solo
+entre la filial de Colombia y la S.L.: como la facturación intercompañía automática es Enterprise, se cubrirá con
+desarrollo propio o se registrará a mano (18 §2).
+
 ### 3.5 Tesorería y remesas
 | Función | Tabla | Odoo 20 de serie | OCA | Módulo propio | Charter |
 |---|---|---|---|---|---|
@@ -183,9 +191,9 @@ Plan acordado el 13/11/2026 (18 · AL-03). Ningún paso se da por hecho hasta qu
 
 | Paso | Qué se hace | Quién | Estado |
 |---|---|---|---|
-| a | Probar con el **entorno de pruebas de la AEAT** (el de defecto del módulo) y **datos ficticios** (CLIENTE_01, EXPEDIENTE_01) | Equipo del proyecto | **En curso · 13/11/2026:** entorno de pruebas configurado en las dos compañías españolas (`odoo/configuracion/base_contable.py`). Con el certificado de pruebas público de la AEAT que trae Odoo, la huella se calcula, pero el documento no se completa: el entorno en la nube no llega a `prewww2.aeat.es` (12 · INC-64). **Pendiente:** repetir la prueba en un equipo con Internet |
-| b | Definir los **diarios y series** de venta: `CIT/…` (citas) y `EXP/…` (expedientes), correlativas y sin saltos, en cada compañía que facture | Contabilidad y equipo del proyecto | **Hecho en la base de prueba · 13/11/2026:** diarios CIT y EXP con rectificativas RCIT y REXP (11 · DOC-5). Se validan en el paso d |
-| c | Cargar el **certificado electrónico** de cada compañía en Odoo | La persona autorizada del despacho, directamente en Odoo | Pendiente |
+| a | Probar con el **entorno de pruebas de la AEAT** (el de defecto del módulo) y **datos ficticios** (CLIENTE_01, EXPEDIENTE_01) | Equipo del proyecto | **En curso · 13/11/2026:** entorno de pruebas configurado en la S.L., la única compañía española en Odoo (`odoo/configuracion/base_contable.py`; 18 · AL-06). Con el certificado de pruebas público de la AEAT que trae Odoo, la huella se calcula, pero el documento no se completa: el entorno en la nube no llega a `prewww2.aeat.es` (12 · INC-64). **Pendiente:** repetir la prueba en un equipo con Internet |
+| b | Definir los **diarios y series** de venta: `CIT/…` (citas) y `EXP/…` (expedientes), correlativas y sin saltos, en la S.L. (única compañía que emite con Verifactu; 18 · AL-06) | Contabilidad y equipo del proyecto | **Hecho en la base de prueba · 13/11/2026:** diarios CIT y EXP con rectificativas RCIT y REXP (11 · DOC-5). Se validan en el paso d |
+| c | Cargar el **certificado electrónico** de la S.L. en Odoo | La persona autorizada del despacho, directamente en Odoo | Pendiente |
 | d | **Validar con la gestoría** (series, IVA, suplidos, cuota litis y la precaución de §1.3) | Gestoría y Dirección | Pendiente |
 | e | **Pasar a producción**, con la fecha de inicio anotada en 11 · Changelog y en 18 · AL-03 | Persona responsable del proyecto | Pendiente |
 
@@ -227,8 +235,9 @@ Quedan sin asignar a un `sp_*` concreto `l10n_es_aeat_sii_oca` (Odoo 20 Communit
    Actividad y Sede, grupos y permisos. *Todo de serie.* **Hecho · 13/11/2026** con datos ficticios (11 · DOC-5):
    cómo montarlo en [`odoo/LEEME.md`](../../odoo/LEEME.md); script `odoo/configuracion/base_contable.py` y prueba
    `odoo/pruebas/prueba_base_contable.py`. Quedan pendientes: los **grupos y permisos** (no se han configurado aún),
-   las cuentas 555001 y 555002, que son provisionales (T-40, 18 · AL-13), y la compañía del autónomo, que depende de
-   18 · AL-06. Para cerrarlos se ha preparado el cuestionario para la gestoría
+   las cuentas 555001 y 555002, que son provisionales (T-40, 18 · AL-13), y la confirmación de la gestoría de que el
+   autónomo queda fuera de Odoo (18 · AL-06, decidido provisionalmente el 13/11/2026; el script ya crea solo la S.L. y
+   la filial de Colombia). Para cerrarlos se ha preparado el cuestionario para la gestoría
    (`documentacion/cuestionarios/Cuestionario_gestoria_plan_de_cuentas.docx`, 13/11/2026; 11 · DOC-6).
 2. **Recepción y cajas** (`sp_recepcion`): es lo que más usan las sedes cada día.
 3. **Proveedores y gastos** (`sp_contabilidad` sin remesas, `sp_gastos`).

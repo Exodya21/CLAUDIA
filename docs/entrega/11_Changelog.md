@@ -3,6 +3,26 @@
 Sistema Propio · 12/11/2026. Formato inspirado en *Keep a Changelog*. Las versiones siguen los incrementos del plan
 (F0.1 … F5.6). Los cambios de base de datos se indican con su migración.
 
+## [DOC-7] · 13/11/2026 — AL-06: el autónomo queda fuera de Odoo
+### Cambiado
+- **18 · AL-06:** «Decidido provisionalmente · 13/11/2026 · persona responsable del proyecto (respuestas del abogado);
+  confirmar con la gestoría (cuestionario, bloque 9)». Respuestas recibidas: el autónomo factura sobre todo a la S.L.
+  y, de forma residual, a algún cliente (terminará pronto); su contabilidad la lleva la misma gestoría, de momento;
+  su personal se gestiona aparte y tiene **1 empleado** (el charter dice 2); sus cuentas bancarias son propias y la
+  contabilidad del despacho no tiene acceso.
+- **Consecuencias en el sistema:** el autónomo **no es compañía en Odoo** (sin series, sin Verifactu ni certificado
+  propios); sus facturas a clientes siguen en su programa actual hasta que se acaben; sus facturas a la S.L. se
+  registran en la S.L. como **facturas de proveedor**; la intercompañía queda solo entre la filial de Colombia y la
+  S.L.; su empleado no entra en RRHH del despacho en Odoo.
+- `odoo/configuracion/base_contable.py`: la entrada del autónomo queda con `"incluir": False` (se puede reactivar).
+- **18 · AL-03:** Verifactu solo en la S.L. **19 §1.2, §1.3, §3.4, §3.8 y §6:** Verifactu solo en la S.L.;
+  intercompañía solo Colombia → S.L.; facturas del autónomo como facturas de proveedor. **01 §6:** nota de que el
+  autónomo queda fuera de Odoo. `odoo/LEEME.md`: tabla con la S.L. y Colombia. Skill `sistema-odoo-despacho`: nota
+  en entidades (decisión y 1 empleado).
+### Comprobado
+- Montada la base de cero con Docker: el script crea solo «Despacho S.L. (demo)» y «Filial Colombia (demo)», y
+  `odoo/pruebas/prueba_base_contable.py` da «todo correcto».
+
 ## [DOC-6] · 13/11/2026 — Cuestionario para la gestoría (T-40 y AL-06)
 ### Añadido
 - `documentacion/cuestionarios/Cuestionario_gestoria_plan_de_cuentas.docx`: Word de 6 páginas para que la persona

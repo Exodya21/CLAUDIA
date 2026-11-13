@@ -33,20 +33,24 @@ En PowerShell, dentro de la carpeta `odoo` del repositorio. Un comando cada vez.
    docker compose exec -T odoo odoo shell -d sp_contable --db_host=db -r odoo -w odoo --no-http < pruebas/prueba_base_contable.py
    ```
 5. Abrir http://localhost:8069. Usuario `admin`, contraseña `admin` (**cámbiela** en Ajustes → Usuarios).
-   Arriba a la derecha se elige la compañía: «Despacho S.L. (demo)», «Autónomo del titular (demo)» o «Filial
-   Colombia (demo)».
+   Arriba a la derecha se elige la compañía: «Despacho S.L. (demo)» o «Filial Colombia (demo)».
+   El autónomo del titular **queda fuera de Odoo** (AL-06, decidido provisionalmente el 13/11/2026): el script lo
+   tiene desactivado (`"incluir": False` en `configuracion/base_contable.py`) y no lo crea.
 
 Para empezar de cero: `docker compose down -v` (borra la base de datos de pruebas) y repetir desde el paso 1.
 
 ## Qué monta la base contable
-| Elemento | Despacho S.L. | Autónomo (AL-06 abierto) | Filial Colombia |
-|---|---|---|---|
-| Plan contable y moneda | PGC pymes · EUR | PGC pymes · EUR | Plan colombiano · COP |
-| Series de factura (sin saltos, rectificativas aparte) | `CIT/2026/…` citas web · `EXP/2026/…` expedientes | Igual | — |
-| Bancos | Banco A · Laboral, Banco B · Extranjería, Banco C · Tesorería | Banco A | Del plan |
-| Cajas | Barcelona, Madrid, Valencia | Barcelona | — |
-| Cuentas propias (provisionales, T-40) | 555001 suplidos · 555002 fondos de clientes en mediación (80 % cuota litis) | Igual | — |
-| Verifactu | Activado en **entorno de pruebas** | Igual | — |
+| Elemento | Despacho S.L. | Filial Colombia |
+|---|---|---|
+| Plan contable y moneda | PGC pymes · EUR | Plan colombiano · COP |
+| Series de factura (sin saltos, rectificativas aparte) | `CIT/2026/…` citas web · `EXP/2026/…` expedientes | — |
+| Bancos | Banco A · Laboral, Banco B · Extranjería, Banco C · Tesorería | Del plan |
+| Cajas | Barcelona, Madrid, Valencia | — |
+| Cuentas propias (provisionales, T-40) | 555001 suplidos · 555002 fondos de clientes en mediación (80 % cuota litis) | — |
+| Verifactu | Activado en **entorno de pruebas** | — |
+
+El autónomo del titular no es compañía en Odoo (AL-06): sus facturas a la S.L. se registran en la S.L. como facturas
+de proveedor.
 
 Analítica compartida: plan **Actividad** (Laboral, Extranjería, Compartida) y plan **Sede** (Barcelona, Madrid,
 Valencia, Colombia). Productos base de ejemplo: consultas de 50 € y 40 €, honorarios, cuota litis y suplido sin IVA.
