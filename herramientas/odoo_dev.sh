@@ -5,6 +5,11 @@
 set -euo pipefail
 RAIZ="$(cd "$(dirname "$0")/.." && pwd)"; cd "$RAIZ/odoo"
 if ! docker info >/dev/null 2>&1; then (nohup dockerd >/tmp/dockerd.log 2>&1 &); for i in $(seq 1 30); do docker info >/dev/null 2>&1 && break; sleep 1; done; fi
+# Imagen propia (odoo/Dockerfile): se construye si falta, pasando el proxy del entorno si lo hay.
+if ! docker image inspect despacho/odoo:20 >/dev/null 2>&1; then
+  docker compose build --build-arg HTTP_PROXY="${HTTP_PROXY:-}" --build-arg HTTPS_PROXY="${HTTPS_PROXY:-}" \
+    --build-arg http_proxy="${HTTP_PROXY:-}" --build-arg https_proxy="${HTTPS_PROXY:-}" odoo
+fi
 docker compose up -d >/dev/null
 for i in $(seq 1 60); do docker compose exec -T db pg_isready -U odoo >/dev/null 2>&1 && break; sleep 1; done
 ODOO="docker compose exec -T odoo odoo --db_host=db -r odoo -w odoo"
