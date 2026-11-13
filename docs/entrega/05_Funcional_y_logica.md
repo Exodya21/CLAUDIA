@@ -132,7 +132,7 @@ devoluciones e informe de recepción.
 > Recepción limitada a sus sedes y **devoluciones** (`sp.devolucion`) con la misma tabla de estados de abajo:
 > Atención al cliente revisa, el letrado informa si se escala y Contabilidad aprueba o rechaza y paga (rectificativa y
 > pago, o pago de salida sin factura). Faltan el informe por sede y el vínculo con expedientes. Detalle en 19 §3.1,
-> permisos en 08 §10, manual en 15 §8b; cambios en 11 · DOC-8 y DOC-10. Quién aprueba la devolución: 18 · AL-14.
+> permisos en 08 §10, manual en 15 §8b; cambios en 11 · DOC-8 y DOC-10. Quién aprueba la devolución: Contabilidad (18 · AL-14, decidido 13/11/2026).
 
 **Reglas**
 - Importes en céntimos enteros.

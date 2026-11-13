@@ -660,8 +660,8 @@ DOC-10). Los cuatro grupos están bajo el privilegio «Recepción y cajas» de C
 - **Diferencia con Sistema Propio:** allí el informe jurídico lo daba quien tenía acceso completo al expediente. En
   Odoo aún no hay expedientes: lo emite cualquier persona del grupo «Letrado · informe de devoluciones». Revisar
   cuando exista el módulo de expedientes.
-- **Quién aprueba:** el módulo sigue a Sistema Propio (A-09: aprueba Contabilidad). El charter (3.9) deja la
-  aprobación en Atención al cliente: punto abierto 18 · AL-14.
+- **Quién aprueba:** Contabilidad, como en Sistema Propio (A-09). **Decidido el 13/11/2026** (18 · AL-14), aunque
+  el charter (3.9) dejaba la aprobación en Atención al cliente.
 
 ### 10.3 `sudo()` en el módulo (para revisar en la auditoría)
 Crear la numeración de cada sede, obtener el número del justificante, generar el PDF, leer los usuarios de un grupo

@@ -117,7 +117,9 @@ El detalle de las 77 necesidades (bloques 1 a 6) está en `referencias/necesidad
 13. **Roles:**
     - **Fase 1:** Dirección, Administrador de Atención al Cliente, Colaborador de Atención al Cliente, RRHH, Marketing y Contabilidad.
     - **Fase 2:** Administrador y Colaborador de Extranjería y de Laboral. Los colaboradores solo ven lo que tienen asignado.
-14. **No se puede hacer en Odoo:** la lista negra de WhatsApp (Necesidad 3.4). Los chats privados de redes sociales tampoco se atienden desde Odoo en esta fase.
+14. **Devoluciones (charter 3.9 y 4.4):**
+    - **Decisión AL-14 (13/11/2026, persona responsable del proyecto):** se sigue el circuito de Sistema Propio, no el del charter. Atención al cliente revisa, el letrado informa si hace falta, **Contabilidad aprueba** y después paga. Nunca aprueba quien hizo la solicitud. Ya implementado en `sp_recepcion` (`docs/entrega/18_…` AL-14).
+15. **No se puede hacer en Odoo:** la lista negra de WhatsApp (Necesidad 3.4). Los chats privados de redes sociales tampoco se atienden desde Odoo en esta fase.
 
 ## Puntos abiertos (anotados en el charter, pendientes de decidir)
 

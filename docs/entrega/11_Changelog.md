@@ -3,6 +3,14 @@
 Sistema Propio · 12/11/2026. Formato inspirado en *Keep a Changelog*. Las versiones siguen los incrementos del plan
 (F0.1 … F5.6). Los cambios de base de datos se indican con su migración.
 
+## [DOC-12] · 13/11/2026 — AL-14: devoluciones con el circuito de Sistema Propio
+### Cambiado
+- **Decisión** (persona responsable del proyecto): las devoluciones siguen el circuito de Sistema Propio. Atención al
+  cliente revisa, el letrado informa si hace falta, **Contabilidad aprueba** y después paga. Nunca aprueba quien hizo
+  la solicitud. Difiere del charter 3.9 (Atención al cliente pasaba el ticket a «Aprobado para devolución»).
+- Sin cambios de código: es lo que ya hace `sp_recepcion` (11 · DOC-10 y DOC-11).
+- Documentación: 18 §1 (AL-14 decidido), 19 §3.1 y §6, 08 §10.2, 05 §7 y skill `sistema-odoo-despacho`.
+
 ## [DOC-11] · 13/11/2026 — Devoluciones: «Enviar a Contabilidad»
 ### Añadido
 - Botón **Enviar a Contabilidad** (`action_enviar_a_contabilidad`) en las devoluciones en revisión: exige el informe de
