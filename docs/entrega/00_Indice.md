@@ -48,6 +48,8 @@ en el repositorio (`docs/entrega/`) junto al código y se actualiza con él. Se 
   - `odoo/pruebas/prueba_base_contable.py`: prueba con datos ficticios.
   - `odoo/addons/`: módulos propios `sp_*` (19 §5), por ahora vacía.
 - `documentacion/odoo20_base_contable/`: capturas de la prueba de la base contable (datos ficticios).
+- `documentacion/cuestionarios/`: cuestionario para la gestoría sobre el plan de cuentas
+  (`Cuestionario_gestoria_plan_de_cuentas.docx`; T-40 y 18 · AL-06/AL-13; 11 · DOC-6).
 
 ## Datos
 Todos los ejemplos, pruebas y capturas usan **datos ficticios**. Ningún documento contiene datos de clientes, del

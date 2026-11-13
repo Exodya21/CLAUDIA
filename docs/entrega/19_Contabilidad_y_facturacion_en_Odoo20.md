@@ -228,7 +228,8 @@ Quedan sin asignar a un `sp_*` concreto `l10n_es_aeat_sii_oca` (Odoo 20 Communit
    cómo montarlo en [`odoo/LEEME.md`](../../odoo/LEEME.md); script `odoo/configuracion/base_contable.py` y prueba
    `odoo/pruebas/prueba_base_contable.py`. Quedan pendientes: los **grupos y permisos** (no se han configurado aún),
    las cuentas 555001 y 555002, que son provisionales (T-40, 18 · AL-13), y la compañía del autónomo, que depende de
-   18 · AL-06.
+   18 · AL-06. Para cerrarlos se ha preparado el cuestionario para la gestoría
+   (`documentacion/cuestionarios/Cuestionario_gestoria_plan_de_cuentas.docx`, 13/11/2026; 11 · DOC-6).
 2. **Recepción y cajas** (`sp_recepcion`): es lo que más usan las sedes cada día.
 3. **Proveedores y gastos** (`sp_contabilidad` sin remesas, `sp_gastos`).
 4. **Banco y conciliación** (`sp_banco`): la pieza más grande en Odoo 20 (decidido, 18 · AL-02).

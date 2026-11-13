@@ -3,6 +3,22 @@
 Sistema Propio · 12/11/2026. Formato inspirado en *Keep a Changelog*. Las versiones siguen los incrementos del plan
 (F0.1 … F5.6). Los cambios de base de datos se indican con su migración.
 
+## [DOC-6] · 13/11/2026 — Cuestionario para la gestoría (T-40 y AL-06)
+### Añadido
+- `documentacion/cuestionarios/Cuestionario_gestoria_plan_de_cuentas.docx`: Word de 6 páginas para que la persona
+  responsable lo envíe a la gestoría. **33 preguntas en 11 bloques:** plan contable y dígitos; clientes (430 única o
+  por cliente), proveedores (400/410) y retenciones; cuentas propias (suplidos, fondos de clientes en mediación de la
+  cuota litis, ingresos 705, factura global con cobros parciales); bancos 572 y cajas 570 por sede; cuentas de
+  gastos; impuestos y modelos (303, 390, 111/190, 115/180, 347, 349), criterio de caja o prorrata, Verifactu y series
+  CIT/EXP/RCIT/REXP; forma de trabajo con Odoo (usuario propio o exportación, programa, frecuencia); puesta en marcha
+  (fecha de inicio, asiento de apertura, efectos pendientes, sesión de validación); autónomo del titular (AL-06);
+  filial de Colombia (contador, tipo de cambio de sus facturas a la S.L.); otros comentarios.
+- Cada pregunta muestra lo configurado ahora («Ahora en Odoo», 11 · DOC-5) y casillas para responder. El documento
+  pide expresamente **no enviar datos personales ni saldos**.
+### Cambiado
+- **18 · AL-06 y AL-13:** nota de que el cuestionario está preparado; siguen abiertos. **19 §6 paso 1:** referencia
+  al cuestionario. **00 · Índice:** nueva línea `documentacion/cuestionarios/`.
+
 ## [DOC-5] · 13/11/2026 — Odoo 20: base contable montada y probada
 Primer paso de la implantación en Odoo 20 Community: la **base contable** (19 §6, paso 1). Todo con datos ficticios.
 ### Añadido
