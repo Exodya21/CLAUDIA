@@ -90,7 +90,8 @@ El alcance procede de cinco fuentes, con trazabilidad individual (ver 17 · Audi
 - Hay dos instalaciones con el mismo programa:
   - **demostración**, con datos ficticios;
   - **real**, con los datos del despacho, en un ordenador protegido hasta que esté listo el servidor.
-- El servidor definitivo está comprado. La estructura destino es **Odoo Community** (ver 02 · Arquitectura, apartado 8).
+- El servidor definitivo está comprado. La estructura destino es **Odoo Community** (ver 02 · Arquitectura, apartado 8):
+  **Odoo 20.0 Community para todo el proyecto**, decidido el 13/11/2026 (18 · AL-01, AL-02 y criterio de 18 §2).
 
 ## 8. Glosario
 | Término | Significado |

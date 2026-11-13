@@ -153,7 +153,11 @@ La Dirección ha decidido montar el servidor definitivo sobre **Odoo Community**
 - usar este sistema como **especificación ejecutable**: sus reglas, pruebas y datos ficticios definen qué debe hacer
   cada módulo.
 
-> **Antes de empezar:** compruebe cada módulo en la versión exacta de Odoo que se instale (17.0 o 18.0). Varias
+> **Versión decidida (13/11/2026):** Odoo **20.0 Community** para todo el proyecto, sin Enterprise (ver 18 · AL-01,
+> AL-02 y el criterio de 18 §2). Lo que sigue se escribió para 17.0 o 18.0: los módulos de la OCA citados hay que
+> comprobarlos en la 20.0 y, si no están, se cubren con desarrollo propio `sp_*` (ver 19 §1.1 y §5).
+>
+> **Antes de empezar:** compruebe cada módulo en la versión exacta de Odoo que se instale. Varias
 > funciones que parecen estándar son de **Enterprise** (de pago) y en Community hay que cubrirlas con módulos de la
 > **OCA** (Odoo Community Association) o con desarrollo propio. La tabla indica las conocidas a fecha de hoy.
 

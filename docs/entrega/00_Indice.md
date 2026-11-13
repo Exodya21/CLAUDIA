@@ -26,7 +26,7 @@ que coinciden con lo entregado.
 | 15 | [Manual del usuario](15_Manual_usuario.md) | Uso por departamento |
 | 16 | [Integraciones y APIs](16_Integraciones_y_APIs.md) | Todas las rutas de la API, formatos de intercambio, conectores externos |
 | 17 | [Auditoría y trazabilidad](17_Auditoria_y_trazabilidad.md) | Registro inmutable, qué se audita, trazabilidad de los 208 requisitos |
-| 18 | [Alineación con el charter de QUBIQ](18_Alineacion_con_el_charter.md) | Diferencias con el *Project Charter* y decisiones pendientes (AL-01…AL-13) |
+| 18 | [Alineación con el charter de QUBIQ](18_Alineacion_con_el_charter.md) | Diferencias con el *Project Charter*, decisiones pendientes y tomadas (AL-01…AL-13) y criterio para cada necesidad (§2) |
 | 19 | [Contabilidad y facturación en Odoo 20](19_Contabilidad_y_facturacion_en_Odoo20.md) | Correspondencia función por función de economía, banco y contabilidad con Odoo 20 Community, OCA y módulos `sp_*` |
 
 Cada documento se entrega en dos formatos: **Word (.docx)**, para leer y compartir, y **Markdown (.md)**, que vive

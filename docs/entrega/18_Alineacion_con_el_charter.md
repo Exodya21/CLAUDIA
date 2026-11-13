@@ -3,7 +3,7 @@
 Sistema Propio · 13/11/2026
 
 Este documento compara la documentación de Sistema Propio (documentos 01 a 17) con el *Project Charter* de QUBIQ del
-08/09/2026, que es el alcance acordado para Odoo. Recoge **en qué no coinciden** y qué hay que decidir. Mientras un
+08/09/2026, que es el alcance acordado para Odoo. Recoge **en qué no coinciden**, qué hay que decidir y qué se ha decidido. Mientras un
 punto siga abierto, **no se resuelve en el código ni en la configuración**: lo decide la Dirección y se anota aquí.
 
 El resumen del charter está en la skill `.claude/skills/sistema-odoo-despacho/`. La comparativa por necesidad (fase,
@@ -12,30 +12,46 @@ Community y Enterprise) está en `documentacion/Odoo 20 - Community vs Enterpris
 ## 1. Diferencias que hay que decidir
 | ID | Tema | Sistema Propio (01–17) | Charter de QUBIQ | Qué hay que decidir | Estado |
 |---|---|---|---|---|---|
-| AL-01 | Edición de Odoo | **Community**, por decisión de la Dirección (01 §7, 02 §8) | Da por hechas apps **Enterprise**: Citas, Firma, Documentos, Helpdesk, WhatsApp, VoIP, intercompañía, sincronización bancaria, activos, SEPA… | Community con OCA y módulos `sp_*`, o Enterprise. Afecta sobre todo a la Fase 1 (8 de 24 necesidades no están en Community) | Abierto |
-| AL-02 | Versión de Odoo | 17.0 o 18.0 (04) | Odoo **v20** (necesidad 1.3) | Fijar la versión. La 20.0 Community existe y se ha probado con Facturación (13/11/2026). Los módulos de OCA hay que comprobarlos en la versión elegida. **Comprobado el 13/11/2026 (sin decidir):** en la rama 20.0 de la OCA **no** están los módulos contables necesarios (importación de extractos y Norma 43, `account_reconcile_oca`, remesas SEPA, `base_tier_validation`, modelos 303/111/347, SII de la OCA, `account_financial_report`, `account_asset_management`, `auditlog`); en 19.0 están todos salvo `base_tier_validation`; en 18.0, todos. En 20.0 sí están `mis_builder`, `auto_backup`, `account_move_line_tax_editable`, `date_range`, `l10n_es_partner` y `l10n_es_bank`. Odoo 20 Community no trae conciliación bancaria ni importación de extractos; sí fechas de bloqueo, aviso de referencia de proveedor repetida, recibo de pago en PDF, `account_payment_interco` y `l10n_es_edi_verifactu`. Detalle en 19 §1 | Abierto |
+| AL-01 | Edición de Odoo | **Community**, por decisión de la Dirección (01 §7, 02 §8) | Da por hechas apps **Enterprise**: Citas, Firma, Documentos, Helpdesk, WhatsApp, VoIP, intercompañía, sincronización bancaria, activos, SEPA… | **Decidido:** Odoo **Community para todo el proyecto**, sin licencias Enterprise. Lo que falte se cubre con la OCA o con desarrollo propio `sp_*`; lo que no se pueda desarrollar se estudia si se externaliza (criterio en §2). Afecta sobre todo a la Fase 1 (8 de 24 necesidades no están en Community) | **Decidido · 13/11/2026 · persona responsable del proyecto** |
+| AL-02 | Versión de Odoo | 17.0 o 18.0 (04) | Odoo **v20** (necesidad 1.3) | Fijar la versión. La 20.0 Community existe y se ha probado con Facturación (13/11/2026). Los módulos de OCA hay que comprobarlos en la versión elegida. **Comprobado el 13/11/2026 (sin decidir):** en la rama 20.0 de la OCA **no** están los módulos contables necesarios (importación de extractos y Norma 43, `account_reconcile_oca`, remesas SEPA, `base_tier_validation`, modelos 303/111/347, SII de la OCA, `account_financial_report`, `account_asset_management`, `auditlog`); en 19.0 están todos salvo `base_tier_validation`; en 18.0, todos. En 20.0 sí están `mis_builder`, `auto_backup`, `account_move_line_tax_editable`, `date_range`, `l10n_es_partner` y `l10n_es_bank`. Odoo 20 Community no trae conciliación bancaria ni importación de extractos; sí fechas de bloqueo, aviso de referencia de proveedor repetida, recibo de pago en PDF, `account_payment_interco` y `l10n_es_edi_verifactu`. Detalle en 19 §1. **Decidido:** Odoo **20.0 Community**. **Consecuencia:** los módulos de la OCA que aún no están en 20.0 se cubren con desarrollo propio `sp_*`. Una vía es **portar a la 20.0 los módulos de la OCA de la 19.0** (licencia AGPL/LGPL; se conservan la autoría y la licencia), que suele costar menos que hacerlos desde cero | **Decidido · 13/11/2026 · persona responsable del proyecto** |
 | AL-03 | Facturación a clientes | No se emiten facturas ni se calcula IVA hasta tener un sistema conforme con VeriFactu (01 §4 regla 11, D-07) | Odoo factura y envía a VeriFactu (4.1, 4.2) | Si se acepta el módulo de Odoo (`l10n_es_edi_verifactu`, presente en Community 20) como sistema de facturación. Hay que comprobar la declaración responsable del fabricante del software | Abierto |
 | AL-04 | Plazos legales | No hay plazos automáticos sin una fuente legal vigente y la revisión de un profesional (01 §4 regla 4, T-25, T-26) | Fija las cifras: despido a 20 días hábiles, papeleta a 15 y 20, pruebas 12 días antes del juicio, ejecución a 2 y 9 meses, FOGASA a 90, 180, 270 y 330 días (6.9–6.12) | Que un abogado valide cada plazo con su fuente legal y se registre como decisión antes de programarlo | Abierto |
 | AL-05 | Automatismos hacia el cliente | Los agentes **proponen** y las personas deciden; nada se presenta solo (01 §4 regla 5) | Envíos automáticos de WhatsApp o correo, cambios de etapa y creación de oportunidades (2.9, 3.2, 6.3, 6.10) | Qué envíos automáticos se permiten sin validación de una persona | Abierto |
-| AL-06 | Entidades | Dos: España y Colombia (01 §6) | Tres: la S.L., la filial de Colombia y el **autónomo del titular**, que también factura (1.1, 4.2) | Si el autónomo es una compañía aparte en Odoo | Abierto |
+| AL-06 | Entidades | Dos: España y Colombia (01 §6) | Tres: la S.L., la filial de Colombia y el **autónomo del titular**, que también factura (1.1, 4.2) | Si el autónomo es una compañía aparte en Odoo. Si hace falta facturación intercompañía automática (Enterprise), se cubre con desarrollo propio o se descarta: la opción Enterprise queda descartada (AL-01, 13/11/2026) | Abierto |
 | AL-07 | Código de expediente | `LAB-2026-0001`, `EXT-2026-0001` (01 §8) | `EXP-LAB-2026-001`, `EXP-EXT-2026-001` (6.2) | Formato definitivo; afecta a la migración desde MNP | Abierto |
 | AL-08 | Requisitos de QUBIQ trazados | 70 (Q-1.1…Q-6.23 y Q-6.20B) (17 §2) | El charter actual tiene **77** necesidades (incluye la 6.24 y la 6.25) | Actualizar la matriz de trazabilidad con la versión vigente del charter | Abierto |
-| AL-09 | Firma | Pendiente de decisión (firma cualificada); `sign_oca` en Community (02 §8.1) | Odoo Sign con enlace único, PDF/A con OCR y certificado adjunto (6.6, 6.7) | Herramienta y nivel de firma | Abierto |
-| AL-10 | WhatsApp | Conector propio con la API de Callbell (T-31) | WhatsApp de Odoo (Enterprise) con plantillas (2.2, 3.3) | Callbell más conector propio, o WhatsApp de Odoo | Abierto |
+| AL-09 | Firma | Pendiente de decisión (firma cualificada); `sign_oca` en Community (02 §8.1) | Odoo Sign con enlace único, PDF/A con OCR y certificado adjunto (6.6, 6.7) | Herramienta y nivel de firma. **13/11/2026:** la opción Enterprise queda descartada (AL-01); la alternativa es desarrollo propio `sp_*` o externalizar (§2) | Abierto |
+| AL-10 | WhatsApp | Conector propio con la API de Callbell (T-31) | WhatsApp de Odoo (Enterprise) con plantillas (2.2, 3.3) | Callbell más conector propio, u otra vía. **13/11/2026:** la opción Enterprise queda descartada (AL-01); la alternativa es desarrollo propio `sp_*` o externalizar (§2) (WhatsApp de Odoo es Enterprise) | Abierto |
 | AL-11 | Contactos duplicados | Nunca se fusiona automáticamente (01 §4 regla 6) | Importación «desduplicada» de los más de 100.000 contactos (4.12) | Regla de desduplicación en la migración: solo aviso, o fusión revisada | Abierto |
-| AL-12 | Conciliación bancaria | Propuestas explicadas, nunca automática (02 §8.1) | Odoo propone y solo se revisa a mano lo imprevisto (4.5) | Si se permite la conciliación automática con reglas | Abierto |
+| AL-12 | Conciliación bancaria | Propuestas explicadas, nunca automática (02 §8.1) | Odoo propone y solo se revisa a mano lo imprevisto (4.5) | Si se permite la conciliación automática con reglas. **13/11/2026:** la opción Enterprise queda descartada (AL-01); la alternativa es desarrollo propio `sp_*` o externalizar (§2): la conciliación y la sincronización bancaria de Enterprise no se usan; se cubren con `sp_banco` (19 §5) | Abierto |
 | AL-13 | Plan de cuentas | Asientos pendientes del plan de la gestoría (T-40) | Suplidos en 554/555 (4.8) y cuenta de mediación para el 80 % (4.7) | Cerrar el plan de cuentas con la gestoría | Abierto |
 
-## 2. Piezas de este repositorio y su relación con Sistema Propio
+## 2. Criterio para cada necesidad
+Decidido el 13/11/2026 por la persona responsable del proyecto (AL-01 y AL-02). Para cada necesidad del charter se
+sigue este orden y se usa la primera opción que la cubra:
+
+| Paso | Opción | Condición |
+|---|---|---|
+| 1 | **Estándar de Odoo 20 Community** | Si la función está de serie en la 20.0 Community |
+| 2 | **Módulo de la OCA publicado en 20.0** | Si existe en la rama 20.0 de la OCA |
+| 3 | **Desarrollo propio `sp_*` en Odoo 20** | Incluye **portar a la 20.0 un módulo de la OCA** (p. ej. de la 19.0), conservando autoría y licencia (AGPL/LGPL) |
+| 4 | **Externalizar** (servicio o proveedor externo integrado con Odoo) | Solo si no se puede desarrollar. Se documenta: el motivo, el proveedor, los datos que salen (RGPD, contrato de encargo de tratamiento) y cómo se integra con Odoo |
+
+No se contratan licencias Enterprise. Las necesidades del charter que dependían de apps Enterprise (Citas, Firma,
+Documentos, Helpdesk, WhatsApp, VoIP, intercompañía, sincronización bancaria, activos, SEPA, informes y modelos de la
+AEAT, evaluaciones…) pasan a los pasos 2 a 4. La lista por necesidad está en
+`.claude/skills/sistema-odoo-despacho/referencias/community_enterprise.md`.
+
+## 3. Piezas de este repositorio y su relación con Sistema Propio
 | Pieza | Dónde | Relación |
 |---|---|---|
 | Super Ficha Laboral (prototipo) | `super_ficha_laboral.html`, `fuente/`, `LEEME_TRASPASO.md` | Es la «Ficha laboral (superficha)» que el documento 01 §3 da como pendiente (U-01…U-18). Cubre las necesidades 6.1, 6.8 y 6.9 del charter |
 | Convenios colectivos | `convenios/`, skills `convenio-*` | Apoyo a la ficha B y a la papeleta |
 | Prueba de Odoo 20 Community con Facturación | `documentacion/odoo20_facturacion_demo/` | Capturas con datos ficticios: series, IVA y retención de IRPF |
 | Versión de referencia de Sistema Propio (F5.6c) | `referencia/SistemaPropio/` | Código y documentación interna de lo construido; base para implantarlo en Odoo 20 (ver 19) |
-| Comparativa Community/Enterprise | `documentacion/Odoo 20 - Community vs Enterprise por fase.xlsx` | Base para decidir AL-01 |
+| Comparativa Community/Enterprise | `documentacion/Odoo 20 - Community vs Enterprise por fase.xlsx` | Base de la decisión de AL-01 (13/11/2026) y del criterio de §2 |
 
-## 3. Cómo se cierra un punto
+## 4. Cómo se cierra un punto
 1. La Dirección (o la persona en quien delegue) decide.
 2. Se cambia el **Estado** a «Decidido · fecha · quién» y se resume la decisión en la fila.
 3. Se actualizan los documentos afectados (01–17) y se añade la entrada correspondiente en 11 · Changelog.

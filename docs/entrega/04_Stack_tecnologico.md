@@ -34,7 +34,7 @@ Lo que **no** se usa, de forma deliberada:
 ## 2. Stack destino (Odoo Community)
 | Capa | Tecnología | Nota |
 |---|---|---|
-| Plataforma | Odoo Community 17.0 o 18.0 (LGPL-3) | Fijar una versión y no mezclar ramas |
+| Plataforma | Odoo **20.0** Community (LGPL-3). Decidido el 13/11/2026 (18 · AL-02); antes se barajaban 17.0 o 18.0 | No mezclar ramas. Sin Enterprise (18 · AL-01) |
 | Lenguaje | Python 3.10–3.12 (según la versión de Odoo) | Los módulos propios `sp_*` en Python + XML |
 | Interfaz | OWL (framework web de Odoo), vistas XML, QWeb para informes PDF | Sustituye a Next.js |
 | Base de datos | PostgreSQL 14–16 | La misma familia de reglas: triggers propios en `init()` |

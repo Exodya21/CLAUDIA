@@ -35,9 +35,11 @@ despacho. En la **19.0** sí están casi todos, y en la **18.0**, todos.
 | `auditlog` (registro de cambios) | ✅ | ✅ | ❌ |
 | `mis_builder` (informes de gestión), `auto_backup` (copias) | ✅ | ✅ | ✅ |
 
-**Consecuencia:** con Odoo 20 Community, todo lo que en la tabla de abajo figura como «OCA» hay que **esperar a que
-se migre, migrarlo nosotros o programarlo** en los módulos `sp_*`. Esto hay que tenerlo en cuenta al decidir la
-versión (punto **AL-02** del documento 18).
+**Consecuencia (decidido el 13/11/2026, 18 · AL-01 y AL-02):** el proyecto usa **Odoo 20.0 Community** y no se
+espera a que la OCA publique estos módulos. Todo lo que en las tablas de abajo figura como «OCA … no en 20.0» se
+**desarrolla nosotros** en los módulos `sp_*` (apartado 5). Cuando convenga, en lugar de programarlo desde cero se
+**porta a la 20.0 el módulo de la OCA de la 19.0** (licencia AGPL/LGPL; se conservan la autoría y la licencia). Solo
+si algo no se puede desarrollar se estudia externalizarlo (criterio en 18 §2).
 
 ### 1.2 Lo que Odoo 20 Community sí trae de serie (comprobado en su código)
 - **Contabilidad base** (`account`): diarios, asientos, facturas de cliente y de proveedor, rectificativas, pagos y
@@ -162,22 +164,28 @@ Columnas:
 8. **Permisos en el servidor** (grupos y reglas de registro), no solo ocultando botones; revisar cada `sudo()`.
 
 ## 5. Módulos propios propuestos
-| Módulo | Depende de | Contenido | Código de referencia |
-|---|---|---|---|
-| `sp_base` | `account`, `hr`, `mail` | Sedes, actividad, roles y separación de funciones, auditoría | `security/`, `audit.py` |
-| `sp_recepcion` | `sp_base`, `account_payment` | Cobros con confirmación, justificante por sede, cierre de caja con doble persona, devoluciones | `reception/`, `routers/economy.py`, `routers/reception.py` |
-| `sp_gastos` | `sp_base`, `hr_expense` | Lectura del ticket, tarjetas de empresa | `routers/expenses.py`, `services/receipts.py` |
-| `sp_banco` | `sp_base`, `account` | Importación de extractos y conciliación con propuestas | `bank/parsers.py`, `bank/matcher.py`, `bank/service.py` |
-| `sp_contabilidad` | `sp_banco` | Facturas de proveedor con lectura y cuadre, remesas con doble firma y SEPA, previsión | `accounting/invoices.py`, `accounting/treasury.py` |
-| `sp_contabilidad_rutina` | `sp_contabilidad`, `mis_builder` | Cierre del mes, rutina comprobada e informes | `accounting/close.py`, `routine.py`, `reports.py` |
-| `sp_facturacion` (si AL-03) | `account`, `l10n_es_edi_verifactu` | Cuota litis, suplidos, factura global de extranjería | — |
+La columna «Sustituye a (OCA no en 20.0)» indica qué módulos de la OCA cubre cada `sp_*` mientras no estén en la
+rama 20.0. Para esas piezas se puede partir del código de la OCA 19.0 portado (18 §2, paso 3).
+
+| Módulo | Depende de | Contenido | Sustituye a (OCA no en 20.0) | Código de referencia |
+|---|---|---|---|---|
+| `sp_base` | `account`, `hr`, `mail` | Sedes, actividad, roles y separación de funciones, auditoría | `auditlog` (en parte) | `security/`, `audit.py` |
+| `sp_recepcion` | `sp_base`, `account_payment` | Cobros con confirmación, justificante por sede, cierre de caja con doble persona, devoluciones | — | `reception/`, `routers/economy.py`, `routers/reception.py` |
+| `sp_gastos` | `sp_base`, `hr_expense` | Lectura del ticket, tarjetas de empresa | — | `routers/expenses.py`, `services/receipts.py` |
+| `sp_banco` | `sp_base`, `account` | Importación de extractos y conciliación con propuestas | `account_statement_import_camt`, `account_statement_import_sheet_file`, `l10n_es_account_statement_import_n43`, `account_reconcile_oca` | `bank/parsers.py`, `bank/matcher.py`, `bank/service.py` |
+| `sp_contabilidad` | `sp_banco` | Facturas de proveedor con lectura y cuadre, remesas con doble firma y SEPA, previsión | `account_payment_order`, `account_banking_sepa_credit_transfer`, `base_tier_validation` | `accounting/invoices.py`, `accounting/treasury.py` |
+| `sp_contabilidad_rutina` | `sp_contabilidad`, `mis_builder` | Cierre del mes, rutina comprobada e informes | `account_financial_report`, `l10n_es_aeat_mod303`, `mod111`, `mod347` (y demás `l10n_es_aeat_*`) | `accounting/close.py`, `routine.py`, `reports.py` |
+| `sp_facturacion` (si AL-03) | `account`, `l10n_es_edi_verifactu` | Cuota litis, suplidos, factura global de extranjería | — | — |
+
+Quedan sin asignar a un `sp_*` concreto `l10n_es_aeat_sii_oca` (Odoo 20 Community trae `l10n_es_edi_sii`) y
+`account_asset_management` (activos): se decidirá con el criterio de 18 §2 cuando se aborden.
 
 ## 6. Orden de implantación recomendado
 1. **Base contable:** compañías, `l10n_es`, diarios (ventas por serie, bancos, cajas por sede), planes analíticos
    Actividad y Sede, grupos y permisos. *Todo de serie.*
 2. **Recepción y cajas** (`sp_recepcion`): es lo que más usan las sedes cada día.
 3. **Proveedores y gastos** (`sp_contabilidad` sin remesas, `sp_gastos`).
-4. **Banco y conciliación** (`sp_banco`): la pieza más grande si se queda en Odoo 20.
+4. **Banco y conciliación** (`sp_banco`): la pieza más grande en Odoo 20 (decidido, 18 · AL-02).
 5. **Remesas SEPA con doble firma.**
 6. **Cierre, rutina e informes.**
 7. **Facturación a clientes**, cuando se decida AL-03.

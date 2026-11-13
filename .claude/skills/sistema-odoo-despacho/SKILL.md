@@ -121,6 +121,20 @@ El detalle de las 77 necesidades (bloques 1 a 6) está en `referencias/necesidad
 
 ## Community o Enterprise: compruébalo antes de prometer nada
 
+**Decisión del 13/11/2026 (persona responsable del proyecto):** se usa **Odoo 20 Community para todo el proyecto**,
+sin licencias Enterprise (`docs/entrega/18_Alineacion_con_el_charter.md`, AL-01 y AL-02). Para cada necesidad, este
+orden:
+1. Estándar de Odoo 20 Community.
+2. Módulo de la OCA publicado en 20.0.
+3. Desarrollo propio `sp_*` sobre Odoo 20 (incluido portar a la 20.0 un módulo de la OCA de la 19.0, conservando
+   autoría y licencia AGPL/LGPL).
+4. Externalizar (servicio o proveedor externo integrado con Odoo), solo si no se puede desarrollar, documentando el
+   motivo, el proveedor, los datos que salen (RGPD, encargo de tratamiento) y la integración.
+
+Las necesidades del charter que dependían de Enterprise (Citas, Firma, Documentos, Helpdesk, WhatsApp, VoIP,
+intercompañía, sincronización bancaria, activos, SEPA, informes y modelos de la AEAT, evaluaciones…) pasan a
+desarrollo propio o a externalización. «Pasar a Enterprise» ya no es una alternativa.
+
 El charter da por hecho funciones que **no están en Odoo 20 Community**. Lo he comprobado en el código de la rama 20.0 (`odoo/odoo`):
 
 | En Community 20 | Solo en Enterprise (de pago) o de terceros |
@@ -129,7 +143,7 @@ El charter da por hecho funciones que **no están en Odoo 20 Community**. Lo he 
 
 La tabla completa, necesidad por necesidad y con su fase, está en `referencias/community_enterprise.md`.
 
-Si una necesidad depende de una app Enterprise y se está trabajando o probando en Community, avísalo. Propón una alternativa: un módulo de OCA o de terceros, un desarrollo propio o pasar a Enterprise. No lo des por disponible.
+Si una necesidad depende de una app Enterprise y se está trabajando o probando en Community, avísalo. Propón una alternativa según el orden de arriba: un módulo de la OCA en 20.0, un desarrollo propio `sp_*` o externalizar. No lo des por disponible.
 
 ## Relación con este repositorio
 

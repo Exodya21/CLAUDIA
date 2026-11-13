@@ -3,6 +3,27 @@
 Sistema Propio · 12/11/2026. Formato inspirado en *Keep a Changelog*. Las versiones siguen los incrementos del plan
 (F0.1 … F5.6). Los cambios de base de datos se indican con su migración.
 
+## [DOC-3] · 13/11/2026 — Decisión: Odoo 20 Community para todo el proyecto
+Decisión del proyecto, tomada por la persona responsable del proyecto en la sesión de trabajo. No cambia el código de
+Sistema Propio.
+### Cambiado
+- **18 · AL-01** (edición): **Decidido · 13/11/2026**. Odoo Community para todo el proyecto, sin licencias
+  Enterprise.
+- **18 · AL-02** (versión): **Decidido · 13/11/2026**. Odoo **20.0 Community**. Los módulos de la OCA que aún no están
+  en 20.0 se cubren con desarrollo propio `sp_*`; una vía es portar los de la 19.0 (AGPL/LGPL, conservando autoría y
+  licencia).
+- **18 §2 (nuevo) · Criterio para cada necesidad:** (1) estándar de Odoo 20 Community → (2) OCA publicada en 20.0 →
+  (3) desarrollo propio `sp_*` (incluido portar un módulo de la OCA) → (4) externalizar solo si no se puede
+  desarrollar, documentando motivo, proveedor, datos que salen (RGPD, encargo de tratamiento) e integración. Los
+  apartados siguientes se renumeran (§3 piezas, §4 cómo se cierra un punto).
+- **18 · AL-06, AL-09, AL-10 y AL-12:** siguen abiertos; se anota que la opción Enterprise queda descartada y que la
+  alternativa es desarrollo propio o externalizar.
+- **19 §1.1:** la conclusión pasa de «esperar, migrar o programar» a desarrollar (o portar desde la OCA 19.0) lo que
+  falte. **19 §5:** nueva columna con los módulos de la OCA que sustituye cada `sp_*`.
+- **02 §8, 04 §2 y 01 §7:** la versión destino es Odoo **20.0** Community (ver 18 · AL-02).
+- Skill `sistema-odoo-despacho`, sección «Community o Enterprise»: añadida la decisión y el criterio de 4 pasos.
+- 00 · Índice: la descripción del documento 18 menciona las decisiones tomadas y el criterio de §2.
+
 ## [DOC-2] · 13/11/2026 — Versión de referencia en el repositorio y contabilidad en Odoo 20
 Trabajo de documentación y evaluación; no cambia el código de Sistema Propio.
 ### Añadido
