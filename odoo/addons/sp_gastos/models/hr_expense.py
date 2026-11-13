@@ -152,3 +152,15 @@ class HrExpense(models.Model):
                 except Exception as ex:  # noqa: BLE001 - subir el ticket no debe fallar por la lectura
                     _logger.warning("No se ha podido leer el ticket %s: %s", doc.name, ex)
         return ids
+
+    # --- Separación de funciones -----------------------------------------------------------------------------
+    def _get_cannot_approve_reason(self):
+        """Como en Sistema Propio: nadie aprueba ni rechaza sus propios gastos, tampoco el administrador de Gastos
+        (Odoo estándar se lo permite). El superusuario técnico (sudo) no está afectado."""
+        razones = super()._get_cannot_approve_reason()
+        if self.env.su:
+            return razones
+        for e in self:
+            if not razones.get(e.id) and e.employee_id.user_id == self.env.user:
+                razones[e.id] = _("%s: nadie aprueba sus propios gastos.", e.name)
+        return razones

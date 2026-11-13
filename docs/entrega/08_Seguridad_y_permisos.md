@@ -680,15 +680,15 @@ los permisos son los estándar de Gastos.
 | **Aprobador de la ficha del empleado** (campo «Aprobador de gastos», `expense_manager_id`) | Aprobar o rechazar los gastos de esa persona |
 | Grupo «Gastos: Aprobador de equipo» (`hr_expense.group_hr_expense_team_approver`) | Aprobar los gastos de las personas de las que es aprobador, responsable directo o responsable del departamento, **salvo los suyos** |
 | Grupo «Gastos: Aprobador de todo» (`hr_expense.group_hr_expense_user`) | Aprobar gastos de cualquier persona de la compañía, **salvo los suyos** |
-| Grupo «Gastos: Administrador» (`hr_expense.group_hr_expense_manager`) | Todo lo anterior **y también sus propios gastos** |
+| Grupo «Gastos: Administrador» (`hr_expense.group_hr_expense_manager`) | Todo lo anterior. En Odoo estándar también podría aprobar los suyos; **`sp_gastos` lo impide** (DOC-15) |
 | Facturación (`account.group_account_invoice`) | Modificar la cuenta del gasto aprobado mientras el asiento no esté contabilizado, y contabilizar el asiento |
 
-- **Configuración de demostración** (`odoo/configuracion/gastos.py`): las fichas de empleado de los usuarios de
-  demostración tienen como aprobador a «Contabilidad 1»; la de Contabilidad 1 no tiene aprobador.
-- **Separación de funciones (aviso):** en Sistema Propio nadie revisa sus propios gastos (§«Permisos añadidos en
-  F5.0»). En Odoo 20, el grupo «Gastos: Administrador» sí puede aprobar los suyos (comprobado en
-  `_get_cannot_approve_reason` de `hr_expense`). Por tanto, ese grupo solo debe darse a quien no registre gastos.
-  **Pendiente de decidir:** quién aprueba los gastos de Contabilidad (en la demostración, nadie).
-- **Sin comprobar:** que «Contabilidad 1» apruebe sin permisos adicionales; el escenario `odoo/pruebas/prueba_gastos.py`
-  aprueba con `sudo()`.
+- **Configuración de demostración** (`odoo/configuracion/gastos.py`): «Contabilidad 1» y «Contabilidad 2» tienen el
+  grupo «Aprobador de equipo»; las fichas de los usuarios de demostración tienen como aprobador a «Contabilidad 1», y
+  la de Contabilidad 1 a «Contabilidad 2».
+- **Separación de funciones (resuelto en DOC-15):** como en Sistema Propio, **nadie aprueba ni rechaza sus propios
+  gastos**, tampoco el administrador de Gastos: `sp_gastos` amplía `_get_cannot_approve_reason` (solo queda fuera el
+  superusuario técnico). Prueba automática `test_nadie_aprueba_sus_propios_gastos`.
+- **Comprobado (13/11/2026):** «Contabilidad 1» aprueba y contabiliza el gasto de Recepción Barcelona **sin
+  `sudo()`** (PCBAR/2026/00007), y no puede aprobar el suyo («Son sus propios gastos»).
 - **Tarjetas de empresa** («cada titular ve la suya»): pendientes, sin permisos todavía (19 §3.2).

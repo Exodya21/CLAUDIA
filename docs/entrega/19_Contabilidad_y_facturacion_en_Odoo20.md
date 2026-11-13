@@ -140,9 +140,9 @@ Community (`hr_expense`). En Odoo 20 no hay «informes de gastos»: cada gasto s
 | Resumen mensual por persona, sede, concepto y forma de pago | — | Análisis de gastos | `mis_builder` | **Pendiente.** De momento, los informes estándar de Gastos. Después, exportación registrada en la auditoría | — |
 | Límites y políticas de gasto | — | — | — | **Pendiente** | — |
 
-**Aviso (comprobado en el código de `hr_expense`):** el grupo «Gastos: Administrador» puede aprobar sus propios
-gastos. Para mantener la separación de funciones (§4, regla 1; en Sistema Propio nadie revisa sus propios gastos), ese grupo no debe darse a quien registre
-gastos, y falta decidir quién aprueba los gastos de Contabilidad 1 (08 §11).
+**Separación de funciones (resuelto en 11 · DOC-15):** en Odoo estándar el grupo «Gastos: Administrador» puede
+aprobar sus propios gastos; `sp_gastos` lo impide, como en Sistema Propio (§4, regla 1). Los gastos de Contabilidad 1
+los aprueba Contabilidad 2 en la configuración de demostración (08 §11).
 
 ### 3.3 Banco y conciliación
 | Función | Tabla | Odoo 20 de serie | OCA | Módulo propio | Charter |

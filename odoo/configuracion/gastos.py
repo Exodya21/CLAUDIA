@@ -33,12 +33,22 @@ for nombre, cuenta, iva in CATEGORIAS:
         log.append(f"Categoría de gasto: {nombre} → {cuenta}")
 
 aprobador = env["res.users"].search([("login", "=", "contabilidad.1")], limit=1)
+aprobador_2 = env["res.users"].search([("login", "=", "contabilidad.2")], limit=1)  # aprueba los de Contabilidad 1
+# Los responsables de Contabilidad aprueban gastos de su equipo (grupo «Aprobador de equipo»), nunca los suyos.
+for u in (aprobador, aprobador_2):
+    u.group_ids = [(4, env.ref("hr_expense.group_hr_expense_team_approver").id)]
 for login in ("recepcion.bcn", "recepcion.mad", "recepcion.vlc", "contabilidad.1", "contabilidad.2", "atc.demo",
               "letrado.demo"):
     u = env["res.users"].search([("login", "=", login)], limit=1)
-    if u and not env["hr.employee"].search([("user_id", "=", u.id)], limit=1):
-        env["hr.employee"].create({"name": u.name, "user_id": u.id, "company_id": co.id,
-                                   "expense_manager_id": aprobador.id if login != "contabilidad.1" else False})
+    if not u:
+        continue
+    jefe = (aprobador_2 if login == "contabilidad.1" else aprobador)
+    emp = env["hr.employee"].search([("user_id", "=", u.id)], limit=1)
+    if not emp:
+        env["hr.employee"].create({"name": u.name, "user_id": u.id, "company_id": co.id, "expense_manager_id": jefe.id})
         log.append(f"Empleado de demostración: {u.name}")
+    elif emp.expense_manager_id != jefe:
+        emp.expense_manager_id = jefe
+        log.append(f"Aprobador de gastos de {u.name}: {jefe.name}")
 env.cr.commit()
 print("\n".join(log) or "Nada que cambiar: Gastos ya estaba configurado.")

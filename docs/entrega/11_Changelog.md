@@ -3,6 +3,17 @@
 Sistema Propio · 12/11/2026. Formato inspirado en *Keep a Changelog*. Las versiones siguen los incrementos del plan
 (F0.1 … F5.6). Los cambios de base de datos se indican con su migración.
 
+## [DOC-15] · 13/11/2026 — Gastos: nadie aprueba sus propios gastos
+### Corregido
+- `sp_gastos`: nadie aprueba ni rechaza sus propios gastos, tampoco el grupo «Gastos: Administrador» (Odoo estándar
+  se lo permitía). Amplía `_get_cannot_approve_reason`. Prueba nueva: 7 pruebas de sp_gastos, 0 fallos.
+- `odoo/configuracion/gastos.py`: Contabilidad 1 y 2 son «Aprobador de equipo»; los gastos de Contabilidad 1 los
+  aprueba Contabilidad 2. Actualiza las fichas que ya existían.
+- `odoo/pruebas/prueba_gastos.py`: aprueba y contabiliza Contabilidad 1 **sin `sudo()`**.
+### Comprobado
+- Contabilidad 1 aprueba y contabiliza un gasto en efectivo de Recepción Barcelona sin permisos adicionales
+  (PCBAR/2026/00007) y no puede aprobar el suyo. Cierra los avisos de DOC-14 (08 §11).
+
 ## [DOC-14] · 13/11/2026 — Odoo 20: sp_gastos · gastos de empleados
 Módulo nuevo `odoo/addons/sp_gastos` (versión **20.0.1.0.0**; depende de `hr_expense`, `sp_recepcion` y
 `sp_contabilidad`). Es la segunda parte del paso 3 de 19 §6 (19 §3.2; charter 4.13 y 4.14). Referencia: Sistema

@@ -16,7 +16,7 @@ g.with_user(rec).write({"product_id": cat.id, "sp_forma_pago": "efectivo"})
 print(f"Leído: {g.name} · {g.date} · {g.total_amount_currency} € · IVA ticket {g.sp_iva_ticket} · impuesto "
       f"{g.tax_ids.name} ({g.tax_amount}) · proveedor {g.vendor_id.vat} · caja {g.payment_method_line_id.journal_id.name}")
 g.with_user(rec).action_submit()
-g.with_user(c1).sudo().action_approve()
-g.account_move_id.action_post()
+g.with_user(c1).action_approve()  # sin sudo: Contabilidad 1 es aprobador de equipo
+g.account_move_id.with_user(c1).action_post()
 env.cr.commit()
 print(f"Aprobado y contabilizado: {g.state} · asiento {g.account_move_id.name}")

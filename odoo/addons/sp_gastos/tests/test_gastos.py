@@ -99,3 +99,22 @@ class TestGastos(AccountTestInvoicingCommon):
         otro = self.producto.copy({"name": "Otra categoría (test)"})
         g.product_id = otro
         self.assertEqual(g.tax_ids.amount, 10.0)
+
+    def test_nadie_aprueba_sus_propios_gastos(self):
+        admin_gastos = self.env["res.users"].sudo().create({
+            "name": "CONTABILIDAD_01", "login": "test.sp.admin.gastos", "company_id": self.env.company.id,
+            "company_ids": [(6, 0, self.env.company.ids)],
+            "group_ids": [(6, 0, [self.env.ref("hr_expense.group_hr_expense_manager").id,
+                                  self.env.ref("account.group_account_invoice").id])]})
+        self.env["hr.employee"].sudo().create({"name": "CONTABILIDAD_01", "user_id": admin_gastos.id,
+                                               "company_id": self.env.company.id})
+        propio = self.env(user=admin_gastos)["hr.expense"].create({
+            "name": "Taxi", "employee_id": admin_gastos.employee_ids[:1].id, "product_id": self.producto.id,
+            "total_amount_currency": 12.0})
+        propio.action_submit()
+        with self.assertRaises(UserError):
+            propio.action_approve()
+        ajeno = self._gasto()
+        ajeno.sudo().action_submit()
+        ajeno.with_user(admin_gastos).action_approve()
+        self.assertEqual(ajeno.state, "approved")
