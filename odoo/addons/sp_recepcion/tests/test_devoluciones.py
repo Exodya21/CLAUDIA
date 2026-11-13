@@ -128,3 +128,14 @@ class TestDevoluciones(SpRecepcionCommon):
         d.with_user(self.conta1).write({"diario_pago_id": self.caja.id})
         with self.assertRaises(UserError):
             d.with_user(self.conta1).action_pagar()
+
+    def test_revision_sin_letrado_avisa_a_contabilidad(self):
+        d = self._solicitar()
+        d.with_user(self.atc).action_revisar()
+        with self.assertRaises(UserError):
+            d.with_user(self.atc).action_enviar_a_contabilidad()
+        d.with_user(self.atc).informe_revision = "Comprobado el aviso del cliente; no hace falta informe jurídico"
+        d.with_user(self.atc).action_enviar_a_contabilidad()
+        self.assertTrue(d.sudo().activity_ids.filtered(lambda a: a.user_id in (self.conta1 | self.conta2)),
+                        "Contabilidad recibe la tarea de decidir")
+        self.assertFalse(d.sudo().activity_ids.filtered(lambda a: a.user_id == self.atc))

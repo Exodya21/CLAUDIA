@@ -73,7 +73,9 @@ Contabilidad, RRHH, Administración y Ajustes.
 4. **Devoluciones:** regístrelas con el motivo. Las aprueba Contabilidad.
 
 ## 8b. Recepción en Odoo 20
-Menú **Contabilidad → Recepción** (módulo `sp_recepcion`; 19 §3.1). Ejemplos con datos ficticios.
+Menú **Contabilidad → Recepción** (módulo `sp_recepcion`; 19 §3.1). Ejemplos con datos ficticios. Si trabaja en
+Recepción, solo verá los cobros y los cierres de caja de **sus sedes** (las que el administrador ha puesto en su
+usuario, en «Sedes en las que trabaja», más su sede habitual). Contabilidad ve todas.
 1. **Cobrar:** *Cobros → Nuevo*. Indique el cliente (p. ej. CLIENTE_01), el importe, la caja de su sede, el **tipo**
    (consulta, provisión de fondos, servicio u otro) y, si la hay, una referencia. Pulse **Confirmar**.
    - Si se parece a otro cobro reciente, el sistema lo indica y no lo registra. Si no es repetido, explique el motivo
@@ -90,6 +92,34 @@ Menú **Contabilidad → Recepción** (módulo `sp_recepcion`; 19 §3.1). Ejempl
 5. **Validar el cierre (Contabilidad):** **otra persona**, responsable de caja, abre el cierre y pulsa **Validar
    cierre** o **Rechazar** (con una nota). Si hay diferencia, al validar se registra el ajuste. Un cierre validado no
    se modifica. Si se rechaza, se puede contar de nuevo.
+   - Cuando la caja de un día está validada, sus movimientos ya no vuelven a borrador ni se cancelan. Si hay que
+     corregir algo, registre el movimiento contrario con fecha de hoy: contará en el siguiente cierre.
+
+**Devoluciones** (*Recepción → Devoluciones*). Cada devolución tiene un número `DEV/2026/0001`, guarda en el historial
+quién hizo cada paso y nunca se borra. El estado solo cambia con los botones.
+
+| Paso | Quién | Qué hacer |
+|---|---|---|
+| 1. Solicitar | Recepción (o cualquiera de los grupos de devoluciones) | *Devoluciones → Nuevo*. Indique el cliente (p. ej. CLIENTE_01), el importe, la sede y el **motivo** (mínimo 10 caracteres). Si los conoce, indique el cobro y la factura originales. Guarde. Recepción solo ve las devoluciones que ha solicitado |
+| 2. Revisar | Atención al cliente (o Contabilidad) | Le llega una tarea. Pulse **Empezar revisión** y escriba en la pestaña **Revisión** qué ha comprobado |
+| 3. Escalar (si hace falta) | Atención al cliente | Con el informe de revisión escrito, pulse **Escalar al letrado** |
+| 4. Informe del letrado | Letrado | Le llega una tarea. En la pestaña **Informe del letrado**, escriba su informe (mínimo 10 caracteres) y pulse **Enviar informe del letrado**. La devolución vuelve a «En revisión» y Contabilidad recibe la tarea de decidir. El letrado solo ve las escaladas y las que ha informado |
+| 5. Aprobar o rechazar | Contabilidad, **nunca quien la solicitó** | Pulse **Aprobar** o **Rechazar**. Para rechazar, explique el motivo en «Motivo de la decisión». Una rechazada se puede **Reabrir**, también con motivo |
+| 6. Pagar | Contabilidad | En **Decisión y pago**, elija **Pagar desde** (la caja de la sede o un banco) y, si la hay, la referencia (transferencia, Bizum…). Pulse **Registrar pago** |
+
+Al pagar:
+- **Con factura cobrada por completo y devolución del importe total:** el sistema hace la factura rectificativa y la
+  concilia con el pago.
+- **Devolución parcial:** haga antes la rectificativa desde la factura, por el importe a devolver, y vincúlela en
+  «Factura rectificativa».
+- **Factura que no está cobrada del todo:** no se puede pagar, porque no hay dinero que devolver. Si hay que anularla,
+  haga una rectificativa sin devolución.
+- **Sin factura:** se registra un pago de salida al cliente.
+- **Devolución por TPV o Redsys:** se hace fuera de Odoo; aquí registre su salida por el banco, con la referencia.
+
+Cada paso marca como hechas las tareas del paso anterior. Si la revisión no necesita letrado, Atención al cliente
+pulsa **Enviar a Contabilidad** (con el informe de la revisión escrito) y Contabilidad recibe la tarea de decidir.
+También se encuentran con el filtro **Por decidir**. Captura: `documentacion/odoo20_recepcion/5_devolucion.png`.
 
 ## 9. Gastos
 1. «Nuevo gasto» → suba la foto o el PDF del ticket.

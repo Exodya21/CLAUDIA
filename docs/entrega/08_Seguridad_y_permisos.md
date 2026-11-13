@@ -599,27 +599,72 @@ guardan cifrados (Fernet) y nunca se borran: se retiran con motivo.
 se agrupan con `res.groups.privilege` (12 · INC-65 e INC-67). La tabla anterior sigue valiendo en lo conceptual.
 
 ## 10. Odoo 20 · grupos de Recepción y cajas (`sp_recepcion`)
-Comprobado en `odoo/addons/sp_recepcion/security/` y en el código del módulo (11 · DOC-8). Los dos grupos están bajo el
-privilegio «Recepción y cajas» de Contabilidad.
+Comprobado en `odoo/addons/sp_recepcion/security/` y en el código del módulo (versión 20.0.1.1.0; 11 · DOC-8 y
+DOC-10). Los cuatro grupos están bajo el privilegio «Recepción y cajas» de Contabilidad.
 
+| Grupo | Incluye | Para quién |
+|---|---|---|
+| Recepción | Facturación (`account.group_account_invoice`) | Personal de recepción de cada sede |
+| Responsable de caja y cobros (Contabilidad) | Recepción y Atención al cliente · revisar devoluciones | Contabilidad |
+| Atención al cliente · revisar devoluciones | Facturación | Atención al cliente |
+| Letrado · informe de devoluciones | Usuario interno (`base.group_user`) | Letrados que informan devoluciones escaladas |
+
+### 10.1 Cobros y cajas
 | Acción | Recepción | Responsable de caja y cobros (Contabilidad) |
 |---|---|---|
-| Incluye | Facturación (`account.group_account_invoice`) | Todo lo de Recepción |
-| Registrar un cobro de recepción con justificante | Sí | Sí |
+| Ver cobros de recepción y cierres de caja | Solo de **sus sedes** | De todas las sedes |
+| Registrar un cobro de recepción con justificante | Sí, en sus sedes | Sí |
 | Imprimir el justificante | Sí | Sí |
 | Confirmar un cobro | No | Sí |
 | Anular un cobro (asistente, con motivo) | No | Sí, si la caja de ese día no está validada |
-| Crear el cierre de caja y registrar el recuento | Sí (crear, leer, modificar; no borrar) | Sí |
+| Crear el cierre de caja y registrar el recuento | Sí, en sus sedes (crear, leer, modificar; no borrar) | Sí |
 | Validar o rechazar un cierre | No | Sí, **nunca el que ha contado él mismo** |
 | Ver sedes | Sí (lectura, todos los usuarios internos) | Sí (lectura) |
 | Crear y modificar sedes | No | No (solo el grupo Administrador de Contabilidad, `account.group_account_manager`) |
 
-- **Ámbito:** sedes y cierres de caja se filtran por compañía (reglas globales multicompañía en `ir.access.csv`).
-  **Aún no** se limita a cada persona de Recepción a la caja de su sede, como hacía Sistema Propio (§Recepción F5.2):
-  pendiente (19 §3.1).
-- **Separación de funciones:** «quien valida ≠ quien cuenta» y «solo el responsable confirma o anula» se comprueban
-  en el servidor (Python), no solo ocultando botones. A diferencia de Sistema Propio, no hay restricción en la base de
-  datos (trigger).
-- **`sudo()` en el módulo** (para revisar en la auditoría): crear la numeración de cada sede, obtener el número del
-  justificante, generar el PDF, leer los usuarios del grupo responsable para enviarles el aviso de posible repetido, buscar cierres validados al anular, sumar los apuntes de la caja y crear el asiento de
-  ajuste al validar.
+- **Restricción por sede:** «sus sedes» son las del campo **«Sedes en las que trabaja»** (`sp_sede_ids`) del usuario
+  más su **sede habitual** (`sp_sede_id`), que se añade sola a la lista. Se aplica con dos filas de
+  `security/ir.access.csv`:
+  - `sp_payment_sede_rule`: restricción **sin grupo** sobre `account.payment`. Su dominio es condicional: solo limita
+    a quien es Recepción y **no** es responsable; a esa persona le deja ver los pagos sin sede y los de sus sedes.
+    Al resto de usuarios no les cambia nada.
+  - `access_sp_cierre_caja_recepcion`: permiso del grupo Recepción en `sp.cierre.caja` con dominio por sede. El
+    responsable tiene otro permiso sin dominio (todas las sedes).
+  - En Odoo 20 los permisos **con grupo** se suman (O) y las restricciones **sin grupo** se aplican a todos (Y)
+    (comprobado en el código de Odoo; 12 · INC-75). Por eso el permiso del responsable amplía al de Recepción, y la
+    restricción de pagos necesita el dominio condicional.
+  - Sigue habiendo reglas globales multicompañía para sedes, cierres y devoluciones.
+- **Separación de funciones en el cierre:** «quien valida ≠ quien cuenta» y «solo el responsable confirma o anula» se
+  comprueban en el servidor (Python). Además, como en Sistema Propio, en la **base de datos**: CHECK «quien valida o
+  rechaza ≠ quien contó» y trigger `sp_cierre_caja_proteger` (no se modifica un cierre validado o rechazado ni se
+  borra uno contado o validado).
+- **Apuntes de caja de días validados:** no vuelven a borrador ni se cancelan, sea quien sea el usuario
+  (`account.move.button_draft` y `button_cancel`).
+
+### 10.2 Devoluciones (`sp.devolucion`)
+| Acción | Recepción | Atención al cliente · revisar | Letrado · informe | Responsable (Contabilidad) |
+|---|---|---|---|---|
+| Ver | Solo las que ha solicitado | Todas | Las que ha solicitado, las escaladas y las que ha informado | Todas |
+| Solicitar | Sí | Sí | Sí | Sí |
+| Empezar la revisión y escribir el informe de revisión | No | Sí | No | Sí |
+| Escalar al letrado (informe de revisión obligatorio) | No | Sí | No | Sí |
+| Emitir el informe jurídico (obligatorio, ≥ 10 caracteres) | No | No | Sí | No (salvo que también sea letrado) |
+| Aprobar o rechazar (rechazar exige motivo) | No | No | No | Sí, **nunca la que ha solicitado** |
+| Reabrir una rechazada (con motivo) | No | No | No | Sí |
+| Registrar el pago | No | No | No | Sí |
+| Borrar | No | No | No | No |
+
+- **Separación de funciones:** «quien solicita no decide» está en Python y con CHECK en la base de datos
+  (`decidido_por <> solicitado_por`). Los botones también comprueban el grupo en el servidor, no solo en la vista.
+- **Estado protegido:** el estado y los campos de quién solicitó, decidió y pagó solo cambian con los botones.
+- **Diferencia con Sistema Propio:** allí el informe jurídico lo daba quien tenía acceso completo al expediente. En
+  Odoo aún no hay expedientes: lo emite cualquier persona del grupo «Letrado · informe de devoluciones». Revisar
+  cuando exista el módulo de expedientes.
+- **Quién aprueba:** el módulo sigue a Sistema Propio (A-09: aprueba Contabilidad). El charter (3.9) deja la
+  aprobación en Atención al cliente: punto abierto 18 · AL-14.
+
+### 10.3 `sudo()` en el módulo (para revisar en la auditoría)
+Crear la numeración de cada sede, obtener el número del justificante, generar el PDF, leer los usuarios de un grupo
+para enviarles avisos o tareas (posible repetido y pasos de las devoluciones), crear y cerrar esas tareas, buscar
+cierres validados (al anular un cobro y al pasar a borrador o cancelar un apunte de caja), sumar los apuntes de la
+caja, crear el asiento de ajuste al validar y añadir la sede habitual a las sedes del usuario.

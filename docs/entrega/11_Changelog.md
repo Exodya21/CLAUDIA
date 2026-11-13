@@ -3,6 +3,12 @@
 Sistema Propio · 12/11/2026. Formato inspirado en *Keep a Changelog*. Las versiones siguen los incrementos del plan
 (F0.1 … F5.6). Los cambios de base de datos se indican con su migración.
 
+## [DOC-11] · 13/11/2026 — Devoluciones: «Enviar a Contabilidad»
+### Añadido
+- Botón **Enviar a Contabilidad** (`action_enviar_a_contabilidad`) en las devoluciones en revisión: exige el informe de
+  la revisión, cierra la tarea de Atención al cliente y crea la de decidir para Contabilidad. Cubre el hueco anotado
+  en DOC-10 (sin letrado, Contabilidad no recibía tarea). Prueba nueva: 27 pruebas automáticas, 0 fallos.
+
 ## [DOC-10] · 13/11/2026 — sp_recepcion: sedes por persona, refuerzos en BD y devoluciones
 Segunda iteración de `odoo/addons/sp_recepcion` (versión **20.0.1.1.0**). Corrige las dos diferencias con Sistema
 Propio anotadas en DOC-8 y añade las **devoluciones** (charter 3.9 y 4.4; referencia Sistema Propio F5.0,

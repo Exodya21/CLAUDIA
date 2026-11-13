@@ -26,6 +26,8 @@
                 <header>
                     <button name="action_revisar" type="object" string="Empezar revisión" class="btn-primary"
                             invisible="estado != 'registrada'" groups="sp_recepcion.group_sp_devolucion_revision"/>
+                    <button name="action_enviar_a_contabilidad" type="object" string="Enviar a Contabilidad" class="btn-primary"
+                            invisible="estado != 'en_revision'" groups="sp_recepcion.group_sp_devolucion_revision"/>
                     <button name="action_escalar" type="object" string="Escalar al letrado"
                             invisible="estado != 'en_revision'" groups="sp_recepcion.group_sp_devolucion_revision"/>
                     <button name="action_informe_letrado" type="object" string="Enviar informe del letrado" class="btn-primary"

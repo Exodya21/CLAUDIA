@@ -144,6 +144,19 @@ class SpDevolucion(models.Model):
         for d in self:
             d._avisar(G_LETRADO, _("Informe jurídico para la devolución %s", d.name))
 
+    def action_enviar_a_contabilidad(self):
+        """Revisión terminada sin necesidad de letrado: Contabilidad recibe la tarea de decidir."""
+        self._exigir(G_REVISION, _("Solo Atención al cliente o Contabilidad envían devoluciones a decidir."))
+        for d in self:
+            if d.estado != "en_revision":
+                raise UserError(_("Solo se envían a Contabilidad devoluciones en revisión."))
+            if len((d.informe_revision or "").strip()) < 10:
+                raise UserError(_("Escriba el informe de la revisión antes de enviarla a Contabilidad."))
+            d._cerrar_tareas(_("Revisión terminada"))
+            d._avisar(G_RESPONSABLE, _("Decidir la devolución %s", d.name))
+            d.message_post(body=_("Revisión terminada: enviada a Contabilidad para decidir."))
+        return True
+
     def action_informe_letrado(self):
         self._exigir(G_LETRADO, _("Solo un letrado emite el informe jurídico de una devolución."))
         for d in self:

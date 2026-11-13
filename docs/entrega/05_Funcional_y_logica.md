@@ -126,10 +126,13 @@ Las fases jurídicas (resoluciones, recurso, cierre) solo las registra quien tie
 **Qué hace.** Registro de cargos y cobros por expediente o por consulta, justificante no fiscal, caja por sede,
 devoluciones e informe de recepción.
 
-> **En Odoo 20 (13/11/2026):** implementado en parte en el módulo `sp_recepcion` (`odoo/addons/sp_recepcion/`):
-> sedes, cobros con justificante, aviso de repetidos, confirmación y anulación por Contabilidad y cierre de caja
-> validado por otra persona. Faltan las devoluciones, el informe por sede y el vínculo con expedientes. Detalle,
-> modelos y campos en 19 §3.1; cambios en 11 · DOC-8.
+> **En Odoo 20 (13/11/2026):** implementado en parte en el módulo `sp_recepcion` (`odoo/addons/sp_recepcion/`,
+> versión 20.0.1.1.0): sedes, cobros con justificante, aviso de repetidos, confirmación y anulación por Contabilidad,
+> cierre de caja validado por otra persona (también con check y trigger en la base de datos), cada persona de
+> Recepción limitada a sus sedes y **devoluciones** (`sp.devolucion`) con la misma tabla de estados de abajo:
+> Atención al cliente revisa, el letrado informa si se escala y Contabilidad aprueba o rechaza y paga (rectificativa y
+> pago, o pago de salida sin factura). Faltan el informe por sede y el vínculo con expedientes. Detalle en 19 §3.1,
+> permisos en 08 §10, manual en 15 §8b; cambios en 11 · DOC-8 y DOC-10. Quién aprueba la devolución: 18 · AL-14.
 
 **Reglas**
 - Importes en céntimos enteros.

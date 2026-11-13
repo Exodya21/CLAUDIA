@@ -48,11 +48,12 @@ en el repositorio (`docs/entrega/`) junto al código y se actualiza con él. Se 
   - `odoo/pruebas/prueba_base_contable.py`: prueba con datos ficticios.
   - `odoo/configuracion/recepcion.py`: sedes y usuarios de demostración para Recepción (19 §6 paso 2; 11 · DOC-8).
   - `odoo/pruebas/prueba_recepcion.py`: escenario de Recepción y cajas con datos ficticios.
-  - `odoo/addons/`: módulos propios `sp_*` (19 §5). Primero: `odoo/addons/sp_recepcion/` (Recepción y cajas).
+  - `odoo/pruebas/prueba_devoluciones.py`: escenario de una devolución completa con datos ficticios (11 · DOC-10).
+  - `odoo/addons/`: módulos propios `sp_*` (19 §5). Primero: `odoo/addons/sp_recepcion/` (Recepción, cajas y devoluciones).
 - `herramientas/odoo_dev.sh`: levanta Odoo 20 de pruebas en Linux o en el entorno en la nube (09 · Anexo C).
 - `documentacion/odoo20_base_contable/`: capturas de la prueba de la base contable (datos ficticios).
 - `documentacion/odoo20_recepcion/`: capturas de Recepción y cajas en Odoo 20 (cobros, cobro con justificante,
-  cierre de caja y justificante; datos ficticios).
+  cierre de caja, justificante y devolución; datos ficticios).
 - `documentacion/cuestionarios/`: cuestionario para la gestoría sobre el plan de cuentas
   (`Cuestionario_gestoria_plan_de_cuentas.docx`; T-40 y 18 · AL-06/AL-13; 11 · DOC-6).
 
