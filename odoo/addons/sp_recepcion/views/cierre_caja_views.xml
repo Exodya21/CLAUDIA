@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sp_cierre_caja_list" model="ir.ui.view">
+        <field name="name">sp.cierre.caja.list</field>
+        <field name="model">sp.cierre.caja</field>
+        <field name="arch" type="xml">
+            <list decoration-warning="estado == 'pendiente'" decoration-muted="estado == 'rechazado'">
+                <field name="fecha"/>
+                <field name="sede_id"/>
+                <field name="esperado" sum="Total"/>
+                <field name="contado" sum="Total"/>
+                <field name="diferencia" sum="Total" decoration-danger="diferencia != 0"/>
+                <field name="contado_por"/>
+                <field name="validado_por"/>
+                <field name="estado" widget="badge" decoration-success="estado == 'validado'"
+                       decoration-warning="estado == 'pendiente'"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+    <record id="sp_cierre_caja_form" model="ir.ui.view">
+        <field name="name">sp.cierre.caja.form</field>
+        <field name="model">sp.cierre.caja</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_contar" type="object" string="Registrar recuento" class="btn-primary"
+                            invisible="estado != 'borrador'"/>
+                    <button name="action_validar" type="object" string="Validar cierre" class="btn-primary"
+                            invisible="estado != 'pendiente'" groups="sp_recepcion.group_sp_responsable"/>
+                    <button name="action_rechazar" type="object" string="Rechazar"
+                            invisible="estado != 'pendiente'" groups="sp_recepcion.group_sp_responsable"/>
+                    <field name="estado" widget="statusbar" statusbar_visible="borrador,pendiente,validado"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="sede_id" readonly="estado != 'borrador'"/>
+                            <field name="fecha" readonly="estado != 'borrador'"/>
+                            <field name="journal_id"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="contado" readonly="estado != 'borrador'"/>
+                            <field name="esperado" invisible="estado == 'borrador'"/>
+                            <field name="diferencia" invisible="estado == 'borrador'" decoration-danger="diferencia != 0"/>
+                            <field name="ajuste_move_id" invisible="not ajuste_move_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notas" readonly="estado != 'borrador'"
+                               placeholder="Obligatorio si lo contado no coincide con los registros"/>
+                        <field name="nota_validacion" invisible="estado == 'borrador'" readonly="estado != 'pendiente'"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="contado_por"/>
+                            <field name="contado_fecha"/>
+                        </group>
+                        <group>
+                            <field name="validado_por"/>
+                            <field name="validado_fecha"/>
+                        </group>
+                    </group>
+                    <p class="text-muted">Una persona cuenta el efectivo y otra distinta valida el cierre. Si lo contado no
+                        coincide con los registros, la diferencia se contabiliza como ajuste al validar.</p>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="sp_cierre_caja_search" model="ir.ui.view">
+        <field name="name">sp.cierre.caja.search</field>
+        <field name="model">sp.cierre.caja</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="sede_id"/>
+                <field name="fecha"/>
+                <filter name="pendientes" string="Pendientes de validar" domain="[('estado', '=', 'pendiente')]"/>
+                <filter name="con_diferencia" string="Con diferencia" domain="[('diferencia', '!=', 0)]"/>
+                <filter name="group_sede" string="Sede" context="{'group_by': 'sede_id'}"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_sp_cierre_caja" model="ir.actions.act_window">
+        <field name="name">Cierres de caja</field>
+        <field name="res_model">sp.cierre.caja</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_groups_privilege_sp_recepcion" model="res.groups.privilege">
+        <field name="name">Recepción y cajas</field>
+        <field name="category_id" ref="base.module_category_accounting"/>
+        <field name="sequence">8</field>
+    </record>
+
+    <record id="group_sp_recepcion" model="res.groups">
+        <field name="name">Recepción</field>
+        <field name="sequence">10</field>
+        <field name="comment">Registra cobros con justificante y cuenta la caja de su sede.</field>
+        <field name="privilege_id" ref="res_groups_privilege_sp_recepcion"/>
+        <field name="implied_ids" eval="[(4, ref('account.group_account_invoice'))]"/>
+    </record>
+
+    <record id="group_sp_responsable" model="res.groups">
+        <field name="name">Responsable de caja y cobros (Contabilidad)</field>
+        <field name="sequence">20</field>
+        <field name="comment">Confirma y anula cobros, valida o rechaza los cierres de caja que han contado otras personas.</field>
+        <field name="privilege_id" ref="res_groups_privilege_sp_recepcion"/>
+        <field name="implied_ids" eval="[(4, ref('group_sp_recepcion'))]"/>
+    </record>
+</odoo>

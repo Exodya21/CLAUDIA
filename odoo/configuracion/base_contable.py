@@ -157,7 +157,12 @@ for cfg in COMPANIAS:
     for code, name in BANCOS if cfg["clave"] == "SL" else BANCOS[:1]:
         diario(co, code, name, "bank")
     for sede in cfg["sedes"]:
-        diario(co, "C" + sede[:3].upper(), f"Caja {sede}", "cash")
+        caja = diario(co, "C" + sede[:3].upper(), f"Caja {sede}", "cash")
+        # Los cobros y pagos en efectivo van DIRECTAMENTE a la cuenta de la caja (570…), no a una cuenta de cobros
+        # pendientes: así el saldo de la caja es real en cuanto Recepción registra el cobro (sp_recepcion).
+        for linea in caja.inbound_payment_method_line_ids | caja.outbound_payment_method_line_ids:
+            if linea.payment_account_id != caja.default_account_id:
+                linea.payment_account_id = caja.default_account_id
     for code, name, tipo in CUENTAS_PROPIAS:
         cuenta(co, code, name, tipo)
     if cfg["factura"] and not co.l10n_es_edi_verifactu_required:

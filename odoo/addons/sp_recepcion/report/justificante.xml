@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_justificante" model="ir.actions.report">
+        <field name="name">Justificante de cobro</field>
+        <field name="model">account.payment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">sp_recepcion.report_justificante</field>
+        <field name="print_report_name">'Justificante %s' % (object.sp_justificante_numero or object.name)</field>
+        <!-- Se genera UNA vez y se reutiliza: el justificante no cambia aunque cambie la plantilla. -->
+        <field name="attachment">'Justificante %s.pdf' % object.sp_justificante_numero if object.sp_justificante_numero else False</field>
+        <field name="save_as_attachment" eval="True"/>
+        <field name="attachment_use" eval="True"/>
+    </record>
+
+    <template id="report_justificante">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>JUSTIFICANTE DE PAGO</h2>
+                        <p><strong>Documento interno del despacho. NO ES UNA FACTURA.</strong></p>
+                        <table class="table table-sm" style="width: 70%;">
+                            <tr><td>Número</td><td><strong t-field="o.sp_justificante_numero"/></td></tr>
+                            <tr><td>Fecha</td><td><span t-field="o.date"/></td></tr>
+                            <tr><td>Sede</td><td><span t-field="o.sp_sede_id.name"/></td></tr>
+                            <tr><td>Recibido de</td><td><span t-field="o.partner_id.name"/></td></tr>
+                            <tr><td>Concepto</td>
+                                <td><span t-field="o.sp_tipo"/><t t-if="o.memo"> · <span t-field="o.memo"/></t></td></tr>
+                            <tr><td>Importe</td>
+                                <td><strong t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td></tr>
+                            <tr><td>Forma de pago</td><td><span t-field="o.journal_id.name"/></td></tr>
+                            <tr><td>Atendido por</td><td><span t-field="o.create_uid.name"/></td></tr>
+                        </table>
+                        <p class="small mt-4">Este justificante acredita la recepción del importe indicado. Cuando proceda,
+                            la factura se emite aparte, con su propia numeración y con Verifactu. Conserve este documento.</p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

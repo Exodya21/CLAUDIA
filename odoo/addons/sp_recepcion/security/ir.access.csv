@@ -1,0 +1,8 @@
+id,name,model_id,group_id/id,operation,domain
+access_sp_sede_user,Sedes · lectura,sp.sede,base.group_user,r,
+access_sp_sede_manager,Sedes · administración,sp.sede,account.group_account_manager,crud,
+sp_sede_company_rule,Sedes · multicompañía,sp.sede,,crud,"[('company_id', 'in', company_ids)]"
+access_sp_cierre_caja_recepcion,Cierres de caja · recepción,sp.cierre.caja,sp_recepcion.group_sp_recepcion,cru,
+access_sp_cierre_caja_responsable,Cierres de caja · responsable,sp.cierre.caja,sp_recepcion.group_sp_responsable,crud,
+sp_cierre_caja_company_rule,Cierres de caja · multicompañía,sp.cierre.caja,,crud,"[('company_id', 'in', company_ids)]"
+access_sp_anular_cobro,Anular cobro,sp.anular.cobro,sp_recepcion.group_sp_responsable,crud,

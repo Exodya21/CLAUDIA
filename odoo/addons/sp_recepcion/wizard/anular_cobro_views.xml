@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sp_anular_cobro_form" model="ir.ui.view">
+        <field name="name">sp.anular.cobro.form</field>
+        <field name="model">sp.anular.cobro</field>
+        <field name="arch" type="xml">
+            <form string="Anular cobro">
+                <p>El cobro y su justificante se conservan, marcados como anulados. No se puede anular si la caja de ese
+                    día ya está validada: en ese caso, registre una devolución.</p>
+                <group>
+                    <field name="payment_ids" widget="many2many_tags" readonly="1"/>
+                    <field name="motivo" placeholder="Explique el motivo (mínimo 10 caracteres)"/>
+                </group>
+                <footer>
+                    <button name="action_anular" type="object" string="Anular cobro" class="btn-danger"/>
+                    <button special="cancel" string="Cancelar"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sp_anular_cobro" model="ir.actions.act_window">
+        <field name="name">Anular cobro</field>
+        <field name="res_model">sp.anular.cobro</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

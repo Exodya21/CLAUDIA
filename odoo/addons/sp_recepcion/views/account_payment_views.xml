@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_payment_form_sp_recepcion" model="ir.ui.view">
+        <field name="name">account.payment.form.sp_recepcion</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_sp_imprimir_justificante" type="object" string="Justificante"
+                        invisible="not sp_justificante_numero" icon="fa-print"/>
+                <button name="action_sp_confirmar" type="object" string="Confirmar (Contabilidad)" class="btn-primary"
+                        invisible="sp_estado != 'registrado'" groups="sp_recepcion.group_sp_responsable"/>
+                <button name="%(action_sp_anular_cobro)d" type="action" string="Anular cobro"
+                        invisible="not sp_justificante_numero or sp_estado == 'anulado'"
+                        groups="sp_recepcion.group_sp_responsable"/>
+            </xpath>
+            <!-- Un cobro con justificante no vuelve a borrador ni se cancela con los botones estándar: se anula con motivo. -->
+            <xpath expr="//header/button[@name='action_draft']" position="attributes">
+                <attribute name="invisible" add="sp_justificante_numero" separator=" or "/>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <group string="Recepción" name="sp_recepcion">
+                    <group>
+                        <field name="sp_sede_id" readonly="state != 'draft'"/>
+                        <field name="sp_tipo" readonly="state != 'draft'" required="sp_sede_id"/>
+                        <field name="sp_justificante_numero" invisible="not sp_justificante_numero"/>
+                        <field name="sp_estado" invisible="not sp_estado"/>
+                    </group>
+                    <group>
+                        <field name="sp_motivo_duplicado" invisible="not sp_sede_id" readonly="state != 'draft'"
+                               placeholder="Solo si el sistema avisa de un posible cobro repetido"/>
+                        <field name="sp_confirmado_por" invisible="not sp_confirmado_por"/>
+                        <field name="sp_confirmado_fecha" invisible="not sp_confirmado_fecha"/>
+                        <field name="sp_anulado_motivo" invisible="not sp_anulado_motivo"/>
+                        <field name="sp_anulado_por" invisible="not sp_anulado_por"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_payment_list_sp_recepcion" model="ir.ui.view">
+        <field name="name">account.payment.list.sp_recepcion</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='journal_id']" position="after">
+                <field name="sp_sede_id" optional="show"/>
+                <field name="sp_justificante_numero" optional="show"/>
+                <field name="sp_estado" optional="show" widget="badge"
+                       decoration-info="sp_estado == 'registrado'" decoration-success="sp_estado == 'confirmado'"
+                       decoration-muted="sp_estado == 'anulado'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_payment_search_sp_recepcion" model="ir.ui.view">
+        <field name="name">account.payment.search.sp_recepcion</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <field name="sp_justificante_numero"/>
+                <filter name="sp_pendientes" string="Pendientes de confirmar" domain="[('sp_estado', '=', 'registrado')]"/>
+                <filter name="sp_con_motivo" string="Posibles repetidos" domain="[('sp_motivo_duplicado', '!=', False)]"/>
+                <filter name="sp_group_sede" string="Sede" context="{'group_by': 'sp_sede_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_sp_cobros_recepcion" model="ir.actions.act_window">
+        <field name="name">Cobros de recepción</field>
+        <field name="res_model">account.payment</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('sp_sede_id', '!=', False)]</field>
+        <field name="context">{'sp_recepcion': True, 'default_payment_type': 'inbound', 'default_partner_type': 'customer', 'search_default_sp_group_sede': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Registre el primer cobro de recepción</p>
+            <p>Cada cobro lleva su justificante numerado por sede. No es una factura.</p>
+        </field>
+    </record>
+</odoo>
