@@ -41,6 +41,7 @@ class Line:
     balance_after_cents: int | None = None
     bank_id: str | None = None
     ext_id: str = ""
+    counterparty_iban: str | None = None
 
 
 @dataclass

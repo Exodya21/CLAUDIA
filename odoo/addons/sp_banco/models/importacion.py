@@ -68,6 +68,12 @@ class SpBancoImportacion(models.Model):
         except extractos.ParseError as e:
             raise UserError(_("%(f)s: %(m)s", f=nombre, m=e.message)) from e
         diario = self._sp_diario_por_cuenta(st.account_hint, diario_elegido)
+        return self._sp_registrar(nombre, datos, st, diario, solo_comprobar)
+
+    @api.model
+    def _sp_registrar(self, nombre, datos, st, diario, solo_comprobar=False, extra=None):
+        """Registra un extracto ya leído (archivo o conexión directa con el banco): sin duplicar, con el original
+        cifrado y con las propuestas de conciliación. `datos` es el original tal como llegó."""
         Line = self.env["account.bank.statement.line"]
         existentes = set(Line.search([("journal_id", "=", diario.id), ("sp_ext_id", "in", [ln.ext_id for ln in st.lines])])
                          .mapped("sp_ext_id"))
@@ -85,6 +91,7 @@ class SpBancoImportacion(models.Model):
                                  for e in st.errors) or False,
             "columnas": ", ".join(f"{k} → {v}" for k, v in (st.columns or {}).items()) or False,
             "huella": hashlib.sha256(datos).hexdigest(),
+            **(extra or {}),
         }
         imp = self.create(vals)
         if solo_comprobar:
@@ -108,7 +115,8 @@ class SpBancoImportacion(models.Model):
             Line.create([{
                 "journal_id": diario.id, "statement_id": extracto.id, "date": ln.booking_date,
                 "payment_ref": ln.description or ln.reference or "/", "amount": ln.amount_cents / 100,
-                "partner_name": ln.counterparty or False, "sp_ext_id": ln.ext_id, "sp_referencia": ln.reference,
+                "partner_name": ln.counterparty or False, "account_number": ln.counterparty_iban or False,
+                "sp_ext_id": ln.ext_id, "sp_referencia": ln.reference,
                 "sp_fecha_valor": ln.value_date, "sp_importacion_id": imp.id,
             } for ln in nuevas])
             imp.sudo().statement_id = extracto  # la importación no la modifica nadie; el enlace lo pone el sistema

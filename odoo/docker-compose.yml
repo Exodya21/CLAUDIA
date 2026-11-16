@@ -24,12 +24,17 @@ services:
       # Clave maestra de cifrado (sp_cifrado): IBAN y documentos cifrados. Vive en odoo/.env (NO se sube al
       # repositorio; lo crean odoo_dev.sh y MONTAR_ODOO.bat). Guarde una copia aparte: sin ella no se leen los IBAN.
       SP_CLAVE_CIFRADO: ${SP_CLAVE_CIFRADO:-}
+      # Conexión directa con el banco (sp_banco_psd2, Enable Banking). Vacío = desactivada. La clave privada (.pem)
+      # se deja en odoo/secretos/ (no se sube al repositorio) y aquí va su ruta dentro del contenedor.
+      SP_EB_APP_ID: ${SP_EB_APP_ID:-}
+      SP_EB_CLAVE: ${SP_EB_CLAVE:-}
     ports: ["127.0.0.1:8069:8069"]     # solo accesible desde este ordenador
     volumes:
       - odoo20-data:/var/lib/odoo
       - ./addons:/mnt/extra-addons     # módulos propios sp_* (cuando existan)
       - ./configuracion:/configuracion:ro
       - ./pruebas:/pruebas:ro
+      - ./secretos:/secretos:ro          # credenciales fuera del repositorio (carpeta en .gitignore)
     restart: unless-stopped
 
 volumes:

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Cuatro veces al día: los bancos limitan las consultas sin el titular presente (PSD2, ~4 al día por cuenta). -->
+    <record id="cron_sp_banco_psd2" model="ir.cron">
+        <field name="name">Banco: descargar movimientos de las conexiones directas (PSD2)</field>
+        <field name="model_id" ref="model_sp_banco_conexion"/>
+        <field name="state">code</field>
+        <field name="code">model._sp_cron()</field>
+        <field name="interval_number">6</field>
+        <field name="interval_type">hours</field>
+        <field name="active">True</field>
+    </record>
+</odoo>
