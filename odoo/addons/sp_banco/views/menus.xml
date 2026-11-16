@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_sp_banco" name="Banco" parent="account.menu_finance" sequence="4"
+              groups="sp_recepcion.group_sp_responsable"/>
+    <menuitem id="menu_sp_banco_movimientos" name="Movimientos y conciliación" parent="menu_sp_banco"
+              action="action_sp_banco_movimientos" sequence="1"/>
+    <menuitem id="menu_sp_banco_importar" name="Importar extractos" parent="menu_sp_banco"
+              action="action_sp_banco_importar" sequence="2"/>
+    <menuitem id="menu_sp_banco_importaciones" name="Importaciones" parent="menu_sp_banco"
+              action="action_sp_banco_importacion" sequence="3"/>
+</odoo>

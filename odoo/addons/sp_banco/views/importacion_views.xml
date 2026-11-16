@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sp_banco_importar_form" model="ir.ui.view">
+        <field name="name">sp.banco.importar.form</field>
+        <field name="model">sp.banco.importar</field>
+        <field name="arch" type="xml">
+            <form string="Importar extractos">
+                <p>Excel (.xlsx o .xls), Norma 43, CAMT.053 (XML) o CSV. Puede subir varios a la vez: cada uno va a la
+                    cuenta cuyo IBAN termina igual. Reimportar un extracto no duplica movimientos.</p>
+                <group>
+                    <field name="archivo_ids" widget="many2many_binary"/>
+                    <field name="journal_id" placeholder="Solo si el archivo no indica la cuenta"/>
+                    <field name="solo_comprobar"/>
+                </group>
+                <footer>
+                    <button name="action_importar" type="object" string="Importar" class="btn-primary"/>
+                    <button special="cancel" string="Cancelar"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_sp_banco_importar" model="ir.actions.act_window">
+        <field name="name">Importar extractos</field>
+        <field name="res_model">sp.banco.importar</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="sp_banco_importacion_list" model="ir.ui.view">
+        <field name="name">sp.banco.importacion.list</field>
+        <field name="model">sp.banco.importacion</field>
+        <field name="arch" type="xml">
+            <list create="0" decoration-warning="cuadra == 'no' or errores" decoration-muted="solo_comprobar">
+                <field name="create_date" string="Fecha"/>
+                <field name="name"/>
+                <field name="journal_id"/>
+                <field name="formato"/>
+                <field name="desde"/>
+                <field name="hasta"/>
+                <field name="total"/>
+                <field name="nuevos"/>
+                <field name="duplicados"/>
+                <field name="cuadra"/>
+                <field name="solo_comprobar"/>
+                <field name="errores" optional="hide"/>
+                <field name="create_uid" string="Importado por" optional="show"/>
+            </list>
+        </field>
+    </record>
+    <record id="sp_banco_importacion_form" model="ir.ui.view">
+        <field name="name">sp.banco.importacion.form</field>
+        <field name="model">sp.banco.importacion</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0">
+                <sheet>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="journal_id"/>
+                            <field name="formato"/>
+                            <field name="desde"/>
+                            <field name="hasta"/>
+                            <field name="solo_comprobar"/>
+                            <field name="statement_id"/>
+                        </group>
+                        <group>
+                            <field name="saldo_inicial"/>
+                            <field name="saldo_final"/>
+                            <field name="cuadra"/>
+                            <field name="total"/>
+                            <field name="nuevos"/>
+                            <field name="duplicados"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="errores"/>
+                        <field name="columnas"/>
+                        <field name="huella"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_sp_banco_importacion" model="ir.actions.act_window">
+        <field name="name">Importaciones de extractos</field>
+        <field name="res_model">sp.banco.importacion</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

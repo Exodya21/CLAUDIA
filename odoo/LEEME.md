@@ -17,6 +17,9 @@ Aquí está lo que se construye sobre **Odoo 20 Community** (decisión del 13/11
 | `addons/sp_gastos/` | **Gastos de empleados** (sobre Gastos de Odoo): lectura del ticket en el servidor y forma de pago del despacho (efectivo de la caja de la sede, tarjeta de empresa o pagado por la persona) |
 | `configuracion/gastos.py` | Categorías de gasto con su cuenta (provisional, T-40) y fichas de empleado de demostración |
 | `pruebas/prueba_gastos.py` | Escenario: ticket de comida pagado con la caja de Barcelona (una vez) |
+| `addons/sp_banco/` | **Banco y conciliación**: importar extractos (Norma 43, CAMT.053, CSV, Excel) sin duplicar y con cuadre de saldos, y propuestas de conciliación explicadas que valida Contabilidad |
+| `configuracion/banco.py` | IBAN ficticios para los bancos de la S.L. (cada extracto va a su cuenta por los últimos dígitos) |
+| `pruebas/prueba_banco.py` | Escenario: dos extractos Norma 43 ficticios con transferencia con referencia, Bizum, traspaso, comisión e ingreso sin identificar (una vez) |
 | `addons/` | Módulos propios `sp_*` (ver documento 19 §5) |
 
 Todo usa **datos ficticios**. En la instalación real se cambian los valores del bloque CONFIGURACIÓN de
@@ -111,6 +114,18 @@ datos: la lectura **propone**.
     ```
 En **Gastos**, la persona sube la foto o el PDF del ticket (se lee solo), elige la categoría y la **forma de pago**
 (si es efectivo de la caja, sale de la caja de su sede) y lo envía; Contabilidad lo aprueba y lo contabiliza.
+
+### Banco y conciliación (módulo `sp_banco`)
+`MONTAR_ODOO.bat` ya lo instala y configura. A mano:
+```
+docker compose exec odoo odoo -d sp_contable -i sp_banco --stop-after-init --no-http --db_host=db -r odoo -w odoo
+```
+```
+docker compose exec -T odoo odoo shell -d sp_contable --db_host=db -r odoo -w odoo --no-http < configuracion/banco.py
+```
+En **Facturación → Banco**: **Importar extractos** (uno o varios; «Comprobar sin importar»), **Movimientos y
+conciliación** (cada movimiento con su propuesta y el porqué: Validar, Rechazar con motivo, Contabilizar en una cuenta
+o Ignorar) e **Importaciones** (con el archivo original). Lo usa Contabilidad (p. ej. `contabilidad.1`).
 
 En Linux (entorno de Claude): `bash herramientas/odoo_dev.sh sp_recepcion` arranca todo y actualiza el módulo.
 

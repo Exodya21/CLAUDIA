@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sp_banco_movimiento_list" model="ir.ui.view">
+        <field name="name">account.bank.statement.line.list.sp_banco</field>
+        <field name="model">account.bank.statement.line</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <list create="0" decoration-info="sp_estado == 'propuesto'" decoration-danger="sp_estado == 'excepcion' and sp_prioridad == 'alta'"
+                  decoration-warning="sp_estado == 'excepcion' and sp_prioridad != 'alta'" decoration-muted="sp_estado in ('conciliado', 'traspaso', 'justificado', 'ignorado')">
+                <field name="date"/>
+                <field name="journal_id"/>
+                <field name="payment_ref"/>
+                <field name="partner_name" optional="show"/>
+                <field name="amount" sum="Total"/>
+                <field name="sp_estado" widget="badge"/>
+                <field name="sp_regla" optional="show"/>
+                <field name="sp_explicacion"/>
+                <field name="sp_categoria" optional="hide"/>
+                <field name="sp_prioridad" column_invisible="1"/>
+                <field name="currency_id" column_invisible="1"/>
+                <button name="action_sp_validar" type="object" string="Validar" class="btn-primary"
+                        invisible="sp_estado != 'propuesto'" groups="sp_recepcion.group_sp_responsable"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="sp_banco_movimiento_form" model="ir.ui.view">
+        <field name="name">account.bank.statement.line.form.sp_banco</field>
+        <field name="model">account.bank.statement.line</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <form create="0">
+                <header>
+                    <button name="action_sp_validar" type="object" string="Validar la propuesta" class="btn-primary"
+                            invisible="sp_estado != 'propuesto'" groups="sp_recepcion.group_sp_responsable"/>
+                    <button name="action_sp_rechazar" type="object" string="Rechazar la propuesta"
+                            invisible="sp_estado != 'propuesto'" groups="sp_recepcion.group_sp_responsable"/>
+                    <button name="action_sp_proponer" type="object" string="Volver a proponer"
+                            invisible="sp_estado not in ('pendiente', 'excepcion', 'propuesto')" groups="sp_recepcion.group_sp_responsable"/>
+                    <button name="action_sp_contabilizar_en_cuenta" type="object" string="Contabilizar en la cuenta"
+                            invisible="sp_estado not in ('pendiente', 'excepcion')" groups="sp_recepcion.group_sp_responsable"/>
+                    <button name="action_sp_ignorar" type="object" string="Ignorar"
+                            invisible="sp_estado not in ('pendiente', 'excepcion')" groups="sp_recepcion.group_sp_responsable"/>
+                    <field name="sp_estado" widget="statusbar" statusbar_visible="pendiente,propuesto,conciliado"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date" readonly="1"/>
+                            <field name="sp_fecha_valor"/>
+                            <field name="journal_id" readonly="1"/>
+                            <field name="amount" readonly="1"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="payment_ref" readonly="1"/>
+                            <field name="sp_referencia"/>
+                            <field name="partner_name" readonly="1"/>
+                            <field name="partner_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Conciliación">
+                        <field name="sp_regla"/>
+                        <field name="sp_explicacion"/>
+                        <field name="sp_categoria" invisible="not sp_categoria"/>
+                        <field name="sp_propuesta_aml_ids" invisible="not sp_propuesta_aml_ids">
+                            <list>
+                                <field name="date"/>
+                                <field name="move_id"/>
+                                <field name="partner_id"/>
+                                <field name="account_id"/>
+                                <field name="amount_residual" string="Pendiente"/>
+                            </list>
+                        </field>
+                        <field name="sp_contrapartida_id" invisible="not sp_contrapartida_id"/>
+                    </group>
+                    <group string="Decisión de Contabilidad" groups="sp_recepcion.group_sp_responsable">
+                        <field name="sp_nota" placeholder="Motivo (obligatorio para rechazar, ignorar o contabilizar en una cuenta)"/>
+                        <field name="sp_cuenta_id" invisible="sp_estado not in ('pendiente', 'excepcion')"/>
+                        <field name="sp_validado_por" invisible="not sp_validado_por"/>
+                        <field name="sp_importacion_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sp_banco_movimiento_search" model="ir.ui.view">
+        <field name="name">account.bank.statement.line.search.sp_banco</field>
+        <field name="model">account.bank.statement.line</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="payment_ref"/>
+                <field name="journal_id"/>
+                <field name="partner_name"/>
+                <filter name="por_validar" string="Propuestas por validar" domain="[('sp_estado', '=', 'propuesto')]"/>
+                <filter name="excepciones" string="Excepciones" domain="[('sp_estado', '=', 'excepcion')]"/>
+                <filter name="abiertos" string="Abiertos" domain="[('sp_estado', 'in', ('pendiente', 'propuesto', 'excepcion'))]"/>
+                <filter name="cerrados" string="Cerrados" domain="[('sp_estado', 'in', ('conciliado', 'traspaso', 'justificado', 'ignorado'))]"/>
+                <filter name="group_cuenta" string="Cuenta" context="{'group_by': 'journal_id'}"/>
+                <filter name="group_estado" string="Estado" context="{'group_by': 'sp_estado'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_sp_banco_movimientos" model="ir.actions.act_window">
+        <field name="name">Movimientos bancarios</field>
+        <field name="res_model">account.bank.statement.line</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('journal_id.type', '=', 'bank')]</field>
+        <field name="context">{'search_default_abiertos': 1}</field>
+        <field name="search_view_id" ref="sp_banco_movimiento_search"/>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('sp_banco_movimiento_list')}),
+                                      (0, 0, {'view_mode': 'form', 'view_id': ref('sp_banco_movimiento_form')})]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Importe el primer extracto</p>
+            <p>El sistema propone a qué corresponde cada movimiento y explica por qué. Contabilidad valida.</p>
+        </field>
+    </record>
+</odoo>

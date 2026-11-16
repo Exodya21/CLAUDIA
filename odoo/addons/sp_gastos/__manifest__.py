@@ -11,6 +11,7 @@ Gastos de empleados (documento 19 §3.2; charter 4.13 y 4.14). Referencia: Siste
 - Lectura del ticket EN EL SERVIDOR (sin servicios externos ni créditos de pago): fecha, comercio, NIF, total e
   IVA. PROPONE y solo rellena lo vacío. El IVA es el del ticket: se elige el impuesto cuyo tipo lo reproduce.
 - Forma de pago del despacho:
+
     · Efectivo de la caja de la sede → se paga desde la caja de la sede de la persona (cuenta 570…): la caja baja
       al contabilizar y entra en su cierre diario (sp_recepcion).
     · Tarjeta de empresa → pagado por la empresa con el banco que se elija.
