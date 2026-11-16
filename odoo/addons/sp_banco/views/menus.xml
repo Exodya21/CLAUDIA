@@ -8,4 +8,6 @@
               action="action_sp_banco_importar" sequence="2"/>
     <menuitem id="menu_sp_banco_importaciones" name="Importaciones" parent="menu_sp_banco"
               action="action_sp_banco_importacion" sequence="3"/>
+    <menuitem id="menu_sp_banco_exportar" name="Exportar para la gestoría" parent="menu_sp_banco"
+              action="action_sp_banco_exportar" sequence="4"/>
 </odoo>

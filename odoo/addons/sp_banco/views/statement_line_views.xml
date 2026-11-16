@@ -37,6 +37,9 @@
                             invisible="sp_estado != 'propuesto'" groups="sp_recepcion.group_sp_responsable"/>
                     <button name="action_sp_proponer" type="object" string="Volver a proponer"
                             invisible="sp_estado not in ('pendiente', 'excepcion', 'propuesto')" groups="sp_recepcion.group_sp_responsable"/>
+                    <button name="action_sp_elegir_a_mano" type="object" string="Proponer los apuntes elegidos"
+                            invisible="sp_estado not in ('pendiente', 'excepcion', 'propuesto') or not sp_manual_aml_ids"
+                            groups="sp_recepcion.group_sp_responsable"/>
                     <button name="action_sp_contabilizar_en_cuenta" type="object" string="Contabilizar en la cuenta"
                             invisible="sp_estado not in ('pendiente', 'excepcion')" groups="sp_recepcion.group_sp_responsable"/>
                     <button name="action_sp_ignorar" type="object" string="Ignorar"
@@ -72,11 +75,24 @@
                                 <field name="amount_residual" string="Pendiente"/>
                             </list>
                         </field>
+                        <field name="sp_ajuste_importe" invisible="not sp_ajuste_importe"/>
+                        <field name="sp_ajuste_cuenta_id" invisible="not sp_ajuste_cuenta_id"/>
                         <field name="sp_contrapartida_id" invisible="not sp_contrapartida_id"/>
                     </group>
                     <group string="Decisión de Contabilidad" groups="sp_recepcion.group_sp_responsable">
                         <field name="sp_nota" placeholder="Motivo (obligatorio para rechazar, ignorar o contabilizar en una cuenta)"/>
-                        <field name="sp_cuenta_id" invisible="sp_estado not in ('pendiente', 'excepcion')"/>
+                        <field name="sp_cuenta_id" invisible="sp_estado not in ('pendiente', 'excepcion', 'propuesto')"/>
+                        <field name="company_id" invisible="1"/>
+                        <field name="sp_manual_aml_ids" invisible="sp_estado not in ('pendiente', 'excepcion', 'propuesto')"
+                               options="{'no_create': True}">
+                            <list>
+                                <field name="date"/>
+                                <field name="move_id"/>
+                                <field name="partner_id"/>
+                                <field name="account_id"/>
+                                <field name="amount_residual" string="Pendiente" sum="Total"/>
+                            </list>
+                        </field>
                         <field name="sp_validado_por" invisible="not sp_validado_por"/>
                         <field name="sp_importacion_id"/>
                     </group>

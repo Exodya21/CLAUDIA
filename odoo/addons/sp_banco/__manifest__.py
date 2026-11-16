@@ -17,8 +17,11 @@ en la 20.0: este módulo cubre ambas cosas (decisión AL-01/AL-02).
   Lo que no cuadra queda como excepción con su motivo. Nunca concilia solo.
 - Contabilidad valida (concilia), rechaza con motivo, contabiliza en una cuenta con motivo (comisiones, Seguridad
   Social…) o ignora con motivo. Un traspaso nunca cuenta como ingreso.
+- Liquidación de TPV con la comisión del banco descontada: la comisión va a la 626.
+- Elegir apuntes a mano: propuesta normal, pago parcial de un apunte o diferencia a una cuenta con motivo.
+- Exportación CSV de los movimientos para la gestoría (sin IBAN).
 """,
-    "version": "20.0.1.0.0",
+    "version": "20.0.1.1.0",
     "category": "Accounting/Accounting",
     "author": "Despacho (desarrollo propio)",
     "license": "LGPL-3",
@@ -29,6 +32,7 @@ en la 20.0: este módulo cubre ambas cosas (decisión AL-01/AL-02).
         "data/cron.xml",
         "views/importacion_views.xml",
         "views/statement_line_views.xml",
+        "views/exportar_views.xml",
         "views/menus.xml",
     ],
     "installable": True,

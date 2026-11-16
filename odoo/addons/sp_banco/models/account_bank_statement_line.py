@@ -67,6 +67,16 @@ class AccountBankStatementLine(models.Model):
     sp_cuenta_id = fields.Many2one("account.account", "Contabilizar en la cuenta",
                                    help="Para cargos o abonos sin factura ni cobro (comisiones, Seguridad Social…).")
     sp_validado_por = fields.Many2one("res.users", "Validado por", readonly=True)
+    sp_ajuste_importe = fields.Monetary("Diferencia", currency_field="currency_id", readonly=True,
+                                        help="Importe del movimiento que no cubren los apuntes propuestos (p. ej. la "
+                                             "comisión que el banco descuenta de una liquidación de TPV).")
+    sp_ajuste_cuenta_id = fields.Many2one("account.account", "Cuenta de la diferencia", readonly=True)
+    sp_manual_aml_ids = fields.Many2many(
+        "account.move.line", "sp_banco_manual_rel", "st_line_id", "aml_id", string="Elegir apuntes a mano",
+        domain="[('company_id', '=', company_id), ('parent_state', '=', 'posted'), ('reconciled', '=', False), "
+               "('account_id.reconcile', '=', True), ('amount_residual', '!=', 0), ('move_id.statement_line_id', '=', False)]",
+        help="Cobros, pagos o facturas pendientes que corresponden a este movimiento cuando el sistema no los ha "
+             "encontrado o ha propuesto otros.")
 
     _sp_ext_unico = models.UniqueIndex("(journal_id, sp_ext_id) WHERE sp_ext_id IS NOT NULL")
 
@@ -205,10 +215,28 @@ class AccountBankStatementLine(models.Model):
                                           i=eur(self.amount), n=len(ls), d=d.strftime("%d/%m/%Y")), {"lineas": ls})
         if len(encontrados) > 1:
             return ("excepcion", "tpv_ambiguo", _("Varios días de cobros con tarjeta cuadran con este abono. Elija a mano."), {})
+        # El banco suele liquidar el TPV descontando su comisión: abono = cobros del día − comisión (hasta un 3 %).
+        con_comision = [(d, ls, sum(ls.mapped("amount_residual")) - self.amount) for d, ls in por_dia.items()]
+        con_comision = [(d, ls, c) for d, ls, c in con_comision if 0 < c <= round(0.03 * (c + self.amount), 2)]
+        cuenta = self._sp_cuenta_comision()
+        if len(con_comision) == 1 and cuenta:
+            d, ls, c = con_comision[0]
+            bruto = c + self.amount
+            return ("propuesto", "tpv_comision",
+                    _("Liquidación de TPV de %(i)s = %(n)s cobros con tarjeta del %(d)s (%(b)s) menos %(c)s de comisión "
+                      "del banco (%(p)s %%), que va a la cuenta %(cu)s.", i=eur(self.amount), n=len(ls),
+                      d=d.strftime("%d/%m/%Y"), b=eur(bruto), c=eur(c), p=f"{100 * c / bruto:.2f}".replace(".", ","),
+                      cu=cuenta.code), {"lineas": ls, "ajuste": (cuenta, -c)})
         return ("excepcion", "tpv_sin_cuadre",
                 _("Liquidación de TPV de %s que no cuadra con los cobros registrados en esta cuenta. Revise los cobros con "
                   "tarjeta de esos días (y si el banco ha descontado comisión).", eur(self.amount)),
                 {"categoria": "TPV", "prioridad": "alta"})
+
+    def _sp_cuenta_comision(self):
+        """Cuenta de servicios bancarios (626 del PGC) de la compañía del movimiento."""
+        Cuenta = self.env["account.account"].with_company(self.company_id)
+        return (Cuenta.search([("code", "=", "626000")], limit=1)
+                or Cuenta.search([("code", "=like", "626%")], limit=1))
 
     def _sp_regla_devolucion(self):
         if self.amount >= 0 or "sp.devolucion" not in self.env:
@@ -313,9 +341,11 @@ class AccountBankStatementLine(models.Model):
         # El agente lee cobros, facturas y devoluciones de todo el despacho para proponer (no cambia nada de ellos):
         # se ejecuta como superusuario técnico. Validar sí exige el grupo de Contabilidad.
         for st in self.sudo().filtered(lambda s: not s.is_reconciled and s.sp_estado in ("pendiente", "excepcion", "propuesto")):
-            st.write({"sp_estado": "pendiente", "sp_propuesta_aml_ids": [Command.clear()], "sp_contrapartida_id": False})
+            st.write({"sp_estado": "pendiente", "sp_propuesta_aml_ids": [Command.clear()], "sp_contrapartida_id": False,
+                      "sp_ajuste_importe": 0.0, "sp_ajuste_cuenta_id": False})
             estado, regla, explicacion, extra = st._sp_evaluar()
-            st.write({"sp_estado": estado, "sp_regla": regla, "sp_explicacion": explicacion,
+            cuenta_ajuste, ajuste = extra.get("ajuste", (self.env["account.account"], 0.0))
+            st.write({"sp_ajuste_importe": ajuste, "sp_ajuste_cuenta_id": cuenta_ajuste.id or False,"sp_estado": estado, "sp_regla": regla, "sp_explicacion": explicacion,
                       "sp_categoria": extra.get("categoria"), "sp_prioridad": extra.get("prioridad", "media"),
                       "sp_propuesta_aml_ids": [Command.set(extra.get("lineas", self.env["account.move.line"]).ids)],
                       "sp_contrapartida_id": extra.get("contrapartida", self.browse()).id or False})
@@ -374,13 +404,70 @@ class AccountBankStatementLine(models.Model):
             objetivo = st.sp_propuesta_aml_ids
             if not objetivo or any(l.reconciled for l in objetivo):
                 raise UserError(_("Los apuntes propuestos ya no están pendientes. Vuelva a proponer."))
-            if not st.currency_id.is_zero(sum(objetivo.mapped("amount_residual")) - st.amount):
-                raise UserError(_("Los apuntes propuestos no suman el importe del movimiento."))
-            nuevas = st._sp_reemplazar_contrapartida(
-                [(l.account_id, l.partner_id, -l.amount_residual, l.move_id.name) for l in objetivo])
+            if st.sp_regla == "manual_parcial":
+                # Pago parcial de un único apunte: se concilia por el importe del movimiento y el resto sigue pendiente.
+                if not st._sp_es_parcial(objetivo):
+                    raise UserError(_("El apunte ya no admite este pago parcial. Vuelva a elegir."))
+                contrapartidas = [(objetivo.account_id, objetivo.partner_id, -st.amount, objetivo.move_id.name)]
+            else:
+                ajuste = st.sp_ajuste_importe or 0.0
+                if not st.currency_id.is_zero(sum(objetivo.mapped("amount_residual")) + ajuste - st.amount):
+                    raise UserError(_("Los apuntes propuestos no suman el importe del movimiento."))
+                if ajuste and not st.sp_ajuste_cuenta_id:
+                    raise UserError(_("Falta la cuenta de la diferencia."))
+                contrapartidas = [(l.account_id, l.partner_id, -l.amount_residual, l.move_id.name) for l in objetivo]
+                if ajuste:
+                    contrapartidas.append((st.sp_ajuste_cuenta_id, False, -ajuste,
+                                           _("Comisión del TPV") if st.sp_regla == "tpv_comision"
+                                           else (st.sp_nota or "").strip()[:120] or _("Diferencia")))
+            nuevas = st._sp_reemplazar_contrapartida(contrapartidas)
             for nueva, l in zip(nuevas, objetivo):
                 (nueva | l).reconcile()
-            st.write({"sp_estado": "conciliado", "sp_validado_por": self.env.uid})
+            st.write({"sp_estado": "conciliado", "sp_validado_por": self.env.uid, "sp_manual_aml_ids": [Command.clear()]})
+        return True
+
+    def _sp_es_parcial(self, lineas):
+        return (len(lineas) == 1 and lineas.amount_residual * self.amount > 0
+                and abs(self.amount) < abs(lineas.amount_residual) - 0.001)
+
+    def action_sp_elegir_a_mano(self):
+        """Contabilidad elige los apuntes. Si suman el movimiento, propuesta normal; si es uno solo y mayor, pago
+        parcial; si no cuadran, la diferencia va a la cuenta elegida con su motivo. Después se valida igual."""
+        self._sp_exigir()
+        for st in self:
+            if st.is_reconciled or st.sp_estado not in ("pendiente", "excepcion", "propuesto"):
+                raise UserError(_("Este movimiento ya está cerrado."))
+            lineas = st.sp_manual_aml_ids
+            if not lineas:
+                raise UserError(_("Elija al menos un apunte en «Elegir apuntes a mano»."))
+            if lineas.filtered("reconciled"):
+                raise UserError(_("Alguno de los apuntes elegidos ya está conciliado."))
+            if lineas & st._sp_ocupados():
+                raise UserError(_("Alguno de los apuntes elegidos está propuesto para otro movimiento."))
+            total = sum(lineas.mapped("amount_residual"))
+            diferencia = st.currency_id.round(st.amount - total)
+            vals = {"sp_estado": "propuesto", "sp_propuesta_aml_ids": [Command.set(lineas.ids)],
+                    "sp_contrapartida_id": False, "sp_ajuste_importe": 0.0, "sp_ajuste_cuenta_id": False,
+                    "sp_prioridad": "media"}
+            usuario = self.env.user.name
+            if st.currency_id.is_zero(diferencia):
+                vals.update(sp_regla="manual", sp_explicacion=_("Elegido a mano por %(u)s: %(t)s.", u=usuario,
+                                                                 t=st._sp_texto(lineas)))
+            elif st._sp_es_parcial(lineas):
+                vals.update(sp_regla="manual_parcial", sp_explicacion=_(
+                    "Pago PARCIAL elegido a mano por %(u)s: %(i)s de %(t)s. Quedarán pendientes %(q)s.", u=usuario,
+                    i=eur(abs(st.amount)), t=st._sp_texto(lineas), q=eur(abs(total) - abs(st.amount))))
+            else:
+                if not st.sp_cuenta_id:
+                    raise UserError(_("Los apuntes elegidos suman %(t)s y el movimiento es de %(i)s. Elija en «Contabilizar "
+                                      "en la cuenta» dónde va la diferencia de %(d)s y escriba el motivo.",
+                                      t=eur(total), i=eur(st.amount), d=eur(diferencia)))
+                st._sp_exigir_nota()
+                vals.update(sp_regla="manual_diferencia", sp_ajuste_importe=diferencia, sp_ajuste_cuenta_id=st.sp_cuenta_id.id,
+                            sp_explicacion=_("Elegido a mano por %(u)s: %(t)s. Diferencia de %(d)s a la cuenta %(c)s: %(n)s.",
+                                             u=usuario, t=st._sp_texto(lineas), d=eur(diferencia),
+                                             c=st.sp_cuenta_id.code, n=st.sp_nota.strip()))
+            st.write(vals)
         return True
 
     def _sp_exigir_nota(self, minimo=10):

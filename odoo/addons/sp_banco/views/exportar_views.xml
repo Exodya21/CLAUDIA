@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sp_banco_exportar_form" model="ir.ui.view">
+        <field name="name">sp.banco.exportar.form</field>
+        <field name="model">sp.banco.exportar</field>
+        <field name="arch" type="xml">
+            <form string="Exportar movimientos para la gestoría">
+                <p>Un archivo CSV (se abre con Excel) con cada movimiento, su estado, la cuenta de contrapartida, los
+                    documentos con los que se ha conciliado y la nota de Contabilidad. No incluye los IBAN.</p>
+                <group>
+                    <field name="fecha_desde"/>
+                    <field name="fecha_hasta"/>
+                    <field name="journal_ids" widget="many2many_tags" placeholder="Todas las cuentas"/>
+                    <field name="solo_cerrados"/>
+                </group>
+                <footer>
+                    <button name="action_exportar" type="object" string="Descargar CSV" class="btn-primary"/>
+                    <button special="cancel" string="Cancelar"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_sp_banco_exportar" model="ir.actions.act_window">
+        <field name="name">Exportar para la gestoría</field>
+        <field name="res_model">sp.banco.exportar</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

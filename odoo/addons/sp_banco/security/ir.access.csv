@@ -3,3 +3,4 @@ access_sp_banco_importacion_resp,Importaciones de extractos · Contabilidad,sp.b
 access_sp_banco_importacion_mgr,Importaciones de extractos · administración,sp.banco.importacion,account.group_account_manager,r,
 sp_banco_importacion_company_rule,Importaciones de extractos · multicompañía,sp.banco.importacion,,crud,"[('company_id', 'in', company_ids)]"
 access_sp_banco_importar,Importar extractos,sp.banco.importar,sp_recepcion.group_sp_responsable,crud,
+access_sp_banco_exportar,Exportar movimientos,sp.banco.exportar,sp_recepcion.group_sp_responsable,crud,

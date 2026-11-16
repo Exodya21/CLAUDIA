@@ -164,3 +164,72 @@ class TestBanco(AccountTestInvoicingCommon):
         self.assertEqual((c.sp_regla, c.sp_contrapartida_id), ("traspaso", b))
         c.with_user(self.conta).action_sp_validar()
         self.assertEqual((b.sp_estado, c.sp_estado), ("traspaso", "traspaso"))
+
+    # --- Remates: TPV con comisión, elegir a mano, pago parcial, exportación ----------------------------------
+    def test_tpv_con_comision_va_a_la_626(self):
+        self._cobro_banco(importe=60.0, fecha="2026-11-03")
+        self._cobro_banco(importe=40.0, fecha="2026-11-03")
+        st = self._mov(98.5, "LIQUIDACION TPV COMERCIO 03/11")
+        st._sp_proponer()
+        self.assertEqual((st.sp_estado, st.sp_regla), ("propuesto", "tpv_comision"), st.sp_explicacion)
+        self.assertAlmostEqual(st.sp_ajuste_importe, -1.5)
+        self.assertEqual(st.sp_ajuste_cuenta_id.code[:3], "626")
+        st.with_user(self.conta).action_sp_validar()
+        self.assertTrue(st.is_reconciled)
+        comision = st.move_id.line_ids.filtered(lambda l: l.account_id == st.sp_ajuste_cuenta_id)
+        self.assertAlmostEqual(comision.debit, 1.5)
+
+    def test_tpv_comision_excesiva_no_se_propone(self):
+        self._cobro_banco(importe=100.0, fecha="2026-11-03")
+        st = self._mov(90.0, "LIQUIDACION TPV")
+        st._sp_proponer()
+        self.assertEqual((st.sp_estado, st.sp_regla), ("excepcion", "tpv_sin_cuadre"))
+
+    def test_elegir_a_mano_y_pago_parcial(self):
+        f = self._factura(300.0)
+        st = self._mov(100.0, "INGRESO SIN REFERENCIA")
+        st._sp_proponer()
+        self.assertEqual(st.sp_estado, "excepcion")
+        receivable = f.line_ids.filtered(lambda l: l.account_id.account_type == "asset_receivable")
+        st.sp_manual_aml_ids = receivable
+        with self.assertRaises(AccessError):
+            st.with_user(self.otro).action_sp_elegir_a_mano()
+        st.with_user(self.conta).action_sp_elegir_a_mano()
+        self.assertEqual(st.sp_regla, "manual_parcial")
+        st.with_user(self.conta).action_sp_validar()
+        self.assertTrue(st.is_reconciled)
+        self.assertEqual(f.payment_state, "partial")
+        self.assertAlmostEqual(f.amount_residual, 200.0)
+
+    def test_elegir_a_mano_con_diferencia_exige_cuenta_y_motivo(self):
+        f = self._factura(100.0)
+        st = self._mov(102.0, "TRANSFERENCIA CON 2 EUROS DE MAS")
+        st.sp_manual_aml_ids = f.line_ids.filtered(lambda l: l.account_id.account_type == "asset_receivable")
+        with self.assertRaises(UserError):
+            st.with_user(self.conta).action_sp_elegir_a_mano()
+        cuenta = self.env["account.account"].search([("code", "=like", "778%")], limit=1) or \
+            self.company_data["default_account_revenue"]
+        st.write({"sp_cuenta_id": cuenta.id, "sp_nota": "El cliente pagó 2 euros de más; se le avisa."})
+        st.with_user(self.conta).action_sp_elegir_a_mano()
+        self.assertEqual(st.sp_regla, "manual_diferencia")
+        st.with_user(self.conta).action_sp_validar()
+        self.assertEqual(f.payment_state, "paid")
+        self.assertAlmostEqual(st.move_id.line_ids.filtered(lambda l: l.account_id == cuenta).credit, 2.0)
+
+    def test_exportar_csv_gestoria(self):
+        self._cobro_banco(importe=55.0)
+        st = self._mov(55.0, "BIZUM CLIENTE_01")
+        st._sp_proponer()
+        st.with_user(self.conta).action_sp_validar()
+        w = self.env["sp.banco.exportar"].with_user(self.conta).create(
+            {"fecha_desde": "2026-11-01", "fecha_hasta": "2026-11-30"})
+        accion = w.action_exportar()
+        adjunto = self.env["ir.attachment"].browse(int(accion["url"].split("/")[3].split("?")[0]))
+        texto = adjunto.raw.content.decode("utf-8-sig") if hasattr(adjunto.raw, "content") else adjunto.raw.decode("utf-8-sig")
+        self.assertIn("Fecha;Fecha valor;Cuenta;Concepto", texto)
+        self.assertIn("BIZUM CLIENTE_01", texto)
+        self.assertIn("55,00", texto)
+        self.assertNotIn("ES0021", texto)
+        with self.assertRaises(UserError):
+            self.env["sp.banco.exportar"].with_user(self.otro).create(
+                {"fecha_desde": "2026-11-01", "fecha_hasta": "2026-11-30"}).action_exportar()

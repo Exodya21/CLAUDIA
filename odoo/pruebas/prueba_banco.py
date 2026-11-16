@@ -25,11 +25,17 @@ biz = env["account.payment"].create({"payment_type": "inbound", "partner_type": 
                                      "amount": 40.0, "journal_id": J("BCB").id, "date": hoy - timedelta(days=1),
                                      "memo": "Bizum consulta"})
 biz.action_post()
+# Dos cobros con tarjeta en recepción el mismo día: el banco los liquida juntos descontando su comisión
+tarjetas = env["account.payment"].create([
+    {"payment_type": "inbound", "partner_type": "customer", "partner_id": cli6.id, "amount": a,
+     "journal_id": J("BCB").id, "date": hoy - timedelta(days=2), "memo": "Tarjeta consulta"} for a in (70.0, 30.0)])
+tarjetas.action_post()
 
 d = lambda n: hoy - timedelta(days=n)
 n43_b = build_n43(bank="2100", branch="0001", account10="0000022222", start=d(5), end=hoy, opening_cents=250000, moves=[
     (d(2), 30000, "04", "TRF", f"TRANSFERENCIA CLIENTE_05 {fact.name}"),
     (d(1), 4000, "02", "BIZ", "BIZUM CLIENTE_06"),
+    (d(1), 9820, "02", "TPV", "LIQUIDACION TPV COMERCIO"),
     (d(1), -50000, "04", "TRS", "TRASPASO A BANCO C TESORERIA"),
     (d(0), -350, "17", "COM", "COMISION MANTENIMIENTO CUENTA"),
     (d(0), 9999, "02", "ING", "INGRESO SIN REFERENCIA"),
@@ -54,5 +60,9 @@ movs.filtered(lambda m: m.sp_regla == "traspaso" and m.amount > 0).with_user(c1)
 com = movs.filtered(lambda m: m.sp_regla == "cargo_sin_justificar")
 com.with_user(c1).write({"sp_nota": "Comisión de mantenimiento mensual", "sp_cuenta_id": env["account.account"].with_company(co).search([("code", "=", "626000")], limit=1).id})
 com.with_user(c1).action_sp_contabilizar_en_cuenta()
+# La liquidación del TPV llega con 1,80 € menos: se propone con la comisión a la 626 y Contabilidad la valida
+movs.filtered(lambda m: m.sp_regla == "tpv_comision").with_user(c1).action_sp_validar()
 env.cr.commit()
+csv = env["sp.banco.exportar"].with_user(c1).create({"fecha_desde": d(5), "fecha_hasta": hoy}).action_exportar()
+print("Exportación para la gestoría:", csv["url"])
 print(f"Factura {fact.name}: {fact.payment_state} · estados: " + ", ".join(f"{m.sp_estado}" for m in movs))
