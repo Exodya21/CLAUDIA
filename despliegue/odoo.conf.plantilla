@@ -1,0 +1,25 @@
+; Configuración de Odoo en el servidor. instalar.sh crea odoo.conf a partir de esta plantilla con las claves del
+; servidor. odoo.conf NO se sube al repositorio.
+[options]
+db_host = db
+db_port = 5432
+db_user = odoo
+db_password = @POSTGRES_PASSWORD@
+db_name = @BASE@
+dbfilter = ^@BASE@$
+list_db = False
+admin_passwd = @ADMIN_PASSWD@
+proxy_mode = True
+; Odoo atiende en la red interna de Docker; desde fuera solo se llega a través de Caddy (HTTPS)
+http_interface = 0.0.0.0
+addons_path = /mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
+data_dir = /var/lib/odoo
+without_demo = True
+workers = @WORKERS@
+max_cron_threads = 1
+gevent_port = 8072
+limit_memory_soft = 2147483648
+limit_memory_hard = 2684354560
+limit_time_cpu = 600
+limit_time_real = 1200
+log_level = info

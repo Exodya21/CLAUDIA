@@ -4,3 +4,8 @@ __pycache__/
 # Clave de cifrado de Odoo (sp_cifrado): nunca en el repositorio
 odoo/.env
 odoo/secretos/
+# Despliegue en el servidor: claves, configuración con contraseñas y credenciales iniciales (solo en el servidor)
+despliegue/.env
+despliegue/odoo.conf
+despliegue/secretos/
+despliegue/credenciales_*.txt

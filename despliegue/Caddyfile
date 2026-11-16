@@ -1,0 +1,20 @@
+# HTTPS automático (Let's Encrypt) para el dominio de .env. Solo los puertos 80 y 443 quedan abiertos.
+{
+	email {$CORREO_TLS}
+}
+
+{$DOMINIO} {
+	encode gzip
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "SAMEORIGIN"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+	# El gestor de bases de datos de Odoo no se publica nunca (además list_db = False en odoo.conf).
+	@gestor path /web/database/*
+	respond @gestor 404
+	reverse_proxy /websocket odoo:8072
+	reverse_proxy odoo:8069
+}
