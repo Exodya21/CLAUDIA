@@ -3,6 +3,55 @@
 Sistema Propio · 12/11/2026. Formato inspirado en *Keep a Changelog*. Las versiones siguen los incrementos del plan
 (F0.1 … F5.6). Los cambios de base de datos se indican con su migración.
 
+## [DOC-17] · 16/11/2026 — Odoo 20: sp_banco 20.0.1.1.0 · TPV con comisión, elegir apuntes a mano y exportación para la gestoría
+`odoo/addons/sp_banco` pasa de **20.0.1.0.0** a **20.0.1.1.0**. Remata el banco (19 §3.3; paso 4 de 19 §6), que es el
+punto 1 del orden de trabajo fijado hoy por el usuario (18 §5). Todo con datos ficticios.
+### Añadido
+- **Liquidación de TPV con comisión** (regla `tpv_comision` en `models/account_bank_statement_line.py`). Si el abono
+  del TPV es igual a los cobros con tarjeta de un día **menos una diferencia de hasta el 3 %**, se propone con esa
+  diferencia como comisión a la cuenta **626000** (Servicios bancarios; si no existe, la primera 626…).
+  - Campos nuevos `sp_ajuste_importe` («Diferencia») y `sp_ajuste_cuenta_id` («Cuenta de la diferencia»).
+  - Al validar, se crea la línea de comisión en el asiento del movimiento.
+  - Si la diferencia supera el 3 %, sigue siendo la excepción `tpv_sin_cuadre`.
+- **Elegir apuntes a mano** (solo Contabilidad): campo `sp_manual_aml_ids` («Elegir apuntes a mano») y botón
+  **Proponer los apuntes elegidos** (`action_sp_elegir_a_mano`). Deja una propuesta que después se valida con el
+  botón normal:
+
+  | Caso | Regla | Qué hace |
+  |---|---|---|
+  | Los apuntes suman el movimiento | `manual` | Propuesta normal |
+  | Un único apunte mayor que el movimiento | `manual_parcial` | **Pago parcial:** la factura queda en estado parcial con el resto pendiente |
+  | No cuadran | `manual_diferencia` | Exige «Contabilizar en la cuenta» y nota con el motivo (mínimo 10 caracteres); la diferencia va a esa cuenta |
+
+  No admite apuntes ya conciliados ni propuestos para otro movimiento.
+- **Exportación CSV para la gestoría**: asistente `sp.banco.exportar` (`wizard/exportar.py`,
+  `views/exportar_views.xml`; menú **Facturación → Banco → Exportar para la gestoría**; solo Contabilidad).
+  - Filtros: desde, hasta, cuentas (vacío = todas) y «Solo movimientos cerrados».
+  - Formato para Excel en español: separador «;», decimales con coma y UTF-8 con BOM.
+  - Columnas: fecha, fecha valor, cuenta, concepto, ordenante o beneficiario, importe, estado, regla, contrapartida
+    (cuenta e importe), documentos conciliados, nota de Contabilidad, validado por y asiento.
+  - **No incluye el IBAN** (minimización de datos).
+- `odoo/pruebas/prueba_banco.py` ampliado: dos cobros con tarjeta de 70 y 30 € y una liquidación de TPV de 98,20 €,
+  que se propone con 1,80 € de comisión y se valida. Al final exporta el CSV.
+- Captura `documentacion/odoo20_contabilidad/5_banco_tpv_comision.png`: liquidación de TPV conciliada con la comisión
+  a la 626000 (datos ficticios).
+### Cambiado
+- Ya existe el **pago parcial** desde el banco (antes una propuesta tenía que sumar el importe del movimiento; 19 §3.3).
+  «Parcial» sigue sin ser un estado del movimiento: el movimiento queda conciliado y la factura, parcialmente pagada.
+### Comprobado
+- **15 pruebas de `sp_banco`, 0 fallos.** Las 5 nuevas, en `tests/test_banco.py`: TPV con comisión a la 626; comisión
+  excesiva que no se propone; elegir a mano con pago parcial y permiso; diferencia que exige cuenta y motivo;
+  exportación CSV sin IBAN y con permiso.
+- **Total de los cuatro módulos: 54 pruebas** (33 `sp_recepcion` + 7 `sp_contabilidad` + 9 `sp_gastos` + 15
+  `sp_banco`). Suma de los recuentos por módulo; no consta un recuento conjunto nuevo.
+- **Base recreada desde cero** con `herramientas/odoo_dev.sh`: los 6 escenarios de `odoo/pruebas/` correctos.
+- Sin incidencias nuevas reseñables (no se añade nada en 12).
+### Pendiente
+- Siguientes pasos según el orden fijado hoy (18 §5): conciliación automática con el número de expediente en el
+  concepto (18 · AL-12, abierto), cifrado del IBAN y de los extractos, conexión directa con el banco (PSD2) y
+  facturación a clientes.
+- Aviso de actividad laboral o de extranjería de la cuenta: llegará con los expedientes.
+
 ## [DOC-16] · 16/11/2026 — Odoo 20: sp_banco · banco y conciliación
 Módulo nuevo `odoo/addons/sp_banco` (versión **20.0.1.0.0**; depende de `account` y `sp_recepcion`). Es el paso 4 de
 19 §6 (19 §3.3; charter 4.5). Sustituye a los módulos de la OCA que no están en 20.0: importación de extractos,

@@ -238,17 +238,33 @@ ficticios.
 | **Contabilizar en la cuenta** | Cargo o abono sin factura ni cobro (comisión, Seguridad Social…) | Elija la cuenta en «Contabilizar en la cuenta» y escriba el motivo |
 | **Ignorar** | El movimiento no requiere conciliación | Escriba el motivo |
 
-Para conciliar con otro apunte distinto del propuesto: rechace la propuesta y vuelva a proponer, o contabilícelo en
-una cuenta. Elegir el apunte a mano desde la pantalla aún no está disponible.
+**4. Elegir los apuntes a mano** (si la propuesta no es la buena o no hay propuesta):
+1. En «Elegir apuntes a mano», añada el cobro, la factura o el pago que corresponde.
+2. Pulse **Proponer los apuntes elegidos**. Según el caso:
+   - Si suman el importe del movimiento, queda como propuesta normal.
+   - Si es un único apunte mayor que el movimiento, se propone un **pago parcial**: la factura queda parcialmente
+     pagada y el resto, pendiente.
+   - Si no cuadran, elija antes en «Contabilizar en la cuenta» dónde va la diferencia y escriba el motivo en «Nota de
+     Contabilidad» (mínimo 10 caracteres).
+3. Revise la explicación y pulse **Validar la propuesta**.
 
-Ejemplo (escenario `odoo/pruebas/prueba_banco.py`): extractos ficticios del Banco B y del Banco C. Una transferencia
+**Liquidaciones del TPV:** si el banco abona los cobros con tarjeta de un día descontando su comisión (hasta un 3 %),
+Odoo lo propone con la diferencia como comisión a la 626000. Al validar, la comisión queda en el asiento. Si la
+diferencia es mayor, el movimiento queda como excepción para revisarlo.
+
+**5. Exportar para la gestoría** (**Banco → Exportar para la gestoría**): elija las fechas, las cuentas (vacío =
+todas) y, si quiere, **Solo movimientos cerrados**. Pulse **Descargar CSV**. El archivo se abre directamente en Excel
+(separador «;» y decimales con coma) y no incluye el IBAN.
+
+Ejemplo (escenario `odoo/pruebas/prueba_banco.py`): extractos ficticios del Banco B y del Banco C. Una liquidación de
+TPV de 98,20 € por dos cobros con tarjeta de 70 y 30 € se propone con 1,80 € de comisión y se valida
+(`documentacion/odoo20_contabilidad/5_banco_tpv_comision.png`). Una transferencia
 con el número de factura queda conciliada y la factura, pagada; el traspaso de B a C queda como «traspaso» en las dos
 cuentas; el Bizum de CLIENTE_06 se propone; la comisión se contabiliza en la 626000, y un ingreso sin referencia queda
 como excepción. Capturas: `documentacion/odoo20_contabilidad/3_banco_movimientos.png` (la explicación de la
 referencia aún muestra un trozo «EXP/2026/0000», ya corregido) y `4_banco_propuesta_bizum.png`.
 
-Aún no están en Odoo 20 el TPV con comisión descontada, la exportación CSV para la gestoría (de momento, exporte
-desde la lista), la conexión directa con el banco ni el aviso de actividad de la cuenta (11 · DOC-16).
+Aún no están en Odoo 20 la conexión directa con el banco ni el aviso de actividad de la cuenta (11 · DOC-17).
 
 ## 11. RRHH
 - **Mi ficha** (todos): sus datos, documentos y ausencias. Solicite vacaciones o permisos; RRHH los aprueba y quedan

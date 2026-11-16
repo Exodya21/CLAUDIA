@@ -60,21 +60,24 @@ en el repositorio (`docs/entrega/`) junto al código y se actualiza con él. Se 
   - `odoo/configuracion/banco.py`: IBAN ficticios para los bancos de la S.L., para que cada extracto vaya a su cuenta
     (11 · DOC-16).
   - `odoo/pruebas/prueba_banco.py`: escenario de dos extractos Norma 43 ficticios con transferencia con referencia,
-    Bizum, traspaso, comisión e ingreso sin identificar (11 · DOC-16).
+    Bizum, traspaso, comisión e ingreso sin identificar (11 · DOC-16); desde DOC-17, también una liquidación de TPV
+    con comisión y la exportación CSV para la gestoría.
   - `odoo/MONTAR_ODOO.bat`: montaje completo en Windows con un doble clic (base contable y los cuatro módulos;
     09 · Anexo C).
   - `odoo/addons/`: módulos propios `sp_*` (19 §5): `odoo/addons/sp_recepcion/` (Recepción, cajas y devoluciones),
     `odoo/addons/sp_contabilidad/` (facturas de proveedores: lectura en el servidor, cuadre y aviso de repetidas;
     19 §3.4), `odoo/addons/sp_gastos/` (gastos de empleados: lectura del ticket en el servidor y forma de pago del
     despacho, con el efectivo desde la caja de la sede; 19 §3.2) y `odoo/addons/sp_banco/` (banco y conciliación:
-    importación de extractos y propuestas explicadas que valida Contabilidad; 19 §3.3).
+    importación de extractos, propuestas explicadas que valida Contabilidad, TPV con comisión, elegir apuntes a mano
+    con pago parcial y exportación CSV para la gestoría; 19 §3.3).
 - `herramientas/odoo_dev.sh`: levanta Odoo 20 de pruebas en Linux o en el entorno en la nube (09 · Anexo C).
 - `documentacion/odoo20_base_contable/`: capturas de la prueba de la base contable (datos ficticios).
 - `documentacion/odoo20_recepcion/`: capturas de Recepción y cajas en Odoo 20 (cobros, cobro con justificante,
   cierre de caja, justificante y devolución; datos ficticios).
 - `documentacion/odoo20_contabilidad/`: capturas de las facturas de proveedores, los gastos y el banco en Odoo 20
   (factura leída; gasto de un ticket pagado en efectivo, tomada antes de corregir el IVA; movimientos del banco, con un
-  trozo de referencia ya corregido; propuesta de un Bizum; datos ficticios).
+  trozo de referencia ya corregido; propuesta de un Bizum; liquidación de TPV conciliada con la comisión a la 626000,
+  `5_banco_tpv_comision.png`; datos ficticios).
 - `documentacion/cuestionarios/`: cuestionario para la gestoría sobre el plan de cuentas
   (`Cuestionario_gestoria_plan_de_cuentas.docx`; T-40 y 18 · AL-06/AL-13; 11 · DOC-6).
 

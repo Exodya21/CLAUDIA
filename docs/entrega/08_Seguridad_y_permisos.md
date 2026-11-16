@@ -694,7 +694,7 @@ los permisos son los estándar de Gastos.
 - **Tarjetas de empresa** («cada titular ve la suya»): pendientes, sin permisos todavía (19 §3.2).
 
 ## 12. Odoo 20 · Banco y conciliación (`sp_banco`)
-Comprobado en `odoo/addons/sp_banco/security/` y en el código del módulo (versión 20.0.1.0.0; 11 · DOC-16). No crea
+Comprobado en `odoo/addons/sp_banco/security/` y en el código del módulo (versión 20.0.1.1.0; 11 · DOC-16 y DOC-17). No crea
 grupos nuevos: usa el grupo «Responsable de caja y cobros (Contabilidad)» de `sp_recepcion` (§10).
 
 - **El banco solo lo lleva Contabilidad.** El menú **Facturación → Banco** solo lo ve ese grupo.
@@ -709,6 +709,8 @@ grupos nuevos: usa el grupo «Responsable de caja y cobros (Contabilidad)» de `
 | Ver las importaciones (`sp.banco.importacion`) | No | Leer y crear (no modificar ni borrar) | Leer |
 | Validar, rechazar (motivo ≥ 10), contabilizar en una cuenta (motivo y cuenta) o ignorar (motivo) un movimiento | No (`AccessError`) | Sí | Solo si tiene también el grupo de Contabilidad |
 | «Volver a proponer» | No (`AccessError`) | Sí | Ídem |
+| «Proponer los apuntes elegidos» (elegir a mano; `action_sp_elegir_a_mano`) | No (`AccessError`) | Sí. Si los apuntes no cuadran, exige cuenta y motivo | Ídem |
+| Exportar para la gestoría (asistente `sp.banco.exportar`) | No (sin acceso al modelo; el botón también lo comprueba en el servidor) | Sí. El CSV **no incluye el IBAN** (minimización) | Ídem |
 
 - **Multicompañía:** regla sin grupo sobre `sp.banco.importacion` (`company_id in company_ids`).
 - **Importación inmutable:** los campos de la importación son de solo lectura y nadie tiene permiso de escritura ni
