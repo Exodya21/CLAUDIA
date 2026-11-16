@@ -47,6 +47,24 @@ Sistema Propio · versión F5.6 · 12/11/2026. Las tablas de roles y permisos se
 | Copias | `pg_dump` + archivos. Sin `.env.real` (las claves) las copias no se pueden leer: guárdelas por separado |
 | Registros (logs) | Sin datos personales: identificadores enmascarados y `request_id` para correlacionar |
 
+### 3.1 Correspondencia en Odoo 20 (`sp_cifrado`, 16/11/2026)
+Comprobado en `odoo/addons/sp_cifrado/` y `odoo/addons/sp_banco/` (11 · DOC-19).
+
+| Qué | Sistema Propio | Odoo 20 |
+|---|---|---|
+| Clave | `FIELD_ENCRYPTION_KEY` en `.env.real` | `SP_CLAVE_CIFRADO` (variable de entorno, desde `odoo/.env`) u opción `sp_clave_cifrado` del archivo de configuración de Odoo. **Nunca en la base de datos ni en el repositorio.** De ella se derivan con HKDF-SHA256 una clave AES-SIV de 512 bits (campos) y una Fernet (archivos) |
+| IBAN completos | Cifrado de columna Fernet | **Cifrado** con AES-SIV (determinista y autenticado), prefijo `sp1:`: `res.partner.bank.account_number` y `sanitized_account_number` (clientes, proveedores, personal y cuentas propias) y `account.bank.statement.line.account_number` (contrapartida). Odoo los ve en claro; la búsqueda exacta y la unicidad funcionan; la búsqueda por trozos descifra en memoria |
+| Historial del IBAN | — | Sin seguimiento automático (guardaría el IBAN completo). El alta o el cambio se anota **enmascarado** («ES12 \*\*\*\* 1234») en el historial del contacto |
+| Extractos originales | Archivo cifrado en volumen | Adjunto **cifrado** (Fernet) `<nombre>.cifrado`. Solo Contabilidad lo descarga en claro (§12) |
+| Secretos TOTP | Cifrado de columna | `auth_totp` estándar de Odoo (sin `sp_cifrado`) |
+| Textos de mensajes, números de documento del personal, documentos de expedientes, justificantes y PDF de facturas | Cifrado de columna o de archivos | **Sin cifrar** de momento. Concepto, ordenante e importe de los movimientos van en claro porque hacen falta para conciliar (12 · ABI-07) |
+| Sin la clave | La aplicación no arranca | No se guarda ningún IBAN nuevo (error claro) y lo cifrado se muestra como «[cifrado: falta la clave]». Con otra clave: «[cifrado: no se puede leer]». `sp_cifrado` no se instala sin clave |
+
+- **Medidas que siguen haciendo falta:** disco cifrado en el servidor (LUKS o BitLocker) y copias cifradas, porque
+  no todo va cifrado en columna (tabla anterior).
+- **Custodia de la clave:** copia segura aparte de las copias de la base (13 §4; 14 §11). **Rotación: sin
+  procedimiento** (12 · ABI-06).
+
 ## 4. Roles
 | Código | Rol | Abreviatura | Nº permisos | Descripción |
 |---|---|---|---|---|
@@ -589,7 +607,7 @@ guardan cifrados (Fernet) y nunca se borran: se retiran con motivo.
 | TOTP obligatorio | Módulo `auth_totp` (Community) + política que lo exija a todos los usuarios internos (`auth_totp_mail_enforce` o desarrollo propio) |
 | OIDC | `auth_oauth` (Community) o OCA `auth_oidc` |
 | Portal del cliente con cuenta propia | Usuarios portal (`base.group_portal`) + `ir.rule` de portal |
-| Cifrado de columna | Desarrollo propio (campo `fields.Char` con cifrado en `_compute`/`_inverse`) o cifrado a nivel de disco + `attachment` cifrado |
+| Cifrado de columna | **Hecho (16/11/2026):** desarrollo propio `sp_cifrado`, tipo de campo `CharCifrado` (cifra en `convert_to_column` y descifra en `_insert_cache`; 12 · INC-95) y adjuntos cifrados con Fernet. Además, disco cifrado. Detalle en §3.1 |
 
 **Advertencia:** en Odoo, cualquier código Python que use `sudo()` se salta las reglas. Revisión obligatoria de cada
 `sudo()` en el código propio; la auditoría externa de seguridad debe incluirlo.
@@ -694,7 +712,7 @@ los permisos son los estándar de Gastos.
 - **Tarjetas de empresa** («cada titular ve la suya»): pendientes, sin permisos todavía (19 §3.2).
 
 ## 12. Odoo 20 · Banco y conciliación (`sp_banco`)
-Comprobado en `odoo/addons/sp_banco/security/` y en el código del módulo (versión 20.0.1.1.0; 11 · DOC-16 y DOC-17). No crea
+Comprobado en `odoo/addons/sp_banco/security/` y en el código del módulo (versión 20.0.1.2.0; 11 · DOC-16, DOC-17 y DOC-19). No crea
 grupos nuevos: usa el grupo «Responsable de caja y cobros (Contabilidad)» de `sp_recepcion` (§10).
 
 - **El banco solo lo lleva Contabilidad.** El menú **Facturación → Banco** solo lo ve ese grupo.
@@ -714,8 +732,12 @@ grupos nuevos: usa el grupo «Responsable de caja y cobros (Contabilidad)» de `
 
 - **Multicompañía:** regla sin grupo sobre `sp.banco.importacion` (`company_id in company_ids`).
 - **Importación inmutable:** los campos de la importación son de solo lectura y nadie tiene permiso de escritura ni
-  de borrado. El original queda como adjunto de la importación. **Diferencia con Sistema Propio:** allí el original
-  se guardaba cifrado; aquí no (19 §3.3).
+  de borrado. El original queda como adjunto **cifrado** de la importación (`original_id`, `<nombre>.cifrado`;
+  desde 20.0.1.2.0, 11 · DOC-19), como en Sistema Propio.
+- **Descargar el original:** botón **Descargar el original** de la importación, solo para el grupo de Contabilidad
+  (el botón está oculto para los demás y el servidor lo vuelve a comprobar). Lo sirve el controlador
+  `/sp_banco/original/<id>`: descifra, comprueba la huella SHA-256 y responde con `Cache-Control: no-store`. Otro
+  usuario recibe un error (prueba en `tests/test_banco.py`). El archivo subido en el asistente se borra al importar.
 - **El agente solo lee.** Se ejecuta como superusuario técnico (`sudo()`) para leer cobros, facturas y devoluciones
   de todo el despacho y dejar su propuesta en el movimiento. No concilia ni cambia cobros, facturas ni devoluciones.
   Validar exige el grupo de Contabilidad (`_sp_exigir`).
@@ -724,7 +746,8 @@ grupos nuevos: usa el grupo «Responsable de caja y cobros (Contabilidad)» de `
 | Dónde | Para qué |
 |---|---|
 | `models/account_bank_statement_line.py` · `_sp_proponer` | El agente lee cobros, facturas y devoluciones y escribe en el movimiento la propuesta, la explicación y el estado. Se usa también desde el cron horario |
-| `models/importacion.py` · `_sp_importar` (adjunto del original) | Crear el adjunto técnico con el archivo original de la importación |
+| `models/importacion.py` · `_sp_importar` (adjunto del original) | Crear el adjunto técnico con el archivo original **cifrado** y enlazarlo en la importación (`original_id`) |
+| `models/importacion.py` · `_sp_original_en_claro` | Leer el adjunto cifrado para descifrarlo, **después** de comprobar que el usuario es de Contabilidad |
 | `models/importacion.py` · `_sp_importar` (enlace del extracto) | Escribir en la importación el extracto creado (`statement_id`); nadie más puede modificar la importación |
 
 ## 13. Odoo 20 · Expedientes y facturación por expediente (`sp_expediente`, `sp_facturacion`)
@@ -760,3 +783,19 @@ Comprobado en el código de `odoo/addons/sp_expediente/security/ir.access.csv` y
 | `models/expediente.py` · campos calculados (`compute_sudo`) | Total a pagar, facturado, pendiente, facturas y estado de cobro, leídos del pedido |
 | `models/account_bank_statement_line.py` · `_sp_regla_expediente` | Leer el pedido para calcular el desglose (el agente ya se ejecuta como superusuario, §12) |
 | `models/account_bank_statement_line.py` · `action_sp_validar` | Escribir en el movimiento el apunte a conciliar y la factura emitida, después de comprobar el grupo de Contabilidad |
+
+## 14. Odoo 20 · Cifrado del IBAN y de documentos (`sp_cifrado`)
+Comprobado en `odoo/addons/sp_cifrado/` (versión 20.0.1.0.0; 11 · DOC-19). Qué se cifra y con qué clave: §3.1.
+
+- **No crea grupos ni permisos.** No cambia quién ve un IBAN: lo decide cada modelo con sus permisos de siempre.
+  El cifrado protege frente a quien tenga una **copia** de la base de datos o del almacén de archivos sin la clave.
+- **Quien entra en Odoo ve el IBAN en claro** si el modelo se lo permite. Restringir quién lo ve en pantalla (p. ej.
+  solo los 4 últimos dígitos para algunos roles, como en Sistema Propio) **no está hecho**.
+- **Historial:** el IBAN completo no queda en ningún mensaje (comprobado en `tests/test_cifrado.py` y en
+  `odoo/pruebas/prueba_cifrado.py`).
+
+### 14.1 `sudo()` en el módulo (para revisar en la auditoría)
+| Dónde | Para qué |
+|---|---|
+| `models/res_partner_bank.py` · `_search_account_number` | Búsqueda por trozos: descifra en memoria todas las cuentas para encontrar los identificadores que contienen el trozo. Devuelve solo identificadores; la búsqueda del usuario sigue aplicando sus reglas de acceso |
+| `models/res_partner_bank.py` · `create` y `write` | Anotar el alta o el cambio del IBAN, **enmascarado**, en el historial del contacto aunque el usuario no pueda escribir en él |

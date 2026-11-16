@@ -214,8 +214,8 @@ bancos, cajas, analítica, cuentas propias provisionales y Verifactu en el entor
   (escenario con una factura ficticia) (11 · DOC-13). Si al instalar con `-i` salen «0 tests», páselas con
   `-u sp_contabilidad` (12 · INC-80).
 - **Montaje en Windows con un doble clic:** `odoo/MONTAR_ODOO.bat` arranca Docker Compose, crea la base
-  `sp_contable`, monta la base contable, instala los seis módulos del despacho (`sp_recepcion`, `sp_contabilidad`,
-  `sp_gastos`, `sp_banco` y, desde el 16/11/2026, `sp_expediente` y `sp_facturacion`) y ejecuta
+  `sp_contable`, monta la base contable, instala los siete módulos del despacho (`sp_recepcion`, `sp_contabilidad`,
+  `sp_gastos`, `sp_banco` y, desde el 16/11/2026, `sp_expediente`, `sp_facturacion` y `sp_cifrado`) y ejecuta
   `configuracion/recepcion.py`, `gastos.py`, `banco.py` y `facturacion.py` (11 · DOC-18). Si la base ya existe,
   actualiza los módulos. `herramientas/odoo_dev.sh` hace lo mismo en Linux (desde el 16/11/2026, también banco;
   11 · DOC-16). Al montar de cero, `odoo_dev.sh` fallaba porque ponía `shell` después de las opciones; corregido
@@ -231,3 +231,17 @@ bancos, cajas, analítica, cuentas propias provisionales y Verifactu en el entor
   «Expedientes y facturación por expediente». `configuracion/facturacion.py` pone los anticipos en la 438
   (provisional, T-40) y corrige la tarifa por defecto si quedó en otra moneda (12 · INC-91). Escenario:
   `odoo/pruebas/prueba_expediente.py` (se ejecuta una vez).
+- **Clave de cifrado** (`sp_cifrado`; desde el 16/11/2026, 11 · DOC-19). Los IBAN y los extractos originales se
+  guardan cifrados (08 §3.1). La clave vive **fuera de la base de datos y del repositorio**:
+  1. Va en el archivo `odoo/.env`, en la línea `SP_CLAVE_CIFRADO=…` (64 bytes aleatorios en base64).
+     `odoo/docker-compose.yml` la pasa al contenedor de Odoo como variable de entorno. Alternativa: la opción
+     `sp_clave_cifrado` del archivo de configuración de Odoo.
+  2. `odoo/MONTAR_ODOO.bat` (PowerShell) y `herramientas/odoo_dev.sh` (Python) **crean** `odoo/.env` con una clave
+     aleatoria la primera vez, si no existe. Si ya existe, no la tocan.
+  3. `odoo/.env` está en `.gitignore`: **nunca** se sube al repositorio ni se copia en la documentación.
+  4. **Haga enseguida una copia segura de la clave aparte** (gestor de secretos), separada de las copias de la base.
+     Sin ella, los IBAN de esa base no se pueden leer (13 §4; 14 §11).
+  5. Sin clave, `sp_cifrado` no se instala. Si se monta de cero con `docker compose down -v`, conserve `odoo/.env`
+     si quiere seguir usando la misma clave; si la base es nueva, da igual.
+  6. Comprobación: `odoo/pruebas/prueba_cifrado.py` (se ejecuta después de los demás escenarios) mira directamente
+     en PostgreSQL y en el almacén de archivos que no haya IBAN ni extractos en claro.

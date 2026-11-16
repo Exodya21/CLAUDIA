@@ -140,6 +140,16 @@ Al desarrollar la facturación y el cobro por número de expediente (11 · DOC-1
 | INC-91 | 16/11 | La factura de honorarios salía en dólares | La tarifa «Por defecto» se crea al instalar Odoo, antes de cargar el plan contable, y quedó en USD | El pedido de honorarios usa siempre una tarifa en la moneda de la compañía (`_sp_tarifa`), y `odoo/configuracion/facturacion.py` corrige la tarifa por defecto | Prueba `test_moneda_de_la_compania_aunque_la_tarifa_sea_otra` |
 | INC-92 | 16/11 | No se podía poner a la factura la fecha del pago | La serie de facturas debe ir en orden de fechas: un pago antiguo validado hoy rompería el orden | La factura lleva la fecha de emisión y la del pago va como «fecha de entrega», que Verifactu envía como FechaOperacion (devengo del anticipo) | Prueba `test_anticipos_y_factura_final`. **Sin comprobar en la AEAT** (ABI-05) |
 
+## 4i. Odoo 20 · sp_cifrado y extractos cifrados en sp_banco
+Al desarrollar el cifrado del IBAN y de los extractos originales (11 · DOC-19). Entorno: Docker con la imagen propia
+`despacho/odoo:20`, en el entorno en la nube.
+
+| ID | Fecha | Síntoma | Causa | Solución | Prevención |
+|---|---|---|---|---|---|
+| INC-93 | 16/11 | El hook de instalación esperaba la tabla del historial de seguimiento `mail_tracking_value` para enmascarar el IBAN y no la encontraba | En Odoo 20 no existe esa tabla: el seguimiento se guarda de otra forma (no se ha estudiado cómo) | `hooks.py` comprueba si existe el modelo antes de tocarlo. Además se **desactiva el seguimiento automático** del IBAN (`tracking=False`) y el alta o el cambio se anota enmascarado en el historial del contacto | Prueba de historial enmascarado en `tests/test_cifrado.py` y comprobación «ningún IBAN completo en los mensajes» de `odoo/pruebas/prueba_cifrado.py` |
+| INC-94 | 16/11 | Error al importar `content_disposition` en el controlador de descarga del original | En Odoo 20 está en `odoo.http.stream`, no en `odoo.http` | `controllers/original.py` (`sp_banco`) lo importa de `odoo.http.stream` | Comprobar en el código de Odoo 20 la ruta de las utilidades HTTP antes de usarlas |
+| INC-95 | 16/11 | El descifrado previsto al pasar el valor a la caché del ORM (`convert_to_cache`) no se aplicaba a los IBAN leídos de la base de datos | Odoo 20 carga los valores leídos de la base de datos con `_insert_cache`, sin pasar por `convert_to_cache` | `CharCifrado` (`models/campo.py`) descifra en `_insert_cache` y cifra en `convert_to_column` | Prueba «IBAN cifrado en la base y en claro en Odoo» (`tests/test_cifrado.py`). Revisarlo al actualizar Odoo: es un método interno del ORM |
+
 ## 5. Incidencias abiertas o conocidas
 | ID | Tema | Estado |
 |---|---|---|
@@ -148,6 +158,8 @@ Al desarrollar la facturación y el cobro por número de expediente (11 · DOC-1
 | ABI-03 | Si un banco cambia el formato de su Excel | «Comprobar sin importar» indica las columnas que no reconoce. Enviar **solo la fila de cabecera** |
 | ABI-04 | Verifactu sin probar contra la AEAT: el entorno en la nube no llega a `prewww2.aeat.es` (INC-64) | Repetir `odoo/pruebas/prueba_base_contable.py` en un equipo con Internet (19 §3.8 paso a) |
 | ABI-05 | Facturas por expediente sin probar en la AEAT: facturas de anticipo, factura final a 0 € con líneas negativas y FechaOperacion (11 · DOC-18) | Probarlas en el entorno de pruebas de la AEAT desde un equipo con Internet, junto con ABI-04, y validarlas con la gestoría (18 · AL-15) |
+| ABI-06 | Clave de cifrado de Odoo 20 (`SP_CLAVE_CIFRADO`, `sp_cifrado`) sin procedimiento de **rotación** (11 · DOC-19) | Hasta que exista, no cambie la clave: con otra clave los IBAN cifrados no se leen («[cifrado: no se puede leer]»). Custodia y copia: 13 §4 y 14 §11 |
+| ABI-07 | Lo que el cifrado de Odoo 20 no cubre: concepto, ordenante e importe de los movimientos (en claro, hacen falta para conciliar), PDF de facturas y justificantes, y el archivo temporal del asistente de importación hasta la limpieza automática de Odoo (11 · DOC-19) | Disco cifrado en el servidor (LUKS o BitLocker) y copias cifradas (08 §3) |
 
 ## 6. Procedimiento de soporte
 1. Reproducir con **datos ficticios**.

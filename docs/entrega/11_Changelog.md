@@ -3,6 +3,70 @@
 Sistema Propio · 12/11/2026. Formato inspirado en *Keep a Changelog*. Las versiones siguen los incrementos del plan
 (F0.1 … F5.6). Los cambios de base de datos se indican con su migración.
 
+## [DOC-19] · 16/11/2026 — Odoo 20: cifrado del IBAN y de los extractos originales (sp_cifrado)
+Paso 3 del orden de trabajo (18 §5). Módulo nuevo `odoo/addons/sp_cifrado` (**20.0.1.0.0**) y `sp_banco` pasa a
+**20.0.1.2.0**. Recupera en Odoo 20 el cifrado de columna y de archivos de Sistema Propio (08 §3). Todo con datos
+ficticios.
+### Añadido
+- **`sp_cifrado`** (depende de `account` y `mail`; usa la librería `cryptography`):
+  - **Clave maestra fuera de la base de datos:** variable de entorno `SP_CLAVE_CIFRADO` u opción `sp_clave_cifrado`
+    del archivo de configuración de Odoo (64 bytes aleatorios en base64). De ella se derivan con HKDF-SHA256 dos
+    claves: AES-SIV de 512 bits para campos (determinista y autenticado) y Fernet para archivos (`cifrado.py`).
+  - **Tipo de campo `CharCifrado`** (`models/campo.py`): se guarda cifrado en PostgreSQL y se descifra al cargarse en
+    la caché del ORM. Los valores cifrados llevan el prefijo `sp1:` y conviven con valores antiguos en claro.
+  - **Campos cifrados:**
+
+    | Modelo | Campo | Qué guarda |
+    |---|---|---|
+    | `res.partner.bank` | `account_number`, `sanitized_account_number` | IBAN de clientes, proveedores, personal y cuentas propias |
+    | `account.bank.statement.line` | `account_number` | IBAN de la contrapartida de un movimiento bancario |
+
+  - **Búsquedas:** como el cifrado es determinista, la búsqueda exacta («=», «in») y la restricción de unicidad
+    siguen funcionando. La búsqueda por trozos (`ilike`) se resuelve descifrando en memoria (hay pocas cuentas).
+  - **Historial sin el IBAN completo:** sin seguimiento automático del IBAN. El alta o el cambio se anota
+    **enmascarado** («ES12 \*\*\*\* 1234», ficticio) en el historial del contacto.
+  - **Instalar y desinstalar:** al instalar se cifran los IBAN que ya hubiera (`post_init_hook`); al desinstalar se
+    descifran (`uninstall_hook`). Sin la clave no se instala.
+  - **Sin clave:** no se guarda ningún IBAN nuevo (error claro) y lo cifrado se muestra como «[cifrado: falta la
+    clave]». Con una clave equivocada: «[cifrado: no se puede leer]».
+- **`sp_banco` 20.0.1.2.0** (ahora depende de `sp_cifrado`):
+  - El extracto original se guarda **cifrado** (Fernet) como adjunto `<nombre>.cifrado` (campo `original_id` de la
+    importación).
+  - Botón **Descargar el original** en la importación, solo para Contabilidad. Lo sirve el controlador
+    `/sp_banco/original/<id>` (`controllers/original.py`): comprueba el permiso y la huella SHA-256 y responde con
+    `Cache-Control: no-store`.
+  - El archivo subido en el asistente se borra tras importar.
+- Escenario `odoo/pruebas/prueba_cifrado.py`: mira directamente en PostgreSQL y en el almacén de archivos, como quien
+  tuviera una copia de la base.
+### Cambiado
+- **Montaje:** `odoo/docker-compose.yml` pasa `SP_CLAVE_CIFRADO` desde `odoo/.env`. Ese archivo **no se sube** al
+  repositorio (`.gitignore`). `herramientas/odoo_dev.sh` y `odoo/MONTAR_ODOO.bat` lo crean la primera vez si no
+  existe (generador aleatorio del sistema) e instalan `sp_cifrado`. Avisan de que hay que guardar una copia segura de
+  la clave aparte: sin ella, los IBAN de esa base no se pueden leer (09 · Anexo C; 13 §4; 14 §11).
+### Comprobado
+- **`sp_cifrado`: 5 pruebas** (`tests/test_cifrado.py`): IBAN cifrado en la base y en claro en Odoo; búsquedas
+  exactas, por trozos y con «in», y duplicados; historial enmascarado sin el IBAN completo en ningún mensaje; sin
+  clave no guarda ni revela; archivos y máscara.
+- **`sp_banco`: una comprobación más** en `tests/test_banco.py`: el original guardado no contiene el texto en claro,
+  Contabilidad lo descarga igual al original y otro usuario recibe un error.
+- **Escenario `prueba_cifrado.py`:** 3 cuentas con el IBAN cifrado, ningún IBAN legible en la tabla, el ORM los lee
+  en claro, la búsqueda exacta funciona, ningún IBAN completo en los mensajes y los 3 extractos originales cifrados.
+- **Base recreada desde cero:** los 8 escenarios de `odoo/pruebas/` correctos.
+- **Todos los módulos `sp_*`: 67 pruebas sin fallos** en una ejecución conjunta de los 7 módulos (62 anteriores + 5
+  de `sp_cifrado`).
+- Incidencias de Odoo 20 encontradas: 12 · INC-93 a INC-95.
+### Lo que no cubre (anotado)
+- Concepto, ordenante e importe de los movimientos siguen en claro en la base de datos: hacen falta para conciliar.
+  Se recomienda disco cifrado en el servidor (LUKS o BitLocker) y copias cifradas (08 §3).
+- Los PDF de facturas y justificantes no se cifran.
+- El archivo temporal del asistente de importación queda en el almacén de archivos hasta la limpieza automática de
+  Odoo.
+- **Falta un procedimiento de rotación de la clave** (12 · ABI-06; 13 §4).
+- La factura en PDF muestra el IBAN propio del despacho: es lo que se quiere.
+### Pendiente
+- Siguiente paso del orden (18 §5): **conexión directa con el banco (PSD2)** (paso 4), y después facturación a
+  clientes (paso 5).
+
 ## [DOC-18] · 16/11/2026 — Odoo 20: expedientes y cobro por número de expediente con factura de anticipo y factura final
 Paso 2 del orden de trabajo (18 §5). Módulos nuevos `odoo/addons/sp_expediente` y `odoo/addons/sp_facturacion`
 (los dos **20.0.1.0.0**). Antes de programarlo, el usuario (persona responsable del proyecto) decidió hoy tres puntos

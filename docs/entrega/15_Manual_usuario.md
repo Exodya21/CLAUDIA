@@ -219,7 +219,8 @@ ficticios.
    movimiento.
 4. Pulse **Importar**. En el resultado verá, por archivo: movimientos nuevos, los ya importados (no se duplican),
    líneas con error y si **cuadran los saldos** (saldo inicial + movimientos = saldo final).
-5. El archivo original queda guardado en la importación (**Banco → Importaciones**).
+5. El archivo original queda guardado **cifrado** en la importación (**Banco → Importaciones**). Para verlo, abra la
+   importación y pulse **Descargar el original** (solo Contabilidad).
 
 **2. Revisar las propuestas** (**Banco → Movimientos y conciliación**):
 - Al importar, y después cada hora, el sistema **propone** a qué corresponde cada movimiento y explica por qué

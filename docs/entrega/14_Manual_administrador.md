@@ -89,3 +89,26 @@ Después de cambiarlo, vuelva a ejecutar `INICIAR_REAL.bat`. **No cambie** `FIEL
 2. Revise la auditoría: qué vio o descargó, y cuándo.
 3. Avise al DPO. Si hay datos personales afectados, puede ser obligatorio notificarlo a la AEPD en 72 horas.
 4. Restablezca las credenciales y anote lo ocurrido (12 · Incidencias).
+
+## 11. Odoo 20 · clave de cifrado de los IBAN y extractos
+Desde el 16/11/2026 (11 · DOC-19), el módulo `sp_cifrado` guarda cifrados en la base de datos los IBAN (clientes,
+proveedores, personal, cuentas propias y contrapartidas de los movimientos) y `sp_banco` guarda cifrado el extracto
+original (08 §3.1).
+
+**Dónde vive la clave.** En el archivo `odoo/.env` del servidor, línea `SP_CLAVE_CIFRADO=…` (o en la opción
+`sp_clave_cifrado` del archivo de configuración de Odoo). **Nunca** en la base de datos ni en el repositorio. El
+montaje la crea la primera vez (09 · Anexo C). Guarde enseguida una copia segura aparte (13 §4.1).
+
+**Qué pasa si falta o no es la buena:**
+
+| Situación | Qué se ve | Qué hacer |
+|---|---|---|
+| Falta la clave | Los IBAN aparecen como «[cifrado: falta la clave]» y Odoo **no deja guardar** ningún IBAN nuevo (mensaje de error). No se puede importar un extracto ni descargar su original | Restaure `odoo/.env` desde la copia segura y reinicie Odoo |
+| Clave equivocada (de otra base o cambiada) | Los IBAN aparecen como «[cifrado: no se puede leer]» | Ponga la clave correcta de esa base. **No la sustituya por una nueva**: lo cifrado no se recupera sin la original |
+| Clave perdida sin copia | Los IBAN de esa base y los extractos originales no se pueden leer | Volver a dar de alta los IBAN comprobándolos con su titular o con el banco. Por eso la copia de la clave es obligatoria |
+
+- **No cambie la clave:** no hay todavía procedimiento de rotación (12 · ABI-06).
+- **Descargar un extracto original:** solo Contabilidad, con el botón **Descargar el original** de la importación
+  (08 §12).
+- Si sospecha que la clave se ha expuesto: trátelo como incidente de seguridad (§10) y avise al equipo de desarrollo
+  (hace falta la rotación, aún sin procedimiento).

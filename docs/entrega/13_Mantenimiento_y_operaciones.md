@@ -65,11 +65,25 @@ Procedimiento detallado: `docs/operacion/copias_y_restauracion.md`. En resumen:
 5. **Las claves** (`.env` / `.env.real`) se guardan aparte, en un gestor de secretos. Sin ellas, los documentos y los
    IBAN no se pueden descifrar.
 
+### 4.1 Odoo 20 · clave de cifrado (`sp_cifrado`)
+Desde el 16/11/2026 (11 · DOC-19), Odoo 20 guarda cifrados los IBAN y los extractos originales (08 §3.1). La clave
+`SP_CLAVE_CIFRADO` está en `odoo/.env`, fuera de la base de datos y del repositorio.
+
+| Qué | Cómo |
+|---|---|
+| Copia de la clave | Una copia segura aparte, en un gestor de secretos, **separada** de las copias de la base y del almacén de archivos. Hágala al montar el sistema, no después |
+| Copia de la base | `pg_dump` de la base **y** del almacén de archivos (los extractos cifrados son adjuntos). Sin la clave, esa copia no deja leer los IBAN ni los extractos: es lo que se busca |
+| Restaurar | Restaure la base, el almacén de archivos **y** `odoo/.env` con la **misma** clave. Compruebe después un IBAN en Odoo: si aparece «[cifrado: no se puede leer]», la clave no es la de esa base; si aparece «[cifrado: falta la clave]», Odoo no la recibe |
+| Quién la custodia | Administración del sistema (TI), con conocimiento de Dirección. **Por decidir:** persona concreta y gestor de secretos |
+| Rotación (cambiar la clave) | **Sin procedimiento todavía** (12 · ABI-06). Hasta que exista, **no cambie la clave**: lo ya cifrado dejaría de leerse. No desinstale `sp_cifrado` para «volver atrás»: descifra los IBAN, pero `sp_banco` depende de él |
+| Sin cifrar | Concepto, ordenante e importe de los movimientos, PDF de facturas y justificantes (12 · ABI-07). Por eso siguen haciendo falta el disco cifrado del servidor y las copias cifradas |
+
 ## 5. Recuperación ante desastre
 Solo con autorización de Dirección; queda anotado en la auditoría.
 1. Parar `api`, `web` y `avisos`.
 2. Arrancar `db`, borrar y crear la base, y `pg_restore --no-owner --exit-on-error`.
-3. Restaurar los volúmenes de archivos y el `.env` con sus claves.
+3. Restaurar los volúmenes de archivos y el `.env` con sus claves (en Odoo 20, también `odoo/.env` con
+   `SP_CLAVE_CIFRADO`; §4.1).
 4. Arrancar y **Verificar integridad** de la auditoría.
 5. Objetivos: **RPO ≤ 24 h** (copia diaria; se puede bajar con WAL o más copias) y **RTO ≤ 4 h**.
 
