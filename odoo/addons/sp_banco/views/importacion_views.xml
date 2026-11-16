@@ -52,8 +52,13 @@
         <field name="model">sp.banco.importacion</field>
         <field name="arch" type="xml">
             <form create="0" edit="0">
+                <header>
+                    <button name="action_sp_descargar_original" type="object" string="Descargar el original"
+                            invisible="not original_id" groups="sp_recepcion.group_sp_responsable"/>
+                </header>
                 <sheet>
                     <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <field name="original_id" invisible="1"/>
                     <group>
                         <group>
                             <field name="journal_id"/>

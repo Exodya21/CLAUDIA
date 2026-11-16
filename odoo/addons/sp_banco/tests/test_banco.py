@@ -67,6 +67,14 @@ class TestBanco(AccountTestInvoicingCommon):
         self.assertEqual(len(imp.statement_id.line_ids), 2)
         otra = Imp._sp_importar("extracto.n43", datos)
         self.assertEqual((otra.nuevos, otra.duplicados), (0, 2), "Reimportar no duplica")
+        # El original se guarda cifrado; solo Contabilidad lo descarga en claro (y coincide con la huella)
+        guardado = imp.original_id.sudo().raw
+        guardado = getattr(guardado, "content", guardado)
+        self.assertNotIn(b"TRANSFERENCIA CLIENTE_01", guardado)
+        nombre, claro = imp._sp_original_en_claro()
+        self.assertEqual((nombre, claro), ("extracto.n43", datos))
+        with self.assertRaises(UserError):
+            imp.with_user(self.otro)._sp_original_en_claro()
 
     def test_no_adivina_la_cuenta(self):
         datos = extractos.build_n43(bank="2100", branch="0001", account10="0000099999", start=date(2026, 11, 1),

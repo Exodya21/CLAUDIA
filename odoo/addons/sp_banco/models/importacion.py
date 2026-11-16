@@ -4,6 +4,8 @@ import logging
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+from odoo.addons.sp_cifrado import cifrado
+
 from ..lectura import extractos
 
 _logger = logging.getLogger(__name__)
@@ -36,6 +38,8 @@ class SpBancoImportacion(models.Model):
     columnas = fields.Text("Columnas reconocidas", readonly=True)
     statement_id = fields.Many2one("account.bank.statement", "Extracto", readonly=True)
     huella = fields.Char("Huella del archivo (SHA-256)", readonly=True)
+    original_id = fields.Many2one("ir.attachment", "Original (cifrado)", readonly=True,
+                                  help="El extracto original se guarda cifrado: solo Contabilidad lo descarga en claro.")
 
     @api.model
     def _sp_diario_por_cuenta(self, hint, diario_elegido):
@@ -86,7 +90,14 @@ class SpBancoImportacion(models.Model):
         if solo_comprobar:
             return imp
         # El original se guarda tal cual y nadie lo puede cambiar (la importación no se modifica): adjunto técnico.
-        self.env["ir.attachment"].sudo().create({"name": nombre, "raw": datos, "res_model": self._name, "res_id": imp.id})
+        # Se guarda CIFRADO (sp_cifrado, clave fuera de la base de datos): una copia del almacén de archivos no lo revela.
+        try:
+            cifrado_ = cifrado.cifrar_archivo(datos)
+        except cifrado.SinClave as e:
+            raise UserError(str(e)) from e
+        imp.sudo().original_id = self.env["ir.attachment"].sudo().create({
+            "name": f"{nombre}.cifrado", "raw": cifrado_, "mimetype": "application/octet-stream",
+            "res_model": self._name, "res_id": imp.id})
         if nuevas:
             extracto = self.env["account.bank.statement"].create({
                 "name": f"{diario.code} {st.period_from:%d/%m/%Y}–{st.period_to:%d/%m/%Y}",
@@ -104,3 +115,26 @@ class SpBancoImportacion(models.Model):
             # Propuestas de conciliación: el sistema propone; Contabilidad valida.
             extracto.line_ids._sp_proponer()
         return imp
+
+    def action_sp_descargar_original(self):
+        self.ensure_one()
+        if not self.env.user.has_group("sp_recepcion.group_sp_responsable"):
+            raise UserError(_("Solo Contabilidad descarga los extractos originales."))
+        if not self.original_id:
+            raise UserError(_("Esta importación no tiene el original guardado."))
+        return {"type": "ir.actions.act_url", "url": f"/sp_banco/original/{self.id}", "target": "self"}
+
+    def _sp_original_en_claro(self):
+        """Contenido del extracto original descifrado (solo Contabilidad)."""
+        self.ensure_one()
+        if not self.env.user.has_group("sp_recepcion.group_sp_responsable"):
+            raise UserError(_("Solo Contabilidad descarga los extractos originales."))
+        datos = self.original_id.sudo().raw
+        datos = getattr(datos, "content", datos)
+        try:
+            claro = cifrado.descifrar_archivo(datos)
+        except cifrado.SinClave as e:
+            raise UserError(str(e)) from e
+        if self.huella and hashlib.sha256(claro).hexdigest() != self.huella:
+            raise UserError(_("El original no coincide con su huella: avise a quien administra el sistema."))
+        return self.name, claro

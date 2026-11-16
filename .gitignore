@@ -1,3 +1,5 @@
 node_modules/
 documentacion/entregas/
 __pycache__/
+# Clave de cifrado de Odoo (sp_cifrado): nunca en el repositorio
+odoo/.env

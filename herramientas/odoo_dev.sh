@@ -10,6 +10,12 @@ if ! docker image inspect despacho/odoo:20 >/dev/null 2>&1; then
   docker compose build --build-arg HTTP_PROXY="${HTTP_PROXY:-}" --build-arg HTTPS_PROXY="${HTTPS_PROXY:-}" \
     --build-arg http_proxy="${HTTP_PROXY:-}" --build-arg https_proxy="${HTTPS_PROXY:-}" odoo
 fi
+# Clave de cifrado (sp_cifrado) en odoo/.env, fuera del repositorio. Se crea una sola vez; si se pierde, los IBAN
+# cifrados de esta base ya no se pueden leer.
+if [ ! -s .env ] || ! grep -q '^SP_CLAVE_CIFRADO=' .env; then
+  echo "SP_CLAVE_CIFRADO=$(python3 -c 'import base64,os;print(base64.urlsafe_b64encode(os.urandom(64)).decode())')" >> .env
+  chmod 600 .env; echo "Creada la clave de cifrado en odoo/.env (haga una copia segura aparte)."
+fi
 docker compose up -d >/dev/null
 for i in $(seq 1 60); do docker compose exec -T db pg_isready -U odoo >/dev/null 2>&1 && break; sleep 1; done
 ODOO="docker compose exec -T odoo odoo --db_host=db -r odoo -w odoo"
@@ -19,7 +25,7 @@ if ! docker compose exec -T db psql -U odoo -lqt | cut -d'|' -f1 | grep -qw sp_c
   $ODOO -d sp_contable -i account,l10n_es,l10n_co,l10n_es_edi_verifactu --load-language=es_ES --stop-after-init --no-http --log-level=warn
   $SHELL_ODOO -d sp_contable --no-http --log-level=error < configuracion/base_contable.py | tail -1
   docker compose restart odoo >/dev/null
-  $ODOO -d sp_contable -i sp_recepcion,sp_contabilidad,sp_gastos,sp_banco,sp_expediente,sp_facturacion --stop-after-init --no-http --log-level=warn
+  $ODOO -d sp_contable -i sp_recepcion,sp_contabilidad,sp_gastos,sp_cifrado,sp_banco,sp_expediente,sp_facturacion --stop-after-init --no-http --log-level=warn
   $SHELL_ODOO -d sp_contable --no-http --log-level=error < configuracion/recepcion.py | tail -1
   $SHELL_ODOO -d sp_contable --no-http --log-level=error < configuracion/gastos.py | tail -1
   $SHELL_ODOO -d sp_contable --no-http --log-level=error < configuracion/banco.py | tail -1

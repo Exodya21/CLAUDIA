@@ -21,6 +21,9 @@ services:
       HOST: db
       USER: odoo
       PASSWORD: odoo
+      # Clave maestra de cifrado (sp_cifrado): IBAN y documentos cifrados. Vive en odoo/.env (NO se sube al
+      # repositorio; lo crean odoo_dev.sh y MONTAR_ODOO.bat). Guarde una copia aparte: sin ella no se leen los IBAN.
+      SP_CLAVE_CIFRADO: ${SP_CLAVE_CIFRADO:-}
     ports: ["127.0.0.1:8069:8069"]     # solo accesible desde este ordenador
     volumes:
       - odoo20-data:/var/lib/odoo
