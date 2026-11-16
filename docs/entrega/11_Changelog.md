@@ -3,6 +3,91 @@
 Sistema Propio · 12/11/2026. Formato inspirado en *Keep a Changelog*. Las versiones siguen los incrementos del plan
 (F0.1 … F5.6). Los cambios de base de datos se indican con su migración.
 
+## [DOC-18] · 16/11/2026 — Odoo 20: expedientes y cobro por número de expediente con factura de anticipo y factura final
+Paso 2 del orden de trabajo (18 §5). Módulos nuevos `odoo/addons/sp_expediente` y `odoo/addons/sp_facturacion`
+(los dos **20.0.1.0.0**). Antes de programarlo, el usuario (persona responsable del proyecto) decidió hoy tres puntos
+(18 · AL-07, AL-12 y AL-15). Todo con datos ficticios.
+### Decidido (16/11/2026, persona responsable del proyecto)
+| Punto | Decisión |
+|---|---|
+| 18 · AL-12 · Conciliación | **«Contabilidad con un clic».** El sistema propone y deja preparada la factura y la conciliación, con su explicación. Contabilidad pulsa **Validar** y entonces se emite la factura (Verifactu) y se concilia. Nada se emite ni se concilia sin validación humana (coherente con 01 §4, «la IA propone y las personas deciden») |
+| 18 · AL-07 · Código de expediente | Formato `ÁREA-AÑO-NÚMERO`: `LAB-2026-0001`, `EXT-2026-0001` (el de Sistema Propio, 01 §8), sin saltos y con reinicio anual. Los números antiguos de MN Program habrá que mapearlos en la migración (pendiente) |
+| 18 · AL-15 · Factura resumen | **Factura final que descuenta los anticipos:** factura fiscal con los honorarios totales y, restadas, las facturas de anticipo; total 0 € y se registra en Verifactu. **Pendiente:** validarlo con la gestoría y probarlo en el entorno de pruebas de la AEAT |
+### Añadido
+- **`sp_expediente`** (depende de `account` y `mail`). Modelo `sp.expediente` mínimo:
+  - Número por área y año con secuencias sin saltos y reinicio anual (`data/secuencias.xml`): `LAB-2026-0001`,
+    `EXT-2026-0001`.
+  - Campos: área (Laboral o Extranjería), cliente, compañía, apertura, responsable, asunto y estado (abierto o
+    cerrado), con historial (chatter).
+  - El número y el área no se cambian. Los expedientes no se borran: se cierran.
+  - Función `numeros_en_texto` (`models/expediente.py`): encuentra números de expediente en un texto libre aunque
+    lleven espacios, guiones, barras o vengan troceados por la Norma 43.
+  - Menú **Facturación → Clientes → Expedientes**. Permisos en 08 §13.
+- **`sp_facturacion`** (depende de `sale`, `l10n_es`, `sp_expediente` y `sp_banco`). Usa el **estándar** de Odoo 20
+  Community (pedido de venta con anticipos y factura final, módulo «sale») y solo lo prepara. La numeración, el
+  registro y el envío Verifactu los hace el estándar (18 · AL-03).
+  - **En el expediente:** «Honorarios pactados (base)» y «Cliente con retención de IRPF (15 %)». La retención se
+    propone según el NIF (12 · INC-89) y se puede cambiar. El botón **Fijar honorarios** crea un pedido de venta
+    técnico confirmado (como superusuario: Contabilidad no necesita la app Ventas), con IVA 21 % de servicios y −15 %
+    de IRPF si procede, serie EXP y tarifa siempre en la moneda de la compañía. Muestra total a pagar, facturado,
+    pendiente, estado de cobro (Sin honorarios, Sin pagos, Pagando, Pagado) y un botón a sus facturas.
+  - **Banco:** regla nueva `expediente`, justo después del traspaso. Si el concepto de un ingreso trae un número de
+    expediente, propone el pago con su desglose (base, IVA, retención) y lo que quedará pendiente. Excepciones:
+
+    | Excepción | Cuándo |
+    |---|---|
+    | `expediente_no_existe` | El número no existe en la compañía |
+    | `expediente_ambiguo` | El concepto trae varios números (se reparte a mano) |
+    | `expediente_sin_honorarios` | El expediente no tiene honorarios fijados |
+    | `expediente_pago_excesivo` | El pago supera lo pendiente, contando otros pagos ya propuestos |
+
+  - **Validar (solo Contabilidad):**
+
+    | Caso | Qué se emite |
+    |---|---|
+    | Pago parcial | Factura de anticipo por el importe cobrado, IVA y retención incluidos (318 € → base 300 + IVA 63 − IRPF 45), y se concilia |
+    | Primer pago y lo cubre todo | Una sola factura normal |
+    | Con ese pago queda pagado y hubo anticipos | Además, la **factura final** (honorarios − anticipos = 0 €, pagada) |
+    | La final no sale a 0 € por redondeo | Queda en borrador, con aviso en el historial del expediente |
+
+  - **Fechas:** la factura lleva la fecha de emisión (la serie debe ir en orden de fechas) y la del pago como «fecha
+    de entrega», que Verifactu envía como FechaOperacion (devengo del anticipo) (12 · INC-92).
+  - **Cuentas (PGC):** los anticipos van a la **438** «Anticipos de clientes»; la factura final carga la 438 y abona la
+    705. **Provisional**, pregunta para la gestoría (T-40; 18 · AL-13).
+- `odoo/configuracion/facturacion.py`: pone la 438 como cuenta de anticipos y corrige la tarifa «Por defecto» si
+  quedó en otra moneda (12 · INC-91).
+- Escenario `odoo/pruebas/prueba_expediente.py`: expediente LAB-2026-0001 de EMPRESA_02 S.L. con 1.500 € de
+  honorarios (1.590 € con IVA y retención), pagado con dos transferencias de un extracto Norma 43 ficticio (una con el
+  número troceado). Al validarlas: facturas EXP de anticipo de 636 € y 954 € y factura final a 0 €; expediente
+  «Pagado».
+- Capturas (datos ficticios): `documentacion/odoo20_contabilidad/6_expediente_pagado.png` y
+  `7_factura_final_descuenta_anticipos.png`.
+### Cambiado
+- `sp_banco` (sin cambio de comportamiento): puntos de extensión `_sp_reglas()` y `_sp_valores_reinicio()`, y
+  `extra["vals"]` en las reglas, para que otros módulos añadan reglas y campos.
+- `odoo/configuracion/banco.py`: marca las cuentas bancarias propias como verificadas («de confianza»). En la
+  instalación real lo hace una persona autorizada tras comprobar el IBAN con el banco (12 · INC-90).
+- Montaje: `herramientas/odoo_dev.sh` y `odoo/MONTAR_ODOO.bat` instalan también `sp_expediente` y `sp_facturacion`
+  y ejecutan `configuracion/facturacion.py`.
+### Comprobado
+- **`sp_facturacion`: 6 pruebas** (`tests/test_facturacion.py`): con y sin retención; anticipos y factura final con
+  permisos, fecha de emisión y de operación y pago de más; pago único → factura normal; importes con céntimos;
+  excepciones; moneda de la compañía aunque la tarifa del cliente sea otra. **`sp_expediente`: 2 pruebas**
+  (`tests/test_expediente.py`): número por área y año que no se cambia, y número en un concepto libre.
+- **Base recreada desde cero:** los 7 escenarios de `odoo/pruebas/` correctos.
+- **Todos los módulos `sp_*`: 61 pruebas sin fallos** en el recuento conjunto. Después se añadió la prueba de moneda:
+  **62** en total (54 anteriores + 8 nuevas).
+### Pendiente
+- Probar en el **entorno de pruebas de la AEAT** (con Internet) las facturas de anticipo, la final a 0 € con líneas
+  negativas y la FechaOperacion (12 · ABI-05; 19 §3.8 paso a).
+- Validar con la gestoría la cuenta 438 y la factura final (T-40; 18 · AL-13 y AL-15).
+- Los cobros de un expediente en la caja de Recepción aún no se vinculan al expediente.
+- No se pueden cambiar unos honorarios ya fijados.
+- Si un pago trae varios expedientes, se reparte a mano.
+- Mapeo de los números de MN Program en la migración (18 · AL-07).
+- Siguiente paso del orden (18 §5): cifrado del IBAN y de los extractos (paso 3); después PSD2 (paso 4) y facturación
+  a clientes (paso 5).
+
 ## [DOC-17] · 16/11/2026 — Odoo 20: sp_banco 20.0.1.1.0 · TPV con comisión, elegir apuntes a mano y exportación para la gestoría
 `odoo/addons/sp_banco` pasa de **20.0.1.0.0** a **20.0.1.1.0**. Remata el banco (19 §3.3; paso 4 de 19 §6), que es el
 punto 1 del orden de trabajo fijado hoy por el usuario (18 §5). Todo con datos ficticios.

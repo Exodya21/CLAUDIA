@@ -26,7 +26,7 @@ que coinciden con lo entregado.
 | 15 | [Manual del usuario](15_Manual_usuario.md) | Uso por departamento |
 | 16 | [Integraciones y APIs](16_Integraciones_y_APIs.md) | Todas las rutas de la API, formatos de intercambio, conectores externos |
 | 17 | [Auditoría y trazabilidad](17_Auditoria_y_trazabilidad.md) | Registro inmutable, qué se audita, trazabilidad de los 208 requisitos |
-| 18 | [Alineación con el charter de QUBIQ](18_Alineacion_con_el_charter.md) | Diferencias con el *Project Charter*, decisiones pendientes y tomadas (AL-01…AL-13) y criterio para cada necesidad (§2) |
+| 18 | [Alineación con el charter de QUBIQ](18_Alineacion_con_el_charter.md) | Diferencias con el *Project Charter*, decisiones pendientes y tomadas (AL-01…AL-15) y criterio para cada necesidad (§2) |
 | 19 | [Contabilidad y facturación en Odoo 20](19_Contabilidad_y_facturacion_en_Odoo20.md) | Correspondencia función por función de economía, banco y contabilidad con Odoo 20 Community, OCA y módulos `sp_*` |
 
 Cada documento se entrega en dos formatos: **Word (.docx)**, para leer y compartir, y **Markdown (.md)**, que vive
@@ -62,14 +62,20 @@ en el repositorio (`docs/entrega/`) junto al código y se actualiza con él. Se 
   - `odoo/pruebas/prueba_banco.py`: escenario de dos extractos Norma 43 ficticios con transferencia con referencia,
     Bizum, traspaso, comisión e ingreso sin identificar (11 · DOC-16); desde DOC-17, también una liquidación de TPV
     con comisión y la exportación CSV para la gestoría.
-  - `odoo/MONTAR_ODOO.bat`: montaje completo en Windows con un doble clic (base contable y los cuatro módulos;
+  - `odoo/configuracion/facturacion.py`: anticipos de clientes a la 438 (provisional) y tarifa por defecto en la
+    moneda de la compañía (11 · DOC-18).
+  - `odoo/pruebas/prueba_expediente.py`: escenario de un expediente pagado en dos transferencias con su número en el
+    concepto: facturas de anticipo y factura final a 0 € (11 · DOC-18).
+  - `odoo/MONTAR_ODOO.bat`: montaje completo en Windows con un doble clic (base contable y los seis módulos;
     09 · Anexo C).
   - `odoo/addons/`: módulos propios `sp_*` (19 §5): `odoo/addons/sp_recepcion/` (Recepción, cajas y devoluciones),
     `odoo/addons/sp_contabilidad/` (facturas de proveedores: lectura en el servidor, cuadre y aviso de repetidas;
     19 §3.4), `odoo/addons/sp_gastos/` (gastos de empleados: lectura del ticket en el servidor y forma de pago del
     despacho, con el efectivo desde la caja de la sede; 19 §3.2) y `odoo/addons/sp_banco/` (banco y conciliación:
     importación de extractos, propuestas explicadas que valida Contabilidad, TPV con comisión, elegir apuntes a mano
-    con pago parcial y exportación CSV para la gestoría; 19 §3.3).
+    con pago parcial y exportación CSV para la gestoría; 19 §3.3), `odoo/addons/sp_expediente/` (expediente mínimo
+    con número `LAB-2026-0001`; 18 · AL-07) y `odoo/addons/sp_facturacion/` (honorarios por expediente y cobro por
+    número de expediente con factura de anticipo y factura final; 19 §3.7).
 - `herramientas/odoo_dev.sh`: levanta Odoo 20 de pruebas en Linux o en el entorno en la nube (09 · Anexo C).
 - `documentacion/odoo20_base_contable/`: capturas de la prueba de la base contable (datos ficticios).
 - `documentacion/odoo20_recepcion/`: capturas de Recepción y cajas en Odoo 20 (cobros, cobro con justificante,
@@ -77,7 +83,8 @@ en el repositorio (`docs/entrega/`) junto al código y se actualiza con él. Se 
 - `documentacion/odoo20_contabilidad/`: capturas de las facturas de proveedores, los gastos y el banco en Odoo 20
   (factura leída; gasto de un ticket pagado en efectivo, tomada antes de corregir el IVA; movimientos del banco, con un
   trozo de referencia ya corregido; propuesta de un Bizum; liquidación de TPV conciliada con la comisión a la 626000,
-  `5_banco_tpv_comision.png`; datos ficticios).
+  `5_banco_tpv_comision.png`; expediente pagado, `6_expediente_pagado.png`, y factura final que descuenta los
+  anticipos, `7_factura_final_descuenta_anticipos.png`; datos ficticios).
 - `documentacion/cuestionarios/`: cuestionario para la gestoría sobre el plan de cuentas
   (`Cuestionario_gestoria_plan_de_cuentas.docx`; T-40 y 18 · AL-06/AL-13; 11 · DOC-6).
 

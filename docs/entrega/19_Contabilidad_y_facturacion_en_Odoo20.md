@@ -149,20 +149,22 @@ los aprueba Contabilidad 2 en la configuración de demostración (08 §11).
 15 pruebas automáticas sin fallos y escenario `odoo/pruebas/prueba_banco.py` correcto). Sustituye a los módulos de la
 OCA que no están en 20.0. Menú **Facturación → Banco** (solo Contabilidad; 08 §12). Capturas:
 `documentacion/odoo20_contabilidad/3_banco_movimientos.png`, `4_banco_propuesta_bizum.png` y
-`5_banco_tpv_comision.png` (liquidación de TPV conciliada con la comisión a la 626000). Queda por decidir o hacer:
-cifrado del IBAN, PSD2, conciliación automática (18 · AL-12) y aviso de actividad.
+`5_banco_tpv_comision.png` (liquidación de TPV conciliada con la comisión a la 626000). **16/11/2026 (11 · DOC-18):**
+cobro por número de expediente con `sp_facturacion` («Contabilidad con un clic», 18 · AL-12 decidido; detalle en
+§3.7). Queda por decidir o hacer: cifrado del IBAN, PSD2 y aviso de actividad.
 
 | Función | Tabla | Odoo 20 de serie | OCA | Módulo propio | Charter | Estado |
 |---|---|---|---|---|---|---|
 | Cuentas bancarias con **IBAN cifrado** (solo se ven los 4 últimos dígitos) | `bank_account` | Diario de banco y `res.partner.bank` (**el IBAN se guarda sin cifrar**; campos `account_number` y `sanitized_account_number`, 12 · INC-84) | — | Decidir si basta con permisos o se cifra (riesgo frente a 07 y 08) | 4.5 | **Pendiente de decidir.** De momento, el IBAN estándar de Odoo; en pruebas, ficticio (`odoo/configuracion/banco.py`) |
 | Importar **Norma 43, CAMT.053, CSV, Excel** (Caixa, BBVA, «.xls» en HTML); varios a la vez por IBAN; «comprobar sin importar»; sin duplicados | `bank_import`, `bank_movement` | ❌ (en Community no se importan extractos) | `account_statement_import_*` y `l10n_es_..._n43`: **no en 20.0** | `sp_banco`: `lectura/extractos.py` (copia sin cambios de `bank/parsers.py`), modelo `sp.banco.importacion` y asistente `sp.banco.importar`. Crea `account.bank.statement` y sus líneas | 4.5 | **Hecho.** Cada archivo va a la cuenta cuyo IBAN termina igual; si no se sabe, no adivina. Sin duplicados (`sp_ext_id`, índice único por diario). Cuadre de saldos. Original adjunto con huella SHA-256 (**sin cifrar**, a diferencia de Sistema Propio) |
-| **Propuestas de conciliación explicadas** (traspaso, referencia del expediente, Bizum, TPV con comisión, devolución, importe y fecha) que **valida Contabilidad** | `bank_match` | ❌ (la pantalla de conciliación es Enterprise) | `account_reconcile_oca`: **no en 20.0** | `sp_banco`: agente con las reglas de `bank/matcher.py` adaptadas (traspaso, referencia de factura o justificante, Bizum, TPV, devolución pagada, proveedor, importe y fecha). Se lanza al importar, cada hora y con «Volver a proponer». Validar, rechazar con motivo, contabilizar en una cuenta o ignorar | 4.5 | **Hecho (16/11/2026, 11 · DOC-17).** La validación concilia con la técnica de `account_reconcile_oca`. La conciliación automática sigue abierta (18 · AL-12) |
+| **Propuestas de conciliación explicadas** (traspaso, referencia del expediente, Bizum, TPV con comisión, devolución, importe y fecha) que **valida Contabilidad** | `bank_match` | ❌ (la pantalla de conciliación es Enterprise) | `account_reconcile_oca`: **no en 20.0** | `sp_banco`: agente con las reglas de `bank/matcher.py` adaptadas (traspaso, referencia de factura o justificante, Bizum, TPV, devolución pagada, proveedor, importe y fecha). Se lanza al importar, cada hora y con «Volver a proponer». Validar, rechazar con motivo, contabilizar en una cuenta o ignorar | 4.5 | **Hecho (16/11/2026, 11 · DOC-17).** La validación concilia con la técnica de `account_reconcile_oca`. Conciliación automática: decidido «Contabilidad con un clic» (18 · AL-12, 16/11/2026): nunca se concilia sin que Contabilidad valide |
+| **Pago con el número de expediente en el concepto** («Contabilidad con un clic») | `bank_match` | — | — | `sp_facturacion`: regla `expediente`, justo después del traspaso (puntos de extensión `_sp_reglas()` y `_sp_valores_reinicio()` de `sp_banco`). Encuentra el número aunque venga con espacios, guiones, barras o troceado por la Norma 43 (`numeros_en_texto` de `sp_expediente`). Propone con el desglose (base, IVA, retención) y lo que quedará pendiente. Excepciones: `expediente_no_existe`, `expediente_ambiguo`, `expediente_sin_honorarios`, `expediente_pago_excesivo` (cuenta otros pagos ya propuestos). Al **Validar** se emite la factura (§3.7) y se concilia | 4.5, 4.1 | **Hecho (16/11/2026, 11 · DOC-18).** Si un pago trae varios expedientes, se reparte a mano |
 | **TPV con comisión descontada** | `bank_match` | — | — | `sp_banco`: regla `tpv_comision`. Abono = cobros con tarjeta de un día − diferencia de hasta el 3 %; la diferencia va como comisión a la 626000 (campos `sp_ajuste_importe` y `sp_ajuste_cuenta_id`). Al validar se crea la línea de comisión en el asiento del movimiento | 4.5 | **Hecho (DOC-17).** Más del 3 %: excepción `tpv_sin_cuadre` (pruebas `test_tpv_con_comision_va_a_la_626` y `test_tpv_comision_excesiva_no_se_propone`) |
 | **Elegir a mano otros apuntes** y **pago parcial** | `bank_match` | — | — | `sp_banco`: campo `sp_manual_aml_ids` y botón «Proponer los apuntes elegidos» (`action_sp_elegir_a_mano`, solo Contabilidad). Suman el movimiento → `manual`; un único apunte mayor → `manual_parcial` (la factura queda parcialmente pagada con el resto pendiente); no cuadran → `manual_diferencia` (exige cuenta y motivo; la diferencia va a esa cuenta). Después se valida con el botón normal | 4.5 | **Hecho (DOC-17)** |
 | Estados del movimiento (pendiente, propuesto, parcial, sin justificar, conciliado, traspaso, ignorado) | `bank_movement.status` | Línea de extracto conciliada o no | — | Campo `sp_estado`: pendiente, propuesta para validar, excepción, conciliado, traspaso, contabilizado en una cuenta, ignorado | — | **Hecho.** «Parcial» no existe como estado del movimiento. Desde DOC-17 sí hay **pago parcial**: el movimiento queda conciliado y la factura, parcialmente pagada (regla `manual_parcial`) |
 | Un traspaso entre cuentas propias nunca cuenta como ingreso | — | Cuenta de transferencias internas | — | Regla «traspaso»: se concilia contra la cuenta de traspasos internos de la compañía (`transfer_account_id`) | — | **Hecho** (prueba `test_traspaso_no_es_ingreso` y traspaso importado en dos veces) |
 | Excepciones con motivo y prioridad (ingreso sin identificar, cargo sin justificar con categoría sugerida) | `bank_movement` | — | — | `sp_banco`: campos `sp_explicacion`, `sp_categoria`, `sp_prioridad` | 4.5 | **Hecho** |
-| Aviso de la actividad (laboral o extranjería) de la cuenta | — | — | — | Necesita el módulo de expedientes | — | **Pendiente** (llegará con los expedientes) |
+| Aviso de la actividad (laboral o extranjería) de la cuenta | — | — | — | Necesita el módulo de expedientes (ya existe la base, `sp_expediente`) | — | **Pendiente** |
 | Conexión directa con el banco (PSD2) | — | ❌ (la sincronización bancaria es Enterprise) | — | Agregador regulado; el sistema lo trataría como un extracto más (16) | 4.5 | **Pendiente de decidir** |
 | Exportación CSV para la gestoría | — | Exportar desde las listas | — | `sp_banco`: asistente `sp.banco.exportar` (`wizard/exportar.py`; menú **Banco → Exportar para la gestoría**; solo Contabilidad). Desde/hasta, cuentas y «solo cerrados». CSV con «;», decimales con coma y UTF-8 con BOM. Columnas: fecha, fecha valor, cuenta, concepto, ordenante o beneficiario, importe, estado, regla, contrapartida, documentos conciliados, nota, validado por y asiento | 4.10 | **Hecho (DOC-17).** No incluye el IBAN (minimización) |
 
@@ -220,9 +222,39 @@ cuanto a quién factura).
 | **Laboral (cuota litis):** entra el 100 %, se factura el 20 % + IVA y el 80 % sale desde la cuenta de mediación | Factura y asiento manual | Campo «Total del acuerdo ganado» obligatorio y asistente que prepara la factura del 20 % y el asiento del 80 % | 4.7, 6.19 |
 | Cobro con tarjeta a distancia | Enlace de pago con Redsys | — | 4.3 |
 | Rectificativas | Nota de crédito de serie | Enlazarla con `sp.refund` | 4.4 |
+| **Honorarios por expediente con anticipos y factura final** (hecho, 11 · DOC-18) | Pedido de venta con facturas de anticipo y factura final (módulo `sale`) | `sp_facturacion`: honorarios pactados en el expediente y botón «Fijar honorarios» (pedido técnico confirmado, serie EXP, IVA 21 % y −15 % IRPF si procede, moneda de la compañía). Cada pago validado emite su factura de anticipo; el último, la factura final que descuenta los anticipos (total 0 €) | 4.1, 4.5 |
 
-`sp_facturacion` solo prepara el borrador de la factura. La validación, la numeración, el registro, el encadenamiento y
-el envío a la AEAT los hace siempre el estándar (`account` y `l10n_es_edi_verifactu`), sin modificarlos (§1.3).
+**Facturación por expediente (hecho · 16/11/2026, 11 · DOC-18; decisiones 18 · AL-07, AL-12 y AL-15).** Módulos
+`sp_expediente` y `sp_facturacion` (20.0.1.0.0). Usan el estándar de Odoo 20 Community (pedido de venta con
+anticipos, módulo `sale`).
+
+| Situación | Qué hace Odoo al pulsar Contabilidad **Validar** |
+|---|---|
+| Pago parcial del expediente | Factura de anticipo por el importe cobrado, IVA y retención incluidos (318 € → base 300 + IVA 63 − IRPF 45), y concilia |
+| Primer pago que lo cubre todo | Una sola factura normal |
+| Pago con el que el expediente queda pagado, después de anticipos | Factura de anticipo y, además, la **factura final**: honorarios − anticipos = 0 €, pagada |
+| La final no sale a 0 € por redondeo | Queda en borrador, con aviso en el historial del expediente |
+
+- **Retención:** se propone según el NIF del cliente (en Odoo 20, un contacto es empresa si tiene NIF de empresa;
+  12 · INC-89) y se puede cambiar.
+- **Fechas:** la factura lleva la fecha de emisión (la serie va en orden de fechas) y la del pago como «fecha de
+  entrega», que Verifactu envía como FechaOperacion (12 · INC-92).
+- **Cuentas (PGC):** anticipos a la **438** «Anticipos de clientes»; la factura final carga la 438 y abona la 705
+  (`odoo/configuracion/facturacion.py`; **provisional**, T-40, 18 · AL-13).
+- **Requisitos de Odoo 20:** la cuenta bancaria propia debe estar verificada para emitir (12 · INC-90) y la tarifa
+  debe estar en la moneda de la compañía (12 · INC-91).
+- **Comprobado:** 6 pruebas de `sp_facturacion` y 2 de `sp_expediente`, y el escenario `odoo/pruebas/prueba_expediente.py`
+  (1.500 € de honorarios, 1.590 € a pagar; anticipos de 636 € y 954 € y final a 0 €; expediente «Pagado»). Capturas:
+  `documentacion/odoo20_contabilidad/6_expediente_pagado.png` y `7_factura_final_descuenta_anticipos.png`.
+- **Pendiente:** probar en el entorno de pruebas de la AEAT los anticipos, la final a 0 € con líneas negativas y la
+  FechaOperacion (12 · ABI-05; §3.8 paso a); validar con la gestoría la 438 y la factura final (18 · AL-15); vincular
+  al expediente los cobros de la caja de Recepción; poder cambiar unos honorarios ya fijados (hoy no se puede);
+  repartir un pago entre varios expedientes (hoy, a mano); cuota litis y suplidos (tabla de arriba).
+
+`sp_facturacion` prepara la factura. La emite el estándar cuando Contabilidad valida (`action_post` con el usuario de
+Contabilidad): la numeración, el registro, el encadenamiento y el envío a la AEAT los hace siempre el estándar
+(`account` y `l10n_es_edi_verifactu`), sin modificarlos (§1.3). `sp_facturacion` solo fija en el borrador la fecha de
+emisión, la fecha de operación y la referencia de pago.
 
 ### 3.8 Puesta en marcha de Verifactu
 Plan acordado el 13/11/2026 (18 · AL-03). Ningún paso se da por hecho hasta que se anote en 11 · Changelog.
@@ -260,10 +292,11 @@ rama 20.0. Para esas piezas se puede partir del código de la OCA 19.0 portado (
 | `sp_base` | `account`, `hr`, `mail` | Sedes, actividad, roles y separación de funciones, auditoría | `auditlog` (en parte) | `security/`, `audit.py` |
 | `sp_recepcion` · **hecho en parte (13/11/2026, 11 · DOC-8 y DOC-10; versión 20.0.1.1.0)** | `account` (de momento; las sedes viven en este módulo hasta que exista `sp_base`) | Hecho: sedes y sedes por persona, cobros con confirmación, aviso de repetidos, justificante por sede, anulación con motivo, cierre de caja con doble persona (también en BD), protección de apuntes de caja de días validados y devoluciones con su flujo. Pendiente: informe por sede y vínculo con expedientes (§3.1) | — | `reception/`, `routers/economy.py`, `routers/reception.py` |
 | `sp_gastos` · **hecho en parte (13/11/2026, 11 · DOC-14; versión 20.0.1.0.0)** | `hr_expense`, `sp_recepcion`, `sp_contabilidad` (de momento; `sp_base` cuando exista) | Hecho: lectura del ticket en el servidor (con la extracción de `sp_contabilidad/lectura/`), IVA del ticket, forma de pago del despacho y efectivo desde la caja de la sede (§3.2). Pendiente: tarjetas de empresa, resumen mensual, límites y políticas | — | `routers/expenses.py`, `services/receipts.py` |
-| `sp_banco` · **hecho en parte (16/11/2026, 11 · DOC-16 y DOC-17; versión 20.0.1.1.0)** | `account`, `sp_recepcion` (de momento; `sp_base` cuando exista) | Hecho: importación de extractos sin duplicar y con cuadre, agente de propuestas explicadas, TPV con comisión, elegir apuntes a mano con pago parcial, exportación CSV para la gestoría, y validar, rechazar, contabilizar en una cuenta o ignorar (§3.3). Pendiente: conciliación automática (18 · AL-12), cifrado del IBAN y de los extractos, PSD2 y aviso de actividad | `account_statement_import_camt`, `account_statement_import_sheet_file`, `l10n_es_account_statement_import_n43`, `account_reconcile_oca` | `bank/parsers.py`, `bank/matcher.py`, `bank/service.py` |
+| `sp_banco` · **hecho en parte (16/11/2026, 11 · DOC-16 y DOC-17; versión 20.0.1.1.0)** | `account`, `sp_recepcion` (de momento; `sp_base` cuando exista) | Hecho: importación de extractos sin duplicar y con cuadre, agente de propuestas explicadas, TPV con comisión, elegir apuntes a mano con pago parcial, exportación CSV para la gestoría, y validar, rechazar, contabilizar en una cuenta o ignorar (§3.3). Pendiente: cifrado del IBAN y de los extractos, PSD2 y aviso de actividad. Desde DOC-18, puntos de extensión `_sp_reglas()` y `_sp_valores_reinicio()` que usa `sp_facturacion` | `account_statement_import_camt`, `account_statement_import_sheet_file`, `l10n_es_account_statement_import_n43`, `account_reconcile_oca` | `bank/parsers.py`, `bank/matcher.py`, `bank/service.py` |
 | `sp_contabilidad` · **hecho en parte (13/11/2026, 11 · DOC-13; versión 20.0.1.0.0)** | `account`, `l10n_es` (de momento; `sp_banco` cuando lleguen las remesas) | Hecho: facturas de proveedor con lectura en el servidor (`lectura/`), cuadre con el total de la factura y aviso de repetidas (§3.4). Pendiente: estado «validada», alta rápida del proveedor, remesas con doble firma y SEPA, previsión | `account_payment_order`, `account_banking_sepa_credit_transfer`, `base_tier_validation` | `accounting/invoices.py`, `accounting/treasury.py` |
 | `sp_contabilidad_rutina` | `sp_contabilidad`, `mis_builder` | Cierre del mes, rutina comprobada e informes | `account_financial_report`, `l10n_es_aeat_mod303`, `mod111`, `mod347` (y demás `l10n_es_aeat_*`) | `accounting/close.py`, `routine.py`, `reports.py` |
-| `sp_facturacion` (decidido, AL-03) | `account`, `l10n_es_edi_verifactu` | Prepara facturas: cuota litis, suplidos, factura global de extranjería. **No toca** el registro, el encadenamiento, la numeración ni el envío de Verifactu (§1.3) | — | — |
+| `sp_expediente` · **base hecha (16/11/2026, 11 · DOC-18; versión 20.0.1.0.0)** | `account`, `mail` | Hecho: expediente mínimo con número `LAB-2026-0001` / `EXT-2026-0001` sin saltos y con reinicio anual (18 · AL-07), cliente, área, responsable, estado y búsqueda del número en un texto libre. Pendiente: el resto del módulo de expedientes (fases, plazos, documentos, migración desde MN Program) | — | `models_work.py`, `routers/cases.py` |
+| `sp_facturacion` · **hecho en parte (16/11/2026, 11 · DOC-18; versión 20.0.1.0.0)** | `sale`, `l10n_es`, `sp_expediente`, `sp_banco` (Verifactu lo aporta la base contable con `l10n_es_edi_verifactu`) | Hecho: honorarios por expediente, cobro por número de expediente con factura de anticipo y factura final que descuenta los anticipos (§3.7; 18 · AL-12 y AL-15). Pendiente: cuota litis, suplidos, cambiar honorarios, cobros de caja vinculados al expediente. **No toca** el registro, el encadenamiento, la numeración ni el envío de Verifactu (§1.3) | — | — |
 
 Quedan sin asignar a un `sp_*` concreto `l10n_es_aeat_sii_oca` (Odoo 20 Community trae `l10n_es_edi_sii`) y
 `account_asset_management` (activos): se decidirá con el criterio de 18 §2 cuando se aborden.
@@ -306,15 +339,19 @@ Quedan sin asignar a un `sp_*` concreto `l10n_es_aeat_sii_oca` (Odoo 20 Communit
    elegir apuntes a mano (con pago parcial o diferencia a una cuenta con motivo) y exportación CSV para la gestoría.
    15 pruebas sin fallos (54 en total con los otros tres módulos), base recreada desde cero y los 6 escenarios de
    `odoo/pruebas/` correctos. Cómo instalarlo: `odoo/LEEME.md` («Banco y conciliación»).
-   **Siguiente, en el orden fijado el 16/11/2026 (18 §5):** conciliación automática con el número de expediente en el
-   concepto, con factura parcial con IVA y factura resumen final (**18 · AL-12 abierto**: hasta que se decida,
-   `sp_banco` nunca concilia solo); cifrado del IBAN y de los extractos; conexión directa con el banco PSD2
+   **Hecho · 16/11/2026** (11 · DOC-18; 18 §5 paso 2): cobro por número de expediente con factura de anticipo y
+   factura final que descuenta los anticipos (`sp_expediente` y `sp_facturacion`; §3.7), con «Contabilidad con un
+   clic» (18 · AL-12 decidido): nada se emite ni se concilia sin que Contabilidad valide. 62 pruebas en los seis
+   módulos y 7 escenarios correctos. **Siguiente, en el orden fijado el 16/11/2026 (18 §5):** cifrado del IBAN y de
+   los extractos; conexión directa con el banco PSD2
    (**importante** para el usuario; decidir el agregador, 18 §2 paso 4), y facturación a clientes (paso 7). El aviso
    de actividad de la cuenta llegará con los expedientes.
 5. **Remesas SEPA con doble firma.**
 6. **Cierre, rutina e informes.**
 7. **Facturación a clientes** con Verifactu (decidido, 18 · AL-03), siguiendo el plan de §3.8. Las pruebas en el
-   entorno de la AEAT (paso a) pueden empezar antes, en paralelo.
+   entorno de la AEAT (paso a) pueden empezar antes, en paralelo. **Adelantado · 16/11/2026:** la facturación por expediente (anticipos y
+   factura final; §3.7; 11 · DOC-18) ya emite facturas EXP en la base de prueba; falta probarlas en la AEAT
+   (12 · ABI-05).
 
 ## 7. Cómo consultar la referencia
 - **Código:** `referencia/SistemaPropio/apps/api/app/` (modelos `models_*.py`, lógica en `bank/`, `accounting/`,

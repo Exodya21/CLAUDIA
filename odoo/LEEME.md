@@ -31,8 +31,8 @@ Todo usa **datos ficticios**. En la instalación real se cambian los valores del
 
 ## La forma más fácil en Windows: `MONTAR_ODOO.bat`
 Con Docker Desktop en marcha, doble clic en **`odoo/MONTAR_ODOO.bat`**. Construye la imagen, crea la base
-`sp_contable`, monta la base contable, instala Recepción, Contabilidad y Gastos, crea los usuarios de demostración y
-abre http://localhost:8069. Si la base ya existe, solo actualiza los módulos. Los pasos de abajo son lo mismo, a mano.
+`sp_contable`, monta la base contable, instala Recepción, Contabilidad, Gastos, Banco, Expedientes y Facturación por
+expediente, crea los usuarios de demostración y abre http://localhost:8069. Si la base ya existe, solo actualiza los módulos. Los pasos de abajo son lo mismo, a mano.
 
 ## Montarlo en Windows (Docker Desktop)
 En PowerShell, dentro de la carpeta `odoo` del repositorio. Un comando cada vez.
@@ -130,6 +130,24 @@ docker compose exec -T odoo odoo shell -d sp_contable --db_host=db -r odoo -w od
 En **Facturación → Banco**: **Importar extractos** (uno o varios; «Comprobar sin importar»), **Movimientos y
 conciliación** (cada movimiento con su propuesta y el porqué: Validar, Rechazar con motivo, Contabilizar en una cuenta
 o Ignorar) e **Importaciones** (con el archivo original). Lo usa Contabilidad (p. ej. `contabilidad.1`).
+`configuracion/banco.py` también marca las cuentas propias de prueba como verificadas: Odoo 20 no emite facturas con
+una cuenta propia sin verificar. En la instalación real lo hace una persona autorizada tras comprobar el IBAN.
+
+### Expedientes y facturación por expediente (módulos `sp_expediente` y `sp_facturacion`)
+`MONTAR_ODOO.bat` ya los instala y configura. A mano (después de `sp_banco`):
+```
+docker compose exec odoo odoo -d sp_contable -i sp_expediente,sp_facturacion --stop-after-init --no-http --db_host=db -r odoo -w odoo
+```
+```
+docker compose exec -T odoo odoo shell -d sp_contable --db_host=db -r odoo -w odoo --no-http < configuracion/facturacion.py
+```
+Escenario (una vez): `docker compose exec -T odoo odoo shell -d sp_contable --db_host=db -r odoo -w odoo --no-http < pruebas/prueba_expediente.py`.
+
+En **Facturación → Clientes → Expedientes**: abrir el expediente (número `LAB-2026-0001` automático), poner los
+honorarios y **Fijar honorarios**. Cuando llega una transferencia con el número del expediente en el concepto, el
+banco la propone con su desglose; Contabilidad **valida** y entonces se emite la factura de anticipo (o la única
+factura, si paga todo de una vez) y, con el último pago, la factura final que descuenta los anticipos (total 0 €).
+Detalle en `docs/entrega/19_…` §3.7 y en el manual (15 §10d).
 
 En Linux (entorno de Claude): `bash herramientas/odoo_dev.sh sp_recepcion` arranca todo y actualiza el módulo.
 

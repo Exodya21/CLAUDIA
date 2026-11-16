@@ -214,12 +214,20 @@ bancos, cajas, analítica, cuentas propias provisionales y Verifactu en el entor
   (escenario con una factura ficticia) (11 · DOC-13). Si al instalar con `-i` salen «0 tests», páselas con
   `-u sp_contabilidad` (12 · INC-80).
 - **Montaje en Windows con un doble clic:** `odoo/MONTAR_ODOO.bat` arranca Docker Compose, crea la base
-  `sp_contable`, monta la base contable, instala los cuatro módulos del despacho (`sp_recepcion`, `sp_contabilidad`,
-  `sp_gastos` y `sp_banco`) y ejecuta `configuracion/recepcion.py`, `gastos.py` y `banco.py`. Si la base ya existe,
+  `sp_contable`, monta la base contable, instala los seis módulos del despacho (`sp_recepcion`, `sp_contabilidad`,
+  `sp_gastos`, `sp_banco` y, desde el 16/11/2026, `sp_expediente` y `sp_facturacion`) y ejecuta
+  `configuracion/recepcion.py`, `gastos.py`, `banco.py` y `facturacion.py` (11 · DOC-18). Si la base ya existe,
   actualiza los módulos. `herramientas/odoo_dev.sh` hace lo mismo en Linux (desde el 16/11/2026, también banco;
   11 · DOC-16). Al montar de cero, `odoo_dev.sh` fallaba porque ponía `shell` después de las opciones; corregido
   (12 · INC-88).
 - **Banco y conciliación** (`sp_banco`): `odoo/LEEME.md`, apartado «Banco y conciliación». `configuracion/banco.py`
   pone IBAN **ficticios** (con dígitos de control válidos) a los bancos A, B y C de la S.L., para que cada extracto
   vaya a su cuenta. En la instalación real los IBAN se ponen directamente en Odoo (Contabilidad → Configuración →
-  Diarios), nunca en el repositorio. Escenario: `odoo/pruebas/prueba_banco.py` (se ejecuta una vez).
+  Diarios), nunca en el repositorio. Escenario: `odoo/pruebas/prueba_banco.py` (se ejecuta una vez). Desde el 16/11/2026
+  `banco.py` también marca las cuentas propias de prueba como **verificadas**, porque Odoo 20 no emite facturas con
+  una cuenta propia sin verificar (12 · INC-90). En la instalación real la verifica una persona autorizada después
+  de comprobar el IBAN con el banco.
+- **Expedientes y facturación por expediente** (`sp_expediente`, `sp_facturacion`): `odoo/LEEME.md`, apartado
+  «Expedientes y facturación por expediente». `configuracion/facturacion.py` pone los anticipos en la 438
+  (provisional, T-40) y corrige la tarifa por defecto si quedó en otra moneda (12 · INC-91). Escenario:
+  `odoo/pruebas/prueba_expediente.py` (se ejecuta una vez).

@@ -196,13 +196,14 @@ La Dirección ha decidido montar el servidor definitivo sobre **Odoo Community**
 |---|---|---|
 | `sp_base` | `base`, `mail`, `hr` | `models.py`, `security/`, `audit.py`: sedes, roles, auditoría encadenada, enmascarado |
 | `sp_contactos` | `sp_base`, `contacts` | `routers/contacts.py`, `validation.py` |
-| `sp_expediente` | `sp_contactos`, `project`, `calendar` | `models_work.py`, `routers/cases.py`, `routers/tasks.py` |
+| `sp_expediente` | `sp_contactos`, `project`, `calendar`. **Base hecha (16/11/2026; 11 · DOC-18):** de momento depende de `account` y `mail` (número `LAB-2026-0001`, 18 · AL-07) | `models_work.py`, `routers/cases.py`, `routers/tasks.py` |
 | `sp_extranjeria` | `sp_expediente` | `immigration/`, `routers/immigration*.py`, `apps/extension-mercurio` |
 | `sp_portal` | `sp_expediente`, `portal` | `comm/`, `routers/portal.py`, `routers/comm.py` |
 | `sp_recepcion` | `sp_expediente`, `account` | `reception/`, `routers/economy.py`, `routers/reception.py` |
 | `sp_banco` | `account`, `sp_recepcion` (hecho en parte, 16/11/2026; 11 · DOC-16). Sustituye a OCA bank-statement-import, la Norma 43 y `account_reconcile_oca`, que no están en 20.0 (19 §3.3) | `bank/`: `parsers.py` copiado sin cambios en `sp_banco/lectura/extractos.py`; reglas de `matcher.py` adaptadas |
 | `sp_contabilidad` | `account`, OCA bank-payment | `accounting/` |
 | `sp_gastos` | `hr_expense`, `sp_recepcion`, `sp_contabilidad` | `routers/expenses.py`, `services/receipts.py` |
+| `sp_facturacion` | `sale`, `l10n_es`, `sp_expediente`, `sp_banco` (hecho en parte, 16/11/2026; 11 · DOC-18). Honorarios por expediente, factura de anticipo por cada pago y factura final que descuenta los anticipos, con el estándar de Odoo (19 §3.7) | — (en Sistema Propio no se emitían facturas, 01 §4 regla 11) |
 | `sp_rrhh` | `hr`, `hr_holidays` | `hr/` |
 | `sp_agentes` | `sp_base`, `base_automation` | `agents/` |
 | Lectura de documentos (no es un servicio aparte) | — | Vive en `sp_contabilidad/lectura/` (extracción de texto y OCR, facturas, identificadores; `accounting/invoices.py`) y la reutiliza `sp_gastos/lectura/tickets.py` (`services/receipts.py`). La de extranjería (`immigration/reader.py`) está sin asignar; previsiblemente, `sp_extranjeria` (13/11/2026; 11 · DOC-13 y DOC-14) |

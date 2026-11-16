@@ -129,6 +129,17 @@ Al desarrollar `odoo/addons/sp_banco` (banco y conciliación; 11 · DOC-16). Ent
 | INC-87 | 16/11 | El grupo de Contabilidad del despacho no podía crear extractos | Crear extractos exige las funciones contables completas de Odoo (`account.group_account_user`) | `security/sp_banco_security.xml`: el grupo «Responsable de caja y cobros (Contabilidad)» implica «Mostrar características de contabilidad completas» | Descrito en 08 §12. Recepción no recibe ese grupo |
 | INC-88 | 16/11 | `herramientas/odoo_dev.sh` fallaba al montar de cero | Ponía `shell` después de las opciones (`odoo --db_host… shell`) | `shell` va antes de las opciones (`SHELL_ODOO`). `odoo/MONTAR_ODOO.bat` ya estaba bien | Montaje completo de cero comprobado el 16/11/2026 |
 
+## 4h. Odoo 20 · sp_expediente y sp_facturacion
+Al desarrollar la facturación y el cobro por número de expediente (11 · DOC-18). Entorno: Docker con la imagen propia
+`despacho/odoo:20`, en el entorno en la nube.
+
+| ID | Fecha | Síntoma | Causa | Solución | Prevención |
+|---|---|---|---|---|---|
+| INC-89 | 16/11 | No se podía usar una casilla «Es una empresa» del contacto para decidir si el cliente retiene IRPF | En Odoo 20, `is_company` se calcula a partir del NIF; ya no es una casilla | La retención se propone según el NIF del cliente («Cliente con retención de IRPF (15 %)», campo calculado que se puede cambiar a mano) | Prueba `test_honorarios_con_y_sin_retencion`. En la ficha se indica que hay que comprobarlo |
+| INC-90 | 16/11 | Odoo 20 no dejaba emitir facturas | La cuenta bancaria propia que muestra la factura no estaba verificada («de confianza», `allow_out_payment`). Solo pueden verificarla los administradores o el grupo que valida cuentas | `odoo/configuracion/banco.py` marca como verificadas las cuentas propias de prueba (con `install_mode`, como superusuario) | En la instalación real, una persona autorizada verifica la cuenta en Odoo tras comprobar el IBAN con el banco (09; 08 §13) |
+| INC-91 | 16/11 | La factura de honorarios salía en dólares | La tarifa «Por defecto» se crea al instalar Odoo, antes de cargar el plan contable, y quedó en USD | El pedido de honorarios usa siempre una tarifa en la moneda de la compañía (`_sp_tarifa`), y `odoo/configuracion/facturacion.py` corrige la tarifa por defecto | Prueba `test_moneda_de_la_compania_aunque_la_tarifa_sea_otra` |
+| INC-92 | 16/11 | No se podía poner a la factura la fecha del pago | La serie de facturas debe ir en orden de fechas: un pago antiguo validado hoy rompería el orden | La factura lleva la fecha de emisión y la del pago va como «fecha de entrega», que Verifactu envía como FechaOperacion (devengo del anticipo) | Prueba `test_anticipos_y_factura_final`. **Sin comprobar en la AEAT** (ABI-05) |
+
 ## 5. Incidencias abiertas o conocidas
 | ID | Tema | Estado |
 |---|---|---|
@@ -136,6 +147,7 @@ Al desarrollar `odoo/addons/sp_banco` (banco y conciliación; 11 · DOC-16). Ent
 | ABI-02 | En la carpeta real quedaron `ops\DIAGNOSTICO_REAL.bat`, `ops\_diag_iniciar.bat` y `ops\diag_real.txt` (diagnóstico, sin secretos) | Se pueden borrar |
 | ABI-03 | Si un banco cambia el formato de su Excel | «Comprobar sin importar» indica las columnas que no reconoce. Enviar **solo la fila de cabecera** |
 | ABI-04 | Verifactu sin probar contra la AEAT: el entorno en la nube no llega a `prewww2.aeat.es` (INC-64) | Repetir `odoo/pruebas/prueba_base_contable.py` en un equipo con Internet (19 §3.8 paso a) |
+| ABI-05 | Facturas por expediente sin probar en la AEAT: facturas de anticipo, factura final a 0 € con líneas negativas y FechaOperacion (11 · DOC-18) | Probarlas en el entorno de pruebas de la AEAT desde un equipo con Internet, junto con ABI-04, y validarlas con la gestoría (18 · AL-15) |
 
 ## 6. Procedimiento de soporte
 1. Reproducir con **datos ficticios**.

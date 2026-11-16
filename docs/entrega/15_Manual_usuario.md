@@ -266,6 +266,55 @@ referencia aún muestra un trozo «EXP/2026/0000», ya corregido) y `4_banco_pro
 
 Aún no están en Odoo 20 la conexión directa con el banco ni el aviso de actividad de la cuenta (11 · DOC-17).
 
+## 10d. Expedientes y cobro por número de expediente en Odoo 20
+Menú **Facturación → Clientes → Expedientes** (módulos `sp_expediente` y `sp_facturacion`; 19 §3.7). Crea y edita el
+personal de facturación; el resto solo consulta (08 §13). Ejemplos con datos ficticios.
+
+**1. Abrir el expediente.** Elija el área (Laboral o Extranjería) y el cliente, y escriba el asunto. El número se pone
+solo al guardar: `LAB-2026-0001`, `EXT-2026-0001`… (sin saltos; empieza de nuevo cada año). El número y el área no se
+pueden cambiar; si hay un error, cierre el expediente y abra otro. Los expedientes no se borran: se **cierran**.
+
+**2. Fijar los honorarios.**
+1. Escriba los **Honorarios pactados (base)**, sin IVA.
+2. Revise **Cliente con retención de IRPF (15 %)**. Odoo lo marca si el cliente tiene NIF de empresa; cámbielo si no
+   es correcto.
+3. Pulse **Fijar honorarios**. El expediente muestra el **total a pagar** (honorarios + IVA 21 % − retención), lo
+   facturado, lo pendiente y el estado de cobro: Sin honorarios, Sin pagos, Pagando o Pagado. Una vez fijados, los
+   honorarios no se pueden cambiar desde el expediente: hable con Contabilidad.
+
+**3. Pedir al cliente que ponga el número en la transferencia.** Odoo lo reconoce aunque venga con espacios, guiones o
+barras («LAB 2026 0001», «LAB2026/0001»).
+
+**4. Contabilidad valida** (**Banco → Movimientos y conciliación**). Al importar el extracto, el movimiento aparece
+como propuesta «expediente» con el desglose (base, IVA, retención) y lo que quedará pendiente. Al pulsar **Validar la
+propuesta**:
+
+| Caso | Qué hace Odoo |
+|---|---|
+| Pago de una parte | Emite una **factura de anticipo** por lo cobrado (IVA y retención incluidos) y concilia |
+| Primer pago que cubre todo | Emite **una sola factura** normal y concilia |
+| Último pago, después de otros | Emite la factura de anticipo y la **factura final**: honorarios totales menos los anticipos, total 0 € |
+
+Nada se emite ni se concilia hasta que Contabilidad valida. La factura lleva la fecha del día en que se emite y la
+fecha del pago como fecha de operación.
+
+**Excepciones** (el movimiento queda para revisar):
+
+| Motivo | Qué hacer |
+|---|---|
+| El número no existe | Compruebe el número con el cliente |
+| Varios expedientes en el concepto | Reparta el pago a mano (10c, «Elegir los apuntes a mano») |
+| El expediente no tiene honorarios | Fíjelos y pulse **Volver a proponer** |
+| Pago mayor que lo pendiente | Revise si es de otro expediente o si hay que devolver la diferencia |
+
+Ejemplo (escenario `odoo/pruebas/prueba_expediente.py`): expediente LAB-2026-0001 de EMPRESA_02 S.L. con 1.500 € de
+honorarios; el cliente paga 1.590 € (con IVA y retención) en dos transferencias. Resultado: facturas de anticipo de
+636 € y 954 €, factura final a 0 € y expediente «Pagado». Capturas:
+`documentacion/odoo20_contabilidad/6_expediente_pagado.png` y `7_factura_final_descuenta_anticipos.png`.
+
+Aún no están en Odoo 20: los cobros de la caja de Recepción vinculados al expediente, cambiar los honorarios ya
+fijados, la cuota litis y los suplidos (11 · DOC-18).
+
 ## 11. RRHH
 - **Mi ficha** (todos): sus datos, documentos y ausencias. Solicite vacaciones o permisos; RRHH los aprueba y quedan
   en la Agenda.

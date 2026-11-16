@@ -726,3 +726,37 @@ grupos nuevos: usa el grupo «Responsable de caja y cobros (Contabilidad)» de `
 | `models/account_bank_statement_line.py` · `_sp_proponer` | El agente lee cobros, facturas y devoluciones y escribe en el movimiento la propuesta, la explicación y el estado. Se usa también desde el cron horario |
 | `models/importacion.py` · `_sp_importar` (adjunto del original) | Crear el adjunto técnico con el archivo original de la importación |
 | `models/importacion.py` · `_sp_importar` (enlace del extracto) | Escribir en la importación el extracto creado (`statement_id`); nadie más puede modificar la importación |
+
+## 13. Odoo 20 · Expedientes y facturación por expediente (`sp_expediente`, `sp_facturacion`)
+Comprobado en el código de `odoo/addons/sp_expediente/security/ir.access.csv` y de `odoo/addons/sp_facturacion/`
+(versión 20.0.1.0.0; 11 · DOC-18). No crean grupos nuevos.
+
+| Acción | Usuario interno | Personal de facturación (`account.group_account_invoice`) | Responsable de caja y cobros (Contabilidad) |
+|---|---|---|---|
+| Ver expedientes (menú **Facturación → Clientes → Expedientes**) | Solo leer (el menú está dentro de Facturación) | Sí | Sí (su grupo implica las funciones contables, §12) |
+| Crear y editar expedientes; fijar honorarios | No | Sí | Sí |
+| Cambiar el número o el área de un expediente | Nadie (`UserError`) | Nadie | Nadie |
+| Borrar un expediente | Nadie: se cierra (`UserError` en `unlink`; tampoco hay permiso de borrado) | Nadie | Nadie |
+| Validar un pago por expediente (emite la factura y concilia) | No | No (`AccessError`; prueba `test_anticipos_y_factura_final`) | Sí (`_sp_exigir` de `sp_banco`) |
+
+- **Multicompañía:** regla sin grupo sobre `sp.expediente` (`company_id in company_ids`). La regla `expediente` del
+  banco solo busca expedientes de la compañía del movimiento.
+- **Nada se emite ni se concilia sin una persona** (18 · AL-12, decidido el 16/11/2026): el agente solo propone. La
+  factura se emite (`action_post`) con el usuario de Contabilidad que valida, no como superusuario.
+- **El botón «Fijar honorarios»** no está restringido por grupo en la vista; lo protege el permiso de escritura del
+  expediente (solo el personal de facturación). Una vez fijados, los honorarios no se pueden cambiar desde el
+  expediente.
+- **Cuentas bancarias propias verificadas:** Odoo 20 no emite facturas que muestren una cuenta propia sin verificar,
+  y solo pueden verificarla los administradores o el grupo que valida cuentas (12 · INC-90). En pruebas lo hace
+  `odoo/configuracion/banco.py`; en la instalación real, una persona autorizada después de comprobar el IBAN con el
+  banco.
+
+### 13.1 `sudo()` en `sp_facturacion` (para revisar en la auditoría)
+| Dónde | Para qué |
+|---|---|
+| `models/expediente.py` · `action_sp_fijar_honorarios` | Crear y confirmar el pedido de venta técnico de honorarios. Contabilidad no necesita la app Ventas |
+| `models/expediente.py` · `_sp_producto` y `_sp_tarifa` | Buscar o crear el producto «Honorarios de expediente» y una tarifa en la moneda de la compañía |
+| `models/expediente.py` · `_sp_facturar_pago` y `_sp_factura_final` | Leer el pedido y preparar con el asistente estándar de anticipos (`sale.advance.payment.inv`) el borrador de la factura. La emisión se hace después sin `sudo()` |
+| `models/expediente.py` · campos calculados (`compute_sudo`) | Total a pagar, facturado, pendiente, facturas y estado de cobro, leídos del pedido |
+| `models/account_bank_statement_line.py` · `_sp_regla_expediente` | Leer el pedido para calcular el desglose (el agente ya se ejecuta como superusuario, §12) |
+| `models/account_bank_statement_line.py` · `action_sp_validar` | Escribir en el movimiento el apunte a conciliar y la factura emitida, después de comprobar el grupo de Contabilidad |
