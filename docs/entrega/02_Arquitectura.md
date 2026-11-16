@@ -200,7 +200,7 @@ La Dirección ha decidido montar el servidor definitivo sobre **Odoo Community**
 | `sp_extranjeria` | `sp_expediente` | `immigration/`, `routers/immigration*.py`, `apps/extension-mercurio` |
 | `sp_portal` | `sp_expediente`, `portal` | `comm/`, `routers/portal.py`, `routers/comm.py` |
 | `sp_recepcion` | `sp_expediente`, `account` | `reception/`, `routers/economy.py`, `routers/reception.py` |
-| `sp_banco` | `account`, OCA bank-statement-import, `account_reconcile_oca` | `bank/` |
+| `sp_banco` | `account`, `sp_recepcion` (hecho en parte, 16/11/2026; 11 · DOC-16). Sustituye a OCA bank-statement-import, la Norma 43 y `account_reconcile_oca`, que no están en 20.0 (19 §3.3) | `bank/`: `parsers.py` copiado sin cambios en `sp_banco/lectura/extractos.py`; reglas de `matcher.py` adaptadas |
 | `sp_contabilidad` | `account`, OCA bank-payment | `accounting/` |
 | `sp_gastos` | `hr_expense`, `sp_recepcion`, `sp_contabilidad` | `routers/expenses.py`, `services/receipts.py` |
 | `sp_rrhh` | `hr`, `hr_holidays` | `hr/` |

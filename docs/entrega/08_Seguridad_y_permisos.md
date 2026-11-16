@@ -692,3 +692,35 @@ los permisos son los estándar de Gastos.
 - **Comprobado (13/11/2026):** «Contabilidad 1» aprueba y contabiliza el gasto de Recepción Barcelona **sin
   `sudo()`** (PCBAR/2026/00007), y no puede aprobar el suyo («Son sus propios gastos»).
 - **Tarjetas de empresa** («cada titular ve la suya»): pendientes, sin permisos todavía (19 §3.2).
+
+## 12. Odoo 20 · Banco y conciliación (`sp_banco`)
+Comprobado en `odoo/addons/sp_banco/security/` y en el código del módulo (versión 20.0.1.0.0; 11 · DOC-16). No crea
+grupos nuevos: usa el grupo «Responsable de caja y cobros (Contabilidad)» de `sp_recepcion` (§10).
+
+- **El banco solo lo lleva Contabilidad.** El menú **Facturación → Banco** solo lo ve ese grupo.
+- **Funciones contables completas:** `security/sp_banco_security.xml` hace que ese grupo implique «Mostrar
+  características de contabilidad completas» (`account.group_account_user`). Hace falta para crear extractos y
+  conciliar (12 · INC-87). Recepción **no** lo recibe.
+
+| Acción | Recepción | Responsable de caja y cobros (Contabilidad) | Administrador de Contabilidad |
+|---|---|---|---|
+| Ver el menú Banco | No | Sí | Solo si tiene también el grupo de Contabilidad |
+| Importar extractos o «comprobar sin importar» (asistente `sp.banco.importar`) | No | Sí (también lo comprueba el botón en el servidor) | Solo si tiene también el grupo de Contabilidad |
+| Ver las importaciones (`sp.banco.importacion`) | No | Leer y crear (no modificar ni borrar) | Leer |
+| Validar, rechazar (motivo ≥ 10), contabilizar en una cuenta (motivo y cuenta) o ignorar (motivo) un movimiento | No (`AccessError`) | Sí | Solo si tiene también el grupo de Contabilidad |
+| «Volver a proponer» | No (`AccessError`) | Sí | Ídem |
+
+- **Multicompañía:** regla sin grupo sobre `sp.banco.importacion` (`company_id in company_ids`).
+- **Importación inmutable:** los campos de la importación son de solo lectura y nadie tiene permiso de escritura ni
+  de borrado. El original queda como adjunto de la importación. **Diferencia con Sistema Propio:** allí el original
+  se guardaba cifrado; aquí no (19 §3.3).
+- **El agente solo lee.** Se ejecuta como superusuario técnico (`sudo()`) para leer cobros, facturas y devoluciones
+  de todo el despacho y dejar su propuesta en el movimiento. No concilia ni cambia cobros, facturas ni devoluciones.
+  Validar exige el grupo de Contabilidad (`_sp_exigir`).
+
+### 12.1 `sudo()` en el módulo (para revisar en la auditoría)
+| Dónde | Para qué |
+|---|---|
+| `models/account_bank_statement_line.py` · `_sp_proponer` | El agente lee cobros, facturas y devoluciones y escribe en el movimiento la propuesta, la explicación y el estado. Se usa también desde el cron horario |
+| `models/importacion.py` · `_sp_importar` (adjunto del original) | Crear el adjunto técnico con el archivo original de la importación |
+| `models/importacion.py` · `_sp_importar` (enlace del extracto) | Escribir en la importación el extracto creado (`statement_id`); nadie más puede modificar la importación |

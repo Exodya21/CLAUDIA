@@ -207,6 +207,49 @@ Ejemplo: factura ficticia de base 100 €, IVA 21 € y retención 15 € → to
 Aún no están en Odoo 20 los pasos «validar» y «programar» de Sistema Propio ni el «Alta rápida» del proveedor
 (11 · DOC-13).
 
+## 10c. Banco en Odoo 20
+Menú **Facturación → Banco** (módulo `sp_banco`; 19 §3.3). Solo lo ve Contabilidad (08 §12). Ejemplos con datos
+ficticios.
+
+**1. Importar extractos** (**Banco → Importar extractos**):
+1. Añada uno o varios archivos tal como los descarga del banco: Norma 43, CAMT.053 (XML), CSV o Excel.
+2. Cada archivo va solo a la cuenta cuyo IBAN termina igual. Si el archivo no indica la cuenta, o hay dos que
+   coinciden, Odoo no adivina: elija la **Cuenta**. Si elige una que no es la del archivo, Odoo lo avisa.
+3. Si solo quiere saber si un archivo se puede leer, marque **Comprobar sin importar**: no se guarda ningún
+   movimiento.
+4. Pulse **Importar**. En el resultado verá, por archivo: movimientos nuevos, los ya importados (no se duplican),
+   líneas con error y si **cuadran los saldos** (saldo inicial + movimientos = saldo final).
+5. El archivo original queda guardado en la importación (**Banco → Importaciones**).
+
+**2. Revisar las propuestas** (**Banco → Movimientos y conciliación**):
+- Al importar, y después cada hora, el sistema **propone** a qué corresponde cada movimiento y explica por qué
+  (campo «Por qué se propone / qué falta»). No concilia nada solo.
+- Use los filtros **Propuestas por validar**, **Excepciones**, **Abiertos** y **Cerrados**, o agrupe por cuenta.
+- Una **excepción** es un movimiento sin candidato claro: un ingreso sin identificar o un cargo sin justificar. Odoo
+  sugiere una categoría (Seguridad Social, impuestos, nómina, alquiler, comisión…) y una prioridad.
+- Si ha registrado después el cobro o la factura que faltaba, pulse **Volver a proponer**.
+
+**3. Decidir** (en el movimiento, grupo «Decisión de Contabilidad»):
+
+| Botón | Cuándo | Qué hace |
+|---|---|---|
+| **Validar la propuesta** | La propuesta es correcta | Concilia el movimiento con el cobro, la factura o el pago propuesto. Un traspaso entre cuentas propias se concilia en las dos cuentas y nunca cuenta como ingreso |
+| **Rechazar la propuesta** | La propuesta no es correcta | Escriba el motivo en «Nota de Contabilidad» (mínimo 10 caracteres). Esa propuesta no se repite y el sistema busca otra |
+| **Contabilizar en la cuenta** | Cargo o abono sin factura ni cobro (comisión, Seguridad Social…) | Elija la cuenta en «Contabilizar en la cuenta» y escriba el motivo |
+| **Ignorar** | El movimiento no requiere conciliación | Escriba el motivo |
+
+Para conciliar con otro apunte distinto del propuesto: rechace la propuesta y vuelva a proponer, o contabilícelo en
+una cuenta. Elegir el apunte a mano desde la pantalla aún no está disponible.
+
+Ejemplo (escenario `odoo/pruebas/prueba_banco.py`): extractos ficticios del Banco B y del Banco C. Una transferencia
+con el número de factura queda conciliada y la factura, pagada; el traspaso de B a C queda como «traspaso» en las dos
+cuentas; el Bizum de CLIENTE_06 se propone; la comisión se contabiliza en la 626000, y un ingreso sin referencia queda
+como excepción. Capturas: `documentacion/odoo20_contabilidad/3_banco_movimientos.png` (la explicación de la
+referencia aún muestra un trozo «EXP/2026/0000», ya corregido) y `4_banco_propuesta_bizum.png`.
+
+Aún no están en Odoo 20 el TPV con comisión descontada, la exportación CSV para la gestoría (de momento, exporte
+desde la lista), la conexión directa con el banco ni el aviso de actividad de la cuenta (11 · DOC-16).
+
 ## 11. RRHH
 - **Mi ficha** (todos): sus datos, documentos y ausencias. Solicite vacaciones o permisos; RRHH los aprueba y quedan
   en la Agenda.

@@ -117,6 +117,18 @@ Al desarrollar `odoo/addons/sp_gastos` (gastos de empleados; 11 · DOC-14). Ento
 | INC-82 | 13/11 | Tras leer el ticket, al cambiar la categoría desaparecía el IVA reconocido | Al cambiar de producto, Odoo vuelve a poner los impuestos del producto | `write` vuelve a aplicar el impuesto que reproduce el IVA leído (`_sp_aplicar_iva_leido`) | Prueba `test_iva_leido_se_mantiene_al_elegir_categoria`. La captura `2_gasto_ticket_efectivo.png` es anterior a la corrección (impuesto 0,00 €) |
 | INC-83 | 13/11 | Las pruebas fallaban al crear usuarios y al editar el gasto con otro usuario | Con `hr` instalado, crear usuarios toca el campo `employee_ids` y exige `sudo()`. En Gastos, solo la propia persona (o su aprobador) puede editar su gasto | Crear usuarios y empleados con `sudo()` y leer el ticket con el entorno de la propia persona (`self.env(user=...)`) | Seguir este patrón en las pruebas de los `sp_*` que dependan de `hr` |
 
+## 4g. Odoo 20 · sp_banco
+Al desarrollar `odoo/addons/sp_banco` (banco y conciliación; 11 · DOC-16). Entorno: Docker con la imagen propia
+`despacho/odoo:20`, en el entorno en la nube.
+
+| ID | Fecha | Síntoma | Causa | Solución | Prevención |
+|---|---|---|---|---|---|
+| INC-84 | 16/11 | Error al buscar o crear la cuenta bancaria por `acc_number` | En Odoo 20, `res.partner.bank` usa `account_number` y `sanitized_account_number`; `acc_number` ya no existe | Usar `account_number` al crear (`odoo/configuracion/banco.py`) y `sanitized_account_number` al comparar (`models/importacion.py`) | Usar esos campos en todos los `sp_*` |
+| INC-85 | 16/11 | Al validar, Odoo intentaba borrar apuntes publicados | Cambiar el socio (`partner_id`) de un movimiento ya conciliado dispara la sincronización del movimiento con su asiento | Al validar no se toca el socio del movimiento; la empresa va en las contrapartidas | No escribir campos sincronizados con el asiento en movimientos conciliados |
+| INC-86 | 16/11 | El escenario no encontraba los extractos subidos | Los adjuntos sin registro asociado solo los lee quien los subió | En `odoo/pruebas/prueba_banco.py` los adjuntos se suben como el usuario de Contabilidad (en pantalla ya es así) | Subir los adjuntos con el mismo usuario que ejecuta el asistente |
+| INC-87 | 16/11 | El grupo de Contabilidad del despacho no podía crear extractos | Crear extractos exige las funciones contables completas de Odoo (`account.group_account_user`) | `security/sp_banco_security.xml`: el grupo «Responsable de caja y cobros (Contabilidad)» implica «Mostrar características de contabilidad completas» | Descrito en 08 §12. Recepción no recibe ese grupo |
+| INC-88 | 16/11 | `herramientas/odoo_dev.sh` fallaba al montar de cero | Ponía `shell` después de las opciones (`odoo --db_host… shell`) | `shell` va antes de las opciones (`SHELL_ODOO`). `odoo/MONTAR_ODOO.bat` ya estaba bien | Montaje completo de cero comprobado el 16/11/2026 |
+
 ## 5. Incidencias abiertas o conocidas
 | ID | Tema | Estado |
 |---|---|---|

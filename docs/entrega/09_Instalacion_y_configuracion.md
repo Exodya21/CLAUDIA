@@ -213,3 +213,13 @@ bancos, cajas, analítica, cuentas propias provisionales y Verifactu en el entor
 - **Facturas de proveedores** (`sp_contabilidad`): `odoo/LEEME.md`, pasos 10 (instalar y pasar las pruebas) y 11
   (escenario con una factura ficticia) (11 · DOC-13). Si al instalar con `-i` salen «0 tests», páselas con
   `-u sp_contabilidad` (12 · INC-80).
+- **Montaje en Windows con un doble clic:** `odoo/MONTAR_ODOO.bat` arranca Docker Compose, crea la base
+  `sp_contable`, monta la base contable, instala los cuatro módulos del despacho (`sp_recepcion`, `sp_contabilidad`,
+  `sp_gastos` y `sp_banco`) y ejecuta `configuracion/recepcion.py`, `gastos.py` y `banco.py`. Si la base ya existe,
+  actualiza los módulos. `herramientas/odoo_dev.sh` hace lo mismo en Linux (desde el 16/11/2026, también banco;
+  11 · DOC-16). Al montar de cero, `odoo_dev.sh` fallaba porque ponía `shell` después de las opciones; corregido
+  (12 · INC-88).
+- **Banco y conciliación** (`sp_banco`): `odoo/LEEME.md`, apartado «Banco y conciliación». `configuracion/banco.py`
+  pone IBAN **ficticios** (con dígitos de control válidos) a los bancos A, B y C de la S.L., para que cada extracto
+  vaya a su cuenta. En la instalación real los IBAN se ponen directamente en Odoo (Contabilidad → Configuración →
+  Diarios), nunca en el repositorio. Escenario: `odoo/pruebas/prueba_banco.py` (se ejecuta una vez).

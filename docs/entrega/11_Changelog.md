@@ -3,6 +3,85 @@
 Sistema Propio · 12/11/2026. Formato inspirado en *Keep a Changelog*. Las versiones siguen los incrementos del plan
 (F0.1 … F5.6). Los cambios de base de datos se indican con su migración.
 
+## [DOC-16] · 16/11/2026 — Odoo 20: sp_banco · banco y conciliación
+Módulo nuevo `odoo/addons/sp_banco` (versión **20.0.1.0.0**; depende de `account` y `sp_recepcion`). Es el paso 4 de
+19 §6 (19 §3.3; charter 4.5). Sustituye a los módulos de la OCA que no están en 20.0: importación de extractos,
+Norma 43 y `account_reconcile_oca` (18 · AL-01 y AL-02). Referencia: Sistema Propio F5.1, F5.4c y F5.6
+(`bank/parsers.py`, `bank/matcher.py`). Todo con datos ficticios.
+### Añadido
+- **Lectura de extractos** (`lectura/extractos.py`): es `bank/parsers.py` de Sistema Propio copiado sin cambios
+  (solo se añade un comentario de cabecera). Lee Norma 43, CAMT.053, CSV y Excel (.xlsx, .xls y el «.xls» en HTML).
+- **Importación** (`models/importacion.py`, `wizard/importar.py`; menú **Facturación → Banco → Importar extractos**):
+  - Uno o varios archivos a la vez. Cada uno va a la cuenta cuyo IBAN termina igual (últimos 4 dígitos del archivo).
+  - Si el archivo no indica la cuenta o coinciden dos, **no adivina**: pide elegirla. Si la elegida no coincide con la
+    del archivo, da error.
+  - «Comprobar sin importar» lee el archivo y no guarda movimientos.
+  - Identificador estable `sp_ext_id` con índice único por diario: reimportar no duplica.
+  - Comprueba saldo inicial + movimientos = saldo final («¿Cuadran los saldos?»).
+  - Guarda el original como adjunto técnico y su huella SHA-256 (modelo `sp.banco.importacion`).
+  - Crea el extracto y sus movimientos (`account.bank.statement` y `.line`) y lanza el agente.
+- **Agente de conciliación** (`models/account_bank_statement_line.py`, reglas adaptadas de `bank/matcher.py`). Se
+  lanza al importar, cada hora (`data/cron.xml`) y con «Volver a proponer». Solo propone; no concilia ni cambia nada.
+  Reglas en orden (gana la primera con un candidato único):
+
+  | Regla | Qué busca |
+  |---|---|
+  | Traspaso entre cuentas propias | Importe contrario en otra cuenta propia ±3 días y «TRASPASO» en el concepto |
+  | Referencia | Nº de factura (CIT/EXP/INV) o de justificante (REC-…) en el concepto. Tolera la referencia partida por la Norma 43 en tramos de 38 caracteres. Propone el cobro registrado pendiente o, si no hay, la propia factura; combinaciones de hasta 4 |
+  | Bizum | Un único cobro igual ±3 días en esa cuenta |
+  | TPV | Cobros de un día que suman el abono |
+  | Devolución pagada | `sp.devolucion` pagada por esa cuenta ±5 días; avisa si hay una aprobada sin pagar |
+  | Proveedor | Pago registrado igual ±5 días, o factura de proveedor pendiente del mismo importe con el proveedor o su número en el concepto |
+  | Importe y fecha | Un único cobro igual ±5 días; avisa de comprobar el ordenante |
+
+  Sin candidato único, el movimiento queda como **excepción** con motivo y prioridad: ingreso sin identificar o cargo
+  sin justificar con categoría sugerida (Seguridad Social, impuestos, nómina, alquiler, comisión, TPV, Bizum,
+  traspaso).
+- **Decisiones de Contabilidad** (solo el grupo «Responsable de caja y cobros (Contabilidad)»; el resto recibe
+  `AccessError`):
+  - **Validar:** concilia. Sustituye la línea transitoria del movimiento por las contrapartidas y las concilia (técnica
+    de `account_reconcile_oca` de la OCA). Un traspaso se concilia contra la cuenta de traspasos internos de la
+    compañía y nunca cuenta como ingreso.
+  - **Rechazar:** con motivo (mínimo 10 caracteres). Esa propuesta no se vuelve a hacer.
+  - **Contabilizar en una cuenta:** con motivo y cuenta (comisiones, Seguridad Social…).
+  - **Ignorar:** con motivo.
+- **Permisos** (`security/`): el grupo de Contabilidad implica «Mostrar características de contabilidad completas»
+  (`account.group_account_user`) para poder crear extractos (08 §12; 12 · INC-87).
+- `odoo/configuracion/banco.py`: IBAN ficticios con dígitos de control válidos para Banco A, B y C.
+- Pruebas `tests/test_banco.py` (10) y escenario `odoo/pruebas/prueba_banco.py`.
+- `odoo/LEEME.md` (apartado «Banco y conciliación»), `odoo/MONTAR_ODOO.bat` y `herramientas/odoo_dev.sh`: instalan
+  `sp_banco` y ejecutan `configuracion/banco.py`.
+- Capturas `documentacion/odoo20_contabilidad/3_banco_movimientos.png` y `4_banco_propuesta_bizum.png`, tomadas como
+  «Contabilidad 1». En la 3, la explicación de la regla de referencia aún muestra un trozo «EXP/2026/0000», corregido
+  después (referencia partida por la Norma 43).
+### Corregido
+- `herramientas/odoo_dev.sh`: ponía `shell` después de las opciones y fallaba al montar de cero (12 · INC-88).
+- Ver también 12 · INC-84 a INC-87 (problemas resueltos durante el desarrollo).
+### Comprobado
+- **10 pruebas de `sp_banco`, 0 fallos:** Norma 43 sin duplicar y con cuadre; no adivina la cuenta; referencia con
+  cobro y sin cobro; importe y fecha y rechazo con motivo; traspaso; ingreso sin identificar y comisión contabilizada;
+  devolución pagada por banco; referencia partida; traspaso importado en dos veces.
+- **Total de los cuatro módulos: 49 pruebas, 0 fallos** (33 `sp_recepcion` + 7 `sp_contabilidad` + 9 `sp_gastos` +
+  10 `sp_banco`). Nota: las estadísticas de Odoo cuentan dos veces algunas clases. El último recuento conjunto fue de
+  47, antes de las 2 últimas pruebas de banco.
+- **Montaje completo de cero** con `herramientas/odoo_dev.sh` y escenarios de recepción, devoluciones, facturas,
+  gastos y banco: todo correcto.
+- **Escenario de banco:** dos Norma 43 ficticios (Banco B y C).
+  - Transferencia con referencia de factura → conciliada y factura pagada.
+  - Traspaso de B a C → «traspaso» en las dos cuentas.
+  - Bizum → propuesto.
+  - Comisión → contabilizada en 626000.
+  - Ingreso sin referencia → excepción.
+### Pendiente
+- TPV con comisión descontada (Sistema Propio lo contemplaba).
+- Elegir a mano otro apunte para conciliar desde la pantalla. Ahora: rechazar y volver a proponer, o contabilizar en
+  una cuenta.
+- Exportación CSV para la gestoría. De momento, exportar desde la lista.
+- Conexión directa con el banco (PSD2): pendiente de decidir.
+- Aviso de actividad laboral o de extranjería de la cuenta. Sistema Propio lo hacía con los expedientes; llegará con
+  ellos.
+- Remesas SEPA: siguiente paso de 19 §6.
+
 ## [DOC-15] · 13/11/2026 — Gastos: nadie aprueba sus propios gastos
 ### Corregido
 - `sp_gastos`: nadie aprueba ni rechaza sus propios gastos, tampoco el grupo «Gastos: Administrador» (Odoo estándar
