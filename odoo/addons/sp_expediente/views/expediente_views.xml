@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sp_expediente_list" model="ir.ui.view">
+        <field name="name">sp.expediente.list</field>
+        <field name="model">sp.expediente</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="estado == 'cerrado'">
+                <field name="name"/>
+                <field name="area"/>
+                <field name="partner_id"/>
+                <field name="descripcion"/>
+                <field name="fecha_apertura"/>
+                <field name="responsable_id" optional="show"/>
+                <field name="estado" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="sp_expediente_form" model="ir.ui.view">
+        <field name="name">sp.expediente.form</field>
+        <field name="model">sp.expediente</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_cerrar" type="object" string="Cerrar" invisible="estado != 'abierto'"/>
+                    <button name="action_reabrir" type="object" string="Reabrir" invisible="estado != 'cerrado'"/>
+                    <field name="estado" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box"/>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <group name="principal">
+                        <group>
+                            <field name="area" readonly="id"/>
+                            <field name="partner_id"/>
+                            <field name="descripcion"/>
+                        </group>
+                        <group>
+                            <field name="fecha_apertura" readonly="id"/>
+                            <field name="responsable_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="sp_expediente_search" model="ir.ui.view">
+        <field name="name">sp.expediente.search</field>
+        <field name="model">sp.expediente</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <filter name="abiertos" string="Abiertos" domain="[('estado', '=', 'abierto')]"/>
+                <filter name="laboral" string="Laboral" domain="[('area', '=', 'laboral')]"/>
+                <filter name="extranjeria" string="Extranjería" domain="[('area', '=', 'extranjeria')]"/>
+                <filter name="group_area" string="Área" context="{'group_by': 'area'}"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_sp_expediente" model="ir.actions.act_window">
+        <field name="name">Expedientes</field>
+        <field name="res_model">sp.expediente</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_abiertos': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Abra el primer expediente</p>
+            <p>Cada expediente tiene un número por área y año (LAB-2026-0001, EXT-2026-0001) que el cliente pone en el
+                concepto de sus transferencias.</p>
+        </field>
+    </record>
+    <menuitem id="menu_sp_expediente" name="Expedientes" parent="account.menu_finance_receivables"
+              action="action_sp_expediente" sequence="0"/>
+</odoo>

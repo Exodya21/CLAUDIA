@@ -24,5 +24,10 @@ for code, ent, ofi, cta in BANCOS:
         iban = iban_es(ent, ofi, cta)
         j.bank_account_id = env["res.partner.bank"].create({"account_number": iban, "partner_id": co.partner_id.id})
         print(f"{j.name}: IBAN ficticio {iban}")
+    # Odoo 20 no emite facturas que muestren una cuenta propia sin verificar («de confianza»). En la instalación real
+    # la verifica una persona autorizada después de comprobar el IBAN con el banco.
+    if j and j.bank_account_id and not j.bank_account_id.allow_out_payment:
+        j.bank_account_id.with_context(install_mode=True).allow_out_payment = True  # el script corre como superusuario
+        print(f"{j.name}: cuenta propia verificada")
 env.cr.commit()
 print("Banco configurado.")

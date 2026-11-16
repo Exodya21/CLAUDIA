@@ -317,10 +317,14 @@ class AccountBankStatementLine(models.Model):
                                                       n=len(lineas), i=eur(self.amount), t=self._sp_texto(lineas)), {})
         return None
 
+    def _sp_reglas(self):
+        """Reglas en orden: gana la primera que decide. Otros módulos (sp_facturacion) insertan las suyas."""
+        return [self._sp_regla_traspaso, self._sp_regla_referencia, self._sp_regla_bizum, self._sp_regla_tpv,
+                self._sp_regla_devolucion, self._sp_regla_proveedor, self._sp_regla_importe_fecha]
+
     def _sp_evaluar(self):
         self.ensure_one()
-        for regla in (self._sp_regla_traspaso, self._sp_regla_referencia, self._sp_regla_bizum, self._sp_regla_tpv,
-                      self._sp_regla_devolucion, self._sp_regla_proveedor, self._sp_regla_importe_fecha):
+        for regla in self._sp_reglas():
             r = regla()
             if r is not None:
                 return r
@@ -336,19 +340,24 @@ class AccountBankStatementLine(models.Model):
                   "contabilícelo en su cuenta con un motivo.", i=eur(-self.amount),
                   c=f" (parece: {cat})" if cat else ""), {"categoria": cat, "prioridad": "media" if cat else "alta"})
 
+    def _sp_valores_reinicio(self):
+        """Lo que se borra antes de volver a proponer (otros módulos añaden sus campos)."""
+        return {"sp_estado": "pendiente", "sp_propuesta_aml_ids": [Command.clear()], "sp_contrapartida_id": False,
+                "sp_ajuste_importe": 0.0, "sp_ajuste_cuenta_id": False}
+
     def _sp_proponer(self):
         """Agente de conciliación: deja propuestas y excepciones. No concilia nada."""
         # El agente lee cobros, facturas y devoluciones de todo el despacho para proponer (no cambia nada de ellos):
         # se ejecuta como superusuario técnico. Validar sí exige el grupo de Contabilidad.
         for st in self.sudo().filtered(lambda s: not s.is_reconciled and s.sp_estado in ("pendiente", "excepcion", "propuesto")):
-            st.write({"sp_estado": "pendiente", "sp_propuesta_aml_ids": [Command.clear()], "sp_contrapartida_id": False,
-                      "sp_ajuste_importe": 0.0, "sp_ajuste_cuenta_id": False})
+            st.write(st._sp_valores_reinicio())
             estado, regla, explicacion, extra = st._sp_evaluar()
             cuenta_ajuste, ajuste = extra.get("ajuste", (self.env["account.account"], 0.0))
             st.write({"sp_ajuste_importe": ajuste, "sp_ajuste_cuenta_id": cuenta_ajuste.id or False,"sp_estado": estado, "sp_regla": regla, "sp_explicacion": explicacion,
                       "sp_categoria": extra.get("categoria"), "sp_prioridad": extra.get("prioridad", "media"),
                       "sp_propuesta_aml_ids": [Command.set(extra.get("lineas", self.env["account.move.line"]).ids)],
-                      "sp_contrapartida_id": extra.get("contrapartida", self.browse()).id or False})
+                      "sp_contrapartida_id": extra.get("contrapartida", self.browse()).id or False,
+                      **extra.get("vals", {})})
         return True
 
     def action_sp_proponer(self):

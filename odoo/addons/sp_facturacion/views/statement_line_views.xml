@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sp_banco_movimiento_form_expediente" model="ir.ui.view">
+        <field name="name">account.bank.statement.line.form.sp_facturacion</field>
+        <field name="model">account.bank.statement.line</field>
+        <field name="inherit_id" ref="sp_banco.sp_banco_movimiento_form"/>
+        <field name="arch" type="xml">
+            <field name="sp_regla" position="after">
+                <field name="sp_expediente_id" invisible="not sp_expediente_id"/>
+                <field name="sp_factura_expediente_id" invisible="not sp_factura_expediente_id"/>
+            </field>
+        </field>
+    </record>
+    <record id="sp_banco_movimiento_list_expediente" model="ir.ui.view">
+        <field name="name">account.bank.statement.line.list.sp_facturacion</field>
+        <field name="model">account.bank.statement.line</field>
+        <field name="inherit_id" ref="sp_banco.sp_banco_movimiento_list"/>
+        <field name="arch" type="xml">
+            <field name="sp_regla" position="after">
+                <field name="sp_expediente_id" optional="show"/>
+            </field>
+        </field>
+    </record>
+</odoo>

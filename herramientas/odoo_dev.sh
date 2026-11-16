@@ -19,10 +19,11 @@ if ! docker compose exec -T db psql -U odoo -lqt | cut -d'|' -f1 | grep -qw sp_c
   $ODOO -d sp_contable -i account,l10n_es,l10n_co,l10n_es_edi_verifactu --load-language=es_ES --stop-after-init --no-http --log-level=warn
   $SHELL_ODOO -d sp_contable --no-http --log-level=error < configuracion/base_contable.py | tail -1
   docker compose restart odoo >/dev/null
-  $ODOO -d sp_contable -i sp_recepcion,sp_contabilidad,sp_gastos,sp_banco --stop-after-init --no-http --log-level=warn
+  $ODOO -d sp_contable -i sp_recepcion,sp_contabilidad,sp_gastos,sp_banco,sp_expediente,sp_facturacion --stop-after-init --no-http --log-level=warn
   $SHELL_ODOO -d sp_contable --no-http --log-level=error < configuracion/recepcion.py | tail -1
   $SHELL_ODOO -d sp_contable --no-http --log-level=error < configuracion/gastos.py | tail -1
   $SHELL_ODOO -d sp_contable --no-http --log-level=error < configuracion/banco.py | tail -1
+  $SHELL_ODOO -d sp_contable --no-http --log-level=error < configuracion/facturacion.py | tail -1
 fi
 if [ -n "${1:-}" ]; then
   $ODOO -d sp_contable -i "$1" -u "$1" --stop-after-init --log-level=warn

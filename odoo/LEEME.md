@@ -19,6 +19,10 @@ Aquí está lo que se construye sobre **Odoo 20 Community** (decisión del 13/11
 | `pruebas/prueba_gastos.py` | Escenario: ticket de comida pagado con la caja de Barcelona (una vez) |
 | `addons/sp_banco/` | **Banco y conciliación**: importar extractos (Norma 43, CAMT.053, CSV, Excel) sin duplicar y con cuadre de saldos, y propuestas de conciliación explicadas que valida Contabilidad |
 | `configuracion/banco.py` | IBAN ficticios para los bancos de la S.L. (cada extracto va a su cuenta por los últimos dígitos) |
+| `addons/sp_expediente/` | **Expedientes (base)**: número por área y año (`LAB-2026-0001`, `EXT-2026-0001`), cliente y estado |
+| `addons/sp_facturacion/` | **Facturación por expediente**: honorarios pactados; cada pago con el número de expediente en el concepto prepara su factura de anticipo (IVA y retención) y el último, la factura final que descuenta los anticipos; Contabilidad valida con un clic |
+| `configuracion/facturacion.py` | Anticipos de clientes a la cuenta 438 (provisional, pendiente de la gestoría) |
+| `pruebas/prueba_expediente.py` | Escenario: expediente de una empresa pagado en dos transferencias con su número en el concepto (una vez) |
 | `pruebas/prueba_banco.py` | Escenario: dos extractos Norma 43 ficticios con transferencia con referencia, Bizum, traspaso, comisión e ingreso sin identificar (una vez) |
 | `addons/` | Módulos propios `sp_*` (ver documento 19 §5) |
 

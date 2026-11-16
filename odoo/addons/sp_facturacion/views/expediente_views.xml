@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sp_expediente_form_facturacion" model="ir.ui.view">
+        <field name="name">sp.expediente.form.facturacion</field>
+        <field name="model">sp.expediente</field>
+        <field name="inherit_id" ref="sp_expediente.sp_expediente_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_sp_fijar_honorarios" type="object" string="Fijar honorarios" class="btn-primary"
+                        invisible="sale_order_id or not sp_honorarios"/>
+            </xpath>
+            <div name="button_box" position="inside">
+                <button name="action_sp_ver_facturas" type="object" class="oe_stat_button" icon="fa-file-text-o"
+                        invisible="not sp_num_facturas">
+                    <field name="sp_num_facturas" widget="statinfo" string="Facturas"/>
+                </button>
+            </div>
+            <group name="principal" position="after">
+                <group string="Honorarios y cobro">
+                    <group>
+                        <field name="sp_honorarios" readonly="sale_order_id"/>
+                        <field name="sp_retencion" readonly="sale_order_id"/>
+                        <field name="sale_order_id" invisible="1"/>
+                    </group>
+                    <group>
+                        <field name="sp_total_pactado"/>
+                        <field name="sp_facturado"/>
+                        <field name="sp_pendiente"/>
+                        <field name="sp_estado_cobro" widget="badge"/>
+                    </group>
+                </group>
+                <p class="text-muted" invisible="not sale_order_id">
+                    El cliente debe poner el número del expediente en el concepto de cada transferencia. Cada pago genera
+                    su factura de anticipo con IVA (y retención) cuando Contabilidad lo valida en Banco; con el último pago
+                    se emite la factura final que descuenta los anticipos.
+                </p>
+            </group>
+        </field>
+    </record>
+    <record id="sp_expediente_list_facturacion" model="ir.ui.view">
+        <field name="name">sp.expediente.list.facturacion</field>
+        <field name="model">sp.expediente</field>
+        <field name="inherit_id" ref="sp_expediente.sp_expediente_list"/>
+        <field name="arch" type="xml">
+            <field name="estado" position="before">
+                <field name="sp_total_pactado" optional="show"/>
+                <field name="sp_pendiente" optional="show"/>
+                <field name="sp_estado_cobro" widget="badge" optional="show"/>
+            </field>
+        </field>
+    </record>
+</odoo>

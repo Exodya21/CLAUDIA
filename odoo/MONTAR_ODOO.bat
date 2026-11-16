@@ -29,16 +29,17 @@ if errorlevel 1 goto :error
 docker compose exec -T odoo odoo shell -d sp_contable --db_host=db -r odoo -w odoo --no-http < configuracion\base_contable.py
 docker compose restart odoo
 echo      Instalando los modulos del despacho (Recepcion, Contabilidad, Gastos y Banco)...
-docker compose exec -T odoo odoo -d sp_contable -i sp_recepcion,sp_contabilidad,sp_gastos,sp_banco --stop-after-init --no-http --db_host=db -r odoo -w odoo
+docker compose exec -T odoo odoo -d sp_contable -i sp_recepcion,sp_contabilidad,sp_gastos,sp_banco,sp_expediente,sp_facturacion --stop-after-init --no-http --db_host=db -r odoo -w odoo
 if errorlevel 1 goto :error
 docker compose exec -T odoo odoo shell -d sp_contable --db_host=db -r odoo -w odoo --no-http < configuracion\recepcion.py
 docker compose exec -T odoo odoo shell -d sp_contable --db_host=db -r odoo -w odoo --no-http < configuracion\gastos.py
 docker compose exec -T odoo odoo shell -d sp_contable --db_host=db -r odoo -w odoo --no-http < configuracion\banco.py
+docker compose exec -T odoo odoo shell -d sp_contable --db_host=db -r odoo -w odoo --no-http < configuracion\facturacion.py
 goto :abrir
 
 :ya_existe
 echo  3/4 La base sp_contable ya existe: se actualizan los modulos del despacho...
-docker compose exec -T odoo odoo -d sp_contable -u sp_recepcion,sp_contabilidad,sp_gastos,sp_banco --stop-after-init --no-http --db_host=db -r odoo -w odoo
+docker compose exec -T odoo odoo -d sp_contable -u sp_recepcion,sp_contabilidad,sp_gastos,sp_banco,sp_expediente,sp_facturacion --stop-after-init --no-http --db_host=db -r odoo -w odoo
 
 :abrir
 echo  4/4 Reiniciando Odoo...
