@@ -13,11 +13,27 @@ Sistema Propio · versión F5.6 · 12/11/2026
 
 En Odoo, estos procesos pasan a `ir.cron` (agentes, cola `mail.mail`) y a una tarea del sistema (copias).
 
+**Odoo 20 · conexión directa con el banco** (`sp_banco_psd2`; 11 · DOC-20; activa solo cuando se decida
+18 · AL-16):
+
+| Proceso | Frecuencia | Dónde | Qué hace |
+|---|---|---|---|
+| Descarga de movimientos (PSD2) | Cada 6 horas | Tarea «Banco: descargar movimientos de las conexiones directas (PSD2)» (`ir.cron`, `_sp_cron`) | Descarga los movimientos contabilizados de cada cuenta unida a un diario: la primera vez, 90 días; después, desde la última fecha menos 3 días, sin duplicar. Los registra como un extracto y el agente propone. Avisa 15 días antes de caducar la autorización y marca «Caducada» al vencer |
+
+- **Límite de consultas:** los bancos permiten unas **4 consultas al día** por cuenta sin el titular presente. Por
+  eso la tarea va cada 6 horas: **no acorte el intervalo**. Si el banco responde que se ha superado el límite (429),
+  la conexión sigue activa y se reintenta en la siguiente vuelta. «Descargar movimientos ahora» también consulta
+  al banco: úselo con moderación.
+- **Renovación cada 180 días:** cada banco exige volver a autorizar la lectura de cuentas como máximo cada 180 días
+  (modificación de las RTS de la EBA). Odoo pide 179 días y avisa a Contabilidad 15 días antes con una actividad.
+
 ## 2. Rutinas de operación
 ### Diaria
 - Comprobar que la copia de la noche figura como **Válida** en Administración → Copias de seguridad.
 - Revisar «Pendientes de decidir» de cada departamento (lo hace cada responsable).
 - Contabilidad: la rutina indica qué falta, sin que nadie tenga que acordarse.
+- Odoo 20 · Contabilidad: si hay conexiones directas con el banco, comprobar que ninguna está en «Caducada» o
+  «Error» y atender las actividades de renovación (15 §10e).
 
 ### Semanal
 - Copiar la copia más reciente fuera del servidor (cifrada).
@@ -97,6 +113,7 @@ Solo con autorización de Dirección; queda anotado en la auditoría.
 | Errores | Registro de la API (5xx, con `request_id`) | Picos |
 | Seguridad | Auditoría `denied`, bloqueos por intentos fallidos | Picos de una IP o un usuario |
 | Cola de correo | Pendientes en `comm_outbox` | > 1 h sin enviar |
+| Odoo 20 · conexión directa con el banco | Estado de cada conexión y «Última sincronización» (`sp_banco_psd2`) | Una conexión «Caducada» o «Error», o más de 24 h sin sincronizar |
 
 ## 7. Tareas de mantenimiento de datos
 - **Nada se borra físicamente.** Para «limpiar», se anula o se archiva con motivo.

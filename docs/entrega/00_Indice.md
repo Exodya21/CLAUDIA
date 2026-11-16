@@ -70,7 +70,9 @@ en el repositorio (`docs/entrega/`) junto al código y se actualiza con él. Se 
     IBAN ni extractos originales en claro (11 · DOC-19).
   - `odoo/.env` (**no está en el repositorio**): clave de cifrado `SP_CLAVE_CIFRADO`, que crea el montaje la primera
     vez (09 · Anexo C; 14 §11).
-  - `odoo/MONTAR_ODOO.bat`: montaje completo en Windows con un doble clic (base contable y los siete módulos;
+  - `odoo/secretos/` (**no está en el repositorio**, carpeta en `.gitignore`): clave privada `.pem` de la conexión
+    directa con el banco, que se monta en el contenedor en solo lectura (09 · Anexo C; 14 §12; 11 · DOC-20).
+  - `odoo/MONTAR_ODOO.bat`: montaje completo en Windows con un doble clic (base contable y los ocho módulos;
     09 · Anexo C).
   - `odoo/addons/`: módulos propios `sp_*` (19 §5): `odoo/addons/sp_recepcion/` (Recepción, cajas y devoluciones),
     `odoo/addons/sp_contabilidad/` (facturas de proveedores: lectura en el servidor, cuadre y aviso de repetidas;
@@ -80,7 +82,9 @@ en el repositorio (`docs/entrega/`) junto al código y se actualiza con él. Se 
     con pago parcial, exportación CSV para la gestoría y original cifrado; 19 §3.3), `odoo/addons/sp_expediente/` (expediente mínimo
     con número `LAB-2026-0001`; 18 · AL-07), `odoo/addons/sp_facturacion/` (honorarios por expediente y cobro por
     número de expediente con factura de anticipo y factura final; 19 §3.7) y `odoo/addons/sp_cifrado/` (IBAN y
-    extractos originales cifrados con la clave fuera de la base de datos; 08 §3.1).
+    extractos originales cifrados con la clave fuera de la base de datos; 08 §3.1) y `odoo/addons/sp_banco_psd2/`
+    (conexión directa con el banco por PSD2 a través de Enable Banking, hecha en desarrollo y sin activar;
+    19 §3.3; 18 · AL-16).
 - `herramientas/odoo_dev.sh`: levanta Odoo 20 de pruebas en Linux o en el entorno en la nube (09 · Anexo C).
 - `documentacion/odoo20_base_contable/`: capturas de la prueba de la base contable (datos ficticios).
 - `documentacion/odoo20_recepcion/`: capturas de Recepción y cajas en Odoo 20 (cobros, cobro con justificante,
@@ -89,7 +93,8 @@ en el repositorio (`docs/entrega/`) junto al código y se actualiza con él. Se 
   (factura leída; gasto de un ticket pagado en efectivo, tomada antes de corregir el IVA; movimientos del banco, con un
   trozo de referencia ya corregido; propuesta de un Bizum; liquidación de TPV conciliada con la comisión a la 626000,
   `5_banco_tpv_comision.png`; expediente pagado, `6_expediente_pagado.png`, y factura final que descuenta los
-  anticipos, `7_factura_final_descuenta_anticipos.png`; datos ficticios).
+  anticipos, `7_factura_final_descuenta_anticipos.png`; conexión directa con el banco simulada, con los IBAN
+  enmascarados, `8_banco_conexion_psd2.png`; datos ficticios).
 - `documentacion/cuestionarios/`: cuestionario para la gestoría sobre el plan de cuentas
   (`Cuestionario_gestoria_plan_de_cuentas.docx`; T-40 y 18 · AL-06/AL-13; 11 · DOC-6).
 

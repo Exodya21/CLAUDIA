@@ -112,3 +112,42 @@ montaje la crea la primera vez (09 · Anexo C). Guarde enseguida una copia segur
   (08 §12).
 - Si sospecha que la clave se ha expuesto: trátelo como incidente de seguridad (§10) y avise al equipo de desarrollo
   (hace falta la rotación, aún sin procedimiento).
+
+## 12. Odoo 20 · conexión directa con el banco (PSD2)
+Desde el 16/11/2026 (11 · DOC-20), el módulo `sp_banco_psd2` descarga solo los movimientos de las cuentas del
+despacho a través del agregador **Enable Banking** (18 §2.1). Está instalado pero **desactivado**: no se activa hasta
+que la Dirección decida 18 · AL-16.
+
+**Activarlo (una vez):**
+1. **Decisión de la Dirección (AL-16):** alta de la empresa en Enable Banking y **encargo del tratamiento** firmado
+   (art. 28 RGPD), con la confirmación por escrito de la gratuidad para cuentas propias. Anótelo en el registro de
+   actividades de tratamiento (con el DPO).
+2. En el portal de Enable Banking, la persona autorizada crea la **aplicación** en el modo restringido y registra la
+   **URL de vuelta**: la dirección de Odoo seguida de `/sp_banco_psd2/vuelta`, con `https` en producción (la muestra
+   la pantalla de la conexión, en «Dirección de vuelta», solo a los administradores del sistema).
+3. La **clave privada `.pem`** de la aplicación la genera y la guarda esa persona directamente en el servidor, en
+   `odoo/secretos/`. **Nunca** se envía por correo ni por chat, ni se sube al repositorio. Haga una copia en el gestor
+   de secretos, como la clave de cifrado (§11).
+4. Ponga `SP_EB_APP_ID` (id de la aplicación) y `SP_EB_CLAVE` (ruta del `.pem` dentro del contenedor, en
+   `/secretos/`) y reinicie Odoo (09 · Anexo C).
+5. **Pruebe antes con el entorno de pruebas del agregador** (`SP_EB_API`) desde un equipo con Internet (12 · ABI-08).
+6. Contabilidad crea una conexión por banco y la autoriza en la banca del despacho (15 §10e). Compruebe que cada
+   cuenta queda unida a su diario.
+
+**Renovarlo:** la autorización de cada banco dura como máximo **180 días** (Odoo la pide por 179). Quince días antes,
+Odoo crea una actividad para Contabilidad; la renueva Contabilidad con **Renovar la autorización** (15 §10e). Si
+caduca, la conexión pasa a «Caducada» y deja de descargar hasta que se renueve; los extractos se pueden seguir
+importando a mano.
+
+**Cambiar o retirar las credenciales:**
+
+| Situación | Qué hacer |
+|---|---|
+| La clave `.pem` se ha expuesto o hay que cambiarla | Trátelo como incidente de seguridad (§10). Genere otra clave en el portal del agregador, sustituya el archivo en `odoo/secretos/`, actualice `SP_EB_CLAVE` si cambia el nombre y reinicie Odoo. Revoque la clave antigua en el agregador |
+| Dejar de usar la conexión | Contabilidad pulsa **Revocar** en cada conexión (cierra la sesión en el agregador). Después, vacíe `SP_EB_APP_ID` y `SP_EB_CLAVE` y reinicie Odoo |
+| Cambia la dirección de Odoo | Cambie la URL de vuelta registrada en el agregador |
+
+- **Límite de consultas:** los bancos permiten unas 4 consultas al día sin el titular presente; la tarea va cada 6
+  horas (13 §1). No acorte ese intervalo.
+- **Respaldo sin PSD2:** pedir a cada banco el envío diario de la Norma 43 (SFTP, EDITRAN o banca electrónica), que
+  entra por el importador ya hecho.

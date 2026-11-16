@@ -799,3 +799,45 @@ Comprobado en `odoo/addons/sp_cifrado/` (versión 20.0.1.0.0; 11 · DOC-19). Qu�
 |---|---|
 | `models/res_partner_bank.py` · `_search_account_number` | Búsqueda por trozos: descifra en memoria todas las cuentas para encontrar los identificadores que contienen el trozo. Devuelve solo identificadores; la búsqueda del usuario sigue aplicando sus reglas de acceso |
 | `models/res_partner_bank.py` · `create` y `write` | Anotar el alta o el cambio del IBAN, **enmascarado**, en el historial del contacto aunque el usuario no pueda escribir en él |
+
+## 15. Odoo 20 · Conexión directa con el banco (`sp_banco_psd2`)
+Comprobado en `odoo/addons/sp_banco_psd2/` (versión 20.0.1.0.0; 11 · DOC-20). No crea grupos nuevos: usa el grupo
+«Responsable de caja y cobros (Contabilidad)» de `sp_recepcion` (§10). Es una externalización parcial a un
+agregador (18 §2.1); no se activa hasta decidir 18 · AL-16.
+
+| Acción | Recepción | Personal de facturación | Responsable de caja y cobros (Contabilidad) |
+|---|---|---|---|
+| Ver el menú **Banco → Conexión directa (PSD2)** y las conexiones | No | No | Sí |
+| Crear una conexión, **Autorizar en el banco** o **Renovar la autorización** | No | No (`AccessError`; prueba `test_permisos_y_sin_configurar`) | Sí |
+| Volver del banco (`/sp_banco_psd2/vuelta`) | No (el controlador exige el grupo) | No | Sí, y solo con un `state` válido y sin usar |
+| **Descargar movimientos ahora** y **Revocar** | No | No | Sí |
+| Elegir a mano el diario de una cuenta sin IBAN coincidente | No | No | Sí. Una restricción impide unirla al diario de otra cuenta |
+
+- **Multicompañía:** reglas sin grupo sobre `sp.banco.conexion` y `sp.banco.conexion.cuenta`
+  (`company_id in company_ids`).
+- **Campos solo para administradores del sistema** (`base.group_system`): el `state` de la autorización
+  (`estado_token`), la sesión del agregador (`sesion_id`, cifrada) y el identificador de la cuenta en el agregador
+  (`uid`, cifrado). Contabilidad no los ve.
+- **Cifrado** (con `sp_cifrado`, §14): sesión, identificador de la cuenta e IBAN. La pantalla muestra el IBAN
+  **enmascarado**. El original de cada descarga (JSON) se guarda cifrado como en un extracto (§12).
+- **Credenciales fuera de la base de datos:** `SP_EB_APP_ID` y `SP_EB_CLAVE` (ruta de la clave privada `.pem`, en
+  `odoo/secretos/`, carpeta fuera del repositorio y montada en solo lectura; 09 · Anexo C). Sin ellas la conexión
+  está desactivada y avisa con un error claro.
+- **Una única salida a la red** (`proveedores/enablebanking.py`, `_http`). No se guarda el cuerpo de las respuestas
+  de error del agregador.
+- **Nada se concilia solo:** los movimientos descargados entran como un extracto y el agente solo propone
+  (18 · AL-12).
+- **Diferencia con Sistema Propio:** allí el IBAN solo mostraba los 4 últimos dígitos. Aquí la conexión lo
+  enmascara, pero el IBAN de un contacto lo ve completo quien tiene acceso al modelo (§14).
+
+### 15.1 `sudo()` en el módulo (para revisar en la auditoría)
+| Dónde | Para qué |
+|---|---|
+| `models/conexion.py` · `_compute_url_vuelta` | Leer el parámetro `web.base.url` para construir la dirección de vuelta |
+| `models/conexion.py` · `action_autorizar` | Guardar el `state` de un solo uso (campo solo para administradores), después de comprobar el grupo de Contabilidad |
+| `models/conexion.py` · `_sp_vuelta` | Buscar la conexión por el `state` (campo solo para administradores), después de comprobar el grupo de Contabilidad |
+| `models/conexion.py` · `_sp_guardar_sesion` | Buscar los diarios de banco de la compañía para unir cada cuenta por IBAN exacto |
+| `models/conexion.py` · `action_revocar` | Leer la sesión cifrada para cerrarla en el agregador y borrarla, después de comprobar el grupo |
+| `models/conexion.py` · `_sp_sincronizar` | Leer las conexiones activas y sus cuentas para descargar. Se usa desde el botón (con el grupo comprobado) y desde la tarea programada |
+| `models/conexion.py` · `_sp_cron` | La tarea programada lee las conexiones activas como sistema (12 · INC-96) |
+| `models/conexion.py` · `SpBancoConexionCuenta._sp_registrar` | Buscar movimientos ya registrados (sin duplicar) y registrar los nuevos con `sp.banco.importacion._sp_registrar`, como una importación de extracto |

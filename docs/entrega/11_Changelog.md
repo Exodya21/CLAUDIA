@@ -3,6 +3,96 @@
 Sistema Propio · 12/11/2026. Formato inspirado en *Keep a Changelog*. Las versiones siguen los incrementos del plan
 (F0.1 … F5.6). Los cambios de base de datos se indican con su migración.
 
+## [DOC-20] · 16/11/2026 — Odoo 20: conexión directa con el banco (PSD2) a través de Enable Banking (sp_banco_psd2)
+Paso 4 del orden de trabajo (18 §5), marcado como **importante** por el usuario. Módulo nuevo
+`odoo/addons/sp_banco_psd2` (**20.0.1.0.0**; depende de `sp_banco` y `sp_cifrado`). Está **hecho en desarrollo,
+pero no activado**: falta el alta en el agregador y el encargo del tratamiento (18 · AL-16). Todo con datos
+ficticios y con el agregador simulado.
+### Investigación (16/11/2026)
+| Opción | Resultado |
+|---|---|
+| Conectarse directamente a la API PSD2 de cada banco | **No viable.** Leer cuentas (AIS) exige ser AISP inscrito en el Banco de España (RDL 19/2018) o tener pasaporte UE, seguro y certificados eIDAS. Tramitación de varios meses (fuente: Banco de España, `Taller_SAA_Licencias.pdf`) |
+| GoCardless Bank Account Data (antes Nordigen) | No admite altas nuevas desde julio de 2025 (`bankaccountdata.gocardless.com/new-signups-disabled`) |
+| Tink, Salt Edge, Yapily, Powens (absorbió Unnax), Afterbanks | Producción por contrato y volumen, orientados a servicios a terceros |
+| Ponto | No cubre España |
+| **Enable Banking** (elegido) | AISP supervisado por la FIN-FSA de Finlandia, con pasaporte en el EEE. Modo «restricted production» **gratuito** para leer cuentas vinculadas por el propio titular, según su FAQ y sus condiciones (**hay que confirmarlo por escrito** al darse de alta). Cubre España (muchos bancos van por el hub PSD2 de Redsys). Datos en la UE |
+| OCA `account_statement_import_online` | Existe en 16.0–19.0 (GoCardless, Ponto, PayPal, Stripe…). La rama 20.0 está vacía y no hay conector para Enable Banking. Por eso, desarrollo propio |
+
+- **Criterio de 18 §2:** desarrollo propio (paso 3) para la integración, reutilizando el importador de `sp_banco`,
+  más **externalización parcial** del servicio de agregación (paso 4). Motivo, proveedor, datos que salen y RGPD:
+  18 §2.1.
+- **Renovación:** la autenticación reforzada para leer cuentas se renueva cada **180 días** (modificación de las RTS
+  de la EBA, EBA/CP/2021/32).
+- **API comprobada** con la muestra oficial `github.com/enablebanking/enablebanking-api-samples`
+  (`python_example/account_information.py`, 30/03/2026): JWT RS256 con `kid` = id de la aplicación, `iss`
+  «enablebanking.com», `aud` «api.enablebanking.com», 1 hora; `GET /aspsps`, `POST /auth`, `POST /sessions`,
+  `GET` y `DELETE /sessions/{id}`, `GET /accounts/{uid}/transactions` con `continuation_key`. La documentación web
+  de enablebanking.com **no se pudo abrir** desde el entorno en la nube (12 · INC-97).
+### Añadido
+- **`sp_banco_psd2`:**
+  - `proveedores/enablebanking.py`: cliente mínimo. El JWT se firma con `cryptography`, sin PyJWT. Una única salida a
+    la red (`_http`). **Credenciales fuera de la base de datos:** `SP_EB_APP_ID` (id de la aplicación) y
+    `SP_EB_CLAVE` (ruta del `.pem`), por variable de entorno o archivo de configuración (`sp_eb_app_id`,
+    `sp_eb_clave`); `SP_EB_API`, opcional, para el entorno de pruebas del agregador. Errores: 429 (límite del banco,
+    se reintenta en la siguiente vuelta) y 401, 403 o 410 (consentimiento caducado o revocado). No se guarda el
+    cuerpo de las respuestas de error.
+  - **Conversión:** solo movimientos **contabilizados** (BOOK); los pendientes se ignoran hasta que se contabilizan.
+    El signo sale de `credit_debit_indicator`. Se extraen el concepto (`remittance_information`), la contraparte y
+    su IBAN. El identificador estable es una huella de varios datos más un contador, porque `entry_reference` no es
+    único en todos los bancos.
+  - **Modelo `sp.banco.conexion`** (con historial y actividades). Estados: sin autorizar, esperando la autorización
+    del banco, activa, caducada, revocada y error. Botones:
+    - **Autorizar en el banco** o **Renovar la autorización**: consentimiento de 179 días, `state` aleatorio de un
+      solo uso y tipo de banca «Empresa».
+    - Vuelta por el controlador `/sp_banco_psd2/vuelta`, que exige el grupo de Contabilidad: crea la sesión, la
+      guarda **cifrada** y lee las cuentas. Cada cuenta se une al diario cuyo IBAN coincide **exactamente**; si no
+      coincide, se elige a mano, y una restricción impide unirla al diario de otra cuenta.
+    - **Descargar movimientos ahora** y **Revocar** (cierra la sesión en el agregador).
+  - **Modelo `sp.banco.conexion.cuenta`:** identificador en el agregador e IBAN **cifrados**; la pantalla muestra el
+    IBAN enmascarado.
+  - **Tarea programada cada 6 horas** (los bancos limitan las consultas sin el titular presente a unas 4 al día). La
+    primera carga es de **90 días**; después se pide desde la última fecha menos **3 días**, y lo repetido no se
+    duplica. Los movimientos se registran con `sp.banco.importacion._sp_registrar`, igual que un extracto: el
+    original (JSON) se guarda cifrado y el agente propone. Actividad para Contabilidad **15 días antes** de caducar;
+    al caducar, la conexión pasa a «Caducada».
+  - Permisos: solo Contabilidad (`sp_recepcion.group_sp_responsable`), con regla multicompañía (08 §15).
+  - Menú **Banco → Conexión directa (PSD2)**.
+- Captura `documentacion/odoo20_contabilidad/8_banco_conexion_psd2.png`: conexión simulada con datos ficticios (ya
+  borrada), una cuenta unida al Banco A y otra sin diario, con los IBAN enmascarados.
+### Cambiado
+- **`sp_banco`:** `_sp_importar` se separa en la lectura del archivo y `_sp_registrar`, que reutiliza la conexión
+  directa. La línea leída (`Line`) incorpora `counterparty_iban`, que se guarda cifrado en el IBAN de la contrapartida
+  del movimiento.
+- **Montaje:** `odoo/docker-compose.yml` pasa `SP_EB_APP_ID` y `SP_EB_CLAVE` y monta `odoo/secretos/` en
+  `/secretos`, en solo lectura. La carpeta está en `.gitignore`. `herramientas/odoo_dev.sh` y `odoo/MONTAR_ODOO.bat`
+  instalan el módulo. `odoo/LEEME.md` tiene las filas de `sp_cifrado`, `sp_banco_psd2` y `prueba_cifrado.py`, con el
+  aviso de la clave. Sin credenciales, la conexión queda desactivada con un error claro (09 · Anexo C).
+### Corregido
+- La tarea programada fallaba por permisos al leer las conexiones: se ejecuta como sistema (12 · INC-96).
+### Comprobado
+- **`sp_banco_psd2`: 7 pruebas** (`tests/test_psd2.py`), con el agregador simulado (no sale nada a la red): token
+  firmado y verificable; autorización con cuentas unidas por IBAN exacto, sesión cifrada en la base y `state` de un
+  solo uso; sincronización con dos páginas (solo contabilizados, IBAN de la contraparte, propuestas hechas, sin
+  duplicar al repetir y periodo desde la última fecha menos 3 días); límite del banco (429) y caducidad (401) con la
+  actividad; aviso 15 días antes y caducada al vencer; permisos y servidor sin configurar; revocar.
+- **Base recreada desde cero:** 8 escenarios de `odoo/pruebas/` correctos.
+- **Todos los módulos `sp_*`: 74 pruebas sin fallos** en una ejecución conjunta de los 8 módulos.
+- **Sin comprobar:** la conexión real con el agregador, ni siquiera con su entorno de pruebas (12 · ABI-08).
+### Pendiente (a cargo del despacho; 18 · AL-16)
+1. Alta de la empresa en Enable Banking y creación de la aplicación en el modo restringido. Registrar la URL de vuelta
+   (`https` en producción). La clave `.pem` la genera y la guarda en el servidor la persona autorizada; **nunca** se
+   envía por correo, por chat ni al repositorio (14 §12).
+2. Pedir y firmar el encargo del tratamiento (art. 28 RGPD) y confirmar por escrito la gratuidad para cuentas propias.
+3. Probar con el entorno de pruebas (sandbox) del agregador desde un equipo con Internet (12 · ABI-08).
+4. Autorizar cada banco y renovar cada 180 días (15 §10e; 13 §2).
+5. Como respaldo, pedir a cada banco el envío diario de la Norma 43 (SFTP, EDITRAN o banca electrónica), que entra
+   por el importador ya hecho.
+### Diferencia anotada
+- En Sistema Propio el IBAN solo mostraba los 4 últimos dígitos. Aquí la conexión los enmascara, pero el IBAN de un
+  contacto lo ve completo quien tiene acceso al modelo (08 §14).
+### Siguiente
+- Paso 5 del orden (18 §5): facturación a clientes con Verifactu.
+
 ## [DOC-19] · 16/11/2026 — Odoo 20: cifrado del IBAN y de los extractos originales (sp_cifrado)
 Paso 3 del orden de trabajo (18 §5). Módulo nuevo `odoo/addons/sp_cifrado` (**20.0.1.0.0**) y `sp_banco` pasa a
 **20.0.1.2.0**. Recupera en Odoo 20 el cifrado de columna y de archivos de Sistema Propio (08 §3). Todo con datos

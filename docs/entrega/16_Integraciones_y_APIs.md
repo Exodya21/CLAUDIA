@@ -35,7 +35,7 @@ Sistema Propio · versión F5.6 · 12/11/2026. Especificación completa y ejecut
 | **MNProgram** (importar expedientes activos y plazos) | Pendiente de decisión. MNP no exporta todo en Excel | Importador por lotes con validación, aviso de duplicados **sin fusión** y la fecha legal como «pendiente de validar» |
 | **Callbell / WhatsApp** | T-31 en revisión | Adaptador con cola: plantillas aprobadas de WhatsApp Business, webhooks de entrada con firma, conversación vinculada al expediente. En Odoo, un conector propio (el módulo WhatsApp es Enterprise) |
 | SMS / push | T-35 | Adaptador con cola |
-| Bancos por PSD2 (agregador) | Pendiente de elegir proveedor | El proveedor regulado (AISP) entrega los movimientos; el sistema los trata como un extracto más (misma idempotencia) |
+| Bancos por PSD2 (agregador) | **Odoo 20 (16/11/2026):** elegido **Enable Banking**; hecho en desarrollo con `sp_banco_psd2` y sin activar hasta el alta y el encargo del tratamiento (18 §2.1 y AL-16; 19 §3.3; 11 · DOC-20) | El proveedor regulado (AISP) entrega los movimientos; el sistema los trata como un extracto más (misma idempotencia) |
 | Facturación certificada (VeriFactu) | D-07, D-25 | Programa homologado: el sistema le pasa los datos y guarda la referencia (`invoice_ref`) |
 | Firma electrónica | Pendiente | Proveedor cualificado (eIDAS) por adaptador |
 | DEHú / LexNET | D-09: sin automatismo | Solo con interfaz autorizada y autorización del profesional |

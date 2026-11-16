@@ -150,6 +150,15 @@ Al desarrollar el cifrado del IBAN y de los extractos originales (11 · DOC-19).
 | INC-94 | 16/11 | Error al importar `content_disposition` en el controlador de descarga del original | En Odoo 20 está en `odoo.http.stream`, no en `odoo.http` | `controllers/original.py` (`sp_banco`) lo importa de `odoo.http.stream` | Comprobar en el código de Odoo 20 la ruta de las utilidades HTTP antes de usarlas |
 | INC-95 | 16/11 | El descifrado previsto al pasar el valor a la caché del ORM (`convert_to_cache`) no se aplicaba a los IBAN leídos de la base de datos | Odoo 20 carga los valores leídos de la base de datos con `_insert_cache`, sin pasar por `convert_to_cache` | `CharCifrado` (`models/campo.py`) descifra en `_insert_cache` y cifra en `convert_to_column` | Prueba «IBAN cifrado en la base y en claro en Odoo» (`tests/test_cifrado.py`). Revisarlo al actualizar Odoo: es un método interno del ORM |
 
+## 4j. Odoo 20 · sp_banco_psd2 (conexión directa con el banco)
+Al desarrollar la conexión directa con el banco por PSD2 a través de Enable Banking (11 · DOC-20). Entorno: Docker
+con la imagen propia `despacho/odoo:20`, en el entorno en la nube, con el agregador simulado.
+
+| ID | Fecha | Síntoma | Causa | Solución | Prevención |
+|---|---|---|---|---|---|
+| INC-96 | 16/11 | La tarea programada de descarga fallaba por permisos al leer las conexiones | El modelo `sp.banco.conexion` solo lo puede leer el grupo de Contabilidad, y la tarea no se ejecutaba con ese grupo | `_sp_cron` (`models/conexion.py`) lee las conexiones como sistema (`sudo()`); las acciones de pantalla siguen exigiendo el grupo de Contabilidad (`_sp_exigir`) | La prueba `test_aviso_antes_de_caducar_y_caducada` (`tests/test_psd2.py`) ejecuta la tarea, pero con el usuario de la prueba: no consta una prueba que la ejecute con un usuario sin el grupo de Contabilidad (por añadir). `sudo()` anotado en 08 §15.1 |
+| INC-97 | 16/11 | No se pudo leer la documentación web de la API de enablebanking.com | El entorno en la nube bloquea la resolución DNS de ese dominio | Se verificó la API con la muestra oficial publicada en GitHub (`enablebanking/enablebanking-api-samples`, `python_example/account_information.py`, 30/03/2026) | Revisar la documentación oficial al darse de alta y probar con su entorno de pruebas desde un equipo con Internet (ABI-08) |
+
 ## 5. Incidencias abiertas o conocidas
 | ID | Tema | Estado |
 |---|---|---|
@@ -160,6 +169,7 @@ Al desarrollar el cifrado del IBAN y de los extractos originales (11 · DOC-19).
 | ABI-05 | Facturas por expediente sin probar en la AEAT: facturas de anticipo, factura final a 0 € con líneas negativas y FechaOperacion (11 · DOC-18) | Probarlas en el entorno de pruebas de la AEAT desde un equipo con Internet, junto con ABI-04, y validarlas con la gestoría (18 · AL-15) |
 | ABI-06 | Clave de cifrado de Odoo 20 (`SP_CLAVE_CIFRADO`, `sp_cifrado`) sin procedimiento de **rotación** (11 · DOC-19) | Hasta que exista, no cambie la clave: con otra clave los IBAN cifrados no se leen («[cifrado: no se puede leer]»). Custodia y copia: 13 §4 y 14 §11 |
 | ABI-07 | Lo que el cifrado de Odoo 20 no cubre: concepto, ordenante e importe de los movimientos (en claro, hacen falta para conciliar), PDF de facturas y justificantes, y el archivo temporal del asistente de importación hasta la limpieza automática de Odoo (11 · DOC-19) | Disco cifrado en el servidor (LUKS o BitLocker) y copias cifradas (08 §3) |
+| ABI-08 | Conexión directa con el banco (`sp_banco_psd2`) sin probar contra el agregador real ni contra su entorno de pruebas: solo con el agregador simulado (11 · DOC-20; INC-97) | Tras el alta en Enable Banking (18 · AL-16), probar con su entorno de pruebas (`SP_EB_API`) desde un equipo con Internet. No usar con datos reales hasta firmar el encargo del tratamiento |
 
 ## 6. Procedimiento de soporte
 1. Reproducir con **datos ficticios**.

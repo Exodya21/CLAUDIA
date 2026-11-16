@@ -45,7 +45,7 @@ goto :abrir
 
 :ya_existe
 echo  3/4 La base sp_contable ya existe: se actualizan los modulos del despacho...
-docker compose exec -T odoo odoo -d sp_contable -i sp_cifrado,sp_expediente,sp_facturacion -u sp_recepcion,sp_contabilidad,sp_gastos,sp_cifrado,sp_banco,sp_banco_psd2,sp_expediente,sp_facturacion --stop-after-init --no-http --db_host=db -r odoo -w odoo
+docker compose exec -T odoo odoo -d sp_contable -i sp_cifrado,sp_banco_psd2,sp_expediente,sp_facturacion -u sp_recepcion,sp_contabilidad,sp_gastos,sp_cifrado,sp_banco,sp_banco_psd2,sp_expediente,sp_facturacion --stop-after-init --no-http --db_host=db -r odoo -w odoo
 
 :abrir
 echo  4/4 Reiniciando Odoo...

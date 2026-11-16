@@ -265,7 +265,53 @@ cuentas; el Bizum de CLIENTE_06 se propone; la comisión se contabiliza en la 62
 como excepción. Capturas: `documentacion/odoo20_contabilidad/3_banco_movimientos.png` (la explicación de la
 referencia aún muestra un trozo «EXP/2026/0000», ya corregido) y `4_banco_propuesta_bizum.png`.
 
-Aún no están en Odoo 20 la conexión directa con el banco ni el aviso de actividad de la cuenta (11 · DOC-17).
+Aún no está en Odoo 20 el aviso de actividad de la cuenta (11 · DOC-17). La conexión directa con el banco está en
+§10e.
+
+## 10e. Conexión directa con el banco (PSD2) en Odoo 20
+Menú **Facturación → Banco → Conexión directa (PSD2)** (módulo `sp_banco_psd2`; 19 §3.3). Solo Contabilidad
+(08 §15). Odoo descarga solo los movimientos de las cuentas del despacho, a través del agregador autorizado Enable
+Banking, y los trata como un extracto más: sin duplicar y con propuestas que usted valida (§10c).
+
+> **Todavía no está activada.** Falta el alta en Enable Banking y el encargo del tratamiento (18 · AL-16). Mientras
+> tanto, **Autorizar en el banco** responde que la conexión no está configurada en el servidor. Siga importando los
+> extractos como en §10c.
+
+**1. Autorizar un banco** (una conexión por banco):
+1. Pulse **Nuevo**. Escriba el **Banco** tal como lo nombra el agregador, el **País** (ES) y deje el tipo de banca en
+   **Empresa**.
+2. Pulse **Autorizar en el banco**. Odoo abre la banca electrónica del despacho: entre con las credenciales del
+   despacho y acepte el acceso de **solo lectura**. Odoo no ve ni guarda esas credenciales.
+3. Al volver, la conexión queda **Activa** con la fecha «Consentimiento válido hasta» (unos 180 días) y la lista de
+   **Cuentas**, con el IBAN enmascarado.
+4. Cada cuenta se une sola al diario cuyo IBAN coincide **exactamente**. Si alguna queda sin diario, elíjalo a mano;
+   Odoo no deja unirla al diario de otra cuenta. Desmarque **Sincronizar** en las cuentas que no quiera descargar.
+
+**2. Descargar movimientos.** Odoo los descarga solo **cada 6 horas**. La primera vez trae los últimos 90 días.
+Solo entran los movimientos **contabilizados**; los pendientes aparecerán cuando el banco los contabilice. Si los
+necesita ya, pulse **Descargar movimientos ahora**: úselo con moderación, porque los bancos limitan las consultas a
+unas 4 al día. Si el banco responde que se ha superado el límite, Odoo lo indica en «Último aviso» y lo reintenta
+en la siguiente vuelta.
+
+**3. Renovar la autorización.** Los bancos exigen renovarla como máximo cada **180 días**. Quince días antes
+recibirá una **actividad** «Conexión con el banco». Abra la conexión y pulse **Renovar la autorización**: es el mismo
+paso que al autorizar. Si no la renueva a tiempo, la conexión pasa a **Caducada** y deja de descargar hasta que la
+renueve. Lo mismo ocurre si el banco deja de aceptar la autorización (por ejemplo, si se retiró desde la banca).
+
+**4. Revocar.** Si ya no quiere que Odoo lea un banco, pulse **Revocar**: Odoo cierra el acceso en el agregador y la
+conexión queda **Revocada**. Los movimientos ya descargados se conservan. Para volver a usarla, autorícela de nuevo.
+
+| Estado | Qué significa | Qué hacer |
+|---|---|---|
+| Sin autorizar | Conexión creada, sin permiso del banco | **Autorizar en el banco** |
+| Esperando la autorización del banco | Se abrió la banca y no se ha vuelto | Repita **Autorizar en el banco** |
+| Activa | Descarga cada 6 horas | Nada; atienda el aviso de renovación |
+| Caducada: hay que renovar | Pasaron los 180 días o el banco ya no acepta el permiso | **Renovar la autorización** |
+| Revocada | Acceso cerrado por Contabilidad | Autorizar de nuevo si se quiere usar |
+| Error | El banco no dio la autorización o falló la vuelta | Lea «Último aviso» y vuelva a autorizar |
+
+Ejemplo con datos ficticios: `documentacion/odoo20_contabilidad/8_banco_conexion_psd2.png` (conexión simulada, una
+cuenta unida al Banco A y otra sin diario, con los IBAN enmascarados).
 
 ## 10d. Expedientes y cobro por número de expediente en Odoo 20
 Menú **Facturación → Clientes → Expedientes** (módulos `sp_expediente` y `sp_facturacion`; 19 §3.7). Crea y edita el

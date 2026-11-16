@@ -214,8 +214,9 @@ bancos, cajas, analítica, cuentas propias provisionales y Verifactu en el entor
   (escenario con una factura ficticia) (11 · DOC-13). Si al instalar con `-i` salen «0 tests», páselas con
   `-u sp_contabilidad` (12 · INC-80).
 - **Montaje en Windows con un doble clic:** `odoo/MONTAR_ODOO.bat` arranca Docker Compose, crea la base
-  `sp_contable`, monta la base contable, instala los siete módulos del despacho (`sp_recepcion`, `sp_contabilidad`,
-  `sp_gastos`, `sp_banco` y, desde el 16/11/2026, `sp_expediente`, `sp_facturacion` y `sp_cifrado`) y ejecuta
+  `sp_contable`, monta la base contable, instala los ocho módulos del despacho (`sp_recepcion`, `sp_contabilidad`,
+  `sp_gastos`, `sp_banco` y, desde el 16/11/2026, `sp_expediente`, `sp_facturacion`, `sp_cifrado` y
+  `sp_banco_psd2`; 11 · DOC-20) y ejecuta
   `configuracion/recepcion.py`, `gastos.py`, `banco.py` y `facturacion.py` (11 · DOC-18). Si la base ya existe,
   actualiza los módulos. `herramientas/odoo_dev.sh` hace lo mismo en Linux (desde el 16/11/2026, también banco;
   11 · DOC-16). Al montar de cero, `odoo_dev.sh` fallaba porque ponía `shell` después de las opciones; corregido
@@ -245,3 +246,18 @@ bancos, cajas, analítica, cuentas propias provisionales y Verifactu en el entor
      si quiere seguir usando la misma clave; si la base es nueva, da igual.
   6. Comprobación: `odoo/pruebas/prueba_cifrado.py` (se ejecuta después de los demás escenarios) mira directamente
      en PostgreSQL y en el almacén de archivos que no haya IBAN ni extractos en claro.
+- **Conexión directa con el banco** (`sp_banco_psd2`; desde el 16/11/2026, 11 · DOC-20). Se instala con los demás
+  módulos, pero queda **desactivada** mientras no se configure; antes hay que decidir 18 · AL-16 (alta en Enable
+  Banking y encargo del tratamiento). Configuración, **fuera de la base de datos y del repositorio**:
+
+  | Dato | Dónde | Qué es |
+  |---|---|---|
+  | `SP_EB_APP_ID` | Variable de entorno (línea en `odoo/.env`, que `odoo/docker-compose.yml` pasa al contenedor) o opción `sp_eb_app_id` del archivo de configuración de Odoo | Identificador de la aplicación creada en Enable Banking |
+  | `SP_EB_CLAVE` | Ídem (opción `sp_eb_clave`) | **Ruta dentro del contenedor** de la clave privada `.pem` de la aplicación, p. ej. `/secretos/<archivo>.pem` |
+  | Carpeta `odoo/secretos/` | En el servidor. Se monta en el contenedor como `/secretos`, en **solo lectura**. Está en `.gitignore` | Guarda el `.pem`. Lo genera y lo deja ahí la persona autorizada; **nunca** se envía por correo, por chat ni al repositorio |
+  | `SP_EB_API` (opcional) | Variable de entorno u opción `sp_eb_api` | Dirección de la API del agregador, solo para usar su entorno de pruebas |
+  | URL de vuelta | Se registra en la aplicación de Enable Banking. Es la dirección de Odoo (`web.base.url`) seguida de `/sp_banco_psd2/vuelta`; la pantalla de la conexión la muestra en «Dirección de vuelta» a los administradores del sistema | **Con `https` en producción.** Si cambia la dirección de Odoo, hay que cambiarla también en el agregador |
+
+  Después de cambiar estos datos, reinicie el contenedor de Odoo (`docker compose up -d`). Sin `SP_EB_APP_ID` o
+  `SP_EB_CLAVE`, el botón **Autorizar en el banco** responde con un error claro y no sale nada a la red. Cómo se
+  activa y se renueva: 14 §12. Sin probar todavía con el agregador real (12 · ABI-08).
