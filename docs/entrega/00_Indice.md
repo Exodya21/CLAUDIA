@@ -11,13 +11,13 @@ que coinciden con lo entregado.
 |---|---|---|
 | 01 | [Documentación general del sistema](01_Documentacion_general.md) | Qué es, alcance, módulos, estado, reglas que no se pueden romper |
 | 02 | [Arquitectura](02_Arquitectura.md) | Monolito modular, capas, flujos, eventos y agentes. **Correspondencia con Odoo Community** |
-| 03 | [Infraestructura TI](03_Infraestructura_TI.md) | Servidor, red, contenedores, copias, entornos, requisitos del servidor nuevo |
+| 03 | [Infraestructura TI](03_Infraestructura_TI.md) | Servidor, red, contenedores, copias, entornos, requisitos del servidor nuevo y topología del servidor propio (Odoo 20) |
 | 04 | [Stack tecnológico](04_Stack_tecnologico.md) | Tecnologías y versiones; equivalencia en Odoo |
 | 05 | [Documentación funcional y lógica](05_Funcional_y_logica.md) | Cada módulo: qué hace, reglas de negocio, estados y lo que nunca hace |
 | 06 | [Documentación técnica y del código](06_Tecnica_y_codigo.md) | Estructura del repositorio, convenciones, cómo añadir funciones |
 | 07 | [Base de datos](07_Base_de_datos.md) | Las 78 tablas con columnas, reglas de la base de datos y diagrama |
 | 08 | [Seguridad y permisos](08_Seguridad_y_permisos.md) | Autenticación, cifrado, 12 roles, matriz de 77 permisos |
-| 09 | [Instalación y configuración](09_Instalacion_y_configuracion.md) | Instalación en Windows y en servidor Linux, variables de configuración |
+| 09 | [Instalación y configuración](09_Instalacion_y_configuracion.md) | Instalación en Windows y en servidor Linux, servidor propio con Odoo 20 (§8), variables de configuración |
 | 10 | [Pruebas y validaciones](10_Pruebas_y_validaciones.md) | Estrategia, inventario de pruebas, resultados y criterios de aceptación |
 | 11 | [Versiones y cambios (Changelog)](11_Changelog.md) | Historial F0.1 → F5.6 |
 | 12 | [Incidencias y soluciones](12_Incidencias_y_soluciones.md) | Problemas encontrados y cómo se resolvieron |
@@ -26,7 +26,7 @@ que coinciden con lo entregado.
 | 15 | [Manual del usuario](15_Manual_usuario.md) | Uso por departamento |
 | 16 | [Integraciones y APIs](16_Integraciones_y_APIs.md) | Todas las rutas de la API, formatos de intercambio, conectores externos |
 | 17 | [Auditoría y trazabilidad](17_Auditoria_y_trazabilidad.md) | Registro inmutable, qué se audita, trazabilidad de los 208 requisitos |
-| 18 | [Alineación con el charter de QUBIQ](18_Alineacion_con_el_charter.md) | Diferencias con el *Project Charter*, decisiones pendientes y tomadas (AL-01…AL-15) y criterio para cada necesidad (§2) |
+| 18 | [Alineación con el charter de QUBIQ](18_Alineacion_con_el_charter.md) | Diferencias con el *Project Charter*, decisiones pendientes y tomadas (AL-01…AL-17) y criterio para cada necesidad (§2) |
 | 19 | [Contabilidad y facturación en Odoo 20](19_Contabilidad_y_facturacion_en_Odoo20.md) | Correspondencia función por función de economía, banco y contabilidad con Odoo 20 Community, OCA y módulos `sp_*` |
 
 Cada documento se entrega en dos formatos: **Word (.docx)**, para leer y compartir, y **Markdown (.md)**, que vive
@@ -85,6 +85,12 @@ en el repositorio (`docs/entrega/`) junto al código y se actualiza con él. Se 
     extractos originales cifrados con la clave fuera de la base de datos; 08 §3.1) y `odoo/addons/sp_banco_psd2/`
     (conexión directa con el banco por PSD2 a través de Enable Banking, hecha en desarrollo y sin activar;
     19 §3.3; 18 · AL-16).
+- `despliegue/`: instalación de Odoo 20 del despacho en el **servidor propio** (Ubuntu, dominio propio y HTTPS). Guía
+  en [`despliegue/LEEME.md`](../../despliegue/LEEME.md); de momento, solo preproducción con datos ficticios
+  (03 §2.1; 09 §8; 13 §4.2; 14 §13; 18 · AL-17; 11 · DOC-21).
+  - `instalar.sh` (instala o actualiza; idempotente), `docker-compose.yml` (PostgreSQL 16, Odoo 20 y Caddy),
+    `Caddyfile`, `odoo.conf.plantilla`, `copia_seguridad.sh`, `restaurar.sh`, `actualizar.sh` y `comun.sh`.
+  - `.env`, `odoo.conf`, `credenciales_*.txt` y `secretos/` se crean **solo en el servidor** (`.gitignore`).
 - `herramientas/odoo_dev.sh`: levanta Odoo 20 de pruebas en Linux o en el entorno en la nube (09 · Anexo C).
 - `documentacion/odoo20_base_contable/`: capturas de la prueba de la base contable (datos ficticios).
 - `documentacion/odoo20_recepcion/`: capturas de Recepción y cajas en Odoo 20 (cobros, cobro con justificante,

@@ -7,6 +7,7 @@ Sistema Propio · versión F5.6 · 12/11/2026
 |---|---|
 | Windows (demo o real provisional) | Windows 10/11, Docker Desktop, 8 GB de RAM, 20 GB libres, BitLocker activo para la real |
 | Servidor Linux (Docker) | Docker Engine + Compose v2, 4 núcleos, 16 GB, SSD |
+| Servidor propio con Odoo 20 (§8) | Ubuntu Server 22.04/24.04, 4 núcleos y 16 GB como mínimo (recomendado 8 y 32 GB), 100 GB libres o más, dominio con registro DNS A, puertos 80 y 443 abiertos, SSH con clave y `sudo` |
 | Desarrollo local sin Docker | Python 3.12, Node 22, PostgreSQL 16, Tesseract (`tesseract-ocr-spa`) y `poppler-utils` |
 
 ## 2. Windows con doble clic
@@ -154,6 +155,56 @@ python -c "from cryptography.fernet import Fernet;print(Fernet.generate_key().de
 4. Cree la base de producción con idioma español y país España. Instale `l10n_es` y después los módulos `sp_*`.
 5. Active la multicompañía (España y Colombia), cree los grupos por rol y obligue el TOTP.
 6. Configure el correo saliente, la tarea programada de copias y la supervisión (ver 13).
+
+## 8. Servidor propio (Odoo 20)
+Desde el 16/11/2026 (11 · DOC-21; decisión en 18 · AL-17). **La guía completa, paso a paso, es
+[`despliegue/LEEME.md`](../../despliegue/LEEME.md)**; este apartado solo resume y remite a ella. De momento se
+instala solo la **preproducción**: datos **ficticios** y Verifactu en el **entorno de pruebas** de la AEAT
+(`base_contable.py` lo activa así; comprobado en el código).
+
+| Paso | Qué | Dónde |
+|---|---|---|
+| 1 | Requisitos: servidor, dominio, puertos, SSH y correo para los avisos del certificado | LEEME §1 |
+| 2 | Descargar el proyecto en `/opt/despacho` con una **clave de despliegue de solo lectura** de GitHub | LEEME §2 |
+| 3 | `sudo bash instalar.sh --dominio <dominio> --correo <correo> [--con-ejemplos]` | LEEME §3 |
+| 4 | Inmediatamente después: copia de `.env` fuera del servidor, reparto y borrado de las contraseñas iniciales, activar `ufw`, copias fuera del servidor | LEEME §4; 13 §4.2; 14 §13 |
+| 5 | Copias y restauración | LEEME §5; 13 §4.2 |
+| 6 | Actualizar a una versión nueva (`actualizar.sh`) | LEEME §6; 13 §3 |
+| 7 | Probar Verifactu con la AEAT (entorno de pruebas) | LEEME §7; 19 §3.8 |
+| 8 | Conexión directa con el banco (PSD2), solo tras decidir 18 · AL-16 | LEEME §8; 14 §12 |
+| 9 | Producción (más adelante) | LEEME §9 |
+
+**Opciones de `instalar.sh`** (se ejecuta con `sudo` desde `despliegue/`):
+
+| Opción | Efecto |
+|---|---|
+| `--dominio`, `--correo` | Obligatorias la primera vez: dominio público y correo para Let's Encrypt. Se guardan en `.env` |
+| `--entorno` | `preproduccion` (por defecto). `produccion` **se niega a instalar** hasta que exista lo de LEEME §9 |
+| `--con-ejemplos` | Carga además los escenarios de demostración (datos ficticios) |
+| `--sin-docker` | No instala Docker (debe existir con `docker compose`) |
+| `--sin-cortafuegos` | No toca `ufw` |
+| `--sin-copias` | No programa la copia diaria |
+
+**Qué crea solo en el servidor** (en `.gitignore`; nunca en el repositorio ni en la documentación): `.env` (claves
+aleatorias, permisos 600), `odoo.conf` (permisos 600, propiedad del usuario `odoo` del contenedor, uid 100),
+`credenciales_preproduccion.txt` (contraseñas iniciales, permisos 600; 14 §13) y `secretos/` (clave `.pem` de PSD2,
+si se activa).
+
+**Repetirlo es seguro:** `instalar.sh` no cambia las claves ya creadas ni borra datos; si la base existe, solo
+actualiza los módulos `sp_*`. Comprobado el 16/11/2026 en un servidor simulado con el dominio `localhost`; **sin
+probar** en un servidor Ubuntu real ni con la emisión real del certificado (12 · ABI-09). Topología y red: 03 §2.1 y
+§4.1. Problemas frecuentes: LEEME §10 y 12 §4k.
+
+**Diferencias con el montaje de pruebas (Anexo C):**
+
+| | Anexo C (`odoo/`) | Servidor propio (`despliegue/`) |
+|---|---|---|
+| Acceso | Solo desde el propio ordenador (`localhost:8069`) | Desde Internet por HTTPS (Caddy); Odoo y PostgreSQL sin puertos |
+| Claves | `odoo/.env` (solo `SP_CLAVE_CIFRADO`) | `despliegue/.env` con todas las claves, generadas en el servidor |
+| Contraseñas de usuarios | Las de demostración (igual al usuario) y `admin` | Aleatorias para cada usuario interno (14 §13) |
+| Procesos de Odoo | Sin `workers` (un solo proceso con hilos) | `workers` = 2 × núcleos + 1 (máximo 9) |
+| Copias | No | Diarias, cifradas y con rotación (13 §4.2) |
+| Base | `sp_contable` | `sp_preproduccion` |
 
 ## Anexo · Odoo 20 Community de pruebas en un ordenador con Windows
 Para probar Odoo en local con **datos ficticios**. No sirve para producción: no tiene copias de seguridad ni

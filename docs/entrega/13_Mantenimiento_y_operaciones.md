@@ -27,11 +27,20 @@ En Odoo, estos procesos pasan a `ir.cron` (agentes, cola `mail.mail`) y a una ta
 - **Renovación cada 180 días:** cada banco exige volver a autorizar la lectura de cuentas como máximo cada 180 días
   (modificación de las RTS de la EBA). Odoo pide 179 días y avisa a Contabilidad 15 días antes con una actividad.
 
+**Odoo 20 · servidor propio** (`despliegue/`; 11 · DOC-21):
+
+| Proceso | Frecuencia | Dónde | Qué hace |
+|---|---|---|---|
+| Copia de seguridad cifrada | Cada día a las 02:30 | `/etc/cron.d/odoo-despacho-copias` → `despliegue/copia_seguridad.sh`; registro en `/var/log/odoo-despacho-copias.log` | Copia cifrada de la base y del almacén de archivos, con huellas y rotación (§4.2) |
+| Certificado HTTPS | Automático | Caddy | Obtiene y renueva el certificado de Let's Encrypt. Necesita el puerto 80 abierto |
+
 ## 2. Rutinas de operación
 ### Diaria
 - Comprobar que la copia de la noche figura como **Válida** en Administración → Copias de seguridad.
 - Revisar «Pendientes de decidir» de cada departamento (lo hace cada responsable).
 - Contabilidad: la rutina indica qué falta, sin que nadie tenga que acordarse.
+- Odoo 20 · servidor propio: revisar en `/var/log/odoo-despacho-copias.log` que la copia de la noche termina en
+  «Copia correcta». Mientras no haya avisos automáticos, es la única forma de saberlo (12 · ABI-10).
 - Odoo 20 · Contabilidad: si hay conexiones directas con el banco, comprobar que ninguna está en «Caducada» o
   «Error» y atender las actividades de renovación (15 §10e).
 
@@ -47,6 +56,8 @@ En Odoo, estos procesos pasan a `ir.cron` (agentes, cola `mail.mail`) y a una ta
 
 ### Trimestral
 - **Simulacro de recuperación** completo en un servidor aparte (ver §5).
+- Odoo 20 · servidor propio: **restaurar una copia** en una base aparte con `restaurar.sh` (§4.2), comprobarla en Odoo
+  (por ejemplo, un IBAN y un adjunto) y borrarla después. Anote la fecha y el resultado.
 - Revisar los permisos por rol con Dirección y el DPO.
 
 ## 3. Actualizar a una versión nueva
@@ -65,6 +76,20 @@ docker compose logs -f api | grep -i error            # revisar
 ```
 Las migraciones son reversibles: `docker compose exec api alembic downgrade -1`. Hágalo **solo** con una copia previa
 y si la versión anterior no escribió datos que dependan del cambio.
+
+### Odoo 20 · servidor propio (`despliegue/actualizar.sh`)
+```bash
+cd /opt/despacho/despliegue && sudo bash actualizar.sh
+```
+Hace, en este orden:
+1. **Copia previa** con `copia_seguridad.sh` (§4.2).
+2. `git pull --ff-only`: descarga la versión nueva de GitHub con la clave de despliegue de solo lectura. Si la rama
+   local se ha desviado, se para sin mezclar nada.
+3. Reconstruye la imagen `despacho/odoo:20`, para Odoo, instala o actualiza los módulos `sp_*` (`-i` y `-u`) y
+   arranca todo.
+
+Si algo falla, la copia previa está en `/var/backups/odoo-despacho` y se restaura con `restaurar.sh`. Hágalo siempre
+antes en preproducción. `instalar.sh` también se puede repetir: no cambia las claves ni borra datos (09 §8).
 
 ### Odoo
 `odoo-bin -u sp_modulo -d base --stop-after-init`, siempre antes en preproducción con una copia anonimizada o
@@ -94,6 +119,51 @@ Desde el 16/11/2026 (11 · DOC-19), Odoo 20 guarda cifrados los IBAN y los extra
 | Rotación (cambiar la clave) | **Sin procedimiento todavía** (12 · ABI-06). Hasta que exista, **no cambie la clave**: lo ya cifrado dejaría de leerse. No desinstale `sp_cifrado` para «volver atrás»: descifra los IBAN, pero `sp_banco` depende de él |
 | Sin cifrar | Concepto, ordenante e importe de los movimientos, PDF de facturas y justificantes (12 · ABI-07). Por eso siguen haciendo falta el disco cifrado del servidor y las copias cifradas |
 
+### 4.2 Odoo 20 · servidor propio: copias cifradas y custodia de `.env`
+Desde el 16/11/2026 (11 · DOC-21). Topología y resumen: 03 §6.1. Guía: `despliegue/LEEME.md` §4 y §5.
+
+**Copia diaria** (`despliegue/copia_seguridad.sh`, a las 02:30):
+
+| Qué | Cómo |
+|---|---|
+| Contenido | `<base>_AAAAMMDD_HHMM.base.enc` (`pg_dump -Fc`), `<base>_AAAAMMDD_HHMM.archivos.enc` (almacén de archivos) y `<base>_AAAAMMDD_HHMM.sha256` (huellas) |
+| Cifrado | `openssl` AES-256-CBC, PBKDF2 con 200 000 iteraciones, clave `CLAVE_COPIAS` de `.env`. El archivo empieza por `Salted__` (comprobado) |
+| Dónde | `/var/backups/odoo-despacho` (permisos 700) |
+| Rotación | 14 días; los domingos, 8 semanas; los días 1, 12 meses |
+| Copia manual | `sudo bash /opt/despacho/despliegue/copia_seguridad.sh` |
+| Fuera del servidor | **A mano por ahora**, a un NAS o almacenamiento externo en la UE (regla 3-2-1). Ya van cifradas. **Pendiente** decidir dónde (T-17; 18 · AL-17) |
+
+**Restauración de comprobación (cada trimestre, §2):**
+```bash
+sudo bash /opt/despacho/despliegue/restaurar.sh /var/backups/odoo-despacho/sp_preproduccion_AAAAMMDD_HHMM
+```
+- Comprueba las huellas SHA-256 y restaura la base y los archivos en una base **nueva**
+  (`<base>_restaurada_<fecha>`). Indica cuántos asientos tiene.
+- La restauración no toca la base en uso ni sus archivos (defecto 12 · ABI-11 resuelto el 16/11/2026 y comprobado).
+- Compruébela y bórrela con el comando que muestra al terminar.
+- Comprobado el 16/11/2026 en el servidor simulado: huellas correctas y base restaurada aparte.
+
+**Recuperar de verdad** (sustituir la base en uso), solo con autorización de Dirección y con ayuda: restaurar en una
+base nueva, comprobarla, parar Odoo, cambiar `BASE` en `.env` por el nombre de la restaurada y ejecutar otra vez
+`instalar.sh` (LEEME §5).
+
+**Custodia de `despliegue/.env`:**
+
+| Clave | Para qué | Si se pierde |
+|---|---|---|
+| `POSTGRES_PASSWORD` | Acceso de Odoo a PostgreSQL | Se puede cambiar con acceso al servidor |
+| `ADMIN_PASSWD` | Contraseña maestra de Odoo (gestor de bases, cerrado en el servidor) | Se puede cambiar con acceso al servidor |
+| `SP_CLAVE_CIFRADO` | Cifrado de los IBAN y de los extractos (§4.1) | **Los IBAN y los extractos originales no se pueden leer** |
+| `CLAVE_COPIAS` | Cifrado de las copias | **Las copias no se pueden restaurar** |
+
+1. Al terminar la instalación, **copie `.env` fuera del servidor** en un gestor de contraseñas o en un USB cifrado en
+   la caja fuerte (`sudo cat /opt/despacho/despliegue/.env`). Nunca por correo ni por chat, ni en el repositorio.
+2. **Nunca junto a las copias:** `SP_CLAVE_CIFRADO` y `CLAVE_COPIAS` no van dentro de la copia; si viajaran juntas,
+   el cifrado no protegería nada.
+3. No cambie `SP_CLAVE_CIFRADO` (12 · ABI-06). `instalar.sh` no la toca nunca.
+4. **Pendiente:** quién la custodia y dónde (18 · AL-17). Mientras tanto: Administración del sistema (TI), con
+   conocimiento de Dirección (§4.1).
+
 ## 5. Recuperación ante desastre
 Solo con autorización de Dirección; queda anotado en la auditoría.
 1. Parar `api`, `web` y `avisos`.
@@ -113,6 +183,7 @@ Solo con autorización de Dirección; queda anotado en la auditoría.
 | Errores | Registro de la API (5xx, con `request_id`) | Picos |
 | Seguridad | Auditoría `denied`, bloqueos por intentos fallidos | Picos de una IP o un usuario |
 | Cola de correo | Pendientes en `comm_outbox` | > 1 h sin enviar |
+| Odoo 20 · servidor propio | `/var/log/odoo-despacho-copias.log`, espacio en disco, caducidad del certificado de Caddy | **Sin avisos automáticos todavía** (12 · ABI-10): revisión manual (§2) |
 | Odoo 20 · conexión directa con el banco | Estado de cada conexión y «Última sincronización» (`sp_banco_psd2`) | Una conexión «Caducada» o «Error», o más de 24 h sin sincronizar |
 
 ## 7. Tareas de mantenimiento de datos

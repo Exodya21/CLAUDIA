@@ -151,3 +151,36 @@ importando a mano.
   horas (13 §1). No acorte ese intervalo.
 - **Respaldo sin PSD2:** pedir a cada banco el envío diario de la Norma 43 (SFTP, EDITRAN o banca electrónica), que
   entra por el importador ya hecho.
+
+## 13. Odoo 20 · servidor propio: contraseñas iniciales y usuario `admin`
+Desde el 16/11/2026 (11 · DOC-21). Al instalar el servidor propio con `despliegue/instalar.sh` (09 §8), **ningún
+usuario conserva una contraseña conocida**: ni `admin`/`admin` ni las de demostración (que eran iguales al usuario).
+Comprobado el 16/11/2026 en el servidor simulado: se entra con la contraseña generada y las otras se rechazan.
+
+**Qué hace la instalación (solo la primera vez):**
+- Pone una **contraseña aleatoria** a cada usuario interno (no a los usuarios del portal ni a los del sistema).
+- Las guarda en `despliegue/credenciales_preproduccion.txt`, con permisos 600 (solo `root`), una línea por usuario.
+- Marca en Odoo que ya se generaron. Si se repite `instalar.sh`, **no se cambian** y el archivo no se toca.
+
+**Qué tiene que hacer el administrador, enseguida:**
+1. Leer el archivo: `sudo cat /opt/despacho/despliegue/credenciales_preproduccion.txt`.
+2. Entregar a cada persona **solo su** contraseña, en persona o por un canal seguro. Nunca en un correo con varias,
+   ni en un chat de grupo, ni en una captura.
+3. **Borrar el archivo:** `sudo shred -u /opt/despacho/despliegue/credenciales_preproduccion.txt`.
+4. Cada persona cambia la suya al entrar: arriba a la derecha → **Mi perfil** → **Seguridad**.
+
+**Usuario `admin`:**
+- Es el **administrador de Odoo** (Ajustes, usuarios, módulos). También recibe una contraseña aleatoria en el
+  archivo. Úselo solo para administrar, no para el trabajo diario; cada persona entra con su propio usuario.
+- Cambie su contraseña al primer acceso y guárdela en el gestor de contraseñas del despacho.
+- **No confunda** la contraseña de `admin` con la **contraseña maestra** de Odoo (`ADMIN_PASSWD` en `.env`). La
+  maestra sirve para el gestor de bases de datos, que en el servidor está cerrado (`list_db = False` y 404 en
+  `/web/database/*`; 03 §4.1). Se custodia con el resto de `.env` (13 §4.2).
+
+**Si se pierde una contraseña:** el administrador la cambia desde Ajustes → Usuarios → la persona → **Cambiar la
+contraseña**. Si se pierde la de `admin` y no hay otro administrador, hace falta acceso al servidor y ayuda del
+equipo de desarrollo.
+
+**En producción** (más adelante; `despliegue/LEEME.md` §9) se seguirá el mismo criterio. El segundo factor
+(TOTP; `auth_totp` estándar, 08 §3.1) **no lo obliga** `instalar.sh`: queda por decidir si se exige a todos, como
+en Sistema Propio (§1).

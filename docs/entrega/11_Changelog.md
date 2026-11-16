@@ -3,6 +3,85 @@
 Sistema Propio · 12/11/2026. Formato inspirado en *Keep a Changelog*. Las versiones siguen los incrementos del plan
 (F0.1 … F5.6). Los cambios de base de datos se indican con su migración.
 
+## [DOC-21] · 16/11/2026 — Odoo 20: paquete de despliegue en el servidor propio del despacho (preproducción)
+Carpeta nueva `despliegue/` (guía: [`despliegue/LEEME.md`](../../despliegue/LEEME.md)). Instala Odoo 20 del despacho
+en un servidor Ubuntu con dominio propio y HTTPS. De momento, solo la **preproducción**: datos **ficticios** y
+Verifactu en el **entorno de pruebas** de la AEAT. Decisiones del usuario: 18 · AL-17. Topología y red: 03 §2.1 y
+§4.1; instalación: 09 §8; operación: 13 §3 y §4.2; contraseñas iniciales: 14 §13.
+### Decidido (16/11/2026, persona responsable del proyecto; 18 · AL-17)
+- Servidor **propio** con Ubuntu Server 22.04 o 24.04.
+- Acceso desde Internet con **dominio propio y HTTPS**.
+- Primero una **preproducción** con datos ficticios y Verifactu en pruebas; la producción, después.
+- El código llega desde GitHub con una **clave de despliegue de solo lectura** (LEEME §2).
+### Añadido
+- **`despliegue/docker-compose.yml`** (proyecto `despacho_<entorno>`):
+  - `db`: PostgreSQL 16, **sin puertos** publicados y con comprobación de salud (`pg_isready`).
+  - `odoo`: imagen `despacho/odoo:20` con `odoo.conf` montado, **sin puertos** al exterior. Monta `odoo/addons` en
+    solo lectura y `secretos/` en `/secretos`, también en solo lectura.
+  - `caddy`: Caddy 2, único servicio con puertos (80 y 443).
+- **`despliegue/Caddyfile`:** HTTPS automático con Let's Encrypt; cabeceras HSTS, `nosniff`, `SAMEORIGIN` y
+  `Referrer-Policy`; sin la cabecera `Server`. Responde **404** en `/web/database/*`. Envía `/websocket` al puerto
+  8072 de Odoo y el resto al 8069.
+- **`despliegue/odoo.conf.plantilla`:** `list_db = False`, `dbfilter` y `db_name` de una sola base, `proxy_mode`,
+  `http_interface = 0.0.0.0` (solo dentro de la red interna de Docker), `workers` = 2 × núcleos + 1 (máximo 9),
+  `max_cron_threads = 1`, límites de memoria y tiempo y `without_demo = True`. `admin_passwd` y la contraseña de la
+  base salen de `.env`.
+- **`despliegue/instalar.sh`** (con `sudo`; opciones `--dominio`, `--correo`, `--entorno`, `--con-ejemplos`,
+  `--sin-docker`, `--sin-cortafuegos` y `--sin-copias`). Siete pasos:
+  1. Docker desde los paquetes de Ubuntu (`docker.io`, `docker-compose-v2`), si falta.
+  2. `.env` con claves aleatorias generadas en el servidor (`POSTGRES_PASSWORD`, `ADMIN_PASSWD`,
+     `SP_CLAVE_CIFRADO`, `CLAVE_COPIAS`), solo la primera vez y con permisos 600.
+  3. `odoo.conf` con permisos 600, propiedad del usuario `odoo` (uid 100) del contenedor.
+  4. Imagen y base `sp_preproduccion`: módulos base, `base_contable.py`, los 8 módulos `sp_*` y la configuración;
+     con `--con-ejemplos`, también los escenarios de demostración.
+  5. `web.base.url = https://<dominio>` fijo y una **contraseña aleatoria para cada usuario interno**, solo la primera
+     vez, en `credenciales_preproduccion.txt` (permisos 600) para leerla y borrarla (14 §13).
+  6. Arranque y reglas de `ufw` (SSH, 80 y 443), **sin activar** `ufw`, para no perder el acceso SSH.
+  7. Copia diaria a las 02:30 en `/etc/cron.d/odoo-despacho-copias`.
+  - Es **idempotente**: no cambia las claves ni borra datos.
+  - `--entorno produccion` se niega a instalar (LEEME §9).
+- **`despliegue/copia_seguridad.sh`:** `pg_dump -Fc` y `tar` del almacén de archivos, ambos cifrados con `openssl`
+  AES-256-CBC (PBKDF2, 200 000 iteraciones), y un archivo de huellas SHA-256. Rotación: 14 días; las de los domingos,
+  8 semanas; las del día 1, 12 meses. Ni `SP_CLAVE_CIFRADO` ni `CLAVE_COPIAS` van dentro de la copia.
+- **`despliegue/restaurar.sh`:** comprueba las huellas y restaura la base y los archivos en una base **nueva**. La
+  base de datos en uso y sus archivos no se tocan (defecto 12 · ABI-11 corregido el mismo día).
+- **`despliegue/actualizar.sh`:** copia previa, `git pull --ff-only`, imagen nueva y `-i/-u` de los módulos `sp_*`.
+- **`despliegue/comun.sh`:** variables y funciones comunes de los scripts.
+- **`.gitignore`:** `despliegue/.env`, `despliegue/odoo.conf`, `despliegue/secretos/` y
+  `despliegue/credenciales_*.txt`.
+### Corregido
+- Cinco problemas encontrados al probarlo (12 §4k, INC-98 a INC-102): `set_param` y `get_param` ya no existen en
+  Odoo 20; Odoo escuchaba solo en 127.0.0.1 dentro del contenedor (502 en Caddy); `without_demo = all` ya no es
+  válido; la segunda instalación vaciaba el archivo de credenciales; límite de descargas de Docker Hub (429).
+### Comprobado (16/11/2026, servidor simulado con el dominio `localhost`)
+- Instalación desde cero con `--con-ejemplos`: todos los escenarios correctos.
+- `https://localhost/web/login` responde 200 con HSTS y `X-Frame-Options`; `/web/database/*` da 404; HTTP redirige a
+  HTTPS (308); el puerto 8069 no es accesible desde fuera.
+- Se entra con la contraseña generada; las de demostración y `admin`/`admin` se **rechazan**.
+- La segunda ejecución de `instalar.sh` no cambia nada.
+- La copia sale cifrada (cabecera `Salted__`) y se restaura en una base aparte con las huellas correctas.
+- **Sin comprobar:** un servidor Ubuntu real con un dominio real y la emisión del certificado de Let's Encrypt. Lo
+  hará el despacho (12 · ABI-09).
+### Pendiente
+1. Probar en el servidor real: DNS, puertos 80 y 443 y certificado (12 · ABI-09).
+2. Probar Verifactu con el certificado en el entorno de pruebas de la AEAT (LEEME §7; 12 · ABI-04 y ABI-05).
+3. Decidir quién custodia `.env` y dónde se guardan las copias fuera del servidor (18 · AL-17; T-17).
+4. Unir la rama de desarrollo a la principal (LEEME §2 paso 4 apunta a la rama de desarrollo).
+5. Supervisión y avisos (disco, certificados, resultado de las copias): sin hacer (13 §6; 12 · ABI-10).
+6. `fail2ban`: sin configurar (03 §4.1; 12 · ABI-10).
+7. Producción (LEEME §9): módulo de configuración real sin datos ficticios, Verifactu validado con la AEAT y la
+   gestoría, facturación a clientes (18 §5 paso 5) y migración desde MN Program.
+### Observaciones (sin comprobar; para revisar)
+- **Corregido (12 · ABI-11):** `restaurar.sh` extraía los archivos dentro de la carpeta de la base en uso y luego la
+  renombraba a la de la base nueva, así que la base en uso se quedaba sin almacén de archivos. Deducido del código y
+  reproducido con los mismos comandos fuera de Docker. Corregido: los archivos se extraen en una carpeta temporal y solo esa pasa a la base nueva; comprobado en Docker: la base en uso conserva sus 166 archivos, la restaurada tiene los suyos y no quedan temporales.
+- El mensaje con que `instalar.sh --entorno produccion` se niega cita solo dos de las cuatro condiciones de LEEME §9
+  (configuración real y Verifactu).
+- `restaurar.sh` comprueba las huellas y cuenta los asientos de la base restaurada; no verifica una cadena de
+  auditoría como hacía Sistema Propio (13 §4), porque en Odoo 20 todavía no la hay.
+- Con 8 núcleos salen 9 *workers* y cada uno puede llegar a 2,5 GB (`limit_memory_hard`): conviene revisar los
+  límites con la memoria real del servidor (03 §3).
+
 ## [DOC-20] · 16/11/2026 — Odoo 20: conexión directa con el banco (PSD2) a través de Enable Banking (sp_banco_psd2)
 Paso 4 del orden de trabajo (18 §5), marcado como **importante** por el usuario. Módulo nuevo
 `odoo/addons/sp_banco_psd2` (**20.0.1.0.0**; depende de `sp_banco` y `sp_cifrado`). Está **hecho en desarrollo,

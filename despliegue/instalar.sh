@@ -17,8 +17,9 @@ while [ $# -gt 0 ]; do
 done
 [ "$(id -u)" = 0 ] || { echo "Ejecute con sudo."; exit 1; }
 if [ "$ENTORNO" = produccion ]; then
-  echo "La instalación de PRODUCCIÓN aún no está disponible: falta el módulo de configuración real (sin datos"
-  echo "ficticios) y validar Verifactu con la AEAT y la gestoría. Instale la preproducción (ver LEEME.md §1)."; exit 1
+  echo "La instalación de PRODUCCIÓN aún no está disponible. Falta (LEEME.md §9): el módulo de configuración real sin"
+  echo "datos ficticios, validar Verifactu con la AEAT y la gestoría, terminar la facturación a clientes y decidir la"
+  echo "migración desde MN Program. Instale la preproducción."; exit 1
 fi
 [ "$ENTORNO" = preproduccion ] || { echo "Entorno no válido: $ENTORNO"; exit 1; }
 
