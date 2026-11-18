@@ -57,17 +57,27 @@ FC.plaDir=(texto,extra)=>{extra=extra||{};let s=limpio(texto).replace(/\n/g,', '
  return FC.dirVacia(D)?null:D;};
 
 /* ---------------- 1. leer el Word ---------------- */
-FC.plaLeer=xml=>{const doc=new DOMParser().parseFromString(xml,'application/xml');const body=doc.getElementsByTagNameNS(W,'body')[0];const P={t:[],p:[]};if(!body)return P;
+FC.plaLeer=(xml,stylesXml)=>{const doc=new DOMParser().parseFromString(xml,'application/xml');const body=doc.getElementsByTagNameNS(W,'body')[0];const P={t:[],p:[]};if(!body)return P;
+ /* nivel de título de cada estilo: por su nombre en styles.xml («heading 1», «Título 1»…), que no depende del idioma ni del id interno (P1, Ttulo1…) */
+ const NIV={};if(stylesXml){try{const sd=new DOMParser().parseFromString(stylesXml,'application/xml');for(const st of sd.getElementsByTagNameNS(W,'style')){const nm=st.getElementsByTagNameNS(W,'name')[0];const n=norm(nm?nm.getAttributeNS(W,'val'):'');const m=/^(heading|titulo) ([12])$/.exec(n);if(m)NIV[st.getAttributeNS(W,'styleId')]=+m[2];}}catch(e){}}
+ const nivel=st=>NIV[st]||(/^(t[ií]?tulo|ttulo|heading)\s?1$/i.test(st)?1:/^(t[ií]?tulo|ttulo|heading)\s?2$/i.test(st)?2:0);
  const txt=n=>{let s='';const w=x=>{for(const ch of x.childNodes){if(ch.namespaceURI!==W)continue;const t=ch.localName;if(t==='t')s+=ch.textContent;else if(t==='tab')s+=' ';else if(t==='br'||t==='cr')s+='\n';else if(t==='instrText'||t==='delText')continue;else w(ch);}};w(n);return s;};
  const estilo=p=>{const s=p.getElementsByTagNameNS(W,'pStyle')[0];return s?s.getAttributeNS(W,'val'):'';};
  const cel=tc=>[...tc.childNodes].filter(x=>x.namespaceURI===W&&x.localName==='p').map(x=>txt(x).trim()).filter(Boolean).join('\n');
  let h1='',h2='';const walk=n=>{for(const ch of n.childNodes){if(ch.namespaceURI!==W)continue;
-  if(ch.localName==='p'){const st=estilo(ch),t=limpio(txt(ch));if(!t)continue;if(/^(t[ií]?tulo|ttulo|heading)\s?1$/i.test(st)){h1=t;h2='';continue;}if(/^(t[ií]?tulo|ttulo|heading)\s?2$/i.test(st)){h2=t;continue;}if(/^(tdc|toc)/i.test(st))continue;P.p.push({h1,h2,t});}
+  if(ch.localName==='p'){const st=estilo(ch),t=limpio(txt(ch));if(!t)continue;if(nivel(st)===1){h1=t;h2='';continue;}if(nivel(st)===2){h2=t;continue;}if(/^(tdc|toc)/i.test(st))continue;P.p.push({h1,h2,t});}
   else if(ch.localName==='tbl'){P.t.push({h1,h2,rows:[...ch.childNodes].filter(x=>x.localName==='tr').map(tr=>[...tr.childNodes].filter(x=>x.localName==='tc').map(cel))});}
   else if(ch.localName==='sdt'||ch.localName==='sdtContent')walk(ch);}};
- walk(body);return P;};
+ walk(body);P.t.forEach(T=>{T.sec=secT(T);});P.p.forEach(x=>{x.sec=secTit(x.h1);});return P;};
 FC.plaEs=P=>P.p.some(x=>/ficha de entrevista inicial/i.test(x.t))&&P.t.some(T=>T.rows.some(r=>norm(r[0])==='pregunta'&&norm(r[1])==='respuesta'));
-const sec=h=>{const m=/^\s*(\d+)\s*\./.exec(h||'');return m?+m[1]:/datos de la entrevista/i.test(h||'')?99:0;};
+/* a qué bloque de la plantilla pertenece cada tabla: por el número o el nombre del título;
+   si el título es de la organización nueva (ENCABEZADO, DICE, PRIMER HECHO…), por el subtítulo o por la primera pregunta */
+const TIT=[['datos del cliente',1],['antes de empezar',2],['tratamiento',3],['informacion del cliente',4],['empleadores',5],['fechas de trabajo',6],['lugares de trabajo',7],['informacion contractual',8],['jornada',9],['lo percibido',10],['vacaciones',11],['pagas extraordinarias',12],['fin de la relacion',13],['cronologia',14],['datos de la entrevista',99]];
+const SUB=[['contrario',5],['centro de trabajo',7],['tratamiento',3],['datos del cliente',1],['vida laboral',6],['permiso de trabajo',6],['alta en la seguridad social',6],['funciones pactadas',8],['jornada pactada',8],['contratacion',8],['salario pactado',8],['convenio colectivo',8],['pagas',8],['tabla de jornada',9],['lo percibido',10],['mes de alta',10],['finiquito',10],['lo que dice el cliente',13],['despido',13],['por fallecimiento',13],['renuncia',13],['documentos recibidos',13],['burofax',13],['vacaciones',11],['bajas',11],['permisos retribuidos',11],['tramites previos',2],['motivos de la consulta',2],['regular',4],['domicilio',4]];
+const secTit=h=>{const m=/^\s*(\d+)\s*\./.exec(h||'');if(m)return +m[1];const k=norm(h);const f=TIT.find(([t])=>k.startsWith(t));return f?f[1]:0;};
+const secT=T=>{const a=secTit(T.h1);if(a)return a;const k=norm(T.h2);const f=SUB.find(([t])=>k.startsWith(t));if(f)return f[1];const L=T.rows.map(r=>norm(r[0])).filter(x=>x&&x!=='pregunta');const l0=L[0]||'';
+ if(l0==='dias')return 9;if(l0==='mes')return 10;if(/^tiene varios turnos/.test(l0))return 9;if(/^explicar si siempre/.test(l0))return 10;if(/^como nos conocio|^ficha hecha por/.test(l0))return 2;if(/^estado civil|^personas que dependan|^en el ultimo ano fue/.test(l0))return 4;if(/^estan prorrateadas|^recibio alguna paga/.test(l0))return 12;if(/^fecha de realizacion|^entrevista realizada/.test(l0))return 99;return 0;};
+const sec=secTit;
 const mapa=T=>{const M={};T.rows.forEach(r=>{for(let i=0;i+1<r.length;i+=2){const k=norm(r[i]);if(k&&k!=='pregunta'&&!(k in M))M[k]=limpio(r[i+1]);}});return M;};
 const de=(M,preg)=>{const k=norm(preg);for(const x in M)if(x.startsWith(k))return M[x];for(const x in M)if(x.includes(k))return M[x];return '';};
 
@@ -75,11 +85,13 @@ const de=(M,preg)=>{const k=norm(preg);for(const x in M)if(x.startsWith(k))retur
 FC.plaAplicar=(st,P)=>{const c=st.c,B=FC.esB&&FC.esB(c);const R={ok:[],falta:[],rev:[],aviso:[]};const obs=[];
  const put=(path,v,label)=>{if(!has(v)){R.falta.push(label);return false;}if(has(FC.getP(c,path)))return false;FC.setP(c,path,v);R.ok.push(label);return true;};
  const putSi=(path,v,label)=>{if(has(v))put(path,v,label);};
- const tablas=(n,h2)=>P.t.filter(T=>sec(T.h1)===n&&(h2==null||norm(T.h2).startsWith(norm(h2))));
+ const tablas=(n,h2)=>P.t.filter(T=>T.sec===n&&(h2==null||norm(T.h2).startsWith(norm(h2))));
+ /* un mismo apartado puede estar repartido en varias tablas (organización nueva): se juntan por su subtítulo */
+ const juntar=L=>{const g={},o=[];L.forEach(T=>{const k=norm(T.h2);if(!g[k]){g[k]={};o.push(g[k]);}const M=mapa(T);for(const x in M)if(!g[k][x])g[k][x]=M[x];});return o;};
  const Q=(n,h2,preg)=>{for(const T of tablas(n,h2)){const v=de(mapa(T),preg);if(v)return v;}return '';};
  const nota=(path,t)=>{if(t)c.nota[path]=(c.nota[path]?c.nota[path]+'\n':'')+'De la plantilla: '+t;};
  /* 1. datos del cliente (tabla de 4 columnas) */
- const C1=tablas(1)[0]?mapa(tablas(1)[0]):{};const cl='Cliente: ';
+ const C1=Object.assign({},...tablas(1).map(mapa).reverse());const cl='Cliente: ';
  {const [n,a]=partir(de(C1,'nombre completo'));if(put('cli.nombre',n,cl+'nombre')&&a.split(' ').length+n.split(' ').length>2)R.rev.push(cl+'reparto entre nombre y apellidos');put('cli.apellidos',a,cl+'apellidos');}
  put('cli.email',de(C1,'correo').replace(/\s/g,''),cl+'correo electrónico');
  const nd=de(C1,'nif').toUpperCase().replace(/\s/g,'');const tipoDoc=docTipo(Q(4,'Regular / Irregular','qué documentación'),nd)||docTipo('',nd);
@@ -115,7 +127,7 @@ FC.plaAplicar=(st,P)=>{const c=st.c,B=FC.esB&&FC.esB(c);const R={ok:[],falta:[],
   if(!c.autorizacion.length&&c.rel.autGlobal==='parte'&&pd){if(c.rel.inicio&&c.rel.inicio<pd)c.autorizacion.push(Object.assign(FC.T.autorizacion(c),{tipo:'sin',desde:c.rel.inicio,hasta:SF.addDays(pd,-1)}));c.autorizacion.push(Object.assign(FC.T.autorizacion(c),{tipo:'con',desde:pd,hasta:ph,permiso:pt}));R.ok.push('Relación: periodos con y sin autorización');}
   else if(pt)obs.push('Tipo de permiso: '+pt+(pd?` (desde ${pd}${ph?' hasta '+ph:''})`:''));}
  /* 5. empleadores / partes contrarias */
- const CON=tablas(5).filter(T=>/contrario/i.test(T.h2)).map(mapa).filter(M=>Object.values(M).some(Boolean));const per=[];
+ const CON=juntar(tablas(5).filter(T=>/contrario/i.test(T.h2))).filter(M=>Object.values(M).some(Boolean));const per=[];
  CON.forEach((M,i)=>{const nom=de(M,'nombre completo'),nd2=de(M,'n º de identidad')||de(M,'n de identidad')||de(M,'nº de identidad');const roles=norm(de(M,'marque todo')+' '+de(M,'relación laboral'));
   const [d1,d2]=fechas(de(M,'¿desde y hasta'));const dir=FC.plaDir(de(M,'dirección de notificación'));
   const emp=esEmpresa(nom,nd2)||/empresa|sociedad|mercantil/.test(norm(de(M,'documentación')+' '+de(M,'¿qué es del cliente')));
@@ -141,7 +153,7 @@ FC.plaAplicar=(st,P)=>{const c=st.c,B=FC.esB&&FC.esB(c);const R={ok:[],falta:[],
   const fa=fecha(Q(6,'Alta en la Seguridad Social','fecha de alta')),fb=fecha(Q(6,'Alta en la Seguridad Social','fecha de baja'));
   if(al==='si'&&!c.altas.length){if(fa){const ids=quien(Q(6,'Alta en la Seguridad Social','¿qué empleador'));const fu=norm(Q(6,'Alta en la Seguridad Social','datos sacados'));c.altas.push(Object.assign(FC.T.altas(c),{alta:fa,baja:fb,emps:ids.length?ids:titulares().slice(0,1),fuente:/vida/.test(fu)?'vida':fu?'cliente':''}));R.ok.push('Relación: fechas de alta');}else R.falta.push('Relación: fechas de alta');}}
  /* 7. lugares de trabajo */
- {const L=tablas(7).filter(T=>/centro/i.test(T.h2)).map(mapa).filter(M=>de(M,'dirección'));
+ {const L=juntar(tablas(7).filter(T=>/centro/i.test(T.h2))).filter(M=>de(M,'dirección'));
   if(!c.lugares.length&&L.length){L.forEach((M,i)=>{const D=FC.plaDir(de(M,'dirección'));if(!D)return;const l=FC.T.lugares(c);l.dir=D;const [a,b]=fechas(de(M,'¿desde cuándo'));l.desde=a||c.rel.inicio||'';l.hasta=b||c.rel.fin||'';const ids=quien(de(M,'¿qué empleadores'));l.quienes=ids.length?ids:titulares();c.lugares.push(l);
     const h=de(M,'¿qué horario');if(h)nota(`lugares.${c.lugares.length-1}.dir`,'horario en este lugar: '+h);R.rev.push(`Centro de trabajo ${i+1}: dirección (leída de una línea de texto)`);});if(c.lugares.length)R.ok.push(`Lugares de trabajo (${c.lugares.length})`);}
   else if(!c.lugares.length){const e=c.empleadores[0];if(e&&!FC.dirVacia(e.dom)&&!B){R.falta.push('Lugar de trabajo: dirección (puede ser la misma que la del empleador)');}else R.falta.push('Lugar de trabajo: dirección');}}
@@ -203,7 +215,7 @@ FC.plaAplicar=(st,P)=>{const c=st.c,B=FC.esB&&FC.esB(c);const R={ok:[],falta:[],
   put('fin.docEntregado',siNo(Q(13,'Documentos recibidos','¿le entregaron')),'Fin: ¿le entregaron algún documento?');putSi('fin.pidieronFirmar',siNo(Q(13,'Documentos recibidos','¿le pidieron firmar')),'Fin: ¿le pidieron firmar?');putSi('fin.firmo',siNo(Q(13,'Documentos recibidos','¿firmó')),'Fin: ¿firmó algo?');
   const bu=siNo(Q(13,'Burofax','¿se envió'));put('fin.burofax',bu,'Burofax: ¿se envió?');if(bu==='si'){putSi('fin.burFecha',fecha(Q(13,'Burofax','fecha del burofax')),'Burofax: fecha');putSi('fin.burDest',quien(Q(13,'Burofax','¿a quién'))[0]||'','Burofax: a quién');const br=norm(Q(13,'Burofax','¿qué pasó'));putSi('fin.burRes',!br?'':/rechaz|rehus/.test(br)?'rehusado':/recog|retir/.test(br)?'noretirado':/no respond|sin respuesta|nada/.test(br)?'sinresp':/respond|contest/.test(br)?'respondio':'','Burofax: qué pasó');}}
  /* 14. cronología (texto libre: una entrada por párrafo, con su fecha si la lleva) */
- {const L=P.p.filter(x=>sec(x.h1)===14&&!/^campo de texto libre/i.test(x.t)).map(x=>x.t);if(L.length&&!c.cronologia.length){L.forEach(t=>c.cronologia.push(Object.assign(FC.T.cronologia(c),{fecha:fecha(t),desc:t})));R.ok.push(`Cronología (${L.length})`);}}
+ {const L=P.p.filter(x=>x.sec===14&&!/^campo de texto libre/i.test(x.t)).map(x=>x.t);if(L.length&&!c.cronologia.length){L.forEach(t=>c.cronologia.push(Object.assign(FC.T.cronologia(c),{fecha:fecha(t),desc:t})));R.ok.push(`Cronología (${L.length})`);}}
  /* convenio (ficha B): si el texto coincide con un único convenio del catálogo, se carga */
  if(B){const cv=Q(8,'Convenio colectivo','convenio colectivo'),act=Q(8,'Convenio colectivo','¿sabe a qué se dedica');if(act&&c.empleadores[0])putSi('empleadores.0.actividad',act,'Empresa: actividad');
   if(cv&&!c.conv.nombre){const L=FC.convFiltra?FC.convFiltra(cv):[];if(L.length===1&&FC.convAplicar){FC.convAplicar(c,L[0].resumen,'plantilla');R.ok.push('Convenio: '+L[0].nombre);}else{c.conv.nombre=cv;R.rev.push('Convenio: elegirlo de la lista o importarlo');}}}
@@ -213,8 +225,8 @@ FC.plaAplicar=(st,P)=>{const c=st.c,B=FC.esB&&FC.esB(c);const R={ok:[],falta:[],
 
 /* ---------------- 3. leer el archivo y aplicar ---------------- */
 FC.plaImportar=async file=>{const st=FC.st,c=st.c;if(!/\.docx$/i.test(file.name)){SF.toast('Suba la plantilla en Word .docx',1);return;}
- let xml;try{xml=await FC.docxXml(file);}catch(e){SF.toast('No se ha podido leer el Word',1);return;}
- const P=FC.plaLeer(xml||'');if(!FC.plaEs(P)){SF.toast('Este Word no es la plantilla nueva de entrevista: use «Ficha antigua» (con Claude)',1);return;}
+ let xml,sty='';try{xml=await FC.docxXml(file);sty=await FC.docxParte(file,'word/styles.xml')||'';}catch(e){if(!xml){SF.toast('No se ha podido leer el Word',1);return;}}
+ const P=FC.plaLeer(xml||'',sty);if(!FC.plaEs(P)){SF.toast('Este Word no es la plantilla nueva de entrevista: use «Ficha antigua» (con Claude)',1);return;}
  const R=FC.plaAplicar(st,P);c.imp={archivo:file.name,fecha:new Date().toLocaleString('es-ES'),ok:R.ok,falta:R.falta,rev:R.rev,aviso:R.aviso,modo:'plantilla'};FC.step=0;FC.render();SF.toast(`Plantilla leída: ${R.ok.length} respuestas. Revise lo marcado.`);};
 document.addEventListener('change',e=>{if(e.target&&e.target.id==='fcPlaFile'&&e.target.files&&e.target.files[0]){FC.plaImportar(e.target.files[0]);e.target.value='';}});
 })();

@@ -65,6 +65,7 @@ ${t}
 
 /* ---------------- 3. pasar la respuesta a la ficha (solo lo vacío) ---------------- */
 FC.docxXml=async file=>leerZip(await file.arrayBuffer(),'word/document.xml');
+FC.docxParte=async(file,nombre)=>leerZip(await file.arrayBuffer(),nombre);
 FC.aplicarImport=(c,d)=>{const R={ok:[],falta:[]};d=d&&typeof d==='object'?d:{};
  const put=(path,v,label)=>{if(!has(v)){R.falta.push(label);return;}if(has(getP(c,path))){return;}setP(c,path,v);R.ok.push(label);};
  const prov=(cp,nombre)=>{if(/^\d{5}$/.test(cp||'')&&window.TERR.prov[cp.slice(0,2)])return cp.slice(0,2);const k=norm(nombre);if(!k)return '';const f=FC.provList().find(([,n])=>norm(n)===k||norm(n).includes(k)||k.includes(norm(n)));return f?f[0]:'';};
