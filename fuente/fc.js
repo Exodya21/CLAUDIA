@@ -1162,10 +1162,10 @@ FC.runTests=()=>{const H='2026-10-26';const prev=FC._hoy;FC._hoy=H;const out=[];
   const sty=`<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:style w:styleId="P1"><w:name w:val="Heading 1"/></w:style><w:style w:styleId="P2"><w:name w:val="Heading 2"/></w:style></w:styles>`;
   const st=FC.newC(),c=st.c;FC.plaAplicar(st,FC.plaLeer(xml,sty));const tit=FC.per(c,(c.empleadores[0]||{}).titular)||{};
   return {ok:c.cli.nombre==='Ana'&&c.cli.docnum==='X1234567L'&&tit.nombre==='María'&&c.rel.inicio==='2025-02-01',det:[c.cli.nombre,tit.nombre,c.rel.inicio].join(' / ')};});
- T('Plantilla nueva','Preguntas movidas a «1. Datos del cliente» (cuándo empezó, cuándo terminó, de qué trabaja): se leen igual, y una pregunta repetida no se toma de otro sitio',()=>{
+ T('Plantilla nueva','Preguntas movidas a «1. Datos del cliente», con «cuándo empezó» y «cuándo terminó» en columna (respuesta debajo): se leen igual, y una pregunta repetida no se toma de otro sitio',()=>{
   const X=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');const p=(t,st)=>`<w:p>${st?`<w:pPr><w:pStyle w:val="${st}"/></w:pPr>`:''}<w:r><w:t>${X(t)}</w:t></w:r></w:p>`;
   const tb=rows=>`<w:tbl>${rows.map(r=>`<w:tr>${r.map(c=>`<w:tc>${p(c)}</w:tc>`).join('')}</w:tr>`).join('')}</w:tbl>`;const pr=rows=>tb([['Pregunta','Respuesta'],...rows]);
-  const body=[p('FICHA DE ENTREVISTA INICIAL'),p('1. DATOS DEL CLIENTE','Ttulo1'),tb([['Nombre completo','ANA PÉREZ GÓMEZ'],['Movil','600 000 999'],['¿Cuándo empezó a trabajar?','01/02/2025'],['¿Cuándo terminó de trabajar?','30/09/2026'],['¿De qué trabaja?','Empleada de hogar interna']]),
+  const body=[p('FICHA DE ENTREVISTA INICIAL'),p('1. DATOS DEL CLIENTE','Ttulo1'),tb([['Nombre completo','ANA PÉREZ GÓMEZ'],['Movil','600 000 999'],['¿Cuándo empezó a trabajar?','¿Cuándo terminó de trabajar?'],['01/02/2025','30/09/2026'],['¿De qué trabaja?','Empleada de hogar interna']]),
    p('6. FECHAS DE TRABAJO','Ttulo1'),p('Permiso de trabajo','Ttulo2'),pr([['Situación','Nunca la tuvo']]),p('8. INFORMACIÓN CONTRACTUAL LABORAL','Ttulo1'),p('Funciones pactadas','Ttulo2'),pr([['Explique qué funciones / tareas hacía','Limpieza y cocina']]),
    p('13. FIN DE LA RELACIÓN','Ttulo1'),p('Despido','Ttulo2'),pr([['¿Qué le dijeron cuando le despidieron?','que no volviera']]),p('Renuncia','Ttulo2'),pr([['¿Qué le dijeron cuando le despidieron?','OTRA COSA']])].join('');
   const xml=`<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>${body}</w:body></w:document>`;
