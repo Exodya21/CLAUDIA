@@ -79,7 +79,10 @@ FC.plaAplicar=(st,P)=>{const c=st.c,B=FC.esB&&FC.esB(c);const R={ok:[],falta:[],
  const put=(path,v,label)=>{if(!has(v)){R.falta.push(label);return false;}if(has(FC.getP(c,path)))return false;FC.setP(c,path,v);R.ok.push(label);return true;};
  const putSi=(path,v,label)=>{if(has(v))put(path,v,label);};
  const tablas=(n,h2)=>P.t.filter(T=>T.sec===n&&(h2==null||norm(T.h2).startsWith(norm(h2))));
- const Q=(n,h2,preg)=>{for(const T of tablas(n,h2)){const v=de(mapa(T),preg);if(v)return v;}return '';};
+ /* si la pregunta no está en su apartado (p. ej. se movió a «1. Datos del cliente»), se busca en el resto del documento,
+    pero solo si esa pregunta aparece una única vez: así no se confunde con otra casilla parecida */
+ const unica=preg=>{const k=norm(preg);const hits=[];P.t.forEach(T=>T.rows.forEach(r=>{for(let i=0;i+1<r.length;i+=2){const l=norm(r[i]);if(l&&l!=='pregunta'&&l.startsWith(k))hits.push(limpio(r[i+1]));}}));return hits.length===1?hits[0]:'';};
+ const Q=(n,h2,preg)=>{const T0=tablas(n,h2);for(const T of T0){const v=de(mapa(T),preg);if(v)return v;}if(T0.some(T=>T.rows.some(r=>norm(r[0]).startsWith(norm(preg)))))return '';return unica(preg);};
  const nota=(path,t)=>{if(t)c.nota[path]=(c.nota[path]?c.nota[path]+'\n':'')+'De la plantilla: '+t;};
  /* 1. datos del cliente (tabla de 4 columnas) */
  const C1=tablas(1)[0]?mapa(tablas(1)[0]):{};const cl='Cliente: ';
@@ -88,7 +91,7 @@ FC.plaAplicar=(st,P)=>{const c=st.c,B=FC.esB&&FC.esB(c);const R={ok:[],falta:[],
  const nd=de(C1,'nif').toUpperCase().replace(/\s/g,'');const tipoDoc=docTipo(Q(4,'Regular / Irregular','qué documentación'),nd)||docTipo('',nd);
  put('cli.doc',tipoDoc==='CIF'?'':tipoDoc,cl+'documento');put('cli.docnum',nd,cl+'número de documento');
  put('cli.nac',fecha(de(C1,'fecha de nacimiento')),cl+'fecha de nacimiento');
- {const t=de(C1,'telefono').replace(/[^\d+]/g,'');if(t&&!c.cli.tel){c.cli.telPref='ES';c.cli.tel=t.replace(/^(\+|00)34/,'');R.ok.push(cl+'teléfono');}else if(!t)R.falta.push(cl+'teléfono');const t2=de(C1,'telefono 2');if(t2)nota('cli.tel','teléfono 2: '+t2);}
+ {const t=de(C1,'telefono').replace(/[^\d+]/g,'');if(t&&!c.cli.tel){c.cli.telPref='ES';c.cli.tel=t.replace(/^(\+|00)34/,'');R.ok.push(cl+'teléfono');}else if(!t)R.falta.push(cl+'teléfono');const t2=de(C1,'telefono 2')||de(C1,'movil');if(t2)nota('cli.tel','teléfono 2: '+t2);}
  {const vive=Q(4,'Domicilio','dirección donde vive');const D=FC.plaDir(de(C1,'direccion')||vive,{cp:de(C1,'codigo postal'),mun:de(C1,'poblacion'),prov:de(C1,'provincia')});if(D&&FC.dirVacia(c.cli.dom)){c.cli.dom=D;R.ok.push(cl+'dirección donde vive');R.rev.push(cl+'dirección (leída de una línea de texto)');}else if(!D)R.falta.push(cl+'dirección donde vive');}
  /* 3. tratamiento */
  {const t2=norm(Q(3,null,'el cliente'))+' '+norm(Q(3,null,'el trabajador'));const tr=trato(Q(3,null,'d d'))||(/^la\b/.test(t2)?'da':/^el\b/.test(t2)?'d':'');put('cli.trato',tr,cl+'D. o D.ª');}
