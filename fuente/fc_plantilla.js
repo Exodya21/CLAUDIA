@@ -162,9 +162,15 @@ FC.plaAplicar=(st,P)=>{const c=st.c,B=FC.esB&&FC.esB(c);const R={ok:[],falta:[],
  /* 8. información contractual */
  const cm=norm(Q(8,'Contratación','indique la modalidad'));put('rel.contrato',/escrit/.test(cm)?'escrito':/verbal|sin contrato|^no/.test(cm)?'verbal':'','Relación: ¿contrato por escrito?');
  {const fi=Q(8,'Contratación','fecha de inicio contractual');if(fi)obs.push('Fecha de inicio del contrato: '+fi);const pr=Q(8,'Contratación','¿cumplió el periodo');if(pr)obs.push('¿Cumplió el periodo de prueba?: '+pr);}
- const oficio=Q(8,'Funciones pactadas','¿de qué trabaja'),funciones=Q(8,'Funciones pactadas','explique qué funciones');
- if(B){put('puesto.categoria',tc(Q(8,'Convenio colectivo','grupo profesional')||oficio),'Puesto: categoría');put('puesto.funciones',funciones,'Puesto: funciones');}
+ /* «¿De qué trabaja?» puede estar en «1. Datos del cliente» y en «Funciones pactadas» («¿De qué trabaja? (Interna o Externa)»): se leen los dos.
+    Las funciones: «Atienda a / Edad / Que tareas hacía?» (plantilla nueva) o «Explique qué funciones / tareas hacía» (anterior). */
+ const ofCli=de(C1,'de que trabaja'),ofFun=Q(8,'Funciones pactadas','de que trabaja');const oficio=[...new Set([ofCli,ofFun].filter(Boolean))].join('. ');
+ const atiende=Q(8,'Funciones pactadas','atienda a'),funciones=Q(8,'Funciones pactadas','explique que funciones')||atiende;
+ if(atiende&&!B){nota('cuidados','personas atendidas, edad y tareas: '+atiende);R.rev.push('Personas atendidas («Atienda a / Edad / Que tareas hacía»): complete la ficha de cada persona en «Tareas y cuidados»');}
+ if(B){put('puesto.categoria',tc(Q(8,'Convenio colectivo','grupo profesional')||ofCli||ofFun),'Puesto: categoría');put('puesto.funciones',funciones,'Puesto: funciones');}
  else{const k=norm(oficio+' '+funciones);const T=[];[['limpiar_casa',/limpi|barr|freg|aseo/],['limpiar_banos',/bano/],['limpiar_cocina',/cocina/],['lavar',/lav/],['planchar',/planch/],['cocinar',/cocin|comida/],['compras',/compra/],['ninos',/nin|menor|bebe|guarderia|colegio/],['mayores',/mayor|abuel|ancian/],['dependientes',/dependien|discapac|silla de ruedas|encamad/],['citas',/medic|cita/],['mascotas',/mascota|perro|gato/],['pasear',/pase/]].forEach(([v,re])=>{if(re.test(k))T.push(v);});
+  /* edades de las personas atendidas («86 años», «3 años»): 65 o más → personas mayores; menos de 18 → niños */
+  [...String(atiende||'').matchAll(/(\d{1,3})\s*(?:años|anos|a\.)/gi)].map(m=>+m[1]).forEach(e=>{if(e>=65&&!T.includes('mayores'))T.push('mayores');if(e<18&&!T.includes('ninos'))T.push('ninos');});
   put('tareas',T,'Tareas: qué tareas hacía');if(funciones)putSi('tareasOtras',funciones,'Tareas: explicación');}
  {const hogar=/hogar|domestic|intern|cuidad|limpieza de (la )?casa|niñer|nin(o|a)s|mayores/.test(norm(oficio+' '+funciones));if(!B&&oficio&&!hogar)R.aviso.push(`«${oficio}» no parece empleo de hogar: si es régimen general, use la ficha B.`);if(B&&hogar)R.aviso.push(`«${oficio||funciones}» parece empleo de hogar: si lo es, use la ficha C.`);}
  const jp=Q(8,'Jornada pactada','explique la jornada');if(B){const h=/(\d+(?:[.,]\d+)?)\s*h(?:oras)?\s*(semanal|a la semana|por semana)/.exec(norm(jp));if(h)putSi('rel.horasContrato',h[1].replace(',','.'),'Contrato: horas semanales');}
